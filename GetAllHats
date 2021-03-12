@@ -149,3 +149,43 @@ if game.PlaceId == 2546610365 then
 
     game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
 end
+if game.PlaceId == 5306359293 then
+    local args = {
+        [1] = "Hey guys dont mind me im just using V.G Hu.b to get these cool items with the code OH while im here " ..
+            "VictoryLap GetMoving WorldAlive DIY SettingTheStage StrikeAPose",
+        [2] = "All"
+    }
+
+    game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+
+    local args = {
+        [1] = "StrikeAPose"
+    }
+
+    game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer(unpack(args))
+
+    local args = {
+        [1] = "SettingTheStage"
+    }
+
+    game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer(unpack(args))
+
+    local args = {
+        [1] = "DIY"
+    }
+
+    game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer(unpack(args))
+
+    local args = {
+        [1] = "GetMoving"
+    }
+
+    game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer(unpack(args))
+
+    local args = {
+        [1] = "VictoryLap"
+    }
+
+    game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer(unpack(args))
+end
+
