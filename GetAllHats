@@ -1,0 +1,151 @@
+if game.PlaceId == 4201429814 then
+    local args = {
+        [1] = "Lesson1"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson2"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson3"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson3"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson4"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson5"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson6"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+end
+
+if game.PlaceId == 1871632192 then
+    local args = {
+        [1] = "Lesson1"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson2"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson3"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson3"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson4"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson5"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson6"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+end
+
+if game.PlaceId == 3204381131 then
+    local args = {
+        [1] = "Lesson1"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson2"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson3"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson3"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson4"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson5"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson6"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+end
+
+if game.PlaceId == 2546610365 then
+    local args = {
+        [1] = "Lesson1"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson2"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson3"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson3"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson4"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson5"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+    local args = {
+        [1] = "Lesson6"
+    }
+
+    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer(unpack(args))
+end
