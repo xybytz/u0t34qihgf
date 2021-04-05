@@ -1,4 +1,4 @@
- if game.PlaceId == 5777228223 then
+if game.PlaceId == 5777228223 then
 game:GetService("Workspace").Decorational.Trees:remove()
 end
 local Character = game:GetService('Players').LocalPlayer.Character
@@ -108,7 +108,7 @@ game:GetService("Players").LocalPlayer.Function:InvokeServer(unpack(args))
 end)
 CategoryVariableHere:Button("Easter farm",function()
 plskillme = true
-while plskillme do 
+while plskillme do wait()
 for i,v in pairs(game:GetService("Workspace").HarvestZones.Fruit.Drops.Small:GetChildren()) do
 
 if v:IsA("MeshPart")then
