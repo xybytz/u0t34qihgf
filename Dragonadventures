@@ -114,6 +114,7 @@ for i,v in pairs(Workspace:GetDescendants()) do
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
   end
 end end end) end)
+if game.PlaceId == 5777228223 then
 CategoryVariableHere:Button("Easter farm",function()
 pcall(function()
 while wait() do 
@@ -124,7 +125,7 @@ if v:IsA("MeshPart")then
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame  =  v.CFrame  wait (1)
 fireclickdetector(game:GetService("Workspace").HarvestZones.Fruit.Drops.Small.ClickDetector)
  wait(8)
- end end end  end)  end)
+ end end end  end)  end) end
  
 
 CategoryVariableHere:Toggle("Salvage Plant_Apple",function(State)
