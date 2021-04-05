@@ -106,6 +106,14 @@ local args = {
 
 game:GetService("Players").LocalPlayer.Function:InvokeServer(unpack(args))
 end)
+CategoryVariableHere:Button("loop go to eggs",function()
+pcall(function()
+while wait(1) do
+for i,v in pairs(Workspace:GetDescendants()) do
+  if v:IsA("MeshPart") and v.MeshId == "rbxassetid://6563267204" and v.Name ~= "Egg" then
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+  end
+end end end) end)
 CategoryVariableHere:Button("Easter farm",function()
 pcall(function()
 while wait() do 
@@ -167,6 +175,7 @@ end)
 if game.PlaceId == 3475397644 then
 CategoryVariableHere:Toggle("Autocollect",function(State) 
 nigger1 = State
+pcall(function()
 while nigger1 do 
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1094.25134, 121.841377, -129.758102) wait(1)
 if game:GetService("Workspace").HarvestZones.Fruit.Drops.Small["Meshes/FruitTree_LobbyTree"] then
@@ -192,11 +201,12 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Wo
 wait(0.5)
 fireclickdetector(game:GetService("Workspace").HarvestZones.Fishing.Drops.Small.ClickDetector)
 wait(8)
-end end end end end end) end
+end end end end end  end) end) end
 
 if game.PlaceId == 3475419198 then
 CategoryVariableHere:Toggle("Autocollect",function(State) 
     nigger2 = State
+pcall(function()
 while nigger2 do 
 
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(759.632996, 8.20948029, 334.913635) wait(1)
@@ -223,7 +233,7 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Wo
 wait(0.5)
 fireclickdetector(game:GetService("Workspace").HarvestZones.Fishing.Drops.Small.ClickDetector)
 wait(8)
-end end end end end end) end
+end end end end end end) end) end
 
 
 
@@ -232,6 +242,7 @@ end end end end end end) end
 if game.PlaceId == 3475422608 then
 CategoryVariableHere:Toggle("Autocollect",function(State) 
     nigger3 = State
+pcall(function()
 while nigger3 do 
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-951.769531, 295.656769, -451.636444) wait(1)
 if  game:GetService("Workspace").HarvestZones.Fruit.Drops.Small["Meshes/FruitTree_JungleTree"] then
@@ -263,12 +274,13 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Wo
 wait(0.5)
 fireclickdetector(game:GetService("Workspace").HarvestZones.Treasure.Drops.Small.ClickDetector)
 wait(8)
-end end end end end end end) end
+end end end end end end end) end) end
 
 
 if game.PlaceId == 3487210751 then
     CategoryVariableHere:Toggle("Autocollect",function(State) 
     nigger4 = State
+    pcall(function()
 while nigger4 do
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1264.10828, 38.4711838, -1220.22656) wait(1)
 if game:GetService("Workspace").HarvestZones.Fruit.Drops.Small["Meshes/FruitTree_VolcanoTree"] then
@@ -300,11 +312,12 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Wo
 wait(0.5)
 fireclickdetector(game:GetService("Workspace").HarvestZones.Treasure.Drops.Small.ClickDetector)
 wait(8)
-end end end end end end end) end
+end end end end end end end) end) end
 
 if game.PlaceId == 3623549100 then
 CategoryVariableHere:Toggle("Autocollect",function(State) 
 nigger5 = State
+pcall(function()
 while nigger5 do
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-535.794312, 4.67564201, -980.175781) wait(1)
 
@@ -345,13 +358,14 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Wo
 wait(0.5)
 fireclickdetector(game:GetService("Workspace").HarvestZones.Treasure.Drops.Small.ClickDetector)
 wait(8)
- end end end end end end end) end 
+    end end end end end end end) end) end 
 
 
 
 if game.PlaceId == 3737848045 then
  CategoryVariableHere:Toggle("Autocollect",function(State) 
 nigger6= State
+pcall(function()
 while nigger6 do
    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-105.259079, 79.7544174, 469.946442) wait(1)
 
@@ -388,11 +402,12 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Wo
 wait(0.5)
 fireclickdetector(game:GetService("Workspace").HarvestZones.Treasure.Drops.Small.ClickDetector)
 wait(8)
-    end end end end end end end) end 
+    end end end end end end end) end) end 
  
   if game.PlaceId == 3752680052 then
        CategoryVariableHere:Toggle("Autocollect",function(State) 
 nigger7= State
+pcall(function()
  while nigger7 do
    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1006.60187, 1080.34814, 1938.80676) wait(1)
 
@@ -429,11 +444,12 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Wo
 wait(0.5)
 fireclickdetector(game:GetService("Workspace").HarvestZones.Treasure.Drops.Small.ClickDetector)
 wait(8)
- end end end end end end end) end 
+ end end end end end end end) end) end 
  
    if game.PlaceId == 4174118306 then
       CategoryVariableHere:Toggle("Autocollect",function(State) 
 nigger8= State
+pcall(function()
 while nigger8 do
    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1006.60187, 1080.34814, 1938.80676) wait(1)
 
@@ -470,11 +486,12 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Wo
 wait(0.5)
 fireclickdetector(game:GetService("Workspace").HarvestZones.Treasure.Drops.Small.ClickDetector)
 wait(8)
-    end end end end end end end) end 
+    end end end end end end end) end) end 
 
 if game.PlaceId == 4728805070 then
        CategoryVariableHere:Toggle("Autocollect",function(State) 
 nigger9= State
+pcall(function()
 while nigger9 do
    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(2117.14917, 259.562927, -2305.22607) wait(1)
 
@@ -511,7 +528,7 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Wo
 wait(0.5)
 fireclickdetector(game:GetService("Workspace").HarvestZones.Treasure.Drops.Small.ClickDetector)
 wait(8)
-    end end end end end end end) end
+    end end end end end end end) end) end
     
     
     
@@ -519,6 +536,7 @@ wait(8)
 if game.PlaceId == 4869039553 then
   CategoryVariableHere:Toggle("Autocollect",function(State) 
        nigger10= State
+       pcall(function()
        while nigger10 do
        
    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1058.62354, 633.656616, -150.252289) wait(1)
@@ -556,7 +574,7 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Wo
 wait(0.5)
 fireclickdetector(game:GetService("Workspace").HarvestZones.Treasure.Drops.Small.ClickDetector)
 wait(8)
-    end end end end end end end) end 
+    end end end end end end end) end) end 
 
  
 CategoryVariableHere:Slider("WalkSpeed",16,16,100,function(Val) game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Val end)
@@ -799,4 +817,5 @@ local CategoryVariableHere= Lib:Category("Credits and info")
 CategoryVariableHere:Label("Credits to a r q for ui liba")
 CategoryVariableHere:Label("Credits to DekuDimz#7960 aka me lol")
 CategoryVariableHere:Label("world teleports only work if you own world")
+CategoryVariableHere:Label("Credits to marshmello#3035 for egg tp")
 Lib:Reload()
