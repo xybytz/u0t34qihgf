@@ -107,8 +107,8 @@ local args = {
 game:GetService("Players").LocalPlayer.Function:InvokeServer(unpack(args))
 end)
 CategoryVariableHere:Button("Easter farm",function()
-plskillme = true
-while plskillme do wait()
+
+while wait() do wait()
 for i,v in pairs(game:GetService("Workspace").HarvestZones.Fruit.Drops.Small:GetChildren()) do
 
 if v:IsA("MeshPart")then
