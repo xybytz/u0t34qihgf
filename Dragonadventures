@@ -107,15 +107,16 @@ local args = {
 game:GetService("Players").LocalPlayer.Function:InvokeServer(unpack(args))
 end)
 CategoryVariableHere:Button("Easter farm",function()
+pcall(function()
+while wait() do 
 
-while wait() do wait()
 for i,v in pairs(game:GetService("Workspace").HarvestZones.Fruit.Drops.Small:GetChildren()) do
 
 if v:IsA("MeshPart")then
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame  =  v.CFrame  wait (1)
 fireclickdetector(game:GetService("Workspace").HarvestZones.Fruit.Drops.Small.ClickDetector)
  wait(8)
- end end  end  end)
+ end end end  end)  end)
  
 
 CategoryVariableHere:Toggle("Salvage Plant_Apple",function(State)
