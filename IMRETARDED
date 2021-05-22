@@ -1,4 +1,4 @@
-  local Lib = {}
+local Lib = {}
 
 local Wap = Instance.new("ScreenGui")
 local MainUI = Instance.new("ImageLabel")
@@ -16,7 +16,7 @@ local Fix1 = Instance.new("Frame")
 local Categories = Instance.new("Frame")
 
 Wap.Name = "Wap"
-Wap.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+Wap.Parent = game.CoreGui
 Wap.ResetOnSpawn = false
 
 MainUI.Name = "MainUI"
