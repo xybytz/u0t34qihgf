@@ -35,8 +35,6 @@ if game.PlaceId == 2546610365 then
     game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson6")
 end
 if game.PlaceId == 5306359293 then
-    game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Hey guys dont mind me im just using V.G Hu.b to get these cool items with the code OH while im here " ..
-            "VictoryLap GetMoving WorldAlive DIY SettingTheStage StrikeAPose","All")
 
     game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer("StrikeAPose")
 
@@ -49,8 +47,6 @@ if game.PlaceId == 5306359293 then
     game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer("VictoryLap")
 end
 if game.PlaceId == 6901029464 then
-game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Hey guys dont mind me im just using V.G Hu.b to get these cool items with the code OH while im here " ..
-            "Boardwalk FXArtist ParticleWizard ThingsGoBoom","All")    
 game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer("Boardwalk")
 game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer("FXArtist")
 game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer("ParticleWizard")
