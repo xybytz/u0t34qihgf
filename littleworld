@@ -19,6 +19,7 @@ Meta.__newindex = newcclosure(function(t, k, ...)
    NewIndex(t, k, ...)
 end)
 setreadonly(Meta, true)
+
 game:GetService("ReplicatedStorage").Remotes.Settings:FireServer("Auto-Equip Next Bug",false)
 game:GetService("ReplicatedStorage").Remotes.Equip:FireServer("Bug","1")
 local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/IMRETARDED"))()
@@ -118,6 +119,7 @@ end  end end)  end) end)
 
 CategoryVariableHere:Toggle("Autofarm Frog",function(State)
 wiggle7 = State
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame= game:GetService("Workspace").Bosses.Timers.Frog.CFrame
 game:GetService('RunService').RenderStepped:connect(function()
 pcall(function()
 if wiggle7 then
@@ -130,6 +132,7 @@ end  end end) end) end)
 
 CategoryVariableHere:Toggle("Autofarm Rat",function(State)
 wiggle8 = State
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame= game:GetService("Workspace").Bosses.Timers.Rat.CFrame
 game:GetService('RunService').RenderStepped:connect(function()
 pcall(function()
 if wiggle8 then
@@ -140,6 +143,7 @@ game.ReplicatedStorage.Remotes.Attack:FireServer(game:GetService("Workspace").Bo
 end  end end) end) end)
 CategoryVariableHere:Toggle("Autofarm Spider",function(State)
 wiggle9 = State
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame= game:GetService("Workspace").Bosses.Timers.Spider.CFrame
 game:GetService('RunService').RenderStepped:connect(function()
 pcall(function()
 if wiggle9 then
@@ -152,6 +156,7 @@ end  end end) end) end)
 
 CategoryVariableHere:Toggle("Autofarm Phoenix",function(State)
 wiggle9 = State
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame= game:GetService("Workspace").Bosses.Timers["Phoenix Boss"].CFrame
 game:GetService('RunService').RenderStepped:connect(function()
 pcall(function()
 if wiggle9 then
