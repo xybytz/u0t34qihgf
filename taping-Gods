@@ -1,1 +1,168 @@
-game.Players.LocalPlayer:kick("Im sorry to inform you that this game is patched as of now you have been kicked please wait for an update")
+for i,v in pairs(getgc(true)) do
+    if type(v)=="table" and rawget(v,"Remote") then
+        if type(v.Remote)=="userdata" then
+            v.Remote.Name=v.Name--built different
+        end
+    end
+end
+local l = require(game:GetService("ReplicatedStorage").Modules.Utils.Network).InvokeServer
+local function bluwuisjustbuiltdifferent(remote, ...)
+    local key = getupvalue(l, 1)
+    function ToByteArgs(p61)
+        if 255 < p61 then
+
+        else
+            return p61;
+        end;
+        return math.floor(p61 / 256) % 256;
+    end;
+    function ToByteString(p62)
+        return string.char(ToByteArgs(p62));
+    end;
+    local decodedkey = ToByteString(key)
+    if remote:IsA("RemoteEvent") then
+        lole = "FireServer"
+    elseif remote:IsA("RemoteFunction") then
+        lole="InvokeServer"
+    else
+        return 'fuck'
+    end
+    remote[lole](remote,decodedkey, ...)
+end
+bluwuisjustbuiltdifferent(game:GetService("ReplicatedStorage").Communication.Functions.Tap)
+local Config = {
+    WindowName = "V.G Hub",
+	Color = Color3.fromRGB(255,128,64),
+	Keybind = Enum.KeyCode.RightControl
+}
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
+local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
+
+local Tab1 = Window:CreateTab("Project XL")
+local Tab2 = Window:CreateTab("UI Settings")
+
+local Section1 = Tab1:CreateSection("AutoFarms")
+local Section2 = Tab1:CreateSection("Auto Stuff")
+local SectionA = Tab1:CreateSection("Misc")
+local Section3 = Tab2:CreateSection("Menu")
+local Section4 = Tab2:CreateSection("Background")
+local Toggle1 = Section1:CreateToggle("Auto Tap", nil, function(State)
+doo = State
+while doo do wait(0.5)
+game:GetService("ReplicatedStorage").Communication.Functions.Tap:FireServer(1)
+end end)
+
+
+local Toggle1 = Section1:CreateToggle("Auto Starter Boss", nil, function(State)
+ss1 = State
+game:GetService('RunService').Stepped:connect(function()
+pcall(function()
+if ss1 then
+game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+game:GetService("ReplicatedStorage").Communication.Events.AttackBoss:FireServer()
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Bosses.Starter.UpperTorso.CFrame *CFrame.new(0,-10,0)
+end
+end) end) end)
+local Toggle1 = Section1:CreateToggle("Auto Circus Boss", nil, function(State)
+ss2 = State
+game:GetService('RunService').Stepped:connect(function()
+pcall(function()
+if ss2 then
+game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+game:GetService("ReplicatedStorage").Communication.Events.AttackBoss:FireServer()
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Bosses.Circus.UpperTorso.CFrame *CFrame.new(0,-10,0)
+end
+end) end) end)
+local Toggle1 = Section1:CreateToggle("Auto Dino Boss", nil, function(State)
+ss3 = State
+game:GetService('RunService').Stepped:connect(function()
+pcall(function()
+if ss3 then
+game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+game:GetService("ReplicatedStorage").Communication.Events.AttackBoss:FireServer()
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Bosses.Dino.UpperTorso.CFrame *CFrame.new(0,-10,0)
+end
+end) end) end)
+local Toggle1 = Section1:CreateToggle("Auto Potions", nil, function(State)
+potions = State
+while potions do wait()
+game:GetService("ReplicatedStorage").Communication.Events.BuyPotion:FireServer("x2 Speed")
+game:GetService("ReplicatedStorage").Communication.Events.BuyPotion:FireServer("x2 Taps")
+game:GetService("ReplicatedStorage").Communication.Events.BuyPotion:FireServer("x2 Luck")
+game:GetService("ReplicatedStorage").Communication.Events.BuyPotion:FireServer("x2 Diamonds")
+end
+end)
+egg = {'Starter Egg','Spiky Egg',"Elemental Egg",'Anime Egg','Carnival Egg',"Circus","Plushie Egg",'Jurassic Egg','Fossil Egg','Ranbow Dino Egg','Medieval Egg','Western Egg','Movie Egg','Super Anime Egg','Spirt Egg','Ultra Anime Egg','Warped Egg','Cracked Egg','Cosmic Egg','Dark Matter Egg'}
+
+local Toggle1 = Section2:CreateToggle("Auto Egg", nil, function(State)
+egg = State
+game:GetService('RunService').Stepped:connect(function()
+pcall(function()
+if egg then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Eggs[egg].EggName.CFrame* CFrame.new(0,3,0)
+game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"E",false,uwu)
+end end) end) end)
+local Dropdown1 = Section2:CreateDropdown("Select Egg")
+Dropdown1:AddToolTip("Select Egg")
+for i,v in next, egg do
+Dropdown1:AddOption(v, function(String)
+egg = String
+end)
+end
+local Toggle3 = Section3:CreateToggle("UI Toggle", nil, function(State)
+	Window:Toggle(State)
+end)
+Toggle3:CreateKeybind(tostring(Config.Keybind):gsub("Enum.KeyCode.", ""), function(Key)
+	Config.Keybind = Enum.KeyCode[Key]
+end)
+Toggle3:SetState(true)
+Section3:CreateLabel("Credits DekuDimz#7960")
+Section3:CreateLabel("Credits AlexR32#3232 Ui")
+
+
+
+
+local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
+	Window:ChangeColor(Color)
+end)
+Colorpicker3:UpdateColor(Config.Color)
+-- credits to jan for patterns
+local Dropdown3 = Section4:CreateDropdown("Image")
+local Option7 = Dropdown3:AddOption("Default", function(String)
+	Window:SetBackground("2151741365")
+end)
+local Option8 = Dropdown3:AddOption("Hearts", function(String)
+	Window:SetBackground("6073763717")
+end)
+local Option9 = Dropdown3:AddOption("Abstract", function(String)
+	Window:SetBackground("6073743871")
+end)
+local Option10 = Dropdown3:AddOption("Hexagon", function(String)
+	Window:SetBackground("6073628839")
+end)
+local Option11 = Dropdown3:AddOption("Circles", function(String)
+	Window:SetBackground("6071579801")
+end)
+local Option12 = Dropdown3:AddOption("Lace With Flowers", function(String)
+	Window:SetBackground("6071575925")
+end)
+local Option13 = Dropdown3:AddOption("Floral", function(String)
+	Window:SetBackground("5553946656")
+end)
+Option7:SetOption()
+
+local Colorpicker4 = Section4:CreateColorpicker("Color", function(Color)
+	Window:SetBackgroundColor(Color)
+end)
+Colorpicker4:UpdateColor(Color3.new(1,1,1))
+
+local Slider3 = Section4:CreateSlider("Transparency",0,1,nil,false, function(Value)
+	Window:SetBackgroundTransparency(Value)
+end)
+Slider3:SetValue(0)
+
+local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value)
+	Window:SetTileScale(Value)
+end)
+Slider4:SetValue(0.5)
