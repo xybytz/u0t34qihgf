@@ -68,7 +68,7 @@ local toggledpog = true
 local pos = UDim2.new(0.275,0,0.147,0)
 game:GetService('UserInputService').InputBegan:connect(function(key, gpe)
 	if (not gpe) then
-		if key.KeyCode == Enum.KeyCode.RightShift then
+		if key.KeyCode == Enum.KeyCode.RightControl then
 			toggledpog = not toggledpog;
 			if toggledpog then
 				pos = MainUI.Position
