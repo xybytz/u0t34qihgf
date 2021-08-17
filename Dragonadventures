@@ -127,7 +127,7 @@ Text = "Wait just two seconds im getting everything in check for you";
 })
 repeat wait() until game.Players.LocalPlayer.Character wait()
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(90, 245, -397)
-
+local Label1 = Section1:CreateLabel("for boxes you need to unlock cave")
 local Toggle1 = Section1:CreateToggle("Auto Collect Solstice", nil, function(State)
 sw1 = State
 spawn(function()
