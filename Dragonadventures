@@ -128,7 +128,7 @@ Text = "Wait just two seconds im getting everything in check for you";
 repeat wait() until game.Players.LocalPlayer.Character wait()
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(90, 245, -397)
 
-local Toggle1 = Section1:CreateToggle("Auto Collect", nil, function(State)
+local Toggle1 = Section1:CreateToggle("Auto Collect Solstice", nil, function(State)
 sw1 = State
 spawn(function()
 game:GetService('RunService').Stepped:connect(function()
