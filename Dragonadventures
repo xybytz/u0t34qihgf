@@ -194,23 +194,22 @@ for i,v in pairs(game:GetService("ReplicatedStorage").Storage.Eggs:GetDescendant
 if v.ClassName == "Model"  then
 table.insert(ss1,v.Name)
 end end 
-
+ss3={}
+for i,v in pairs(game:GetService("Workspace").Plots[game.Players.LocalPlayer.Name].Base.CanvasObjects:GetDescendants()) do
+if v.Name == "Plant_Apple" and v:FindFirstChild("ID") then
+table.insert(ss3,v.ID.Value)
+end end 
 local Toggle1 = Section1:CreateToggle("Money Method", nil, function(State)
 red = State
-spawn(function()
-game:GetService('RunService').Stepped:connect(function()
+while wait() do
+for i = 1, #ss3 do
 if red then
-game:GetService("Players")[game.Players.LocalPlayer.Name].Remote:FireServer("SellResource",{"Apple"},1)
-local UsernameSpot = game.Players.LocalPlayer.Character.Name
+game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"Apple"},1)
+game:GetService("Players").LocalPlayer.Function:InvokeServer("ClaimCrop", ss3[i])
+end
+end
+end
 
-local A_1 = "ClaimCrop"
-local Event = game:GetService("Players")[UsernameSpot].Function
-for i=1,1500 do
-Event:InvokeServer(A_1, i)
-end
-end
-end)
-end)
 end)
 Toggle1:AddToolTip("Need Apple Plants")
 local Toggle1 = Section1:CreateToggle("Auto Incubate Eggs", nil, function(State) 
