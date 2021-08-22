@@ -96,17 +96,19 @@ end
 NewIndex(t, k, ...)
 end)
 setreadonly(Meta, true)
+foods ={}
+for i,v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Food:GetDescendants()) do
+if v.ClassName == "Tool" then
+table.insert(foods,v.Name )
+end end 
+list ={}
+for i,v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Food:GetDescendants()) do
+if v.ClassName == "Tool" then
+table.insert(list,v.Name)
+end end 
 game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 30
 local deku1 = {"SolsticeFlares","SolsticeBoxes"}
-local list = {"Apple", "Bacon", "Banana", "Broccoli",
-"Candy Cane", "Candy Corn", "Carrot", "Chocolate bar",
-"Chocolate Egg", "Corn", "Cotton Cloud", "Dragon Fin", "Dragonfruit", "Egg",
-"Gemtoothed Piranha", "Glowing Mushroom", "Golden Apple", "Golden Dragonfruit", "Golden Heart",
-"Golden Pear", "Goldfish", "Great Horned Eel", "Heart Cookie", "Heart Treat", "Holo Mantaray",
-"Juniper Berry", "Meat", "Mothback", "Mushroom", "Onion", "Peach", "Pear", "Pineapple",
-"Prickly Pear", "Prime Meat", "Pumpkin", "Sunrise Crab", "Sun Orange", "Sun Whale", 
-"Titan Scale Shark", "Toxic Meat", "Watermelon",}
 local deku ={"Food","Magic","Resources"}
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
@@ -206,6 +208,7 @@ Button1:AddToolTip("Sells Items needed for Merchant")
 local Toggle1 = Section1:CreateToggle("Auto Sell", nil, function(State) 
 sex = State
 while sex do wait()
+game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{foods,1})
 game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"GemtoothedPiranha",1})
 game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"GreatHornedEel",1})
 game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"HoloMantaray",1})
@@ -241,6 +244,7 @@ game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"Waterm
 game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"SunriseCrab",1})
 game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"GoldenDragonfruit",1})
 game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"Onion",1})
+
 end end)
 
 
