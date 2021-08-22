@@ -218,6 +218,7 @@ Incubate = State
 while Incubate do wait()
 for i = 1, #ss do
 game:GetService("Players").LocalPlayer.Function:InvokeServer("Incubate",ss[i])
+game:GetService("Players").LocalPlayer.Function:InvokeServer("ClaimCrop",ss[i])
 end
 game:GetService("Players").LocalPlayer.Function:InvokeServer("EquipEgg",ss1)
 end
