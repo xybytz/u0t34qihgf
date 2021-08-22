@@ -31,7 +31,11 @@ local function remote(remote, ...)
 end
 remote(game:GetService("ReplicatedStorage").Communication.Functions.EquipBest)
 remote(game:GetService("ReplicatedStorage").Communication.Functions.Tap)
-
+egg ={}
+for i,v in pairs(game:GetService("Workspace").Eggs:GetDescendants()) do
+if v.ClassName == "Model" and v:FindFirstChild("EggName") then
+table.insert(egg,v.Name)
+end end 
 
 local Config = {
     WindowName = "V.G Hub",
@@ -97,7 +101,6 @@ game:GetService("ReplicatedStorage").Communication.Events.BuyPotion:FireServer("
 game:GetService("ReplicatedStorage").Communication.Events.BuyPotion:FireServer("x2 Diamonds")
 end
 end)
-egg = {'Starter Egg','Spiky Egg',"Elemental Egg",'Anime Egg','Carnival Egg',"Circus","Plushie Egg",'Jurassic Egg','Fossil Egg','Ranbow Dino Egg','Medieval Egg','Western Egg','Movie Egg','Super Anime Egg','Spirt Egg','Ultra Anime Egg','Warped Egg','Cracked Egg','Cosmic Egg','Dark Matter Egg','Space Egg','Imposter Egg'}
 
 local Toggle1 = Section2:CreateToggle("Auto Egg", nil, function(State)
 Egg = State
