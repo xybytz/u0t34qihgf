@@ -289,10 +289,12 @@ local Button1 = SectionA:CreateButton("Go To Base", function()
 game:GetService("Players").LocalPlayer.Remote:FireServer("ToBase")
 end)
 local Toggle1 = Section1:CreateToggle("Alchemy AutoFarm", nil, function(State) 
-
-while wait(1) do
+doo = State
+while wait() and doo do
+for i = 1, #ss3 do
 game:GetService("Players").LocalPlayer.Function:InvokeServer("ClaimCrop", ss3[i])
 game:GetService("ReplicatedStorage").Events.RecycleRemote:InvokeServer({["Tools"] = {},["Resources"] = {["Apple"] = 100}}) 
+end
 end
 end)
 local Toggle1 = Section1:CreateToggle("Salvage Apple Plants", nil, function(State)
