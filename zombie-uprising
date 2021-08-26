@@ -23,11 +23,11 @@ heads = State
 while heads do wait(2)
 for _,v in pairs(game:GetService('Workspace').Zombies:GetDescendants()) do
 pcall(function()
-v.Head.Size = Vector3.new(head,head,head)
-v.Head.Transparency = 0.9
-v.Head.BrickColor = BrickColor.new("Really blue")
-v.Head.Material = "Neon"
-v.Head.CanCollide = false
+v.HumanoidRootPart.Size = Vector3.new(head,head,head)
+v.HumanoidRootPart.Transparency = 0.9
+v.HumanoidRootPart.BrickColor = BrickColor.new("Really blue")
+v.HumanoidRootPart.Material = "Neon"
+v.HumanoidRootPart.CanCollide = false
 end)
 end
 end
