@@ -6,7 +6,7 @@ local Config = {
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
-pcall(function()
+
 for i,v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
    v:Disable()
 end
@@ -45,20 +45,10 @@ setupvalue(x,1,FireServerHook)
 if not KickFunc then
     return nil 
 end
-require(game:GetService("ReplicatedStorage").Resource.Settings).Time.BetweenTeamChange = 0
-local Meta = getrawmetatable(game)
-local NewIndex = Meta.__newindex
-setreadonly(Meta, false)
 
-Meta.__newindex = newcclosure(function(t, k, ...)
-   if not checkcaller() and (k == "WalkSpeed" or k == "JumpPower") then
-       return
-   end
-   NewIndex(t, k, ...)
-end)
 
-setreadonly(Meta, true)
-
+pcall(function()
+game:GetService("Players").LocalPlayer.PlayerScripts.GameAnalytics.Postie:remove()--???
 end)
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
@@ -99,6 +89,7 @@ local Toggle1 = Section1:CreateToggle("AirDrop Esp", nil, function(State)
 kat2 = State
 function steam()
 pcall(function()
+    
 for i,v in pairs(game.Workspace.Drop:GetChildren()) do
 if v.Name == 'Briefcase' then
 if v.Transparency == 0 then
@@ -155,24 +146,7 @@ game:GetService("UserInputService").JumpRequest:connect(function()
 end) end)
 
 
-local Toggle1 = Section2:CreateToggle("G Noclip", nil, function(State)
-sex = State
-noclip = false
-game:GetService('RunService').Stepped:connect(function()
-if noclip then
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-end
-end)
-plr = game.Players.LocalPlayer
-mouse = plr:GetMouse()
-mouse.KeyDown:connect(function(key)
 
-if key == "g" then
-if sex then
-noclip = not noclip
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-end end 
-end) end)
 local Toggle1 = Section2:CreateToggle("B Fly", nil, function(State)
 sex2 = State
 local gogo1000 = 0
@@ -408,3 +382,17 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+local Meta = getrawmetatable(game)
+local NewIndex = Meta.__newindex
+setreadonly(Meta, false)
+
+Meta.__newindex = newcclosure(function(t, k, ...)
+   if not checkcaller() and (k == "WalkSpeed" or k == "JumpPower") then
+       return
+   end
+   NewIndex(t, k, ...)
+end)
+
+setreadonly(Meta, true)
+
+
