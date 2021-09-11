@@ -106,7 +106,7 @@ yes = {"Bandit [Lv. 5]","Trainee [Lv. 5]","Monkey [Lv. 14]","Gorilla [Lv. 20]","
 'Ice Admiral [Lv. 700] [Boss]',
     
 } 
-tools = "Combat"
+
 for i,v in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants()) do
 if v.ClassName == "Tool" then
 v.Parent = game.Players.LocalPlayer.Backpack
@@ -115,11 +115,13 @@ tools ={}
 for i,v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetDescendants()) do
 if v.ClassName == "Tool" then
 table.insert(tools,v.Name)
+
 end end 
 mobs = {}
 for i,v in pairs(game:GetService("ReplicatedStorage"):GetDescendants()) do
 if v.ClassName == "Model"  and v:FindFirstChild("Stun") then
 table.insert(mobs,v.Name)
+table.sort(mobs)
 end end 
 
 
@@ -575,3 +577,4 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
