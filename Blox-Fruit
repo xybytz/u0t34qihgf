@@ -2,6 +2,15 @@ repeat wait() until game:IsLoaded()
 for i,v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
    v:Disable()
 end
+local OldNameCall = nil
+OldNameCall = hookmetamethod(game, "__namecall", function(...)
+    local Args = {...}
+    local Self = Args[1]
+    if getnamecallmethod()=="Kick"  then
+            return wait(math.huge)
+    end
+    return OldNameCall(...)
+end)
 local Config = {
     WindowName = "V.G Hub",
 	Color = Color3.fromRGB(255,128,64),
@@ -68,11 +77,9 @@ function GetClosestToCuror()
                 clientchar = client.Character
                 if OnScreen and NotObstructing(v.Character.HumanoidRootPart.Position,{clientchar,v.Character}) then
                     Distance = (Vector2.new(Point.X,Point.Y) - MousePos).magnitude
-                
                     if Distance < math.min(Radius,Closest) then
-                    
-                        Closest = Distance
-                        Target = v
+                     Closest = Distance
+                     Target = v
                 end 
             end 
         end
@@ -91,6 +98,7 @@ runservice.RenderStepped:Connect(function()
         workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.p,ClosestPlayer.Character.HumanoidRootPart.CFrame.p)
     end
 end)
+yes1 = {"Melee","Defense","Sword","Gun","Blox Fruit"}
 yes = {"Bandit [Lv. 5]","Trainee [Lv. 5]","Monkey [Lv. 14]","Gorilla [Lv. 20]","The Gorilla King [Lv. 25] [Boss]",'Pirate [Lv. 35]','Brute [Lv. 45]',
 'Desert Bandit [Lv. 60]','Desert Officer [Lv. 70]','Snow Bandit [Lv. 90]','Snowman [Lv. 100]','Chief Petty Officer [Lv. 120]','Sky Bandit [Lv. 150]',
 'Dark Master [Lv. 175]','Toga Warrior [Lv. 225]','Gladiator [Lv. 275]','Military Spy [Lv. 330]','Magma Admiral [Lv. 350] [Boss]','Fishman Warrior [Lv. 375]','Fishman Commando [Lv. 400]',
@@ -107,6 +115,11 @@ tools ={}
 for i,v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetDescendants()) do
 if v.ClassName == "Tool" then
 table.insert(tools,v.Name)
+end end 
+mobs = {}
+for i,v in pairs(game:GetService("ReplicatedStorage"):GetDescendants()) do
+if v.ClassName == "Model"  and v:FindFirstChild("Stun") then
+table.insert(mobs,v.Name)
 end end 
 
 
@@ -149,17 +162,29 @@ local Toggle1 = Section1:CreateToggle("MoneyFarm", nil, function(State)
 money = State
 game:GetService('RunService').Stepped:connect(function()
 pcall(function()
+game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+end)
+end)
+while money do wait()
+pcall(function()
 if money then
 game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 if game.Workspace:FindFirstChild("Chest3") then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Chest3.CFrame
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Chest3.CFrame *CFrame.new(0,0,20)
+wait(1)
+game.Players.LocalPlayer.Character.Humanoid:MoveTo(game:GetService("Workspace").Chest3.CFrame.p) wait(3)
 end
 if game.Workspace:FindFirstChild("Chest2") then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Chest2.CFrame
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Chest2.CFrame *CFrame.new(0,0,20) 
+wait(1)
+game.Players.LocalPlayer.Character.Humanoid:MoveTo(game:GetService("Workspace").Chest2.CFrame.p) wait(3)
 end
 if game.Workspace:FindFirstChild("Chest1") then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Chest1.CFrame end end
-end) end)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Chest1.CFrame *CFrame.new(0,0,20) 
+wait(1)
+game.Players.LocalPlayer.Character.Humanoid:MoveTo(game:GetService("Workspace").Chest1.CFrame.p) wait(3)
+end end
+end) end
 end)
 local Toggle1 = Section1:CreateToggle("Invis", nil, function(State)
 local Clone = game:GetService('Players').LocalPlayer.Character.LowerTorso.Root:Clone()
@@ -194,7 +219,7 @@ game:GetService('RunService').Stepped:connect(function()
 pcall(function()
 if farm then
 
-for i,v in pairs(game:GetService("ReplicatedStorage")[yes]:GetDescendants()) do
+for i,v in pairs(game:GetService("ReplicatedStorage")[mobs]:GetDescendants()) do
 if v:IsA("MeshPart") and v.Name ~= "UpperTorso" then
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame= v.CFrame  * CFrame.new(0,2,3)
 end
@@ -205,14 +230,15 @@ end)
 end)
 spawn(function() 
 while farm do wait()
- wait(.1)
-game:GetService('VirtualInputManager'):SendKeyEvent(true,"Z",false,uwu)wait(.1)
-game:GetService('VirtualInputManager'):SendKeyEvent(true,"X",false,uwu)wait(.1)
-game:GetService('VirtualInputManager'):SendKeyEvent(true,"C",false,uwu)wait(.1)
-game:GetService('VirtualInputManager'):SendKeyEvent(true,"V",false,uwu)wait(.1)
-game:GetService('VirtualInputManager'):SendKeyEvent(true,"F",false,uwu)wait(.1)
+ wait(1)
+pcall(function()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"Z",false,uwu)  wait(.1)
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"X",false,uwu)  wait(.1)
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"C",false,uwu)  wait(.1)
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"V",false,uwu)  wait(.1)
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"F",false,uwu)  wait(.1)
 wait(0.5)
-end end) 
+end) end end) 
 
 spawn(function()
 if farm then
@@ -229,7 +255,16 @@ local Clone = Character.LowerTorso.Root:Clone()
 Character.LowerTorso.Root:Destroy()
 Clone.Parent = Character.LowerTorso end end) end)
 
-
+spawn(function() 
+while farm do wait()
+pcall(function()
+for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
+if v.ClassName == "Tool" and v.Name == tools then 
+wait(1)
+v.Parent = game.Players.LocalPlayer.Character
+end
+end
+end) end end)
 
 spawn(function()
 game:GetService('RunService').RenderStepped:connect(function()
@@ -238,15 +273,12 @@ if farm then
 game:GetService("VirtualUser"):ClickButton1(Vector2.new(125,125))
 game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 for i,v in pairs(game:GetService("Workspace").Enemies:GetDescendants()) do
-if v:IsA("Model") and v.Name == yes then
+if v:IsA("Model") and v.Name == mobs then
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame= v.HumanoidRootPart.CFrame  * CFrame.new(0,0,3)
 end
 end
-for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
-if v.ClassName == "Tool" and v.Name == tools then 
-v.Parent = game.Players.LocalPlayer.Character
-end
-end
+ 
+
 end
 end)
 end)
@@ -255,9 +287,23 @@ end)
 
 local Dropdown1 = Section1:CreateDropdown("Select Mob")
 Dropdown1:AddToolTip("Select Mob")
-for i,v in next,yes do
+for i,v in next,mobs do
 Dropdown1:AddOption(v, function(String)
-yes = String
+mobs = String
+end)
+end
+
+local Toggle1 = Section1:CreateToggle("Auto Stats", nil, function(State)
+jjsploit1 = State
+while wait() and jjsploit1 do
+pcall(function()
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AddPoint",yes1,1)
+end) end end)
+local Dropdown1 = Section1:CreateDropdown("Select Stat")
+Dropdown1:AddToolTip("Select Stat")
+for i,v in next,yes1 do
+Dropdown1:AddOption(v, function(String)
+yes1 = String
 end)
 end
 
@@ -529,4 +575,3 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
