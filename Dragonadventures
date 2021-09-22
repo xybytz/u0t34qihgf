@@ -10,17 +10,9 @@ end)
 
 pcall(function()
 local Clone = game:GetService("Workspace").Camera:Clone()
-game:GetService("Workspace").Camera:Destroy()
-Clone.Parent = game:GetService("Workspace")
-camera = game:GetService("Workspace").Camera
-camera.CameraSubject = game.Players.LocalPlayer.Character.Humanoid
-camera.CameraType = "Custom"
-camera.CFrame = game.Players.LocalPlayer.Character.Head.CFrame
 game:GetService("ReplicatedStorage").Remotes.SpinWheelRemote:InvokeServer()
 game:GetService("ReplicatedStorage").Remotes.ClaimWheelRemote:FireServer()
-game:GetService("Players").LocalPlayer.PlayerGui.IntroGui.Enabled = false
-game:GetService("Lighting").IntroBlur:remove()
-game:GetService("Players").LocalPlayer.PlayerGui.HUDGui.Enabled = true
+
 game.StarterGui:SetCoreGuiEnabled(1, true)
 game.StarterGui:SetCoreGuiEnabled(2, true)
 game.StarterGui:SetCoreGuiEnabled(3, true)
@@ -144,11 +136,11 @@ local Section4 = Tab2:CreateSection("Background")
 
 if game.PlaceId == 3475397644 then
 
-
-
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game:GetService("Workspace").Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].TeleportPosition.Value)
-
-game:GetService("Workspace").Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].PlaceAllBuildingsRemote:FireServer()
+for i,v in pairs(game:GetService("Workspace").Plots.Portals:GetChildren()) do
+if v.Name == "Portal" and v:FindFirstChild("ActivePortal") then
+if v.ActivePortal.DefaultPortalGui.PlayerLabel.Text == game.Players.LocalPlayer.Name then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.TeleportPart.CFrame
+end end end 
 
 repeat wait() until game:GetService("Workspace").Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"]:WaitForChild("Base")
 
@@ -256,13 +248,13 @@ game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 spawn(function()
 while yes33 do wait()
 pcall(function()
-for i,v in pairs(game:GetService("Workspace").Interactions.Nodes[deku]:GetDescendants()) do
+for i,v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest[deku]:GetDescendants()) do
 if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame=v:FindFirstChildOfClass("MeshPart").CFrame *CFrame.new(20,-3,0)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame=v:FindFirstChildOfClass("MeshPart").CFrame *CFrame.new(30,-3,0)
 wait(1)
 game.Players.LocalPlayer.Character.Humanoid:MoveTo(v:FindFirstChildOfClass("MeshPart").CFrame.Position)
 wait(3)
-fireclickdetector(v.ClickDetector)
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"E",false,uwu)
 wait(15)
 end end  end) end end)
 spawn(function()
