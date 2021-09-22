@@ -138,8 +138,8 @@ if game.PlaceId == 3475397644 then
 
 for i,v in pairs(game:GetService("Workspace").Plots.Portals:GetChildren()) do
 if v.Name == "Portal" and v:FindFirstChild("ActivePortal") then
-if v.ActivePortal.DefaultPortalGui.PlayerLabel.Text == game.Players.LocalPlayer.Name then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.TeleportPart.CFrame
+if v.ActivePortal.DefaultPortalGui.PlayerLabel.Text == game:GetService("Players").LocalPlayer.PlayerGui.WorkspaceGui[game.Players.LocalPlayer.Name.."_DisplayGui"].ContainerFrame.NameLabel.Text then
+firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.TeleportPart, 0) 
 end end end 
 
 repeat wait() until game:GetService("Workspace").Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"]:WaitForChild("Base")
