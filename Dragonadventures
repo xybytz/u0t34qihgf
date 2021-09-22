@@ -7,11 +7,26 @@ repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
-if game.PlaceId == 3475397644 then
-game:GetService("Players").LocalPlayer.Remote:FireServer("ToBase")
-game:GetService("ReplicatedStorage").Events.ClaimBottleRemote:FireServer() 
 
-end
+pcall(function()
+local Clone = game:GetService("Workspace").Camera:Clone()
+game:GetService("Workspace").Camera:Destroy()
+Clone.Parent = game:GetService("Workspace")
+camera = game:GetService("Workspace").Camera
+camera.CameraSubject = game.Players.LocalPlayer.Character.Humanoid
+camera.CameraType = "Custom"
+camera.CFrame = game.Players.LocalPlayer.Character.Head.CFrame
+game:GetService("ReplicatedStorage").Remotes.SpinWheelRemote:InvokeServer()
+game:GetService("ReplicatedStorage").Remotes.ClaimWheelRemote:FireServer()
+game:GetService("Players").LocalPlayer.PlayerGui.IntroGui.Enabled = false
+game:GetService("Lighting").IntroBlur:remove()
+game:GetService("Players").LocalPlayer.PlayerGui.HUDGui.Enabled = true
+game.StarterGui:SetCoreGuiEnabled(1, true)
+game.StarterGui:SetCoreGuiEnabled(2, true)
+game.StarterGui:SetCoreGuiEnabled(3, true)
+
+end)
+
 function getUserRole(user, group)
 return user:GetRoleInGroup(group)
 end
@@ -100,12 +115,12 @@ NewIndex(t, k, ...)
 end)
 setreadonly(Meta, true)
 foods ={}
-for i,v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Food:GetDescendants()) do
+for i,v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Food:GetDescendants()) do
 if v.ClassName == "Tool" then
 table.insert(foods,v.Name )
 end end 
 list ={}
-for i,v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Food:GetDescendants()) do
+for i,v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Food:GetDescendants()) do
 if v.ClassName == "Tool" then
 table.insert(list,v.Name)
 end end 
@@ -127,99 +142,52 @@ local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 
 
-if game.PlaceId == 5777228223 then
-game.StarterGui:SetCore("SendNotification", {
-Title = "Setting up";
-Text = "Wait just two seconds im getting everything in check for you";
-})
-repeat wait() until game.Players.LocalPlayer.Character wait()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(90, 245, -397)
-local Label1 = Section1:CreateLabel("for boxes you need to unlock cave")
-local Toggle1 = Section1:CreateToggle("Auto Collect Solstice", nil, function(State)
-sw1 = State
-spawn(function()
-game:GetService('RunService').Stepped:connect(function()
-if sw1 then
-pcall(function()
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
- end) end end) end)
-spawn(function()
-while sw1 do wait()
-pcall(function()
-for i,v in pairs(game:GetService("Workspace").Interactions.Nodes[deku1]:GetDescendants()) do
-if v:IsA("Model") and v.Name == "Solstice2021"  and v:FindFirstChildOfClass("MeshPart") then
-
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame=v:FindFirstChildOfClass("MeshPart").CFrame *CFrame.new(30,-7,0)
-wait(1)
-game.Players.LocalPlayer.Character.Humanoid:MoveTo(v:FindFirstChildOfClass("MeshPart").CFrame.Position)
-wait(3)
-fireclickdetector(v.ClickDetector)
-
-wait(20)
-if not sw1 then
-break
-end
-end end  end) end end)
-spawn(function()
-for i=1 , math.huge do wait(1)
-pcall(function()
-if sw1 then
-if game:GetService("Players").LocalPlayer.PlayerGui.NodeGui.BoostFrame.Default.ClickButton.Visible == true then
-game:GetService("VirtualUser"):ClickButton1(Vector2.new(140,140)) -- Credits  to Shaddow for this method mine was just deleting it
-game:GetService("Players").LocalPlayer.PlayerGui.NodeGui.BoostFrame.Default.ClickButton.Size = UDim2.new(9e9,9e9,9e9,9e9)
-end end
-end) 
-end end)
-end)
-
-local Dropdown1 = Section1:CreateDropdown("Select Item")
-Dropdown1:AddToolTip("Select Item")
-for i,v in next, deku1 do
-Dropdown1:AddOption(v, function(String)
-deku1 = String
-end)
-end
-
-end
 if game.PlaceId == 3475397644 then
 
-repeat wait() until game:GetService("Workspace").Plots[game.Players.LocalPlayer.Name]:WaitForChild("Base")
-ss={}
-for i,v in pairs(game:GetService("Workspace").Plots[game.Players.LocalPlayer.Name].Base.CanvasObjects:GetDescendants()) do
-if v.Name == "Incubator" and v:FindFirstChild("ID") then
-table.insert(ss,v.ID.Value)
-end end 
+
+
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game:GetService("Workspace").Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].TeleportPosition.Value)
+
+game:GetService("Workspace").Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].PlaceAllBuildingsRemote:FireServer()
+
+repeat wait() until game:GetService("Workspace").Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"]:WaitForChild("Base")
+
+
 ss1={}
-for i,v in pairs(game:GetService("ReplicatedStorage").Storage.Eggs:GetDescendants()) do
+for i,v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Eggs:GetDescendants()) do
 if v.ClassName == "Model"  then
 table.insert(ss1,v.Name)
 end end 
-ss3={}
-for i,v in pairs(game:GetService("Workspace").Plots[game.Players.LocalPlayer.Name].Base.CanvasObjects:GetDescendants()) do
-if v.Name == "Plant_Apple" and v:FindFirstChild("ID") then
-table.insert(ss3,v.ID.Value)
-end end 
+
 local Toggle1 = Section1:CreateToggle("Money Method", nil, function(State)
 red = State
 while wait() do
-for i = 1, #ss3 do
 if red then
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"Apple"},1)
-game:GetService("Players").LocalPlayer.Function:InvokeServer("ClaimCrop", ss3[i])
-end
+
+for i,v in pairs(game:GetService("Workspace").Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].Base.Buildings:GetDescendants()) do
+if v.ClassName == "Model" and v:FindFirstChild("HarvestRemote") then
+v.HarvestRemote:InvokeServer()
+end end 
+for i,v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Food:GetDescendants()) do
+if v.ClassName == "Tool" then
+game:GetService("ReplicatedStorage").Remotes.SellItemRemote:FireServer({["Amount"] = 1,["ItemName"] = v.Name})
+end end 
 end
 end
 
 end)
-Toggle1:AddToolTip("Need Apple Plants")
+
 local Toggle1 = Section1:CreateToggle("Auto Incubate Eggs", nil, function(State) 
 Incubate = State
 while Incubate do wait()
 for i = 1, #ss do
-game:GetService("Players").LocalPlayer.Function:InvokeServer("Incubate",ss[i])
-game:GetService("Players").LocalPlayer.Function:InvokeServer("ClaimCrop",ss[i])
+for i,v in pairs (game:GetService("Workspace").Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].Base.Buildings:GetDescendants()) do
+if v.Name == "Incubator" then 
+v.IncubateRemote:InvokeServer(ss[i])
+v.ClaimRemote:InvokeServer()
 end
-game:GetService("Players").LocalPlayer.Function:InvokeServer("EquipEgg",ss1)
+end
+end 
 end
 end)
 local Dropdown1 = Section1:CreateDropdown("Select Egg")
@@ -230,65 +198,27 @@ ss1 = String
 end)
 end
 
-local Button1 = SectionA:CreateButton("Clear Base", function()
-game:GetService("Players").LocalPlayer.Function:InvokeServer("ClearAll")
+local Button1 = Section1:CreateButton("Clear Base", function()
+game:GetService("Workspace").Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].DeleteAllRemote:FireServer()
 end)
-Button1:AddToolTip("Need Apple Plants")
 local Toggle1 = Section1:CreateToggle("Merchant Auto Sell", nil, function(State)
 sex55 = State
 while sex55 do wait()
-game:GetService("ReplicatedStorage").SellFarmMerchantRemote:FireServer(1)
+
 end end) 
 Button1:AddToolTip("Sells Items needed for Merchant")
 local Toggle1 = Section1:CreateToggle("Auto Sell", nil, function(State) 
 sex = State
 while sex do wait()
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{foods,1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"GemtoothedPiranha",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"GreatHornedEel",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"HoloMantaray",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"ConttonCloud",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"JunlperBerry",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"Apple",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"Bacon",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"DragonFin",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"ToxicMeat",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"TitanScaleShark",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"GlowingMushroom",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"Pineapple",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"Egg",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"Peach",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"SunWhale",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"Coconut",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"Mushroom",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"Pear",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"Dragonfruit",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"Pumpkin",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"Mothback",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"GoldenPear",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"Goldfish",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"Meat",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"Banana",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"Broccoli",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"Corn",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"PricklyPear",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"GoldenApple",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"PrimeMeat",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"Carrot",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"Watermelon",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"SunriseCrab",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"GoldenDragonfruit",1})
-game:GetService("Players").LocalPlayer.Remote:FireServer("SellResource",{"Onion",1})
-
+for i,v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Food:GetDescendants()) do
+if v.ClassName == "Tool" then
+game:GetService("ReplicatedStorage").Remotes.SellItemRemote:FireServer({["Amount"] = 1,["ItemName"] = v.Name})
+end end 
 end end)
 
 
 
-
-local Button1 = SectionA:CreateButton("Go To Base", function()
-game:GetService("Players").LocalPlayer.Remote:FireServer("ToBase")
-end)
-local Toggle1 = Section1:CreateToggle("Alchemy AutoFarm", nil, function(State) 
+local Toggle1 = Section1:CreateToggle("Alchemy AutoFarm unavailable", nil, function(State) 
 doo = State
 while wait() and doo do
 for i = 1, #ss3 do
@@ -307,22 +237,14 @@ end end)
 local Toggle1 = Section1:CreateToggle("Automatic Apple Plants", nil, function(State)
 nij=State    
 while nij do wait()
+for i=1,1500 do
 
-game:GetService("Players").LocalPlayer.Function:InvokeServer("Craft","Plant_Apple")
-local UsernameSpot = game.Players.LocalPlayer.Character.Name
-local A_1 = "PlaceBuilding"
-local A_2 = 
-{
-	[1] = game:GetService("ReplicatedStorage").Storage.Buildings.Food["Plant_Apple"], 
-	[2] = CFrame.new(-49, 7, 14951), 
-	[3] = false
-}
-local Event = game:GetService("Players")[UsernameSpot].Function
-Event:InvokeServer(A_1, A_2)
-
-end    
-end)   
+workspace.Plots.Plots.BIade_Fliper_Plot.PlaceBuildingRemote:InvokeServer({["CFrame"] = CFrame.new(Vector3.new(-1955, 3.8000018596649, 4955), Vector3.new(4.3711388286738e-08, -6.9938096203259e-07, 1)),["Index"] = i,["Name"] = "Plant_Apple"})
 end
+end    
+end)
+end
+
 local Toggle1 = Section1:CreateToggle("Autocollect", nil, function(State)
 yes33 = State
 spawn(function()
@@ -334,10 +256,8 @@ game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 spawn(function()
 while yes33 do wait()
 pcall(function()
-
 for i,v in pairs(game:GetService("Workspace").Interactions.Nodes[deku]:GetDescendants()) do
 if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
-
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame=v:FindFirstChildOfClass("MeshPart").CFrame *CFrame.new(20,-3,0)
 wait(1)
 game.Players.LocalPlayer.Character.Humanoid:MoveTo(v:FindFirstChildOfClass("MeshPart").CFrame.Position)
