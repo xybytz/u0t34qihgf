@@ -160,6 +160,8 @@ if v.ClassName == "Model"  then
 table.insert(ss1,v.Name)
 end end 
 
+
+
 local Toggle1 = Section1:CreateToggle("Money Method", nil, function(State)
 red = State
 while wait() do
@@ -178,6 +180,16 @@ end
 end
 
 end)
+local Button1 = SectionA:CreateButton("PoppyEvent", function()
+
+for i,v in pairs(game:GetService("Workspace").Interactions.PoppyEvent:GetDescendants()) do
+if v.ClassName == "Model" and v:FindFirstChild("Platform")  then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Interactions.PoppyEvent[v.Name].Platform.Part.CFrame
+wait(1)
+game:GetService("ReplicatedStorage").Remotes.PlayMusicRemote:FireServer(v.Name) wait(1)
+end end
+end)
+
 
 local Toggle1 = Section1:CreateToggle("Auto Incubate Eggs", nil, function(State) 
 Incubate = State
@@ -299,6 +311,65 @@ end
 end)
 end end)
 Toggle1:AddToolTip("Teleports to Eggs")
+
+local Player = game.Players.LocalPlayer
+local Pointer = Player.PlayerGui.FishingGui.ContainerFrame.ReelingFrame.BarLabel.InnerLabel.PointerLabel
+local SafeBar = Player.PlayerGui.FishingGui.ContainerFrame.ReelingFrame.BarLabel.InnerLabel.SafeBarLabel
+local Toggle1 = Section1:CreateToggle("Auto Fishing", nil, function(State)
+Fesh = State
+
+if Player.PlayerGui.FishingGui.ContainerFrame.Visible then
+if not Player.Character:FindFirstChild("FishingRod") and not Player.Backpack:FindFirstChild("FishingRod") then
+wait(.1)
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"G",false,uwu)
+elseif Player.Backpack:FindFirstChild("FishingRod") then
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"G",false,uwu)
+game.StarterGui:SetCore("SendNotification", {
+Title = "Auto Fishing",
+Text = "You have to keep the game in focus otherwise it dosent work she added a stuiped check for VirtualInputManager",
+		})
+end
+else
+game.StarterGui:SetCore("SendNotification", {
+Title = "Auto Fishing",
+Text = "Sorry but for this to work i kinda need you to go to where you fish sorry not sorry",
+		})
+end
+
+if not Fesh then
+    
+Player.PlayerGui.FishingGui.ContainerFrame.ButtonsFrame.ReelButton.Size=UDim2.new(1,0,1,0)
+end
+spawn(function()
+while Fesh do wait()
+if Player.PlayerGui.FishingGui.ContainerFrame.Visible then
+pcall(function()
+if not Player.Character:FindFirstChild("FishingRod") and not Player.Backpack:FindFirstChild("FishingRod") then
+wait(.1)
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"G",false,uwu)
+elseif Player.Backpack:FindFirstChild("FishingRod") then
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"G",false,uwu)
+end
+mouse1click()
+wait(3)
+Player.PlayerGui.FishingGui.ContainerFrame.ButtonsFrame.ReelButton.Size=UDim2.new(9e9,9e9,9e9,9e9)
+repeat wait() until Player.Character.FishingRod.Bait.SplashWater.Playing and game:GetService("Players").LocalPlayer.Settings.CurrentFish.Value ~= ""
+wait()
+mouse1click()
+Player.PlayerGui.FishingGui.ContainerFrame.ButtonsFrame.ReelButton.Size=UDim2.new(1,0,1,0)
+repeat
+if Pointer.Position.X.Scale <= SafeBar.Position.X.Scale + .01 then
+mouse1click()
+end
+wait()
+until not Player.PlayerGui.FishingGui.ContainerFrame.ReelingFrame.Visible 
+wait(1)
+end)
+end
+end
+end)
+
+end)
 
 local Toggle1 = Section1:CreateToggle("Auto Feed Dragon", nil, function(State) 
 pcall(function()
