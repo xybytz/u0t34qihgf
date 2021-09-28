@@ -48,7 +48,7 @@ local Toggle1 = Section1:CreateToggle("GunMods", nil, function(State)
 getgenv().Mods = State
 for i,v in pairs(game:GetService("ReplicatedFirst")["_0xS0URC3X"].Shared.WeaponDataManager:GetDescendants()) do
 if getgenv().Mods then
-    local boi = require(v)
+    local boi = require(v) 
     boi.Settings.MAX_AMMO = 9e9
     boi.Settings.MAX_DAMAGE = 9e9
     boi.Settings.RECOIL_STRENGTH = 0
@@ -68,7 +68,13 @@ else
 end end  end)
 
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
+ESP.Overrides.GetColor = function(v)
+if v ~= game.Players.LocalPlayer then
+if v.Head.NameTag.TextLabel.TextStrokeColor3 == Color3.fromRGB(44, 84, 255) then return Color3.fromRGB(0,255,0) end
+if  v.Head.NameTag.TextLabel.TextStrokeColor3 ~= Color3.fromRGB(44, 84, 255) then return Color3.fromRGB(255,0,0) end
+end end
 local Esp = Section1:CreateToggle("Esp", nil, function(State)
+
 ESP:Toggle(State)
 ESP.Tracers = State
 ESP.Names = State
