@@ -3,7 +3,17 @@ local Config = {
 	Color = Color3.fromRGB(255,128,64),
 	Keybind = Enum.KeyCode.RightControl
 }
+local Meta = getrawmetatable(game)
+local NewIndex = Meta.__newindex
+setreadonly(Meta, false)
 
+Meta.__newindex = newcclosure(function(t, k, ...)
+   if not checkcaller() and (k == "WalkSpeed" or k == "JumpPower") then
+       return
+   end
+   NewIndex(t, k, ...)
+end)
+setreadonly(Meta, true)
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
