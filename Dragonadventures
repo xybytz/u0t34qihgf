@@ -309,7 +309,11 @@ for i,v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest[deku]:G
     wait(1)
         game.Players.LocalPlayer.Character.Humanoid:MoveTo(v:FindFirstChildOfClass("MeshPart").CFrame.Position)
     wait(3)
-        game:GetService('VirtualInputManager'):SendKeyEvent(true,"E",false,uwu)wait(15)
+
+        game:GetService('VirtualInputManager'):SendKeyEvent(true,"E",false,uwu)
+     
+        wait(15)
+        
     end
 end 
 end)
@@ -337,12 +341,26 @@ for i,v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest.Eggs.Ac
     wait(1)
     game.Players.LocalPlayer.Character.Humanoid:MoveTo(v.CFrame.Position)
     wait(3)
-    game:GetService('VirtualInputManager'):SendKeyEvent(true,"E",false,uwu) wait(15)
+    game:GetService('VirtualInputManager'):SendKeyEvent(true,"E",false,uwu) 
+      v.Harvested.Value = true
+    v.Harvested.Value = false
+    wait(15)
+  
   end
 end 
 
 end)
-end end)
+end 
+game:GetService("Players").LocalPlayer.PlayerGui.NodeGui.BoostFrame.ChildAdded:Connect(function(v)
+if egg then
+if v.Name == "Default" and v:FindFirstChild("ClickLabel") then
+wait()
+firesignal(v.ClickButton.MouseButton1Down)
+v:Destroy()
+end
+end
+end)
+end)
 Toggle1:AddToolTip("Teleports to Eggs")
 
 local Player = game.Players.LocalPlayer
