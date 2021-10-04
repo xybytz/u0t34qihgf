@@ -8,15 +8,6 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 
-pcall(function()
-local Clone = game:GetService("Workspace").Camera:Clone()
-game:GetService("ReplicatedStorage").Remotes.SpinWheelRemote:InvokeServer()
-game:GetService("ReplicatedStorage").Remotes.ClaimWheelRemote:FireServer()
-
-game.StarterGui:SetCoreGuiEnabled(1, true)
-game.StarterGui:SetCoreGuiEnabled(2, true)
-game.StarterGui:SetCoreGuiEnabled(3, true)
-
 game:GetService("Players").LocalPlayer.PlayerGui.NodeGui.BoostFrame.ChildAdded:Connect(function(v)
 if v.Name == "Default" and v:FindFirstChild("ClickLabel") then
 wait()
@@ -25,6 +16,15 @@ firesignal(v.ClickButton.MouseButton1Down)
 v:Destroy()
 end
 end)
+pcall(function()
+
+game:GetService("ReplicatedStorage").Remotes.SpinWheelRemote:InvokeServer()
+game:GetService("ReplicatedStorage").Remotes.ClaimWheelRemote:FireServer()
+
+game.StarterGui:SetCoreGuiEnabled(1, true)
+game.StarterGui:SetCoreGuiEnabled(2, true)
+game.StarterGui:SetCoreGuiEnabled(3, true)
+
 
 end)
 
@@ -312,7 +312,7 @@ for i,v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest[deku]:G
 
         game:GetService('VirtualInputManager'):SendKeyEvent(true,"E",false,uwu)
      
-        wait(15)
+        wait(19)
         
     end
 end 
