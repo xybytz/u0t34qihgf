@@ -32,7 +32,7 @@ local Section4 = Tab2:CreateSection("Background")
 
 local Toggle1 = Section1:CreateToggle("AutoFarm", nil, function(State)
 _G.CoinAutoFarmToggle = State
-_G.CoinGodMode = State
+_G.CoinGodMode = true
 game:GetService('RunService').Stepped:connect(function()
 if _G.CoinAutoFarmToggle then
 game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
