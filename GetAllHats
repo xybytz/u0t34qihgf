@@ -52,3 +52,6 @@ game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer("FXArtist")
 game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer("ParticleWizard")
 game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer("ThingsGoBoom")
 end
+if game.PlaceId == 6985028626 then
+game:GetService("ReplicatedStorage").TasksList.RemoteEvents.AwardBadge:FireServer()
+end
