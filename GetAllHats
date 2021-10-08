@@ -88,3 +88,7 @@ wait()
 end
 end
 end
+
+if game.PlaceId == 7232621271
+    firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart,game:GetService("Workspace").nezha.NezhaTouch,0)
+end
