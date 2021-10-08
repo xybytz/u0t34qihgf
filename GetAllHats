@@ -64,3 +64,27 @@ for i=1,10 do
 end
     remote:FireServer("ClaimFreeRewards")
 end
+
+if game.PlaceId == 5450795073 then
+Player = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+Clues =  game:GetService("Workspace").Clues
+Remote = game:GetService("ReplicatedStorage").RobloxDialogue.Remotes
+for Found,Clue in pairs(Clues:GetChildren() ) do
+if Clue.ClassName == "Model" then
+for Found1,Clue1 in pairs(Clue:GetDescendants() ) do
+if Clue1.Name  == "RobloxDialogue" then
+Talk = Clue1
+elseif Clue1.ClassName=="Part" then
+Teleportto = Clue1
+end
+end
+
+Player.CFrame = Teleportto.CFrame
+wait(1)
+Remote.DialogueRequested:FireServer(Talk)
+wait()
+Remote.DialogueResponseChosen:FireServer(1)
+wait()
+end
+end
+end
