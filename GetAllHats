@@ -117,9 +117,17 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Wo
 wait(3)
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").ObstacleCourse.ObstacleEnd.Part.CFrame
 wait(1)
+game:GetService("ReplicatedStorage").RemoteEvent:FireServer("PurchaseWithCoins","clothing1")
 game:GetService("ReplicatedStorage").RemoteEvent:FireServer("PurchaseWithCoins","accessory12")
 game:GetService("ReplicatedStorage").RemoteEvent:FireServer("PurchaseWithCoins","accessory14")
 game:GetService("ReplicatedStorage").RemoteEvent:FireServer("PurchaseWithCoins","accessory13")
 
 end
+end
+if game.PlaceId == 7234162497 then
+remote = game:GetService("ReplicatedStorage").RemoteEvent
+for i=1,10 do
+remote:FireServer("Claim", i)
+end
+remote:FireServer("ClaimFreeRewards")
 end
