@@ -111,3 +111,15 @@ local args = {
 game:GetService("ReplicatedStorage").Project.RemoteEvent.ControlMessageEvent:FireServer(unpack(args))
 end
 end
+if game.PlaceId == 7277488595 then
+while wait() do    
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").ObstacleCourse.ObstacleEntries.Part.CFrame 
+wait(3)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").ObstacleCourse.ObstacleEnd.Part.CFrame
+wait(1)
+game:GetService("ReplicatedStorage").RemoteEvent:FireServer("PurchaseWithCoins","accessory12")
+game:GetService("ReplicatedStorage").RemoteEvent:FireServer("PurchaseWithCoins","accessory14")
+game:GetService("ReplicatedStorage").RemoteEvent:FireServer("PurchaseWithCoins","accessory13")
+
+end
+end
