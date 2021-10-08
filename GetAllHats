@@ -1,4 +1,4 @@
-if game.PlaceId == 4201429814 then
+if game.PlaceId == 4201429814 or 2546610365 or 1871632192 or 3204381131 then
     game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson1")
     game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson2")
     game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson3")
@@ -7,33 +7,6 @@ if game.PlaceId == 4201429814 then
     game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson6")
 end
 
-if game.PlaceId == 1871632192 then
-    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson1")
-    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson2")
-    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson3")
-    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson4")
-    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson5")
-    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson6")
-
-end
-
-if game.PlaceId == 3204381131 then
-    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson1")
-    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson2")
-    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson3")
-    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson4")
-    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson5")
-    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson6")
-end
-
-if game.PlaceId == 2546610365 then
-    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson1")
-    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson2")
-    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson3")
-    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson4")
-    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson5")
-    game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson6")
-end
 if game.PlaceId == 5306359293 then
 
     game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer("StrikeAPose")
@@ -47,68 +20,28 @@ if game.PlaceId == 5306359293 then
     game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer("VictoryLap")
 end
 if game.PlaceId == 6901029464 then
-game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer("Boardwalk")
-game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer("FXArtist")
-game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer("ParticleWizard")
-game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer("ThingsGoBoom")
+    game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer("Boardwalk")
+    game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer("FXArtist")
+    game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer("ParticleWizard")
+    game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer("ThingsGoBoom")
 end
+
 if game.PlaceId == 6985028626 then
-game:GetService("ReplicatedStorage").TasksList.RemoteEvents.AwardBadge:FireServer()
+    game:GetService("ReplicatedStorage").TasksList.RemoteEvents.AwardBadge:FireServer()
 end
 
 if game.PlaceId == 7541759836 then
 while wait() do
 for _,v in pairs(game:GetService("Workspace").obby.Badge:GetDescendants()) do
 if v:IsA("TouchTransmitter") then
-firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 0) --0 is touch
+    firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 0) --0 is touch
 wait()
-firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 1) -- 1 is untouch
+    firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 1) -- 1 is untouch
 end
 end
-
-
-local args = {
-    [1] = 2,
-    [2] = {
-        [1] = 2,
-        [2] = 1
-    }
-}
-
-game:GetService("ReplicatedStorage").Project.RemoteEvent.ControlMessageEvent:FireServer(unpack(args))
-
-
-local args = {
-    [1] = 2,
-    [2] = {
-        [1] = 2,
-        [2] = 2
-    }
-}
-
-game:GetService("ReplicatedStorage").Project.RemoteEvent.ControlMessageEvent:FireServer(unpack(args))
-
-
-local args = {
-    [1] = 2,
-    [2] = {
-        [1] = 2,
-        [2] = 3
-    }
-}
-
-game:GetService("ReplicatedStorage").Project.RemoteEvent.ControlMessageEvent:FireServer(unpack(args))
-
-
-local args = {
-    [1] = 2,
-    [2] = {
-        [1] = 2,
-        [2] = 4
-    }
-}
-
-game:GetService("ReplicatedStorage").Project.RemoteEvent.ControlMessageEvent:FireServer(unpack(args))
+for i=1,4 do
+    game:GetService("ReplicatedStorage").Project.RemoteEvent.ControlMessageEvent:FireServer(2,{2,i})
+end
 end
 end
 if game.PlaceId == 7277488595 then
@@ -117,17 +50,17 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Wo
 wait(3)
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").ObstacleCourse.ObstacleEnd.Part.CFrame
 wait(1)
-game:GetService("ReplicatedStorage").RemoteEvent:FireServer("PurchaseWithCoins","clothing1")
-game:GetService("ReplicatedStorage").RemoteEvent:FireServer("PurchaseWithCoins","accessory12")
-game:GetService("ReplicatedStorage").RemoteEvent:FireServer("PurchaseWithCoins","accessory14")
-game:GetService("ReplicatedStorage").RemoteEvent:FireServer("PurchaseWithCoins","accessory13")
+    game:GetService("ReplicatedStorage").RemoteEvent:FireServer("PurchaseWithCoins","clothing1")
+    game:GetService("ReplicatedStorage").RemoteEvent:FireServer("PurchaseWithCoins","accessory12")
+    game:GetService("ReplicatedStorage").RemoteEvent:FireServer("PurchaseWithCoins","accessory14")
+    game:GetService("ReplicatedStorage").RemoteEvent:FireServer("PurchaseWithCoins","accessory13")
 
 end
 end
 if game.PlaceId == 7234162497 then
 remote = game:GetService("ReplicatedStorage").RemoteEvent
 for i=1,10 do
-remote:FireServer("Claim", i)
+    remote:FireServer("Claim", i)
 end
-remote:FireServer("ClaimFreeRewards")
+    remote:FireServer("ClaimFreeRewards")
 end
