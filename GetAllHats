@@ -90,7 +90,7 @@ end
 end
 end
 
-if game.PlaceId == 7232621271
+if game.PlaceId == 7232621271 then
     firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart,game:GetService("Workspace").nezha.NezhaTouch,0)
 end
 
