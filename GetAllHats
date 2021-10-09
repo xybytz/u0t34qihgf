@@ -1,3 +1,4 @@
+pcall(function()
 if game.PlaceId == 4201429814 or 2546610365 or 1871632192 or 3204381131 then
     game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson1")
     game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson2")
@@ -6,7 +7,7 @@ if game.PlaceId == 4201429814 or 2546610365 or 1871632192 or 3204381131 then
     game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson5")
     game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson6")
 end
-
+end)
 if game.PlaceId == 5306359293 then
 
     game:GetService("ReplicatedStorage").Events.RedeemCode:FireServer("StrikeAPose")
