@@ -17,7 +17,7 @@ OldNameCall = hookmetamethod(game, "__namecall", function(...)
     end
     return OldNameCall(...)
 end)
-pcall(function()
+
 local players = game:GetService("Players")
 local client = players.LocalPlayer
 local inputservice = game:GetService("UserInputService")
@@ -37,7 +37,7 @@ Circle.Position = Vector2.new(workspace.CurrentCamera.ViewportSize.X / 2, worksp
 function GetMouse()
     return Vector2.new(mouse.X, mouse.Y)
 end
-radius = 250
+
 inputservice.InputBegan:Connect(function(key)
     if key.UserInputType == Enum.UserInputType.MouseButton2 then
         aim = true
@@ -75,8 +75,8 @@ function GetClosestToCuror()
                 if OnScreen and NotObstructing(v.Character.HumanoidRootPart.Position,{clientchar,v.Character}) then
                     Distance = (Vector2.new(Point.X,Point.Y) - MousePos).magnitude
                     if Distance < math.min(Radius,Closest) then
-                      Closest = Distance
-                     Target = v
+                        Closest = Distance
+                        Target = v
                 end
             end
         end
@@ -90,7 +90,6 @@ runservice.RenderStepped:Connect(function()
     if ClosestPlayer then
         workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.p,ClosestPlayer.Character.HumanoidRootPart.CFrame.p)
     end
-end)
 end)
 enabled = false
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
