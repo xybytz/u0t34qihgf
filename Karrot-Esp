@@ -123,10 +123,7 @@ function ESP:AddObjectListener(parent, options)
             coroutine.wrap(NewListener)(v)
         end
     else
-        parent.DescendantAdded:Connect(NewListener)
-        for i,v in pairs(parent:GetChildren()) do
-            coroutine.wrap(NewListener)(v)
-        end
+
     end
 end
 
