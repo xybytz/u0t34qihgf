@@ -108,7 +108,7 @@ end
 end 
 end
 wait(2)
-game:GetService('RunService').Stepped:connect(function()
+while wait() and yes2 do wait()
 pcall(function()
 game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
 for i,v in pairs(game:GetService("Workspace").Bosses.Bosses:GetDescendants()) do
@@ -119,7 +119,8 @@ game:GetService("ReplicatedStorage").Remotes.Attack:FireServer(v.HumanoidRootPar
 end 
 end 
 end
-end) end)
+end)
+end
 end)
 local Dropdown1 = Section1:CreateDropdown("Select Boss")
 Dropdown1:AddToolTip("Select Boss")
@@ -129,36 +130,7 @@ aa = String
 end)
 end 
 
-local Toggle1 = Section1:CreateToggle("AutoFarm Boss2", nil, function(State)
-ss2 = State
-for i,v in pairs(game:GetService("Workspace").Bosses.Timers:GetDescendants()) do
-if v.Name:match(aa1) then
-if ss2 then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
-end 
-end 
-end
-wait(2)
-game:GetService('RunService').Stepped:connect(function()
-pcall(function()
-game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
-for i,v in pairs(game:GetService("Workspace").Bosses.Bosses:GetDescendants()) do
-if v.Name:match(aa1) then
-if ss2 then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v:FindFirstChild("HumanoidRootPart").CFrame
-game:GetService("ReplicatedStorage").Remotes.Attack:FireServer(v.HumanoidRootPart)
-end 
-end 
-end
-end) end)
-end)
-local Dropdown1 = Section1:CreateDropdown("Select Boss2")
-Dropdown1:AddToolTip("Select Boss2")
-for i,v in next, aa1 do
-Dropdown1:AddOption(v, function(String)
-aa1 = String
-end)
-end 
+
 local Toggle1 = Section1:CreateToggle("Auto Flags", nil, function(State)
 wow = State
 game:GetService('RunService').Stepped:connect(function()
