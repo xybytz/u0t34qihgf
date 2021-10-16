@@ -118,17 +118,7 @@ local Button1 = Section1:CreateButton("Bomb head", function()
 game:GetService("ReplicatedStorage").Remotes.buyBombHead:InvokeServer()
 end)
 
-local Toggle1 = Section1:CreateToggle("AutoCollect", nil, function(State)
-autocollect = State
-while autocollect do wait()
 
-for i,v in pairs(game:GetService("Workspace").Bombs:GetDescendants()) do
-if v:FindFirstChild("itemarrow") and not v.Name:lower():match("fake") then
-v.CanCollide = false
-v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
- 
-end end  end 
-end)
 
 local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
@@ -271,13 +261,13 @@ end
 end
 end)
 end)
-local Button1 = Section2:CreateButton("PlatformStand", function()
+local Button1 = Section1:CreateButton("PlatformStand", function()
 game.Players.LocalPlayer.Character.Humanoid.PlatformStand = true 
 end)
-local Button1 = Section2:CreateButton("UnPlatformStand", function()
+local Button1 = Section1:CreateButton("UnPlatformStand", function()
 game.Players.LocalPlayer.Character.Humanoid.PlatformStand = false
 end)
-local Button1 = Section2:CreateButton("Sit", function()
+local Button1 = Section1:CreateButton("Sit", function()
 game.Players.LocalPlayer.Character.Humanoid.Sit = true 
 end)
 local Button1 = Section2:CreateButton("Anti Lag", function()
