@@ -14,9 +14,41 @@ for i,v in pairs(Workspace:GetDescendants()) do
     v.CanCollide =false
   end
 end end)
- function people(model)
-if game:GetService("Players")[model.Name].Backpack:FindFirstChild("Knife") or game.Workspace[model.Name]:FindFirstChild("Knife") then return Muder end
-if game:GetService("Players")[model.Name].Backpack:FindFirstChild("Gun") or game:GetService("Players")[model.Name].Backpack:FindFirstChild("Revolver") or game.Workspace[model.Name]:FindFirstChild("Revolver") or game.Workspace[model.Name]:FindFirstChild("Gun") then return CowBoy end
+
+spawn(function()
+pcall(function()
+function getSheriff()
+for i, v in pairs(game.Players:GetChildren()) do
+if v.Character:FindFirstChild('Gun') then
+v = Sheriff
+end
+if v.Backpack:FindFirstChild('Gun') then
+v = Sheriff
+end
+end
+return Sheriff
+end
+
+function getMurder()
+for i, v in pairs(game.Players:GetChildren()) do
+if v.Character:FindFirstChild('Knife') then
+Murder = v
+break
+end
+if v.Backpack:FindFirstChild('Knife') then
+v = Murder
+break
+end
+end
+return Murder
+end
+end)
+end)
+
+
+function people(model)
+if game:GetService("Players")[model.Name].Backpack:FindFirstChild("Knife") or game.Workspace[model.Name]:FindFirstChild("Knife") then return  Murder.Name end
+if game:GetService("Players")[model.Name].Backpack:FindFirstChild("Gun") or game:GetService("Players")[model.Name].Backpack:FindFirstChild("Revolver") or game.Workspace[model.Name]:FindFirstChild("Revolver") or game.Workspace[model.Name]:FindFirstChild("Gun") then return CowBoy.Name end
 return Color3.fromRGB(0, 255, 0)
 end
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
@@ -33,24 +65,9 @@ local Section4 = Tab2:CreateSection("Background")
 local Toggle1 = Section1:CreateToggle("AutoFarm", nil, function(State)
 _G.CoinAutoFarmToggle = State
 _G.CoinGodMode = true
-game:GetService('RunService').Stepped:connect(function()
-if _G.CoinAutoFarmToggle then
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-for _, v in pairs( game.Players.LocalPlayer.Character:GetDescendants()) do
-pcall(function()
-if v:IsA("BasePart") then
-v.CanCollide = false
-end
-end)
-end
-game:GetService("RunService").Stepped:wait()
-end
-end)
-end)
-
 
 local Player = game.Players.LocalPlayer
-local UIS = game:GetService("UserInputService") -- doggos
+local UIS = game:GetService("UserInputService")
 local CoinTarget = nil
 local AutoFarming
 
@@ -84,22 +101,6 @@ function GodModeFunc()
 			Player.Character.Humanoid.Died:connect(function()
 				Died = true
 			end)
-			UIS.InputBegan:connect(function(i, process)
-				if  not process and not Died then
-					Jumping = false
-					spawn(function()
-						repeat
-						
-							game:GetService("RunService").RenderStepped:Wait()
-						until not Jumping or Died
-					end)
-				else
-					repeat
-						
-						game:GetService("RunService").RenderStepped:Wait()
-					until not Jumping
-				end
-			end)
 			UIS.InputEnded:connect(function(i, process)
 				if  not process and not Died then
 					Jumping = false
@@ -126,7 +127,7 @@ end
 
 
 spawn(function()
-	while wait(1) do
+	while wait() do
 		pcall(function()
 			if _G.CoinAutoFarmToggle and not AutoFarming and Player.PlayerGui.MainGUI.Game.CashBag.Visible and not Player.PlayerGui.MainGUI.Game.CashBag.Full.Visible and Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") then
 				AutoFarming = true
@@ -138,7 +139,6 @@ spawn(function()
 					spawn(function()
 						game:GetService("TweenService"):Create(Player.Character.HumanoidRootPart, TweenInfo.new(1, Enum.EasingStyle.Linear), {CFrame = CFrame.new(Vector3.new(CoinTarget.Position.X, CoinTarget.Position.Y + 1.5, CoinTarget.Position.Z))}):Play()
 					end)
-					wait(1)
 					for i,v in pairs(workspace:GetDescendants()) do
 						if v.Name == "Coin_Server" and v:FindFirstChild("TouchInterest") and v.Name ~= "CollectedCoin" then
 							local mag = (Player.Character.HumanoidRootPart.Position - v.Position).magnitude
@@ -155,6 +155,13 @@ spawn(function()
 		end)
 	end
 	
+end)
+
+game:GetService('RunService').Stepped:connect(function()
+if _G.CoinAutoFarmToggle then
+game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+end
+end)
 end)
 local Toggle1 = Section1:CreateToggle("Auto Invis", nil, function(State)
 sex = State
@@ -208,18 +215,19 @@ ESP.Boxes = State
 end)
 local Toggle1 = Section1:CreateToggle("Spam Throw Knife", nil, function(State)
 FastKnife = State
-game.Players.LocalPlayer:GetMouse().KeyDown:Connect(function(k)
+
 while FastKnife do wait()
 pcall(function()
 game:GetService("Players").LocalPlayer.Character.Knife.Throw:FireServer(CFrame.new(Vector3.new(game.Players.LocalPlayer:GetMouse().hit.p), Vector3.new(-0, -0, -1)),Vector3.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position))
-end) end end)
+end) end 
 end)  
 Toggle1:CreateKeybind("E", function(Key)
-    
+end)
 
 local Toggle1 = Section1:CreateToggle("Grab Gun", nil, function(State)
 yes = State
 Player = game.Players.LocalPlayer.Character
+while wait(3) do
 if game.Worksapce("GunDrop") then
 if yes then 
 box = Instance.new('Part',workspace) -- makes part
@@ -227,12 +235,13 @@ box.Name = ""
 box.Anchored = true
 box.CanCollide = false
 box.Size = Vector3.new(Player.HumanoidRootPart.Position)
-game.Workspace[""].CFrame = CFrame.new(Player.HumanoidRootPart.Position) 
-wait(.45)
-Player.HumanoidRootPart.CFrame = CFrame.new(game.Workspace.GunDrop.Position) -- goes to thingy
-wait(.45)
-Player.HumanoidRootPart.CFrame = CFrame.new(game.Workspace[""].Position) 
-end end  end) end)
+game.Workspace[""].CFrame =  Player.HumanoidRootPart.CFrame
+wait(1)
+Player.HumanoidRootPart.CFrame = game.Workspace.GunDrop.CFrame -- goes to thingy
+wait(1)
+Player.HumanoidRootPart.CFrame = game.Workspace[""].CFrame
+end 
+end end  end) 
 
 
 local Button1 = Section1:CreateButton("Muder Kill All", function()
@@ -245,35 +254,19 @@ Player.Knife.Throw:FireServer(CFrame.new(v.Character.Head.Position), v.Character
 end end end) 
 
 
-local Button1 = Section1:CreateButton("Kill Muder gun", function()
-Player = game.Players.LocalPlayer.Character
-box = Instance.new('Part',workspace)
-box.Name = ""
-box.Anchored = true
-box.CanCollide = false
-game.Workspace[""].CFrame = Player.HumanoidRootPart.CFrame
-wait(.45)
-Player.HumanoidRootPart.CFrame = Muder.Character.HumanoidRootPart.Position - Vector3.new(0,-5,0)
-wait(.45)
-Player.Gun.KnifeServer.ShootGun:InvokeServer(1, game.Players[Muder].Character.HumanoidRootPart.Position, "AH")
-wait(.45)
-Player.HumanoidRootPart.CFrame = game.Workspace[""].CFrame
-end)
-
-
-local Button1 = Section2:CreateButton("Floss", function()
+local Button1 = Section1:CreateButton("Floss", function()
 game:GetService("ReplicatedStorage").PlayEmote:Fire("floss")
 end)
 
-local Button1 = Section2:CreateButton("Zen", function()
+local Button1 = Section1:CreateButton("Zen", function()
 game:GetService("ReplicatedStorage").PlayEmote:Fire("zen")
 end)
 
-local Button1 = Section2:CreateButton("Sit", function()
+local Button1 = Section1:CreateButton("Sit", function()
 game:GetService("ReplicatedStorage").PlayEmote:Fire("sit")
 end)
 
-local Button1 = Section2:CreateButton("Dab", function()
+local Button1 = Section1:CreateButton("Dab", function()
 game:GetService("ReplicatedStorage").PlayEmote:Fire("dab")
 end)
 local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
