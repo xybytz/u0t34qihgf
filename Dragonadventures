@@ -171,6 +171,26 @@ local SectionA = Tab1:CreateSection("Misc")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 if game.PlaceId == 5777228223 then
+
+local Toggle1 = Section1:CreateToggle("AutoCollect Holween Egg", nil, function(State) 
+egg1 = State
+while egg1 do wait(1)
+pcall(function()
+for i,v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest.Eggs.ActiveNodes:GetDescendants()) do
+  if v:IsA("MeshPart")  then
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame=v.CFrame *CFrame.new(30,-3,0)
+    wait(1)
+    game.Players.LocalPlayer.Character.Humanoid:MoveTo(v.CFrame.Position)
+    wait(3)
+    game:GetService('VirtualInputManager'):SendKeyEvent(true,"E",false,uwu) 
+      v.Harvested.Value = true
+    v.Harvested.Value = false
+    wait(15)
+  end
+end 
+
+end)
+end end)
 local Toggle1 = Section1:CreateToggle("Auto Collect Candy", nil, function(State)
 pen = State
 game:GetService('RunService').Stepped:connect(function()
