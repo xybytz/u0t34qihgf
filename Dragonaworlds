@@ -1,5 +1,3 @@
-
-
 if game.PlaceId == 3475397644 then
 loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Dragonadventures'))()
 elseif game.PlaceId == 5391312853 then
@@ -30,5 +28,6 @@ elseif game.PlaceId == 5777228223 then
 loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Dragonadventures'))()   
 elseif game.PlaceId == 5777228223 then
 loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Dragonadventures'))()   
-
+elseif  game.PlaceId == 5777228223 then
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Dragonadventures'))()   
 end
