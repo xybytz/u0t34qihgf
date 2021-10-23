@@ -178,6 +178,9 @@ while egg1 do wait(1)
 pcall(function()
 for i,v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest.Eggs.ActiveNodes:GetDescendants()) do
   if v:IsA("MeshPart")  then
+      if not egg1 then
+         break
+         end
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame=v.CFrame *CFrame.new(30,-3,0)
     wait(1)
     game.Players.LocalPlayer.Character.Humanoid:MoveTo(v.CFrame.Position)
@@ -199,8 +202,12 @@ pcall(function()
 game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
  end) end end)
 while pen do wait()
+
 for i,v in pairs(game:GetService("Workspace").Interactions.HalloweenEvent.TrickOrTreatDoors:GetChildren()) do
 if v.ClassName == "Model" then
+if not pen then
+         break
+         end
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame=v:FindFirstChildOfClass("MeshPart").CFrame *CFrame.new(30,-3,0)
 wait(1)
 game.Players.LocalPlayer.Character.Humanoid:MoveTo(v:FindFirstChildOfClass("MeshPart").CFrame.Position)
