@@ -27,7 +27,11 @@ game.StarterGui:SetCoreGuiEnabled(3, true)
 
 
 end)
-
+function Invis()
+local Clone = game.Players.LocalPlayer.Character.LowerTorso.Root:Clone()
+game.Players.LocalPlayer.Character.LowerTorso.Root:remove()
+Clone.Parent = game.Players.LocalPlayer.Character.LowerTorso
+end 
 local Feshy = Instance.new("ScreenGui")
 local CurrentFish = Instance.new("TextLabel")
 
@@ -500,10 +504,10 @@ end)
 end
 local Toggle1 = Section1:CreateToggle("Auto Invis", nil, function(State)
 ssyes = State
-game:GetService('Players').LocalPlayer.Character.LowerTorso:Destroy()
+Invis()
 game.Players.LocalPlayer.CharacterAdded:Connect(function()
 if ssyes then
-game:GetService('Players').LocalPlayer.Character.LowerTorso:Destroy() end end)
+Invis() end end)
 if not ssyes then
 game:GetService('Players').LocalPlayer.Character.UpperTorso:Destroy()
 end
