@@ -167,11 +167,30 @@ local Tab1 = Window:CreateTab("Dragon Adventures")
 local Tab2 = Window:CreateTab("UI Settings")
 
 local Section1 = Tab1:CreateSection("AutoFarms")
-local Section2 = Tab1:CreateSection("Misc")
+local SectionA = Tab1:CreateSection("Misc")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
-
-
+if game.PlaceId == 5777228223 then
+local Toggle1 = Section1:CreateToggle("Auto Collect Candy", nil, function(State)
+pen = State
+game:GetService('RunService').Stepped:connect(function()
+if pen then
+pcall(function()
+game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+ end) end end)
+while pen do wait()
+for i,v in pairs(game:GetService("Workspace").Interactions.HalloweenEvent.TrickOrTreatDoors:GetChildren()) do
+if v.ClassName == "Model" then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame=v:FindFirstChildOfClass("MeshPart").CFrame *CFrame.new(30,-3,0)
+wait(1)
+game.Players.LocalPlayer.Character.Humanoid:MoveTo(v:FindFirstChildOfClass("MeshPart").CFrame.Position)
+wait(4)
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"E",false,uwu)
+wait(3)
+game:GetService("ReplicatedStorage").Remotes.TrickOrTreatDoorRemote:InvokeServer(v.Name)
+wait(15)
+end end 
+end end) end 
 if game.PlaceId == 3475397644 then
 
 for i,v in pairs(game:GetService("Workspace").Plots.Portals:GetChildren()) do
@@ -208,6 +227,15 @@ end end end)
 end
 end
 
+end)
+local Button1 = SectionA:CreateButton("PoppyEvent", function()
+
+for i,v in pairs(game:GetService("Workspace").Interactions.PoppyEvent:GetDescendants()) do
+if v.ClassName == "Model" and v:FindFirstChild("Platform")  then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Interactions.PoppyEvent[v.Name].Platform.Part.CFrame
+wait(1)
+game:GetService("ReplicatedStorage").Remotes.PlayMusicRemote:FireServer(v.Name) wait(1)
+end end
 end)
 
 
@@ -490,13 +518,13 @@ game:GetService("TeleportService"):Teleport(4728805070, LocalPlayer) end)
 local Button1 = Section1:CreateButton("Prehistoric", function()
 game:GetService("TeleportService"):Teleport(4869039553, LocalPlayer) end)
 
-local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
+local TextBox1 = SectionA:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
 end)
-local TextBox1 = Section2:CreateTextBox("JumpPower", "Only numbers", true, function(Value)
+local TextBox1 = SectionA:CreateTextBox("JumpPower", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
 end)
-local Toggle1 = Section2:CreateToggle("Infinite Jump", nil, function(State)
+local Toggle1 = SectionA:CreateToggle("Infinite Jump", nil, function(State)
 Infinite = State
 game:GetService("UserInputService").JumpRequest:connect(function()
 	if Infinite then
@@ -504,8 +532,7 @@ game:GetService("UserInputService").JumpRequest:connect(function()
 	end
 end) end)
 
-
-local Toggle1 = Section2:CreateToggle("G Noclip", nil, function(State)
+local Toggle1 = SectionA:CreateToggle("G Noclip", nil, function(State)
 sex = State
 noclip = false
 game:GetService('RunService').Stepped:connect(function()
@@ -523,124 +550,88 @@ noclip = not noclip
 game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 end end 
 end) end)
-
-local Toggle1 = Section2:CreateToggle("B Fly", nil, function(State)
+local Toggle1 = SectionA:CreateToggle("B Fly", nil, function(State)
 sex2 = State
-local Max = 0
-local Players = game.Players
-local LP = Players.LocalPlayer
-local Mouse = LP:GetMouse()
-Mouse.KeyDown:connect(function(k)
-if k:lower() == 'b' then
-Max = Max + 1
-getgenv().Fly = false
+local gogo1000 = 0
+local LP = game:service('Players').LocalPlayer
+local MOUSE = LP:GetMouse()
+MOUSE.KeyDown:connect(function(KEY)
+if KEY:lower() == 'b' then
 if sex2 then
+local LP = game:service('Players').LocalPlayer
+local MOUSE = LP:GetMouse()
+gogo1000 = gogo1000 + 1
+_G.FLYING = false
 local T = LP.Character.UpperTorso
-local S = {
-F = 0,
-B = 0,
-L = 0,
-R = 0
-}
-local S2 = {
-F = 0,
-B = 0,
-L = 0,
-R = 0
-}
+local CONTROL = {F = 0, B = 0, L = 0, R = 0}
+local lCONTROL = {F = 0, B = 0, L = 0, R = 0}
 local SPEED = 5
 local function FLY()
-getgenv().Fly = true
-local BodyGyro = Instance.new('BodyGyro', T)
-local BodyVelocity = Instance.new('BodyVelocity', T)
-BodyGyro.P = 9e4
-BodyGyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
-BodyGyro.cframe = T.CFrame
-BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
-BodyVelocity.maxForce = Vector3.new(9e9, 9e9, 9e9)
+_G.FLYING = true
+local BG = Instance.new('BodyGyro', T)
+local BV = Instance.new('BodyVelocity', T)
+BG.P = 9e4
+BG.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+BG.cframe = T.CFrame
+BV.velocity = Vector3.new(0, 0.1, 0)
+BV.maxForce = Vector3.new(9e9, 9e9, 9e9)
 spawn(function()
-repeat
-wait()
-LP.Character.Humanoid.PlatformStand = false
-if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
+repeat wait()
+LP.Character.Humanoid.PlatformStand = true
+if CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0 then
 SPEED = 200
-elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
+elseif not (CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0) and SPEED ~= 0 then
 SPEED = 0
 end
-if (S.L + S.R) ~= 0 or (S.F + S.B) ~= 0 then
-BodyVelocity.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S.F + S.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(S.L + S.R, (S.F + S.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
-S2 = {
-F = S.F,
-B = S.B,
-L = S.L,
-R = S.R
-}
-elseif (S.L + S.R) == 0 and (S.F + S.B) == 0 and SPEED ~= 0 then
-BodyVelocity.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S2.F + S2.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(S2.L + S2.R, (S2.F + S2.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+if (CONTROL.L + CONTROL.R) ~= 0 or (CONTROL.F + CONTROL.B) ~= 0 then
+BV.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (CONTROL.F + CONTROL.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(CONTROL.L + CONTROL.R, (CONTROL.F + CONTROL.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+lCONTROL = {F = CONTROL.F, B = CONTROL.B, L = CONTROL.L, R = CONTROL.R}
+elseif (CONTROL.L + CONTROL.R) == 0 and (CONTROL.F + CONTROL.B) == 0 and SPEED ~= 0 then
+BV.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lCONTROL.F + lCONTROL.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lCONTROL.L + lCONTROL.R, (lCONTROL.F + lCONTROL.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
 else
-BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+BV.velocity = Vector3.new(0, 0.1, 0)
 end
-BodyGyro.cframe = game.Workspace.CurrentCamera.CoordinateFrame
-until not getgenv().Fly
-S = {
-F = 0,
-B = 0,
-L = 0,
-R = 0
-}
-S2 = {
-F = 0,
-B = 0,
-L = 0,
-R = 0
-}
+BG.cframe = game.Workspace.CurrentCamera.CoordinateFrame
+until not _G.FLYING
+CONTROL = {F = 0, B = 0, L = 0, R = 0}
+lCONTROL = {F = 0, B = 0, L = 0, R = 0}
 SPEED = 0
-BodyGyro:destroy()
-BodyVelocity:destroy()
+BG:destroy()
+BV:destroy()
 LP.Character.Humanoid.PlatformStand = false
 end)
 end
-Mouse.KeyDown:connect(function(k)
-if k:lower() == 'w' then
-S.F = 1
-elseif k:lower() == 's' then
-S.B = -1
-elseif k:lower() == 'a' then
-S.L = -1
-elseif k:lower() == 'd' then
-S.R = 1
+MOUSE.KeyDown:connect(function(KEY)
+if KEY:lower() == 'w' then
+CONTROL.F = 1
+elseif KEY:lower() == 's' then
+CONTROL.B = -1
+elseif KEY:lower() == 'a' then
+CONTROL.L = -1 
+elseif KEY:lower() == 'd' then 
+CONTROL.R = 1
 end
 end)
-Mouse.KeyUp:connect(function(k)
-if k:lower() == 'w' then
-S.F = 0
-elseif k:lower() == 's' then
-S.B = 0
-elseif k:lower() == 'a' then
-S.L = 0
-elseif k:lower() == 'd' then
-S.R = 0
+MOUSE.KeyUp:connect(function(KEY)
+if KEY:lower() == 'w' then
+CONTROL.F = 0
+elseif KEY:lower() == 's' then
+CONTROL.B = 0
+elseif KEY:lower() == 'a' then
+CONTROL.L = 0
+elseif KEY:lower() == 'd' then
+CONTROL.R = 0
 end
 end)
 FLY()
-if Max == 2 then
-getgenv().Fly = false
-Max = 0
+if gogo1000 == 2 then
+_G.FLYING = false
+gogo1000 = 0
 end
 end
 end
-end)
-end)
-local Button1 = Section2:CreateButton("PlatformStand", function()
-game.Players.LocalPlayer.Character.Humanoid.PlatformStand = true 
-end)
-local Button1 = Section2:CreateButton("UnPlatformStand", function()
-game.Players.LocalPlayer.Character.Humanoid.PlatformStand = false
-end)
-local Button1 = Section2:CreateButton("Sit", function()
-game.Players.LocalPlayer.Character.Humanoid.Sit = true 
-end)
-local Button1 = Section2:CreateButton("Anti Lag", function()
+end) end)
+local Button1 = SectionA:CreateButton("Anti Lag", function()
 for _,v in pairs(game:GetService("Workspace"):GetDescendants()) do
 if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then --- i stole this from the actual game LOL >-<
 v.Material = Enum.Material.SmoothPlastic;
@@ -650,12 +641,12 @@ end end;
 end;
 end)
 
-local Button1 = Section2:CreateButton("Teleport to RandomPlayer", function()
+local Button1 = SectionA:CreateButton("Teleport to RandomPlayer", function()
 local randomPlayer = game.Players:GetPlayers()
 [math.random(1,#game.Players:GetPlayers())]
 
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(randomPlayer.Character.Head.Position.X, randomPlayer.Character.Head.Position.Y, randomPlayer.Character.Head.Position.Z)) end)
-local Button1 = Section2:CreateButton("Lag Switch F3", function()
+local Button1 = SectionA:CreateButton("Lag Switch F3", function()
 local a = false
 local b = settings()
 
@@ -665,7 +656,7 @@ a = not a
 b.Network.IncomingReplicationLag = a and 10 or 0
 end
 end) end) 
-local Button1 = Section2:CreateButton("ServerHop", function()
+local Button1 = SectionA:CreateButton("ServerHop", function()
 local PlaceID = game.PlaceId
 local AllIDs = {}
 local foundAnything = ""
@@ -736,11 +727,10 @@ function Teleport()
 end
 
 -- If you'd like to use a script before server hopping (Like a Automatic Chest collector you can put the Teleport() after it collected everything.
-Teleport() 
+Teleport()
 end)
-local Button1 = Section2:CreateButton("Rejoin", function()
+local Button1 = SectionA:CreateButton("Rejoin", function()
 game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer) end)
-
 
 local Toggle3 = Section3:CreateToggle("UI Toggle", nil, function(State)
 	Window:Toggle(State)
