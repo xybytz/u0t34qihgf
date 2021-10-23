@@ -174,6 +174,11 @@ if game.PlaceId == 5777228223 then
 
 local Toggle1 = Section1:CreateToggle("AutoCollect Holween Egg", nil, function(State) 
 egg1 = State
+game:GetService('RunService').Stepped:connect(function()
+if egg1 then
+pcall(function()
+game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+ end) end end)
 while egg1 do wait(1)
 pcall(function()
 for i,v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest.Eggs.ActiveNodes:GetDescendants()) do
