@@ -290,14 +290,15 @@ end)
 local Toggle1 = Section1:CreateToggle("Auto Incubate Eggs", nil, function(State) 
 Incubate = State
 while Incubate do wait()
-for i = 1, #ss do
-for i,v in pairs (game:GetService("Workspace").Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].Base.Buildings:GetDescendants()) do
+
+
+for i,v in pairs(game:GetService("Workspace").Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].Base.Buildings:GetDescendants()) do
 if v.Name == "Incubator" then 
-v.IncubateRemote:InvokeServer(ss[i])
+v.IncubateRemote:InvokeServer(ss1)
 v.ClaimRemote:InvokeServer()
 end
 end
-end 
+
 end
 end)
 local Dropdown1 = Section1:CreateDropdown("Select Egg")
