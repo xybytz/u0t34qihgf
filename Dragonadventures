@@ -269,10 +269,9 @@ if v.ClassName == "Model" and v:FindFirstChild("HarvestRemote") then
 v.HarvestRemote:InvokeServer()
 end end end)
 spawn(function()
-for i,v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Food:GetDescendants()) do
-if v.ClassName == "Tool" then
-game:GetService("ReplicatedStorage").Remotes.SellItemRemote:FireServer({["Amount"] = 1,["ItemName"] = v.Name})
-end end end)
+
+game:GetService("ReplicatedStorage").Remotes.SellItemRemote:FireServer({["Amount"] = 1,["ItemName"] = "Apple"})
+end)
 end
 end
 
