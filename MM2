@@ -137,7 +137,7 @@ spawn(function()
 				GetClosestCoin()
 				if CoinTarget ~= nil then
 					spawn(function()
-						game:GetService("TweenService"):Create(Player.Character.HumanoidRootPart, TweenInfo.new(1, Enum.EasingStyle.Linear), {CFrame = CFrame.new(Vector3.new(CoinTarget.Position.X, CoinTarget.Position.Y + 1.5, CoinTarget.Position.Z))}):Play()
+						game:GetService("TweenService"):Create(Player.Character.HumanoidRootPart, TweenInfo.new(1, Enum.EasingStyle.Linear), {CFrame = CFrame.new(Vector3.new(CoinTarget.Position.X, CoinTarget.Position.Y , CoinTarget.Position.Z))}):Play()
 					end)
 					for i,v in pairs(workspace:GetDescendants()) do
 						if v.Name == "Coin_Server" and v:FindFirstChild("TouchInterest") and v.Name ~= "CollectedCoin" then
