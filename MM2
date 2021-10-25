@@ -4,6 +4,7 @@ local Config = {
 	Keybind = Enum.KeyCode.RightControl
 }
 
+game:GetService("ReplicatedStorage").IsXbox:FireServer()
 repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
@@ -11,66 +12,24 @@ end)
 pcall(function()
 for i,v in pairs(Workspace:GetDescendants()) do
   if v:IsA("Part") and  v.Name ~= "Part" then
-    v.CanCollide =false
+    v.CanCollide = false
   end
 end end)
-
 spawn(function()
-pcall(function()
-function getSheriff()
-for i, v in pairs(game.Players:GetChildren()) do
-if v.Character:FindFirstChild('Gun') then
-v = Sheriff
+game:GetService("RunService").RenderStepped:Connect(function()
+for i,v in pairs(game:GetService("ReplicatedStorage").GetPlayerData:InvokeServer()) do
+    if v.Role == "Murderer" then
+         getgenv().Murder = i -- Murder
+    end
 end
-if v.Backpack:FindFirstChild('Gun') then
-v = Sheriff
+for i,v in pairs(game:GetService("ReplicatedStorage").GetPlayerData:InvokeServer()) do
+    if v.Role == "Sheriff" then
+         getgenv().Sheriff = i -- Sheriff
+    end
 end
-end
-return Sheriff
-end
-
-function getMurder()
-for i, v in pairs(game.Players:GetChildren()) do
-if v.Character:FindFirstChild('Knife') then
-Murder = v
-break
-end
-if v.Backpack:FindFirstChild('Knife') then
-v = Murder
-break
-end
-end
-return Murder
-end
+     end)
 end)
-end)
-
-
-function people(model)
-if game:GetService("Players")[model.Name].Backpack:FindFirstChild("Knife") or game.Workspace[model.Name]:FindFirstChild("Knife") then return  Murder.Name end
-if game:GetService("Players")[model.Name].Backpack:FindFirstChild("Gun") or game:GetService("Players")[model.Name].Backpack:FindFirstChild("Revolver") or game.Workspace[model.Name]:FindFirstChild("Revolver") or game.Workspace[model.Name]:FindFirstChild("Gun") then return CowBoy.Name end
-return Color3.fromRGB(0, 255, 0)
-end
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
-local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
-
-local Tab1 = Window:CreateTab("Mm2")
-local Tab2 = Window:CreateTab("UI Settings")
-
-local Section1 = Tab1:CreateSection("")
-local Section2 = Tab1:CreateSection("")
-local Section3 = Tab2:CreateSection("Menu")
-local Section4 = Tab2:CreateSection("Background")
-
-local Toggle1 = Section1:CreateToggle("AutoFarm", nil, function(State)
-_G.CoinAutoFarmToggle = State
-_G.CoinGodMode = true
-
-local Player = game.Players.LocalPlayer
-local UIS = game:GetService("UserInputService")
-local CoinTarget = nil
-local AutoFarming
-
+Player = game.Players.LocalPlayer
 local accessories = {}
 function GodModeFunc()
 	if Player.Character then
@@ -109,6 +68,31 @@ function GodModeFunc()
 		end)
 	end
 end
+
+function people(model)
+if game:GetService("Players")[model.Name].Backpack:FindFirstChild("Knife") or game.Workspace[model.Name]:FindFirstChild("Knife") then return  Murder.Name end
+if game:GetService("Players")[model.Name].Backpack:FindFirstChild("Gun") or game:GetService("Players")[model.Name].Backpack:FindFirstChild("Revolver") or game.Workspace[model.Name]:FindFirstChild("Revolver") or game.Workspace[model.Name]:FindFirstChild("Gun") then return CowBoy.Name end
+return Color3.fromRGB(0, 255, 0)
+end
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
+local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
+
+local Tab1 = Window:CreateTab("Mm2")
+local Tab2 = Window:CreateTab("UI Settings")
+
+local Section1 = Tab1:CreateSection("")
+local Section2 = Tab1:CreateSection("")
+local Section3 = Tab2:CreateSection("Menu")
+local Section4 = Tab2:CreateSection("Background")
+
+local Toggle1 = Section1:CreateToggle("AutoFarm", nil, function(State)
+_G.CoinAutoFarmToggle = State
+_G.CoinGodMode = true
+
+
+local UIS = game:GetService("UserInputService")
+local CoinTarget = nil
+local AutoFarming
 
 function GetClosestCoin()
 	local TargetDistance = 100
@@ -165,37 +149,29 @@ end)
 end)
 local Toggle1 = Section1:CreateToggle("Auto Invis", nil, function(State)
 sex = State
-local Player = game.Players.LocalPlayer
-local savepos = Player.Character.HumanoidRootPart.CFrame
+local savepos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
 
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-85.1800766, 137.657455, -58.091156)
+
 wait(0.5)
-local Character = game:GetService('Players').LocalPlayer.Character
-local Clone = Character.LowerTorso.Root:Clone()
-Character.LowerTorso.Root:Destroy()
-Clone.Parent = Character.LowerTorso
+local Clone = game:GetService('Players').LocalPlayer.Character.LowerTorso.Root:Clone()
+game:GetService('Players').LocalPlayer.Character.LowerTorso.Root:Destroy()
+Clone.Parent = game:GetService('Players').LocalPlayer.Character.LowerTorso
 wait(0.5)
 
-Player.Character.HumanoidRootPart.CFrame = savepos 
+
 game.Players.LocalPlayer.CharacterAdded:Connect(function()
 wait(3)
 if sex then
-local Player = game.Players.LocalPlayer
-local savepos = Player.Character.HumanoidRootPart.CFrame
-
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-85.1800766, 137.657455, -58.091156)
+repeat wait() until game.Players.LocalPlayer.Character
 wait(0.5)
-local Character = game:GetService('Players').LocalPlayer.Character
-local Clone = Character.LowerTorso.Root:Clone()
-Character.LowerTorso.Root:Destroy()
-Clone.Parent = Character.LowerTorso
+local Clone = game:GetService('Players').LocalPlayer.Character.LowerTorso.Root:Clone()
+game:GetService('Players').LocalPlayer.Character.LowerTorso.Root:Destroy()
+Clone.Parent = game:GetService('Players').LocalPlayer.Character.LowerTorso
 wait(0.5)
 
-Player.Character.HumanoidRootPart.CFrame = savepos 
 end end) end)
 local Button1 = Section1:CreateButton("Lag Server", function()
-    
-game:GetService("ReplicatedStorage").IsXbox:FireServer()
+
 while wait() do -- this method is all thanks to felix 
 game:GetService("ReplicatedStorage").Equip:FireServer("DefaultKnife","Weapons")
 game:GetService("ReplicatedStorage").Equip:FireServer("Xbox","Weapons")
@@ -206,7 +182,9 @@ ESP.Overrides.GetColor = function(model)
     if game:GetService("Players")[model.Name].Backpack:FindFirstChild("Gun") or game:GetService("Players")[model.Name].Backpack:FindFirstChild("Revolver") or game.Workspace[model.Name]:FindFirstChild("Revolver") or game.Workspace[model.Name]:FindFirstChild("Gun") then return Color3.fromRGB(0,0,255) end
     return Color3.fromRGB(0, 255, 0)
 end
-
+local Button1 = Section1:CreateButton("GodMode", function()
+GodModeFunc()
+end)
 local Toggle1 = Section1:CreateToggle("Esp", nil, function(State)
 ESP:Toggle(State)
 ESP.Tracers = State
@@ -218,7 +196,9 @@ FastKnife = State
 
 while FastKnife do wait()
 pcall(function()
-game:GetService("Players").LocalPlayer.Character.Knife.Throw:FireServer(CFrame.new(Vector3.new(game.Players.LocalPlayer:GetMouse().hit.p), Vector3.new(-0, -0, -1)),Vector3.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position))
+game:GetService("Players").LocalPlayer.Character.Knife.Throw:FireServer(1
+,CFrame.new(Vector3.new(game.Players.LocalPlayer:GetMouse().hit.p), Vector3.new(-0, -0, -1))
+,Vector3.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position))
 end) end 
 end)  
 Toggle1:CreateKeybind("E", function(Key)
@@ -246,14 +226,31 @@ end end  end)
 
 local Button1 = Section1:CreateButton("Muder Kill All", function()
 Player = game.Players.LocalPlayer.Character
+repeat wait()
 for i,v in pairs(game.Players:GetPlayers()) do
     if v.Name ~= game.Players.LocalPlayer.Name then
-Player.Knife.Throw:FireServer(CFrame.new(v.Character.Head.Position), v.Character.Head.Position - Vector3.new(0,1, 0))
-Player.Knife.Throw:FireServer(CFrame.new(v.Character.Head.Position), v.Character.Head.Position - Vector3.new(0,1, 0))
-Player.Knife.Throw:FireServer(CFrame.new(v.Character.Head.Position), v.Character.Head.Position - Vector3.new(0,1, 0))
-end end end) 
+Player.Knife.Throw:FireServer(CFrame.new(v.Character.UpperTorso.Position), v.Character.UpperTorso.Position)
+Player.Knife.Throw:FireServer(CFrame.new(v.Character.UpperTorso.Position), v.Character.UpperTorso.Position)
+Player.Knife.Throw:FireServer(CFrame.new(v.Character.UpperTorso.Position), v.Character.UpperTorso.Position)
+end end  
+until game.Players[getgenv().Murder]:FindFirstChild("Knife")
+end) 
 
+-- Script generated by SimpleSpy - credits to exx#9394
+local Button1 = Section1:CreateButton("Blurt roles", function()
+local args = {
+    [1] = "The Murder Is".. getgenv().Murder ,
+    [2] = "normalchat"
+}
 
+game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+local args = {
+    [1] = "The Sheriff Is".. getgenv().Sheriff ,
+    [2] = "normalchat"
+}
+
+game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+end)
 local Button1 = Section1:CreateButton("Floss", function()
 game:GetService("ReplicatedStorage").PlayEmote:Fire("floss")
 end)
@@ -493,6 +490,9 @@ Toggle3:SetState(true)
 Section3:CreateLabel("Credits DekuDimz#7960")
 Section3:CreateLabel("Credits AlexR32#3232 Ui")
 Section3:CreateLabel("Credits Doggo")
+Section3:CreateLabel("Credits FeIix#0210")
+Section3:CreateLabel("Credits Kiriot22")
+
 local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
 	Window:ChangeColor(Color)
 end)
