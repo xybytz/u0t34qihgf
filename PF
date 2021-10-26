@@ -1,1 +1,5 @@
-game.Players.LocalPlayer:Kick("This game isn't supported anymore due to DekuDimz not liking this game fps goes down too much is annoying")
+
+messagebox("This game is no longer supported", "V.G Hub", 0x10)
+wait(0.5)
+while true do
+end
