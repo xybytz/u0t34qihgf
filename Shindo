@@ -14,33 +14,38 @@ OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
     end
     return OldNameCall(A, B, ...)
 end)
+game:GetService("RunService").Stepped:connect(function()
+        pcall(function()
+                for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+                    if v:IsA("BillboardGui") then
+                        v:remove()
+                    end
+                end
+            end
+        )
+        pcall(
+            function()
+                sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+            end
+        )
+        if game:GetService("Workspace"):FindFirstChild("CCoff") then
+            game:GetService("Workspace").CCoff:Destroy()
+        end
+        if game:GetService("Workspace"):FindFirstChild("custo") then
+            game:GetService("Workspace").custo:Destroy()
+        end
+        if game:GetService("Workspace"):FindFirstChild("custo") then
+            game:GetService("Workspace").custo:Destroy()
+        end
+        if game:GetService("Workspace"):FindFirstChild("conquer") then
+            game:GetService("Workspace").conquer:remove()
+        end
+        if game:GetService("Workspace").GLOBALTIME:FindFirstChild("narutoshadowclone") then
+            game:GetService("Workspace").GLOBALTIME.narutoshadowclone:remove()
+        end
+    end
+)
 
-game:GetService('RunService').Stepped:connect(function()
-pcall(function()
-for _,v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-if v:IsA("BillboardGui") then
-v:remove()
-end 
-end end)
-pcall(function()
-sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-end) 
-if game:GetService("Workspace"):FindFirstChild("CCoff") then
-game:GetService("Workspace").CCoff:Destroy()
-end 
-if game:GetService("Workspace"):FindFirstChild("custo") then
-game:GetService("Workspace").custo:Destroy()
-end
-if game:GetService("Workspace"):FindFirstChild("custo") then
-game:GetService("Workspace").custo:Destroy()
-end
-if game:GetService("Workspace"):FindFirstChild("conquer") then
-game:GetService("Workspace").conquer:remove()
-end
-if game:GetService("Workspace").GLOBALTIME:FindFirstChild("narutoshadowclone") then
-game:GetService("Workspace").GLOBALTIME.narutoshadowclone:remove()
-end
-end)
 
 local player = game.Players.LocalPlayer
 local mission = game.Players.LocalPlayer.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory")
@@ -65,10 +70,9 @@ local Toggle1 = Section1:CreateToggle("AutoFarm Logs", nil, function(State)
 getgenv().AutoFarm = State
 game:GetService('RunService').Stepped:connect(function()
 if getgenv().AutoFarm then
-pcall(function()
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-
-end) end end)
+game.Players.LocalPlayer.Character:WaitForChild("Humanoid:")ChangeState(11)
+end
+end)
 
 while getgenv().AutoFarm do wait()
 pcall(function()
@@ -79,58 +83,68 @@ end)
 end 
 end)
 
-
-spawn(function()
-while wait() and getgenv().Rank do
-if  game.Players.LocalPlayer.statz.lvl:FindFirstChild("lvl").Value == 1000 then
-if game.Players.LocalPlayer.statz.prestige.maxlvlpres.Value >= 1 or game.Players.LocalPlayer.statz.prestige.maxlvlpres.Value == 0
-and game.Players.LocalPlayer.statz.prestige.rank.Value == "Z" and game.Players.LocalPlayer.statz.prestige.number.Value == "3" then
-
-repeat wait()
-game.Players.LocalPlayer.startevent:FireServer("maxlvlpres")
-until game.Players.LocalPlayer.statz.lvl:FindFirstChild("lvl").Value == 1 or not getgenv().Rank
-else
-repeat wait()
-game.Players.LocalPlayer.startevent:FireServer("rankup")
-until game.Players.LocalPlayer.statz.lvl:FindFirstChild("lvl").Value == 1 or not getgenv().Rank
-end
-end
-end
-end)
-
-
 local Toggle1 = Section1:CreateToggle("AutoFarm Mobs", nil, function(State)
 getgenv().AutoMobs = State
-
-while getgenv().AutoMobs do wait()
-pcall(function()
-repeat wait(0.5)
-for i,v in pairs(game:GetService("Workspace").missiongivers:GetDescendants()) do
-if v:FindFirstChild("Head") and v.Head:FindFirstChild("givemission")
-and v.Head.givemission.Enabled and
-v.Head.givemission:FindFirstChild("color").Image == "http://www.roblox.com/asset/?id=5459241648" then
-pcall(function()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,0,3)
-v:FindFirstChild("CLIENTTALK"):FireServer()
-v:FindFirstChild("CLIENTTALK"):FireServer("accept")
-end)
-end end 
-until getgenv().AutoMobs == false or mission.Visible == true
-
-repeat wait(0.5)
-
-for i,v in pairs(game:GetService("Workspace").npc:GetDescendants()) do
-if v.ClassName == "Model" and v:FindFirstChild("npctype") and string.find(v.Name, "npc") and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Head.CFrame.Y > -1000 then
-pcall(function()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,0,3) wait()
-game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1",true)
-game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1",false)
-v.Humanoid.Health = 0
-end)
-end end 
-until getgenv().AutoMobs == false or mission.Visible == false and v.Humanoid.Health == 0 and v
-end)
-end 
+game:GetService("RunService").Stepped:connect(
+    function()
+        if getgenv().AutoMobs then
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid")
+            ChangeState(11)
+        end
+    end
+)
+while getgenv().AutoMobs do
+    wait()
+    pcall(function()
+            repeat
+                wait(0.5)
+                for i, v in pairs(game:GetService("Workspace").missiongivers:GetDescendants()) do
+                    if v:FindFirstChild("Head") and v.Head:FindFirstChild("givemission") and v.Head.givemission.Enabled and
+                            v.Head.givemission:FindFirstChild("color").Image ==
+                                "http://www.roblox.com/asset/?id=5459241648"
+                     then
+                        pcall(function()
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                    v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
+                                v:FindFirstChild("CLIENTTALK"):FireServer()
+                                v:FindFirstChild("CLIENTTALK"):FireServer("accept")
+                            end
+                        )
+                    end
+                end
+            until getgenv().AutoMobs == false or mission.Visible == true
+            repeat
+                wait()
+                for i, v in pairs(game:GetService("Workspace").npc:GetDescendants()) do
+                    if
+                        v.ClassName == "Model" and v:FindFirstChild("npctype") and string.find(v.Name, "npc") and
+                            v:FindFirstChild("HumanoidRootPart") and
+                            v:FindFirstChild("Humanoid") and
+                            v.Head.CFrame.Y > -1000
+                     then
+                        pcall(function()
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                    v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
+                                wait()
+                                for i=1,50 do wait()
+                                game:GetService("Players").LocalPlayer.Character.combat.update:FireServer(
+                                    "mouse1",
+                                    true
+                                )
+                                game:GetService("Players").LocalPlayer.Character.combat.update:FireServer(
+                                    "mouse1",
+                                    false
+                                )
+                                end
+                                v.Humanoid.Health = 0
+                            end
+                        )
+                    end
+                end
+            until getgenv().AutoMobs == false or mission.Visible == false and v.Humanoid.Health == 0 and v
+        end
+    )
+end
 end)
 
 
@@ -143,19 +157,24 @@ end)
 local Toggle1 = Section1:CreateToggle("AutoRank", nil, function(State)
 getgenv().Rank = State
 while wait() and getgenv().Rank do
-if  game.Players.LocalPlayer.statz.lvl:FindFirstChild("lvl").Value == 1000 then
-if game.Players.LocalPlayer.statz.prestige.maxlvlpres.Value >= 1 or game.Players.LocalPlayer.statz.prestige.maxlvlpres.Value == 0
-and game.Players.LocalPlayer.statz.prestige.rank.Value == "Z" and game.Players.LocalPlayer.statz.prestige.number.Value == "3" then
-
-repeat wait(0.5)
-game.Players.LocalPlayer.startevent:FireServer("maxlvlpres")
-until game.Players.LocalPlayer.statz.lvl:FindFirstChild("lvl").Value == 1 or not getgenv().Rank
-else
-repeat wait(0.5)
-game.Players.LocalPlayer.startevent:FireServer("rankup")
-until game.Players.LocalPlayer.statz.lvl:FindFirstChild("lvl").Value == 1 or not getgenv().Rank
-end
-end
+    if game.Players.LocalPlayer.statz.lvl:FindFirstChild("lvl").Value == 1000 then
+        if
+            game.Players.LocalPlayer.statz.prestige.maxlvlpres.Value >= 1 or
+                game.Players.LocalPlayer.statz.prestige.maxlvlpres.Value == 0 and
+                    game.Players.LocalPlayer.statz.prestige.rank.Value == "Z" and
+                    game.Players.LocalPlayer.statz.prestige.number.Value == "3"
+         then
+            repeat
+                wait(0.5)
+                game.Players.LocalPlayer.startevent:FireServer("maxlvlpres")
+            until game.Players.LocalPlayer.statz.lvl:FindFirstChild("lvl").Value == 1 or not getgenv().Rank
+        else
+            repeat
+                wait(0.5)
+                game.Players.LocalPlayer.startevent:FireServer("rankup")
+            until game.Players.LocalPlayer.statz.lvl:FindFirstChild("lvl").Value == 1 or not getgenv().Rank
+        end
+    end
 end
 end)
 
@@ -164,170 +183,244 @@ game.StarterGui:SetCore("SendNotification", {
 Title = "Error",
 Text = "Rewrite needed"
 }) 
-
 end)
 
 local Toggle1 = Section1:CreateToggle("AutoWar", nil, function(State)
 getgenv().War = State
-while getgenv().War do wait(0.5)
-pcall(function()
-for i,v in pairs(workspace.npc:GetChildren()) do
-if v.ClassName == "Model" and v:FindFirstChild("npc") and string.find(v.Name, "npc") and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Head.CFrame.Y > -1000 and not v:FindFirstChild("megaboss") then
-
-for i=1,50 do wait()
-game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1",true)
-game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1",false)
-end 
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,0,3)
-v.Humanoid.Health = 0 
-elseif v.ClassName == "Model" and v:FindFirstChild("npc") and string.find(v.Name, "npc") and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Head.CFrame.Y > -1000 and v:FindFirstChild("megaboss") then
-wait(6)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,0,3)
-v.Humanoid.Health = 0 end end 
-end) end 
+while getgenv().War do
+    wait(0.5)
+    pcall(
+        function()
+            for i, v in pairs(workspace.npc:GetChildren()) do
+                if
+                    v.ClassName == "Model" and v:FindFirstChild("npc") and string.find(v.Name, "npc") and
+                        v:FindFirstChild("HumanoidRootPart") and
+                        v:FindFirstChild("Humanoid") and
+                        v.Head.CFrame.Y > -1000 and
+                        not v:FindFirstChild("megaboss")
+                 then
+                    for i = 1, 50 do
+                        wait()
+                        game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", true)
+                        game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", false)
+                    end
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                        v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
+                    v.Humanoid.Health = 0
+                elseif
+                    v.ClassName == "Model" and v:FindFirstChild("npc") and string.find(v.Name, "npc") and
+                        v:FindFirstChild("HumanoidRootPart") and
+                        v:FindFirstChild("Humanoid") and
+                        v.Head.CFrame.Y > -1000 and
+                        v:FindFirstChild("megaboss")
+                 then
+                    wait(6)
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                        v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
+                    v.Humanoid.Health = 0
+                end
+            end
+        end
+    )
+end
 end)
+
 local Toggle1 = Section1:CreateToggle("ScrollFarm", nil, function(State)
 getgenv().Scroll = State
-while getgenv().Scroll do wait()
-pcall(function()
-for i,v in pairs(game.workspace.GLOBALTIME:GetChildren()) do
-if v.ClassName == "Model" and v:FindFirstChild("sh") and v.sh.Position.Y > -1000 and v.sh.Position.Y < 2000 then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.sh.CFrame
-fireclickdetector(v.sh.ClickDetector)
-end end 
-for i,v in pairs(game.workspace:GetChildren()) do
-if v.ClassName == "Model" and v:FindFirstChild("sh") and v.sh.Position.Y > -1000 and v.sh.Position.Y < 2000 then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.sh.CFrame
-fireclickdetector(v.sh.ClickDetector)
-end end 
+while getgenv().Scroll do
+    wait()
+    pcall(
+        function()
+            for i, v in pairs(game.workspace.GLOBALTIME:GetChildren()) do
+                if
+                    v.ClassName == "Model" and v:FindFirstChild("sh") and v.sh.Position.Y > -1000 and
+                        v.sh.Position.Y < 2000
+                 then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.sh.CFrame
+                    fireclickdetector(v.sh.ClickDetector)
+                end
+            end
+            for i, v in pairs(game.workspace:GetChildren()) do
+                if
+                    v.ClassName == "Model" and v:FindFirstChild("sh") and v.sh.Position.Y > -1000 and
+                        v.sh.Position.Y < 2000
+                 then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.sh.CFrame
+                    fireclickdetector(v.sh.ClickDetector)
+                end
+            end
+        end
+    )
+end
 end)
-end 
-end)
+
 local Toggle1 = Section1:CreateToggle("Auto Upgrade Health", nil, function(State)
-woo = State
-while woo do wait()
-game:GetService("Players").LocalPlayer.startevent:FireServer("addstat","health",5)
-end end)
+while woo3 do
+    wait()
+    game:GetService("Players").LocalPlayer.startevent:FireServer("addstat", "health", 5)
+end
+end)
 
 local Toggle1 = Section1:CreateToggle("Auto Upgrade Ninjutsu", nil, function(State)
-woo = State
-while woo do wait()
-game:GetService("Players").LocalPlayer.startevent:FireServer("addstat","ninjutsu",5)
-end end)
+woo2 = State
+while woo2 do
+    wait()
+    game:GetService("Players").LocalPlayer.startevent:FireServer("addstat", "ninjutsu", 5)
+end
+end)
 
 
 local Toggle1 = Section1:CreateToggle("Auto Upgrade Taijutsu", nil, function(State)
-woo = State
-while woo do wait()
-game:GetService("Players").LocalPlayer.startevent:FireServer("addstat","taijutsu",5)
-end end)
+woo1 = State
+while woo1 do
+    wait()
+    game:GetService("Players").LocalPlayer.startevent:FireServer("addstat", "taijutsu", 5)
+end
+end)
 
 local Toggle1 = Section1:CreateToggle("Auto Upgrade Health", nil, function(State)
 woo = State
-while woo do wait()
-game:GetService("Players").LocalPlayer.startevent:FireServer("addstat","chakra",5)
-end end)
+while woo do
+    wait()
+    game:GetService("Players").LocalPlayer.startevent:FireServer("addstat", "chakra", 5)
+end
+end)
 
 end -- where it stops
-
 
 if game.PlaceId == 4616652839 then
 
 local Toggle1 = Section1:CreateToggle("Auto Element Slot 1", nil, function(State)
 karma = State
-while karma do wait()
-game:GetService("Players").LocalPlayer.startevent:FireServer("spin","element1")
-game.StarterGui:SetCore("SendNotification", {
-Title = "Element1",
-Text = 'Current Element1 is '..game:GetService("Players").LocalPlayer.statz.main.element1.Value,
-		}) wait(5)
+while karma do
+    wait()
+    game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "element1")
+    game.StarterGui:SetCore(
+        "SendNotification",
+        {
+            Title = "Element1",
+            Text = "Current Element1 is " .. game:GetService("Players").LocalPlayer.statz.main.element1.Value
+        }
+    )
+    wait(5)
 end
-
 end)
 
 local Toggle1 = Section1:CreateToggle("Auto Element Slot 2", nil, function(State)
 karma1 = State
-while karma1 do wait()
-game:GetService("Players").LocalPlayer.startevent:FireServer("spin","element2")
+while karma1 do
+    wait()
+    game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "element2")
 
-game.StarterGui:SetCore("SendNotification", {
-Title = "Element2",
-Text = 'Current Element2 is '..game:GetService("Players").LocalPlayer.statz.main.element2.Value,
-		}) wait(5)
-
-end end)
+    game.StarterGui:SetCore(
+        "SendNotification",
+        {
+            Title = "Element2",
+            Text = "Current Element2 is " .. game:GetService("Players").LocalPlayer.statz.main.element2.Value
+        }
+    )
+    wait(5)
+end
+end)
 
 local Toggle1 = Section1:CreateToggle("Auto Element Slot 3", nil, function(State)
 karma2 = State
-while karma2 do wait()
-game:GetService("Players").LocalPlayer.startevent:FireServer("spin","element3")
-game.StarterGui:SetCore("SendNotification", {
-Title = "Element3",
-Text = 'Current Element3 is '..game:GetService("Players").LocalPlayer.statz.main.element3.Value,
-		}) wait(5)
-end end)
+while karma2 do
+    wait()
+    game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "element3")
+    game.StarterGui:SetCore(
+        "SendNotification",
+        {
+            Title = "Element3",
+            Text = "Current Element3 is " .. game:GetService("Players").LocalPlayer.statz.main.element3.Value
+        }
+    )
+    wait(5)
+end
+end)
 
 local Toggle1 = Section1:CreateToggle("Auto Element Slot 4", nil, function(State)
 karma4 = State
-while karma4 do wait()
-game:GetService("Players").LocalPlayer.startevent:FireServer("spin","element4")
-game.StarterGui:SetCore("SendNotification", {
-Title = "Element4",
-Text = 'Current Element4 is '..game:GetService("Players").LocalPlayer.statz.main.element4.Value,
-		}) wait(5)
-
-
-end end)
+while karma4 do
+    wait()
+    game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "element4")
+    game.StarterGui:SetCore(
+        "SendNotification",
+        {
+            Title = "Element4",
+            Text = "Current Element4 is " .. game:GetService("Players").LocalPlayer.statz.main.element4.Value
+        }
+    )
+    wait(5)
+end
+end)
 
 
 local Toggle1 = Section1:CreateToggle("Auto BloodLine Slot 1", nil, function(State)
 blood = State
-while blood do wait()
-game:GetService("Players").LocalPlayer.startevent:FireServer("spin","kg1")
-game.StarterGui:SetCore("SendNotification", {
-Title = "BloodLine1",
-Text = 'Current BloodLine1 is '..game:GetService("Players").LocalPlayer.statz.main.kg1.Value,
-		}) wait(5)
-
-end 
+while blood do
+    wait()
+    game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "kg1")
+    game.StarterGui:SetCore(
+        "SendNotification",
+        {
+            Title = "BloodLine1",
+            Text = "Current BloodLine1 is " .. game:GetService("Players").LocalPlayer.statz.main.kg1.Value
+        }
+    )
+    wait(5)
+end
 end)
 
 local Toggle1 = Section1:CreateToggle("Auto BloodLine Slot 2", nil, function(State)
 blood1 = State
-while blood1 do wait()
+while blood1 do
+    wait()
 
-game:GetService("Players").LocalPlayer.startevent:FireServer("spin","kg2")
-game.StarterGui:SetCore("SendNotification", {
-Title = "BloodLine2",
-Text = 'Current BloodLine2 is '..game:GetService("Players").LocalPlayer.statz.main.kg2.Value,
-		}) wait(5)
-end 
+    game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "kg2")
+    game.StarterGui:SetCore(
+        "SendNotification",
+        {
+            Title = "BloodLine2",
+            Text = "Current BloodLine2 is " .. game:GetService("Players").LocalPlayer.statz.main.kg2.Value
+        }
+    )
+    wait(5)
+end
 end)
 
 local Toggle1 = Section1:CreateToggle("Auto BloodLine Slot 3", nil, function(State)
 blood2 = State
-while blood2 do wait()
-game:GetService("Players").LocalPlayer.startevent:FireServer("spin","kg3")
-game.StarterGui:SetCore("SendNotification", {
-Title = "BloodLine3",
-Text = 'Current BloodLine3 is '..game:GetService("Players").LocalPlayer.statz.main.kg3.Value,
-		}) wait(5)
-end 
+while blood2 do
+    wait()
+    game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "kg3")
+    game.StarterGui:SetCore(
+        "SendNotification",
+        {
+            Title = "BloodLine3",
+            Text = "Current BloodLine3 is " .. game:GetService("Players").LocalPlayer.statz.main.kg3.Value
+        }
+    )
+    wait(5)
+end
 end)
 
 local Toggle1 = Section1:CreateToggle("Auto BloodLine Slot 4", nil, function(State)
 blood3 = State
-while blood3 do wait()
-game:GetService("Players").LocalPlayer.startevent:FireServer("spin","kg4")
-game.StarterGui:SetCore("SendNotification", {
-Title = "BloodLine4",
-Text = 'Current BloodLine4 is '..game:GetService("Players").LocalPlayer.statz.main.kg4.Value,
-		}) wait(5)
-end 
+while blood3 do
+    wait()
+    game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "kg4")
+    game.StarterGui:SetCore(
+        "SendNotification",
+        {
+            Title = "BloodLine4",
+            Text = "Current BloodLine4 is " .. game:GetService("Players").LocalPlayer.statz.main.kg4.Value
+        }
+    )
+    wait(5)
+end
 end)
 end -- where it stops
-
-
 
 local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
