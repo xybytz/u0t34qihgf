@@ -168,17 +168,40 @@ Text = "Rewrite needed"
 end)
 
 local Toggle1 = Section1:CreateToggle("AutoWar", nil, function(State)
-game.StarterGui:SetCore("SendNotification", {
-Title = "Error",
-Text = "Rewrite needed"
-}) 
+getgenv().War = State
+while getgenv().War do wait(0.5)
+pcall(function()
+for i,v in pairs(workspace.npc:GetChildren()) do
+if v.ClassName == "Model" and v:FindFirstChild("npc") and string.find(v.Name, "npc") and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Head.CFrame.Y > -1000 and not v:FindFirstChild("megaboss") then
 
+for i=1,50 do wait()
+game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1",true)
+game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1",false)
+end 
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,0,3)
+v.Humanoid.Health = 0 
+elseif v.ClassName == "Model" and v:FindFirstChild("npc") and string.find(v.Name, "npc") and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Head.CFrame.Y > -1000 and v:FindFirstChild("megaboss") then
+wait(6)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,0,3)
+v.Humanoid.Health = 0 end end 
+end) end 
 end)
 local Toggle1 = Section1:CreateToggle("ScrollFarm", nil, function(State)
-game.StarterGui:SetCore("SendNotification", {
-Title = "Error",
-Text = "Rewrite needed"
-}) 
+getgenv().Scroll = State
+while getgenv().Scroll do wait()
+pcall(function()
+for i,v in pairs(game.workspace.GLOBALTIME:GetChildren()) do
+if v.ClassName == "Model" and v:FindFirstChild("sh") and v.sh.Position.Y > -1000 and v.sh.Position.Y < 2000 then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.sh.CFrame
+fireclickdetector(v.sh.ClickDetector)
+end end 
+for i,v in pairs(game.workspace:GetChildren()) do
+if v.ClassName == "Model" and v:FindFirstChild("sh") and v.sh.Position.Y > -1000 and v.sh.Position.Y < 2000 then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.sh.CFrame
+fireclickdetector(v.sh.ClickDetector)
+end end 
+end)
+end 
 end)
 local Toggle1 = Section1:CreateToggle("Auto Upgrade Health", nil, function(State)
 woo = State
@@ -601,3 +624,4 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
