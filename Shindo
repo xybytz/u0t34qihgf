@@ -49,7 +49,6 @@ game:GetService("RunService").Stepped:connect(function()
 
 local player = game.Players.LocalPlayer
 local mission = game.Players.LocalPlayer.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory")
-
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 local Tab1 = Window:CreateTab("")
@@ -115,8 +114,7 @@ while getgenv().AutoMobs do
             repeat
                 wait()
                 for i, v in pairs(game:GetService("Workspace").npc:GetDescendants()) do
-                    if
-                        v.ClassName == "Model" and v:FindFirstChild("npctype") and string.find(v.Name, "npc") and
+                         if v.ClassName == "Model" and v:FindFirstChild("npctype") and string.find(v.Name, "npc") and
                             v:FindFirstChild("HumanoidRootPart") and
                             v:FindFirstChild("Humanoid") and
                             v.Head.CFrame.Y > -1000
@@ -135,6 +133,9 @@ while getgenv().AutoMobs do
                                     false
                                 )
                                 end
+                                if v:FindFirstChild("antiexploit") then
+                                v.antiexploit:remove()
+                                end 
                                 v.Humanoid.Health = 0
                             end
                         )
@@ -252,6 +253,7 @@ end
 end)
 
 local Toggle1 = Section1:CreateToggle("Auto Upgrade Health", nil, function(State)
+woo3 = State
 while woo3 do
     wait()
     game:GetService("Players").LocalPlayer.startevent:FireServer("addstat", "health", 5)
