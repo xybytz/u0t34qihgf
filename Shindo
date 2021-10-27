@@ -88,8 +88,7 @@ getgenv().AutoMobs = State
 game:GetService("RunService").Stepped:connect(
     function()
         if getgenv().AutoMobs then
-            game.Players.LocalPlayer.Character:WaitForChild("Humanoid")
-            ChangeState(11)
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
         end
     end
 )
