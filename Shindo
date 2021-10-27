@@ -146,13 +146,11 @@ while getgenv().AutoMobs do
 end
 end)
 
-
+if setclipboard then
 local Toggle1 = Section1:CreateToggle("Vip Servers", nil, function(State)
-game.StarterGui:SetCore("SendNotification", {
-Title = "Error",
-Text = "Need vip servers"
-}) 
+setclipboard("-E0BJK 0Skr9C 1Isuub 2tgOb8 2vy3Dn 7rTU-A 7v09lz 8CGAZH BcBuAN CI98Au Do2o8A JFDOST KFXSrq QeR2eN Qratoy RRu4E7 Rjb0rQ SbFkZm TVDDoU WY4chE _5_oXy cJ7LIe cdv9R4 dBNARC dG5Y-3 fLe-Az hnI8qv nWv2xH puv68h sCCXqk tkqyBR v5-9u3 w1wF1v zfU90r")
 end)
+end
 local Toggle1 = Section1:CreateToggle("AutoRank", nil, function(State)
 getgenv().Rank = State
 while wait() and getgenv().Rank do
@@ -439,21 +437,26 @@ end) end)
 local Toggle1 = Section2:CreateToggle("G Noclip", nil, function(State)
 sex = State
 noclip = false
-game:GetService('RunService').Stepped:connect(function()
-if noclip then
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-end
-end)
-plr = game.Players.LocalPlayer
-mouse = plr:GetMouse()
-mouse.KeyDown:connect(function(key)
+game:GetService("RunService").Stepped:connect(
+    function()
+        if noclip then
+            game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+        end
+    end
+)
 
-if key == "g" then
-if sex then
-noclip = not noclip
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-end end 
-end) end)
+mouse = game.Players.LocalPlayer:GetMouse()
+game.Players.LocalPlayer:GetMouse().KeyDown:connect(
+    function(v)
+        if v == "g" then
+            if sex then
+                noclip = not noclip
+                game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+            end
+        end
+    end
+)
+end)
 
 local Toggle1 = Section2:CreateToggle("B Fly", nil, function(State)
 sex2 = State
@@ -563,30 +566,41 @@ end
 end)
 end)
 local Button1 = Section2:CreateButton("Anti Lag", function()
-for _,v in pairs(game:GetService("Workspace"):GetDescendants()) do
-if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then --- i stole this from the actual game LOL >-<
-v.Material = Enum.Material.SmoothPlastic;
-if v:IsA("Texture") then
-v:Destroy();
-end end;		
-end;
+for _, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+    if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then --- i stole this from the actual game LOL >-<
+        v.Material = Enum.Material.SmoothPlastic
+        if v:IsA("Texture") then
+            v:Destroy()
+        end
+    end
+end
 end)
 
 local Button1 = Section2:CreateButton("Teleport to RandomPlayer", function()
-local randomPlayer = game.Players:GetPlayers()
-[math.random(1,#game.Players:GetPlayers())]
+local randomPlayer = game.Players:GetPlayers()[math.random(1, #game.Players:GetPlayers())]
 
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(randomPlayer.Character.Head.Position.X, randomPlayer.Character.Head.Position.Y, randomPlayer.Character.Head.Position.Z)) end)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+    CFrame.new(
+    Vector3.new(
+        randomPlayer.Character.Head.Position.X,
+        randomPlayer.Character.Head.Position.Y,
+        randomPlayer.Character.Head.Position.Z
+    )
+)
+end)
 local Button1 = Section2:CreateButton("Lag Switch F3", function()
-local a = false
-local b = settings()
+local ass = false
+local back = settings()
 
-game:service'UserInputService'.InputEnded:connect(function(i)
-if i.KeyCode == Enum.KeyCode.F3 then
-a = not a
-b.Network.IncomingReplicationLag = a and 10 or 0
-end
-end) end) 
+game:service "UserInputService".InputEnded:connect(
+    function(i)
+        if i.KeyCode == Enum.KeyCode.F3 then
+            ass = not ass
+            back.Network.IncomingReplicationLag = ass and 10 or 0
+        end
+    end
+)
+end) 
 local Button1 = Section2:CreateButton("ServerHop", function()
 local PlaceID = game.PlaceId
 local AllIDs = {}
@@ -716,4 +730,3 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
