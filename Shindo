@@ -67,19 +67,27 @@ end) end
 if game.PlaceId ~= 4616652839 then
 local Toggle1 = Section1:CreateToggle("AutoFarm Logs", nil, function(State)
 getgenv().AutoFarm = State
-game:GetService('RunService').Stepped:connect(function()
-if getgenv().AutoFarm then
-game.Players.LocalPlayer.Character:WaitForChild("Humanoid:")ChangeState(11)
-end
-end)
+game:GetService("RunService").Stepped:connect(
+    function()
+        if getgenv().AutoFarm then
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid:")
+            ChangeState(11)
+        end
+    end
+)
 
-while getgenv().AutoFarm do wait()
-pcall(function()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").npc.logtraining.HumanoidRootPart.CFrame * CFrame.new(0,-5,0)
-game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1",true)
-game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1",false)
-end)
-end 
+while getgenv().AutoFarm do
+    wait()
+    pcall(
+        function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+            game:GetService("Workspace").npc.logtraining.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0)
+            game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", true)
+            game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", false)
+        end
+    )
+end
+
 end)
 
 local Toggle1 = Section1:CreateToggle("AutoFarm Mobs", nil, function(State)
@@ -177,10 +185,36 @@ end
 end)
 
 local Toggle1 = Section1:CreateToggle("jinfarm", nil, function(State)
-game.StarterGui:SetCore("SendNotification", {
-Title = "Error",
-Text = "Rewrite needed"
-}) 
+getgenv().Jin = State
+
+game:GetService("RunService").Stepped:connect(
+    function()
+        if getgenv().Jin then
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+        end
+    end
+)
+while wait() and getgenv().Jin do
+    for i, v in pairs(game:GetService("Workspace").npc:GetChildren()) do
+        if v.Name == "npc1" then
+            repeat
+                wait(0.2)
+                pcall(
+                    function()
+                        game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
+                            v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 0)
+                        for i = 1, 50 do
+                            wait()
+                            game.Players.LocalPlayer.Character.combat.update:FireServer("mouse1", true)
+                            game.Players.LocalPlayer.Character.combat.update:FireServer("mouse1", false)
+                        end
+                        v.Humanoid.Health = 0
+                    end
+                )
+            until v.Humanoid.Health == 0 or not v or not getgenv().Jin
+        end
+    end
+end
 end)
 
 local Toggle1 = Section1:CreateToggle("AutoWar", nil, function(State)
@@ -732,3 +766,4 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
