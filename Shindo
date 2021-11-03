@@ -14,6 +14,8 @@ OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
     end
     return OldNameCall(A, B, ...)
 end)
+game:GetService("UserInputService").MouseIconEnabled = true
+game:GetService("UserInputService").MouseBehavior = Enum.MouseBehavior.Default
 game:GetService("RunService").Stepped:connect(function()
         pcall(function()
                 for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
@@ -70,7 +72,7 @@ getgenv().AutoFarm = State
 game:GetService("RunService").Stepped:connect(
     function()
         if getgenv().AutoFarm then
-            game.Players.LocalPlayer.Character:WaitForChild("Humanoid:")
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid")
             ChangeState(11)
         end
     end
@@ -349,7 +351,7 @@ while woo1 do
 end
 end)
 
-local Toggle1 = Section1:CreateToggle("Auto Upgrade Health", nil, function(State)
+local Toggle1 = Section1:CreateToggle("Auto Upgrade Chakra", nil, function(State)
 woo = State
 while woo do
     wait()
@@ -493,6 +495,93 @@ end
 end)
 end -- where it stops
 
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress R", nil, function(State)
+getgenv().R = State
+while getgenv().R do
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"R",false,uwu)
+end 
+end)
+
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress T", nil, function(State)
+getgenv().T = State
+while getgenv().T do
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"T",false,uwu)
+end
+end)
+
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress Y", nil, function(State)
+getgenv().Y = State
+while getgenv().Y do
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"Y",false,uwu)
+end 
+end)
+
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress F", nil, function(State)
+getgenv().F = State
+while getgenv().F do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"F",false,uwu)
+end
+end)
+
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress G", nil, function(State)
+getgenv().G = State
+while getgenv().G do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"G",false,uwu)
+end
+end)
+
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress H", nil, function(State)
+getgenv().H = State
+while getgenv().H do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"H",false,uwu)
+end
+end)
+
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress Q", nil, function(State)
+getgenv().Q = State
+while getgenv().Q do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"Q",false,uwu)
+end 
+end)
+
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress E", nil, function(State)
+getgenv().E = State
+while getgenv().E do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"E",false,uwu)
+end 
+end)
+
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress V", nil, function(State)
+getgenv().V = State
+while getgenv().V do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"V",false,uwu)
+end 
+end)
+
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress B", nil, function(State)
+getgenv().B = State
+while getgenv().B do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"B",false,uwu)
+end 
+end)
+
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress N", nil, function(State)
+getgenv().N = State
+while getgenv().N do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"N",false,uwu)
+end 
+end)
 local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
 end)
@@ -532,14 +621,14 @@ game.Players.LocalPlayer:GetMouse().KeyDown:connect(
 )
 end)
 
-local Toggle1 = Section2:CreateToggle("B Fly", nil, function(State)
+local Toggle1 = Section2:CreateToggle("O Fly", nil, function(State)
 sex2 = State
 local Max = 0
 local Players = game.Players
 local LP = Players.LocalPlayer
 local Mouse = LP:GetMouse()
 Mouse.KeyDown:connect(function(k)
-if k:lower() == 'b' then
+if k:lower() == 'o' then
 Max = Max + 1
 getgenv().Fly = false
 if sex2 then
@@ -804,4 +893,3 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
