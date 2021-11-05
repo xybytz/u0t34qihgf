@@ -117,6 +117,14 @@ game.Players.LocalPlayer.CharacterAdded:Connect(
 )
 end)
 
+local Toggle1 = Section1:CreateToggle("Water GodMode", nil, function(State)
+getgenv().Water = State 
+game:GetService('RunService').Stepped:connect(function()
+pcall(function()
+if getgenv().Water and game.Players.LocalPlayer.Character:FindFirstChild("WaterDetector")  then
+game.Players.LocalPlayer.Character.WaterDetector:remove()
+end end) end) end)
+
 
 local Toggle1 = Section1:CreateToggle("Auto Common Chests", nil, function(State)
 getgenv().Common = State
@@ -460,7 +468,7 @@ end)
 Toggle3:SetState(true)
 Section3:CreateLabel("Credits DekuDimz#7960")
 Section3:CreateLabel("Credits AlexR32#3232 Ui")
-Section3:CreateLabel("Credits The3Bakers")
+Section3:CreateLabel("Credits Hazed")
 local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
 	Window:ChangeColor(Color)
 end)
@@ -504,4 +512,5 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
 
