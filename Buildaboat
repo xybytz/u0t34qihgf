@@ -36,42 +36,6 @@ function ToxmodsisHOT()
     )
     tween:Play()
 end
-local function bodyvel(Part, Speed, Destination, Extra, waittime)
-    local Speed = Speed or 1
-    local Part = Part or nil
-    local Destination = Destination
-    local waittime = waittime or 0
-    local NewBodyVel = Instance.new("BodyVelocity")
-    NewBodyVel.Parent = Part
-    if typeof(Destination) == "Instance" then
-        NewBodyVel.Velocity = (Destination.position - Part.position).Unit * Speed
-        if Extra then
-            NewBodyVel.MaxForce = Vector3.new(Extra, Extra, Extra)
-            NewBodyVel.P = Extra
-        end
-        repeat
-            wait()
-            NewBodyVel.Velocity = (Destination.position - Part.position).Unit * Speed
-        until (Destination.position - Part.position).Magnitude < 5
-        NewBodyVel.Velocity = Vector3.new(0, 0, 0)
-        wait(waittime)
-        NewBodyVel:Destroy()
-    else
-        NewBodyVel.Velocity = (Destination - Part.position).Unit * Speed
-        if Extra then
-            NewBodyVel.MaxForce = Vector3.new(Extra, Extra, Extra)
-            NewBodyVel.P = Extra
-        end
-        repeat
-            wait()
-            NewBodyVel.Velocity = (Destination - Part.position).Unit * Speed
-        until (Destination - Part.position).Magnitude < 5
-        NewBodyVel.Velocity = Vector3.new(0, 0, 0)
-        wait(waittime)
-        NewBodyVel:Destroy()
-    end
-end
-
 getgenv().Number = 1
 
 
@@ -512,5 +476,3 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
-
