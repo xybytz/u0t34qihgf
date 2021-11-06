@@ -314,8 +314,7 @@ end
 
 local Toggle1 =Section1:CreateToggle("MobFarm", nil, function(State)
 farm = State
-game:GetService("RunService").Stepped:connect(
-    function()
+game:GetService("RunService").Stepped:connect(function()
         if farm then
             for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
                 if v.ClassName == "Part" or v.ClassName == "MeshPart" then
@@ -330,7 +329,7 @@ game:GetService("RunService").Stepped:connect(
     end
 )
 spawn(function()
-while farm do wait()
+game:GetService("RunService").Stepped:connect(function()
                 pcall(
                     function()
                         if farm then
@@ -342,7 +341,7 @@ while farm do wait()
                         end
                     end
                 )
-            end
+            end)
     end
 )
 
@@ -416,7 +415,7 @@ spawn(
 
 spawn(
     function()
-        while farm do wait()
+        game:GetService("RunService").Stepped:connect(function()
               pcall(
                     function()
                         if farm then
@@ -432,7 +431,7 @@ spawn(
                         end
                     end
                 )
-        end
+        end)
     end
 )
 
