@@ -48,6 +48,33 @@ local function bodyvel(Part, Speed, Destination, Extra, waittime)
     end
 end
 
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+--Credits to https://devforum.roblox.com/t/finding-the-closest-player/442618/4
+local function GetClosestt()
+    local Character = LocalPlayer.Character
+    local HumanoidRootPart = Character and Character:FindFirstChild("HumanoidRootPart")
+    if not (Character or HumanoidRootPart) then
+        return
+    end
+
+    local TargetDistance = math.huge
+    local Target
+    for i, v in ipairs(game:GetService("Workspace"):GetChildren()) do
+        if v.Name == "Chest1" or v.Name == "Chest2" or v.Name == "Chest3" then
+            local TargetHRP = v
+            local mag = (HumanoidRootPart.Position - TargetHRP.Position).magnitude
+            if mag < TargetDistance then
+                TargetDistance = mag
+                Target = v
+            end
+        end
+    end
+
+    return Target
+end
+
 local Circle = Drawing.new("Circle")
 Circle.Color =  Color3.fromRGB(22, 13, 56)
 Circle.Thickness = 1
@@ -235,16 +262,8 @@ while getgenv().Money do
     wait()
     pcall(function()
             if getgenv().Money then
-                if game.Workspace:FindFirstChild("Chest3") then
-           bodyvel(game.Players.LocalPlayer.Character.Head, getgenv().Tween, game.Workspace.Chest3.CFrame.p,  math.huge,math.huge,math.huge, 2)
-                end
-                if game.Workspace:FindFirstChild("Chest2") then
-           bodyvel(game.Players.LocalPlayer.Character.Head, getgenv().Tween, game.Workspace.Chest2.CFrame.p,  math.huge,math.huge,math.huge, 2)
-                end
-                if game.Workspace:FindFirstChild("Chest1") then
-           bodyvel(game.Players.LocalPlayer.Character.Head, getgenv().Tween, game.Workspace.Chest1.CFrame.p,  math.huge,math.huge,math.huge, 2)
-                end
-            end
+           bodyvel(game.Players.LocalPlayer.Character.Head, getgenv().Tween, GetClosestt().CFrame.p,  math.huge,math.huge,math.huge, 2)
+        end 
         end
     )
 end
