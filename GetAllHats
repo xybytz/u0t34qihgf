@@ -1,4 +1,3 @@
-
 pcall(function()
 if game.PlaceId == 4201429814 or 2546610365 or 1871632192 or 3204381131 then
     game:GetService("ReplicatedStorage").Events.FinishQuiz:InvokeServer("Lesson1")
@@ -122,3 +121,9 @@ game:GetService("ReplicatedStorage").Store.Remote.PurchaseRequest:FireServer("ha
 game:GetService("ReplicatedStorage").Store.Remote.PurchaseRequest:FireServer("steven_costume",false)
 game:GetService("ReplicatedStorage").Store.Remote.PurchaseRequest:FireServer("will_costume",false)
 end end 
+
+if game.PlaceId == 7619937171 then
+game:GetService("ReplicatedStorage").RemoteEvent:FireServer("CollectItem","Shady Circle Glasses")
+game:GetService("ReplicatedStorage").RemoteEvent:FireServer("CollectItem","Sunshine Backpack")
+game:GetService("ReplicatedStorage").RemoteEvent:FireServer("CollectItem","Tie-Dye Visor")
+end
