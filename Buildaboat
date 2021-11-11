@@ -72,7 +72,7 @@ game.Players.LocalPlayer.CharacterAdded:Connect(
     function()
         repeat
             wait()
-        until game.Players.LocalPlayer:WaitForChild("Character")
+        until game.Players.LocalPlayer.Character
         wait(3)
         if getgenv().Autofarm then
             ToxmodsisHOT()
