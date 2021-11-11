@@ -120,7 +120,7 @@ end)
 
 local Toggle1 = Section1:CreateToggle("FE BELL SPAM", nil, function(State)
 fe = State
-while fe do wait(0.2)
+while fe do wait(0.5)
 if game.SoundService.RespectFilteringEnabled == false then
 for i,v in pairs(game.Workspace:GetDescendants()) do
 if v:IsA("Sound") and v.SoundId == "rbxassetid://412988158" then
@@ -398,7 +398,7 @@ end)
 Toggle3:SetState(true)
 Section3:CreateLabel("Credits DekuDimz#7960")
 Section3:CreateLabel("Credits AlexR32#3232 Ui")
-Section3:CreateLabel("Credits Doggo")
+Section3:CreateLabel("Credits The3Bakers")
 local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
 	Window:ChangeColor(Color)
 end)
