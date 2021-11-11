@@ -118,6 +118,24 @@ local Button1 = Section1:CreateButton("Bomb head", function()
 game:GetService("ReplicatedStorage").Remotes.buyBombHead:InvokeServer()
 end)
 
+local Toggle1 = Section1:CreateToggle("Anti RagDoll", nil, function(State)
+fe = State
+while fe do wait()
+if game.SoundService.RespectFilteringEnabled == false then
+for i,v in pairs(game.Workspace:GetDescendants()) do
+if v:IsA("Sound") and v.SoundId == "rbxassetid://412988158" then
+v:Play()
+end
+end
+end
+end
+
+end)
+local Toggle1 = Section1:CreateToggle("GodMode", nil, function(State)
+ttt = State
+while wait(5) and ttt do
+GodMode()
+end end)
 
 
 local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
@@ -424,4 +442,3 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
