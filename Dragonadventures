@@ -174,81 +174,16 @@ local Section1 = Tab1:CreateSection("AutoFarms")
 local SectionA = Tab1:CreateSection("Misc")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
-if game.PlaceId == 5777228223 then
 
-local Toggle1 = Section1:CreateToggle("AutoCollect Holween Egg", nil, function(State) 
-egg1 = State
-game:GetService('RunService').Stepped:connect(function()
-if egg1 then
-pcall(function()
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
- end) end end)
-while egg1 do wait(1)
-pcall(function()
-for i,v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest.Eggs.ActiveNodes:GetDescendants()) do
-  if v:IsA("MeshPart")  then
-      if not egg1 then
-         break
-         end
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame=v.CFrame *CFrame.new(30,-3,0)
-    wait(1)
-    game.Players.LocalPlayer.Character.Humanoid:MoveTo(v.CFrame.Position)
-    wait(3)
-    game:GetService('VirtualInputManager'):SendKeyEvent(true,"E",false,uwu) 
-      v.Harvested.Value = true
-    v.Harvested.Value = false
-    wait(15)
-  end
-end 
-
-end)
-end end)
-local Toggle1 = Section1:CreateToggle("Auto Collect Candy", nil, function(State)
-pen = State
-game:GetService('RunService').Stepped:connect(function()
-if pen then
-pcall(function()
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
- end) end end)
-while pen do wait()
-
-for i,v in pairs(game:GetService("Workspace").Interactions.HalloweenEvent.TrickOrTreatDoors:GetChildren()) do
-if v.ClassName == "Model" then
-if not pen then
-         break
-         end
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame=v:FindFirstChildOfClass("MeshPart").CFrame *CFrame.new(30,-3,0)
-wait(1)
-game.Players.LocalPlayer.Character.Humanoid:MoveTo(v:FindFirstChildOfClass("MeshPart").CFrame.Position)
-wait(4)
-game:GetService('VirtualInputManager'):SendKeyEvent(true,"E",false,uwu)
-wait(3)
-game:GetService("ReplicatedStorage").Remotes.TrickOrTreatDoorRemote:InvokeServer(v.Name)
-wait(15)
-end end 
-end end) end 
-
-
-if game:GetService("Players").LocalPlayer.Remotes:FindFirstChild("TrickOrTreatRequestRemote") then
-local Toggle1 = Section1:CreateToggle("Spam T OR T everyone", nil, function(State)
-spam = State
-while spam do wait()
-for i,v in pairs(game.Players:GetPlayers()) do
-
-game:GetService("Players").LocalPlayer.Remotes.TrickOrTreatRequestRemote:FireServer("SendRequest",v)
-
-
-end end end)
-end 
 if game.PlaceId == 3475397644 then
 
-for i,v in pairs(game:GetService("Workspace").Plots.Portals:GetChildren()) do
+for i,v in pairs(game:GetService("Workspace").Interactions.Plots.Portals:GetChildren()) do
 if v.Name == "Portal" and v:FindFirstChild("ActivePortal") then
 if v.ActivePortal.DefaultPortalGui.PlayerLabel.Text == game:GetService("Players").LocalPlayer.PlayerGui.WorkspaceGui[game.Players.LocalPlayer.Name.."_DisplayGui"].ContainerFrame.NameLabel.Text then
 firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.TeleportPart, 0) 
 end end end 
 
-repeat wait() until game:GetService("Workspace").Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"]:WaitForChild("Base")
+repeat wait() until game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"]:WaitForChild("Base")
 
 
 ss1={}
@@ -264,7 +199,7 @@ red = State
 while wait() do
 if red then
 spawn(function()
-for i,v in pairs(game:GetService("Workspace").Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].Base.Buildings:GetDescendants()) do
+for i,v in pairs(game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].Base.Buildings:GetDescendants()) do
 if v.ClassName == "Model" and v:FindFirstChild("HarvestRemote") then
 v.HarvestRemote:InvokeServer()
 end end end)
@@ -292,7 +227,7 @@ Incubate = State
 while Incubate do wait()
 
 
-for i,v in pairs(game:GetService("Workspace").Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].Base.Buildings:GetDescendants()) do
+for i,v in pairs(game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].Base.Buildings:GetDescendants()) do
 if v.Name == "Incubator" then 
 v.IncubateRemote:InvokeServer(ss1)
 v.ClaimRemote:InvokeServer()
@@ -310,7 +245,7 @@ end)
 end
 
 local Button1 = Section1:CreateButton("Clear Base", function()
-game:GetService("Workspace").Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].DeleteAllRemote:FireServer()
+game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].DeleteAllRemote:FireServer()
 end)
 local Toggle1 = Section1:CreateToggle("Merchant Auto Sell", nil, function(State)
 sex55 = State
@@ -332,7 +267,7 @@ end end)
 local Toggle1 = Section1:CreateToggle("Alchemy AutoFarm", nil, function(State) 
 doo = State
 while wait() and doo do
-for i,v in pairs(game:GetService("Workspace").Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].Base.Buildings:GetDescendants()) do
+for i,v in pairs(game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].Base.Buildings:GetDescendants()) do
 if v.ClassName == "Model" and v:FindFirstChild("HarvestRemote") then
 v.HarvestRemote:InvokeServer()
 end end 
@@ -351,7 +286,7 @@ local Toggle1 = Section1:CreateToggle("Automatic Apple Plants", nil, function(St
 nij=State    
 while nij do wait()
 if nij then
-for i,v in pairs(game:GetService("Workspace").Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].Base.Buildings:GetDescendants()) do
+for i,v in pairs(game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].Base.Buildings:GetDescendants()) do
 if v.Name == "Plant_Apple" and v.ID then
 game:GetService("Workspace").Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].PlaceBuildingRemote:InvokeServer({["CFrame"] = CFrame.new(Vector3.new(-1955, 3.8000018596649, 4955), Vector3.new(4.3711388286738e-08, -6.9938096203259e-07, 1)),["Index"] = v.ID.Value,["Name"] = "Plant_Apple"})
 end end 
