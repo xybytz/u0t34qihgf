@@ -127,3 +127,8 @@ game:GetService("ReplicatedStorage").RemoteEvent:FireServer("CollectItem","Shady
 game:GetService("ReplicatedStorage").RemoteEvent:FireServer("CollectItem","Sunshine Backpack")
 game:GetService("ReplicatedStorage").RemoteEvent:FireServer("CollectItem","Tie-Dye Visor")
 end
+
+if game.PlaceId == 7462526249 then
+
+game:GetService("ReplicatedStorage").TGSButtonCallbacks_ServerInvoke:FireServer("ClaimFreeItems")
+end
