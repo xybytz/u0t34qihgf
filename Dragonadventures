@@ -158,6 +158,11 @@ for i,v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Food:G
 if v.ClassName == "Tool" then
 table.insert(list,v.Name)
 end end 
+Dragon = {}
+for i,v in pairs(game:GetService("Players").LocalPlayer.Data.Dragons:GetChildren()) do
+if v:FindFirstChild("Age") then
+table.insert(Dragon,v.Value)
+end end 
 
 
 game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
@@ -211,16 +216,6 @@ end
 end
 
 end)
-local Button1 = SectionA:CreateButton("PoppyEvent", function()
-
-for i,v in pairs(game:GetService("Workspace").Interactions.PoppyEvent:GetDescendants()) do
-if v.ClassName == "Model" and v:FindFirstChild("Platform")  then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Interactions.PoppyEvent[v.Name].Platform.Part.CFrame
-wait(1)
-game:GetService("ReplicatedStorage").Remotes.PlayMusicRemote:FireServer(v.Name) wait(1)
-end end
-end)
-
 
 local Toggle1 = Section1:CreateToggle("Auto Incubate Eggs", nil, function(State) 
 Incubate = State
@@ -299,33 +294,44 @@ end
 
 local Toggle1 = Section1:CreateToggle("Autocollect", nil, function(State)
 yes33 = State
-spawn(function()
-game:GetService('RunService').Stepped:connect(function()
-if yes33 then
-pcall(function()
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
- end) end end) end)
-spawn(function()
-while yes33 do wait()
-pcall(function()
-for i,v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest[deku]:GetDescendants()) do
-    if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame=v:FindFirstChildOfClass("MeshPart").CFrame *CFrame.new(30,-3,0)
-    wait(1)
-        game.Players.LocalPlayer.Character.Humanoid:MoveTo(v:FindFirstChildOfClass("MeshPart").CFrame.Position)
-    wait(3)
 
-        game:GetService('VirtualInputManager'):SendKeyEvent(true,"E",false,uwu)
-     
-        wait(19)
-        
+game:GetService("RunService").Stepped:connect(
+    function()
+        if yes33 then
+            pcall(
+                function()
+                    game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+                end
+            )
+        end
     end
-end 
-end)
-    
-    
-end 
-end)
+)
+
+while yes33 do
+    wait()
+    pcall(
+        function()
+            for i, v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest[deku]:GetDescendants()) do
+                if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                        v:FindFirstChildOfClass("MeshPart").CFrame * CFrame.new(40, -3, 0)
+                    wait(1)
+                    game.Players.LocalPlayer.Character.Humanoid:MoveTo(
+                        v:FindFirstChildOfClass("MeshPart").CFrame.Position
+                    )
+                    wait(3)
+                    if not yes33 then
+                        break
+                    end
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+
+                    wait(19)
+                end
+            end
+        end
+    )
+end
+
 end)
 
 
@@ -338,33 +344,41 @@ end)
 end
 local Toggle1 = Section1:CreateToggle("Auto Egg", nil, function(State) 
 egg = State
-while egg do wait(1)
-pcall(function()
-for i,v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest.Eggs.ActiveNodes:GetDescendants()) do
-  if v:IsA("MeshPart")  then
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame=v.CFrame *CFrame.new(30,-3,0)
+while egg do
     wait(1)
-    game.Players.LocalPlayer.Character.Humanoid:MoveTo(v.CFrame.Position)
-    wait(3)
-    game:GetService('VirtualInputManager'):SendKeyEvent(true,"E",false,uwu) 
-      v.Harvested.Value = true
-    v.Harvested.Value = false
-    wait(15)
-  
-  end
-end 
+    pcall(
+        function()
+            for i, v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest.Eggs.ActiveNodes:GetDescendants()) do
+                if v:IsA("MeshPart") then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame * CFrame.new(40, -3, 0)
+                    wait(1)
+                    game.Players.LocalPlayer.Character.Humanoid:MoveTo(v.CFrame.Position)
+                    wait(3)
+                    if not egg then
+                        break
+                    end
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+                    v.Harvested.Value = true
+                    v.Harvested.Value = false
+                   
+                end
+            end
+        end
+    )
+     wait(15)
+end
+game:GetService("Players").LocalPlayer.PlayerGui.NodeGui.BoostFrame.ChildAdded:Connect(
+    function(v)
+        if egg then
+            if v.Name == "Default" and v:FindFirstChild("ClickLabel") then
+                wait()
+                firesignal(v.ClickButton.MouseButton1Down)
+                v:Destroy()
+            end
+        end
+    end
+)
 
-end)
-end 
-game:GetService("Players").LocalPlayer.PlayerGui.NodeGui.BoostFrame.ChildAdded:Connect(function(v)
-if egg then
-if v.Name == "Default" and v:FindFirstChild("ClickLabel") then
-wait()
-firesignal(v.ClickButton.MouseButton1Down)
-v:Destroy()
-end
-end
-end)
 end)
 Toggle1:AddToolTip("Teleports to Eggs")
 
@@ -375,68 +389,107 @@ local Toggle1 = Section1:CreateToggle("Auto Fishing", nil, function(State)
 Fesh = State
 
 if Player.PlayerGui.FishingGui.ContainerFrame.Visible then
-if not Player.Character:FindFirstChild("FishingRod") and not Player.Backpack:FindFirstChild("FishingRod") then
-wait(.1)
-game:GetService('VirtualInputManager'):SendKeyEvent(true,"G",false,uwu)
-elseif Player.Backpack:FindFirstChild("FishingRod") then
-game:GetService('VirtualInputManager'):SendKeyEvent(true,"G",false,uwu)
-game.StarterGui:SetCore("SendNotification", {
-Title = "Auto Fishing",
-Text = "You have to keep the game in focus otherwise it dosent work she added a stuiped check for VirtualInputManager",
-		})
-end
+    if not Player.Character:FindFirstChild("FishingRod") and not Player.Backpack:FindFirstChild("FishingRod") then
+        wait(.1)
+        game:GetService("VirtualInputManager"):SendKeyEvent(true, "G", false, uwu)
+    elseif Player.Backpack:FindFirstChild("FishingRod") then
+        game:GetService("VirtualInputManager"):SendKeyEvent(true, "G", false, uwu)
+        game.StarterGui:SetCore(
+            "SendNotification",
+            {
+                Title = "Auto Fishing",
+                Text = "You have to keep the game in focus otherwise it dosent work she added a stuiped check for VirtualInputManager"
+            }
+        )
+    end
 else
-game.StarterGui:SetCore("SendNotification", {
-Title = "Auto Fishing",
-Text = "Sorry but for this to work i kinda need you to go to where you fish sorry not sorry",
-		})
+    game.StarterGui:SetCore(
+        "SendNotification",
+        {
+            Title = "Auto Fishing",
+            Text = "Sorry but for this to work i kinda need you to go to where you fish sorry not sorry"
+        }
+    )
 end
 
 if not Fesh then
-    
-Player.PlayerGui.FishingGui.ContainerFrame.ButtonsFrame.ReelButton.Size=UDim2.new(1,0,1,0)
+    Player.PlayerGui.FishingGui.ContainerFrame.ButtonsFrame.ReelButton.Size = UDim2.new(1, 0, 1, 0)
 end
-spawn(function()
-while Fesh do wait()
-if Player.PlayerGui.FishingGui.ContainerFrame.Visible then
-pcall(function()
-if not Player.Character:FindFirstChild("FishingRod") and not Player.Backpack:FindFirstChild("FishingRod") then
-wait(.1)
-game:GetService('VirtualInputManager'):SendKeyEvent(true,"G",false,uwu)
-elseif Player.Backpack:FindFirstChild("FishingRod") then
-game:GetService('VirtualInputManager'):SendKeyEvent(true,"G",false,uwu)
-end
-mouse1click()
-wait(3)
-Player.PlayerGui.FishingGui.ContainerFrame.ButtonsFrame.ReelButton.Size=UDim2.new(9e9,9e9,9e9,9e9)
-repeat wait() until Player.Character.FishingRod.Bait.SplashWater.Playing and game:GetService("Players").LocalPlayer.Settings.CurrentFish.Value ~= ""
-wait()
-mouse1click()
-Player.PlayerGui.FishingGui.ContainerFrame.ButtonsFrame.ReelButton.Size=UDim2.new(1,0,1,0)
-repeat
-if Pointer.Position.X.Scale <= SafeBar.Position.X.Scale + .01 then
-mouse1click()
-end
-wait()
-until not Player.PlayerGui.FishingGui.ContainerFrame.ReelingFrame.Visible 
-wait(1)
-end)
-end
-end
-end)
-
+spawn(
+    function()
+        while Fesh do
+            wait()
+            if Player.PlayerGui.FishingGui.ContainerFrame.Visible then
+                pcall(
+                    function()
+                        if
+                            not Player.Character:FindFirstChild("FishingRod") and
+                                not Player.Backpack:FindFirstChild("FishingRod")
+                         then
+                            wait(.1)
+                            game:GetService("VirtualInputManager"):SendKeyEvent(true, "G", false, uwu)
+                        elseif Player.Backpack:FindFirstChild("FishingRod") then
+                            game:GetService("VirtualInputManager"):SendKeyEvent(true, "G", false, uwu)
+                        end
+                        mouse1click()
+                        wait(3)
+                        Player.PlayerGui.FishingGui.ContainerFrame.ButtonsFrame.ReelButton.Size =
+                            UDim2.new(9e9, 9e9, 9e9, 9e9)
+                        repeat
+                            wait()
+                        until Player.Character.FishingRod.Bait.SplashWater.Playing and
+                            game:GetService("Players").LocalPlayer.Settings.CurrentFish.Value ~= ""
+                        wait()
+                        mouse1click()
+                        Player.PlayerGui.FishingGui.ContainerFrame.ButtonsFrame.ReelButton.Size = UDim2.new(1, 0, 1, 0)
+                        repeat
+                            if Pointer.Position.X.Scale <= SafeBar.Position.X.Scale + .01 then
+                                mouse1click()
+                            end
+                            wait()
+                        until not Player.PlayerGui.FishingGui.ContainerFrame.ReelingFrame.Visible
+                        wait(1)
+                    end
+                )
+            end
+        end
+    end
+)
 end) 
 Toggle1:CreateKeybind("F", function(Key)
 end)
 
+local Button1 = Section1:CreateButton("Equip Selected Dragon", function()
+for i,v in pairs(game:GetService("Players").LocalPlayer.Data.Dragons:GetDescendants()) do
+if  v.ClassName == 'StringValue' and  v.Value == Dragon and v:FindFirstChild("Stats") then 
+game:GetService("ReplicatedStorage").Remotes.EquipDragonRemote:InvokeServer(v.Name)
+end end 
+end)
+
+local Dropdown1 = Section1:CreateDropdown("Select Dragon")
+Dropdown1:AddToolTip("Select Dragon")
+for i,v in next,Dragon do
+Dropdown1:AddOption(v, function(String)
+Dragon = String
+end)
+end
+
+
+local Button1 = Section1:CreateButton("UnEquip All Dragons", function()
+for i,v in pairs(game:GetService('Players').LocalPlayer.Character.Dragons:GetDescendants()) do
+if v.ClassName == "Model" and  v:FindFirstChild("ID") then
+game:GetService("ReplicatedStorage").Remotes.UnequipDragonRemote:InvokeServer(v.Name)
+end
+end
+end)
 local Toggle1 = Section1:CreateToggle("Auto Feed Dragon", nil, function(State) 
 pcall(function()
 feed = State
 game:GetService('RunService').Stepped:connect(function()
 if feed then
 for i,v in pairs(game:GetService('Players').LocalPlayer.Character.Dragons:GetDescendants()) do
-if v:FindFirstChild("ID") then
-game:GetService("ReplicatedStorage").Remotes.FeedDragonRemote:InvokeServer(v.ID.Value,{["Amount"] = 1,["ItemName"] = list})
+if v.ClassName == "Model" and  v:FindFirstChild("ID") then
+game:GetService("ReplicatedStorage").Remotes.FeedDragonRemote:InvokeServer(v.Name,{["Amount"] = 1,["ItemName"] = list})
 end
 end
 end
@@ -460,14 +513,9 @@ if not ssyes then
 game:GetService('Players').LocalPlayer.Character.UpperTorso:Destroy()
 end
 end)
-local Label1 = Section1:CreateLabel("")
-local Label1 = Section1:CreateLabel("")
 local Label1 = Section1:CreateLabel("World Teleports")
 local Button1 = Section1:CreateButton("Lobby", function()
 game:GetService("TeleportService"):Teleport(3475397644, LocalPlayer) end)
-
-local Button1 = Section1:CreateButton("Holween Event", function()
-game:GetService("TeleportService"):Teleport(5777228223, LocalPlayer) end)
 
 local Button1 = Section1:CreateButton("Accessory", function()
 game:GetService("TeleportService"):Teleport(5391312853, LocalPlayer) end)
