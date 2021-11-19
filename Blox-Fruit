@@ -12,41 +12,6 @@ end)
 
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 
-local function bodyvel(Part, Speed, Destination, Extra, waittime)
-    local Speed = Speed or 1
-    local Part = Part or nil
-    local Destination = Destination
-    local waittime = waittime or 0
-    local NewBodyVel = Instance.new("BodyVelocity")
-    NewBodyVel.Parent = Part
-    if typeof(Destination) == "Instance" then
-        NewBodyVel.Velocity = (Destination.position - Part.position).Unit * Speed
-        if Extra then
-            NewBodyVel.MaxForce = Vector3.new(Extra, Extra, Extra)
-            NewBodyVel.P = Extra
-        end
-        repeat
-            wait()
-            NewBodyVel.Velocity = (Destination.position - Part.position).Unit * Speed
-        until (Destination.position - Part.position).Magnitude < 5
-        NewBodyVel.Velocity = Vector3.new(0,0,0)
-        wait(waittime)
-        NewBodyVel:Destroy()
-    else
-        NewBodyVel.Velocity = (Destination - Part.position).Unit * Speed
-        if Extra then
-            NewBodyVel.MaxForce = Vector3.new(Extra, Extra, Extra)
-            NewBodyVel.P = Extra
-        end
-        repeat
-            wait()
-            NewBodyVel.Velocity = (Destination - Part.position).Unit * Speed
-        until (Destination - Part.position).Magnitude < 5
-        NewBodyVel.Velocity = Vector3.new(0,0,0)
-        wait(waittime)
-        NewBodyVel:Destroy()
-    end
-end
 
 
 local Players = game:GetService("Players")
@@ -159,13 +124,7 @@ game:GetService('RunService').Stepped:connect(function()
     end 
 end)
 yes1 = {"Melee","Defense","Sword","Gun","Blox Fruit"}
-yes = {"Bandit [Lv. 5]","Trainee [Lv. 5]","Monkey [Lv. 14]","Gorilla [Lv. 20]","The Gorilla King [Lv. 25] [Boss]",'Pirate [Lv. 35]','Brute [Lv. 45]',
-'Desert Bandit [Lv. 60]','Desert Officer [Lv. 70]','Snow Bandit [Lv. 90]','Snowman [Lv. 100]','Chief Petty Officer [Lv. 120]','Sky Bandit [Lv. 150]',
-'Dark Master [Lv. 175]','Toga Warrior [Lv. 225]','Gladiator [Lv. 275]','Military Spy [Lv. 330]','Magma Admiral [Lv. 350] [Boss]','Fishman Warrior [Lv. 375]','Fishman Commando [Lv. 400]',
-"God's Guard [Lv. 450]",'Shanda [Lv. 475]','Wysper [Lv. 500] [Boss]','Royal Soldier [Lv. 550]','Thunder God [Lv. 575] [Boss]','Galley Pirate [Lv. 625]','Galley Captain [Lv. 650]',
-'Ice Admiral [Lv. 700] [Boss]',
-    
-} 
+
 tools = "Combat"
 for i,v in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants()) do
 if v.ClassName == "Tool" then
@@ -180,8 +139,14 @@ mobs = {}
 for i,v in pairs(game:GetService("ReplicatedStorage"):GetDescendants()) do
 if v.ClassName == "Model"  and v:FindFirstChild("Stun") then
 table.insert(mobs,v.Name)
+table.sort(mobs)
 end end 
-getgenv().Tween = 100
+for i,v in pairs(game:GetService("Workspace").Enemies:GetDescendants()) do
+if v.ClassName == "Model"  and v:FindFirstChild("Stun") then
+table.insert(mobs,v.Name)
+table.sort(mobs)
+end end 
+getgenv().speed = 100
 
 game:GetService('RunService').Stepped:connect(function()
 if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Notifications") then
@@ -212,7 +177,7 @@ local Slider2 = Section1:CreateSlider("Aimbot Radius", 0,1000,nil,false, functio
     Circle.Radius = Value
 end)
 local Slider2 = Section1:CreateSlider("Tween Speed", 0,200,nil,false, function(Value)
-    getgenv().Tween = Value
+    getgenv().speed = Value
 end)
 
 local Toggle1 = Section1:CreateToggle("Circle Visible", nil, function(State)
@@ -244,6 +209,7 @@ getgenv().Money = State
 game:GetService("RunService").Stepped:connect(
     function()
         if getgenv().Money then
+            game.workspace.Gravity = 0
             for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
                 if v.ClassName == "Part" or v.ClassName == "MeshPart" then
                     pcall(
@@ -251,6 +217,9 @@ game:GetService("RunService").Stepped:connect(
                             v.CanCollide = false
                         end
                     )
+                    if not getgenv().Money then
+                    game.workspace.Gravity = 196.2
+                    end
                 end
             end
         end
@@ -262,7 +231,21 @@ while getgenv().Money do
     wait()
     pcall(function()
             if getgenv().Money then
-           bodyvel(game.Players.LocalPlayer.Character.Head, getgenv().Tween, GetClosestt().CFrame.p,  math.huge,math.huge,math.huge, 2)
+               local Time =
+                (GetClosestt().CFrame.p + Vector3.new(0, 0, 0) -
+                game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / getgenv().speed
+            local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
+            local Tween =
+                game:GetService("TweenService"):Create(
+                game.Players.LocalPlayer.Character.HumanoidRootPart,
+                Info,
+                {
+                    CFrame = CFrame.new(
+                        GetClosestt().CFrame.p + Vector3.new(0,  0, 0)
+                    )
+                }
+            )
+            Tween:Play()
         end 
         end
     )
@@ -316,34 +299,43 @@ local Toggle1 =Section1:CreateToggle("MobFarm", nil, function(State)
 farm = State
 game:GetService("RunService").Stepped:connect(function()
         if farm then
-            for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-                if v.ClassName == "Part" or v.ClassName == "MeshPart" then
-                    pcall(
-                        function()
-                            v.CanCollide = false
-                        end
-                    )
-                end
-            end
+           game.Players.LocalPlayer.Character:WaitForChild('Humanoid'):ChangeState(11)
         end
     end
 )
-spawn(function()
-game:GetService("RunService").Stepped:connect(function()
+spawn(
+    function()
+        game:GetService("RunService").Stepped:connect(
+            function()
                 pcall(
                     function()
                         if farm then
                             for i, v in pairs(game:GetService("ReplicatedStorage")[mobs]:GetDescendants()) do
                                 if v:IsA("MeshPart") and v.Name ~= "UpperTorso" then
-                                bodyvel(game.Players.LocalPlayer.Character.Head, getgenv().Tween, v.CFrame.p,  math.huge,math.huge,math.huge, 2)
+                                    local Time =
+                                        (v.CFrame.p + Vector3.new(0, 0, 0) -
+                                        game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude /
+                                        getgenv().speed
+                                    local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
+                                    local Tween =
+                                        game:GetService("TweenService"):Create(
+                                        game.Players.LocalPlayer.Character.HumanoidRootPart,
+                                        Info,
+                                        {
+                                            CFrame = CFrame.new(v.CFrame.p + Vector3.new(0, 0, -3))
+                                        }
+                                    )
+                                    Tween:Play()
                                 end
                             end
                         end
                     end
                 )
-            end)
+            end
+        )
     end
 )
+
 
 spawn(function()
         while farm do
@@ -415,25 +407,40 @@ spawn(
 
 spawn(
     function()
-        game:GetService("RunService").Stepped:connect(function()
-              pcall(
+      while wait() do
+                pcall(
                     function()
                         if farm then
-                            game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9,9e9))
+                            game.Workspace.Gravity = 0
+                            game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
                             for i, v in pairs(game:GetService("Workspace").Enemies:GetDescendants()) do
                                 if v:IsA("Model") and v.Name == mobs then
-                                  bodyvel(game.Players.LocalPlayer.Character.Head, getgenv().Tween, v.UpperTorso.CFrame.p,  math.huge,math.huge,math.huge, 2)
-                                  repeat wait()
-                                  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
-                                  until v == nil or farm == false
+                                    local Time =
+                                        (v.HumanoidRootPart.CFrame.p + Vector3.new(0, -5, 3) -
+                                        game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude /
+                                        getgenv().speed
+                                    local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
+                                    local Tween =
+                                        game:GetService("TweenService"):Create(
+                                        game.Players.LocalPlayer.Character.HumanoidRootPart,
+                                        Info,
+                                        {
+                                            CFrame = CFrame.new(v.HumanoidRootPart.CFrame.p + Vector3.new(0, -5, 3))
+                                        }
+                                    )
+                                    Tween:Play()
+                                    if not farm then
+                                    game.Workspace.Gravity = 196.2
+                                    end
                                 end
                             end
                         end
                     end
                 )
-        end)
+            end
     end
 )
+
 
 end)
 
