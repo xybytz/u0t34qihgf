@@ -11,7 +11,8 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 
-local Name = "yes.txt"
+
+local Name = game.PlaceId ..".txt"
 
 local DefaultSettings = {
 NI = false,
@@ -27,15 +28,16 @@ NoClip1=false ,
 NoClip2=false ,
 
 }
+makefolder("V.G Hub")
 
 local Settings
 
-if not pcall(function() readfile(Name) end) then writefile(Name, game:service'HttpService':JSONEncode(DefaultSettings)) end
+if not pcall(function() readfile("V.G Hub\\"..Name) end) then writefile("V.G Hub\\"..Name,game:service'HttpService':JSONEncode(DefaultSettings)) end
 
-Settings = game:service'HttpService':JSONDecode(readfile(Name))
+Settings = game:service'HttpService':JSONDecode(readfile("V.G Hub\\"..Name))
 
 local function Save()
-writefile(Name,game:service'HttpService':JSONEncode(Settings))
+writefile("V.G Hub\\"..Name,game:service'HttpService':JSONEncode(Settings))
 end
 
 spawn(function()
