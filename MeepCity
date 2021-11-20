@@ -1,30 +1,70 @@
+repeat wait() until game:IsLoaded() 
+for i,v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
+   v:Disable()
+end
 local Config = {
     WindowName = "V.G Hub",
 	Color = Color3.fromRGB(255,128,64),
 	Keybind = Enum.KeyCode.RightControl
 }
-repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 
+local Name = "yes.txt"
+
+local DefaultSettings = {
+NI = false,
+Fly1 = false,
+NoClip1 = false, 
+NoClip2 = false,
+}
+
+Settings ={
+NI= false,
+Fly1=false,
+NoClip1=false ,
+NoClip2=false ,
+
+}
+
+local Settings
+
+if not pcall(function() readfile(Name) end) then writefile(Name, game:service'HttpService':JSONEncode(DefaultSettings)) end
+
+Settings = game:service'HttpService':JSONDecode(readfile(Name))
+
+local function Save()
+writefile(Name,game:service'HttpService':JSONEncode(Settings))
+end
+
+spawn(function()
+while wait() do
+Save()
+end
+end)
+
+
+
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
-local Tab1 = Window:CreateTab("Meep City")
+local Tab1 = Window:CreateTab("MeepCity")
 local Tab2 = Window:CreateTab("UI Settings")
 
 local Section1 = Tab1:CreateSection("")
 local Section2 = Tab1:CreateSection("")
+local SectionA = Tab1:CreateSection("")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 
-local Toggle1 = Section1:CreateToggle("AutoFarm", nil, function(State)
-NI = State
+
+local Toggle1 = Section1:CreateToggle("AutoFarm", Settings.NI, function(State)
+Settings.NI = State
    game.ReplicatedStorage.Connection:InvokeServer(9, 1)
 game:GetService("RunService").RenderStepped:Connect(function()
 
-if NI then
+if Settings.NI then
 game.ReplicatedStorage.Connection:InvokeServer(49)
 game.ReplicatedStorage.Connection:InvokeServer(50)
 game.ReplicatedStorage.Connection:InvokeServer(51)
@@ -54,42 +94,74 @@ end)
 local Button1 = Section1:CreateButton("SimpleVelvet Gamepass", function()
 game.ReplicatedStorage.PlayerData[game.Players.LocalPlayer.UserId].SimpleVelvet.Value = true
 end)
+
 local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
 end)
 local TextBox1 = Section2:CreateTextBox("JumpPower", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
 end)
-local Toggle1 = Section2:CreateToggle("Infinite Jump", nil, function(State)
-Infinite = State
+local Toggle1 = Section2:CreateToggle("Infinite Jump", Settings.Infinite, function(State)
+Settings.Infinite = State
 game:GetService("UserInputService").JumpRequest:connect(function()
-	if Infinite then
+	if Settings.Infinite then
 		game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
 	end
 end) end)
 
 
-local Toggle1 = Section2:CreateToggle("G Noclip", nil, function(State)
-sex = State
+local Toggle1 = Section2:CreateToggle("G PlatFormNoclip", Settings.NoClip1, function(State)
+Settings.NoClip1 = State
 noclip = false
-game:GetService('RunService').Stepped:connect(function()
-if noclip then
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-end
+game:GetService("RunService").Stepped:connect(
+    function()
+        if noclip then
+            game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+        end
+    end
+)
+game.Players.LocalPlayer:GetMouse().KeyDown:connect(
+    function(key)
+        if key == "g" then
+            if Settings.NoClip1 then
+                noclip = not noclip
+                game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+            end
+        end
+    end
+)
 end)
-plr = game.Players.LocalPlayer
-mouse = plr:GetMouse()
-mouse.KeyDown:connect(function(key)
+local Toggle1 = Section2:CreateToggle("N NonePlatFormNoclip", Settings.NoClip2, function(State)
+Settings.NoClip2= State
+game.Players.LocalPlayer:GetMouse().KeyDown:connect(
+    function(v)
+        if v == "n" then
+            NoClip = not NoClip
+            game:GetService("RunService").Stepped:connect(
+                function()
+                    if NoClip then
+                     if Settings.NoClip2 then
+                        for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+                            pcall(
+                                function()
+                                    if v.ClassName == "Part" or v.ClassName == "MeshPart" then
+                                        v.CanCollide = false
+                                    end
+                                end
+                            )
+                        end
+                    end
+                end
+            end
+            )
+        end
+    end
+)
+end)
 
-if key == "g" then
-if sex then
-noclip = not noclip
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-end end 
-end) end)
 
-local Toggle1 = Section2:CreateToggle("B Fly", nil, function(State)
-sex2 = State
+local Toggle1 = Section2:CreateToggle("B Fly", Settings.Fly1, function(State)
+Settings.Fly1 = State
 local Max = 0
 local Players = game.Players
 local LP = Players.LocalPlayer
@@ -98,7 +170,7 @@ Mouse.KeyDown:connect(function(k)
 if k:lower() == 'b' then
 Max = Max + 1
 getgenv().Fly = false
-if sex2 then
+if Settings.Fly1 then
 local T = LP.Character.UpperTorso
 local S = {
 F = 0,
@@ -127,7 +199,7 @@ repeat
 wait()
 LP.Character.Humanoid.PlatformStand = false
 if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
-SPEED = 200
+SPEED = 50
 elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
 SPEED = 0
 end
@@ -196,30 +268,43 @@ end
 end)
 end)
 local Button1 = Section2:CreateButton("Anti Lag", function()
-for _,v in pairs(game:GetService("Workspace"):GetDescendants()) do
-if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then --- i stole this from the actual game LOL >-<
-v.Material = Enum.Material.SmoothPlastic;
-if v:IsA("Texture") then
-v:Destroy();
-end end;		
-end;
+for _, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+    if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then --- i stole this from the actual game LOL >-<
+        v.Material = Enum.Material.SmoothPlastic
+        if v:IsA("Texture") then
+            v:Destroy()
+        end
+    end
+end
+
 end)
 
 local Button1 = Section2:CreateButton("Teleport to RandomPlayer", function()
-local randomPlayer = game.Players:GetPlayers()
-[math.random(1,#game.Players:GetPlayers())]
+local randomPlayer = game.Players:GetPlayers()[math.random(1, #game.Players:GetPlayers())]
 
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(randomPlayer.Character.Head.Position.X, randomPlayer.Character.Head.Position.Y, randomPlayer.Character.Head.Position.Z)) end)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+    CFrame.new(
+    Vector3.new(
+        randomPlayer.Character.Head.Position.X,
+        randomPlayer.Character.Head.Position.Y,
+        randomPlayer.Character.Head.Position.Z
+    )
+)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(randomPlayer.Character.Head.Position.X, randomPlayer.Character.Head.Position.Y, randomPlayer.Character.Head.Position.Z))
+end)
 local Button1 = Section2:CreateButton("Lag Switch F3", function()
-local a = false
-local b = settings()
+local X = false
+local C = settings()
 
-game:service'UserInputService'.InputEnded:connect(function(i)
-if i.KeyCode == Enum.KeyCode.F3 then
-a = not a
-b.Network.IncomingReplicationLag = a and 10 or 0
-end
-end) end) 
+game:service "UserInputService".InputEnded:connect(
+    function(V)
+        if V.KeyCode == Enum.KeyCode.F3 then
+            X = not X
+            C.Network.IncomingReplicationLag = X and 10 or 0
+        end
+    end
+)
+end) 
 local Button1 = Section2:CreateButton("ServerHop", function()
 local PlaceID = game.PlaceId
 local AllIDs = {}
@@ -305,7 +390,7 @@ end)
 Toggle3:SetState(true)
 Section3:CreateLabel("Credits DekuDimz#7960")
 Section3:CreateLabel("Credits AlexR32#3232 Ui")
-Section3:CreateLabel("Credits The3Bakers")
+
 local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
 	Window:ChangeColor(Color)
 end)
