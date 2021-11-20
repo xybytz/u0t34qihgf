@@ -28,24 +28,6 @@ NoClip1=false ,
 NoClip2=false ,
 
 }
-makefolder("V.G Hub")
-
-local Settings
-
-if not pcall(function() readfile("V.G Hub\\"..Name) end) then writefile("V.G Hub\\"..Name,game:service'HttpService':JSONEncode(DefaultSettings)) end
-
-Settings = game:service'HttpService':JSONDecode(readfile("V.G Hub\\"..Name))
-
-local function Save()
-writefile("V.G Hub\\"..Name,game:service'HttpService':JSONEncode(Settings))
-end
-
-spawn(function()
-while wait() do
-Save()
-end
-end)
-
 
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
@@ -436,4 +418,20 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+makefolder("V.G Hub")
 
+local Settings
+
+if not pcall(function() readfile("V.G Hub\\"..Name) end) then writefile("V.G Hub\\"..Name,game:service'HttpService':JSONEncode(DefaultSettings)) end
+
+Settings = game:service'HttpService':JSONDecode(readfile("V.G Hub\\"..Name))
+
+local function Save()
+writefile("V.G Hub\\"..Name,game:service'HttpService':JSONEncode(Settings))
+end
+
+spawn(function()
+while wait() do
+Save()
+end
+end)
