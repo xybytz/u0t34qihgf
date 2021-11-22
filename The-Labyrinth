@@ -175,7 +175,7 @@ while getgenv().Tween1 do
                 if getNearestOres().MouseTarget:FindFirstChild("HP") then
                     game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
                 end
-            until getNearestOres():FindFirstChild("MouseTarget").HP.Health.Percent.Text == "0%"
+            until getNearestOres():FindFirstChild("MouseTarget").HP == nil
         end
     )
 end
@@ -233,7 +233,7 @@ while getgenv().Tween do
                 if getNearestTrees().MouseTarget:FindFirstChild("HP") then
                     game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
                 end
-            until getNearestTrees():FindFirstChild("MouseTarget").HP.Health.Percent.Text == "0%"
+            until getNearestTrees():FindFirstChild("MouseTarget").HP == nil
         end
     )
 end
@@ -289,7 +289,7 @@ while getgenv().Tween2 do
                 if getNearestIngredients().MouseTarget:FindFirstChild("HP") then
                     game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
                 end
-            until getNearestIngredients():FindFirstChild("MouseTarget").HP.Health.Percent.Text == "0%"
+            until getNearestIngredients():FindFirstChild("MouseTarget").HP == nil
         end
     )
 end
@@ -346,7 +346,7 @@ while getgenv().Tween3 do
                 if getNearestFish().MouseTarget:FindFirstChild("HP") then
                     game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
                 end
-            until getNearestFish():FindFirstChild("MouseTarget").HP.Health.Percent.Text == "0%"
+            until getNearestFish():FindFirstChild("MouseTarget").HP == nil
         end
     )
 end
@@ -368,11 +368,11 @@ local Toggle1 = Section1:CreateToggle("Boxes Esp", nil, function(State)
 end)
 
 
-local Slider2 = Section1:CreateSlider("WalkSpeed", 0,30,nil,false, function(Value)
+local Slider2 = Section2:CreateSlider("WalkSpeed", 0,30,nil,false, function(Value)
 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
 end)
 
-local Slider2 = Section1:CreateSlider("WalkSpeed", 0,100,nil,false, function(Value)
+local Slider2 = Section2:CreateSlider("JumpPower", 0,100,nil,false, function(Value)
 game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
 end)
 
