@@ -210,14 +210,14 @@ while getgenv().Tween do
     pcall(
         function()
             local Time =
-                (getNearestTrees():FindFirstChild("Leaf1").CFrame.p + Vector3.new(0,-5,0) -
+                (getNearestTrees():FindFirstChild("MouseTarget").CFrame.p -
                 game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / speed
             local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
             local Tween =
                 game:GetService("TweenService"):Create(
                 game.Players.LocalPlayer.Character.HumanoidRootPart,
                 Info,
-                {CFrame = CFrame.new(getNearestTrees():FindFirstChild("Leaf1").CFrame.p + Vector3.new(0,-5,0))}
+                {CFrame = CFrame.new(getNearestTrees():FindFirstChild("MouseTarget").CFrame.p )}
             )
             Tween:Play()
             repeat
