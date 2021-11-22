@@ -1,1 +1,691 @@
-for l,e in pairs({(function(e,...)local F="This file was obfuscated using PSU Obfuscator 4.0.A | https://www.psu.dev/ & discord.gg/psu";local m=e[(650364385)];local z=e.ylGwQYO0;local j=e[(277225991)];local w=e[(236697185)];local Z=e[(567633514)];local H=e[(120476329)];local o=e[((163324389-#("concat was here")))];local I=e[(103843398)];local h=e[(825682115)];local f=e[(305611807)];local Q=e[((533257407-#("IIiIIiillIiiIIIiiii :troll:")))];local U=e[(823411985)];local R=e[(354891969)];local W=e[(470920949)];local b=e[(143666998)];local V=e[(736419610)];local G=e["gfPIjZ1wY"];local M=e[(565417474)];local n=e[(934239792)];local p=e['WA1ykPqGyd'];local a=e[(315462093)];local T=e[((#{559;217;697;87;(function(...)return 397,562,...;end)()}+591027258))];local d=e[(348344141)];local i=e[((10464872-#("Are you using AztupBrew, clvbrew, or IB2? Congratulations! You're deobfuscated!")))];local q=e[((355995902-#("guys someone play Among Us with memcorrupt he is so lonely :(")))];local P=e[(221015486)];local k=e["piwSo3XT"];local S=e[(878074569)];local s=e[((#{166;945;822;(function(...)return 691,...;end)(52,632)}+378193117))];local y=e[((499631267-#("concat was here")))];local v=e['xt4s2Xco'];local Y=e['wNRLWvt'];local X=e[((#{559;733;}+210788117))];local B=((getfenv)or(function(...)return(_ENV);end));local x,t,l=({}),(""),(B(n));local c=((l[""..e[a]..e[y].."\116"..e[k].."\50"])or(l[""..e[a]..e[y].."\116"])or({}));local x=(((c)and(c["\98"..e[P].."\111\114"]))or(function(e,l)local n,x=n,i;while((e>i)and(l>i))do local o,a=e%d,l%d;if o~=a then x=x+n;end;e,l,n=(e-o)/d,(l-a)/d,n*d;end;if e<l then e=l;end;while e>i do local l=e%d;if l>i then x=x+n;end;e,n=(e-l)/d,n*d;end;return(x);end));local r=(d^m);local D=(r-n);local C,g,A;local r=(t[""..e.m0GY1Dzbej..e[w]..e["OTI2uWQy"].."\98"]);local u=(t[""..e[a]..e['UfXdiRX4'].."\116"..e[f]]);local L=(t[""..e.uEO3WPF.."\104"..e['bslow3qpk'].."\114"]);local r=(t["\115"..e.OTI2uWQy..e[a]]);local N=((l[""..e[b].."\97"..e[o]..e[h]][""..e.DcDma.."\100\101\120"..e[p]])or(function(l,e,...)return((l*d)^e);end));local E=(l[""..e[b].."\97"..e[o]..e[h]]["\102\108"..e[s]..e[s].."\114"]);local _=(l[""..e[o]..e[s]..e[I].."\117"..e[b]..e[a].."\101"..e.Pxy4D]);local t=(l["\116"..e["UfXdiRX4"].."\112"..e[f]]);local t=(l["\114\97"..e["HT5X4F2if"].."\115"..e[f]..e[o]]);local O=(l["\115"..e[f]..e["DcDma"]..e[f]..e['uEO3WPF']..e[o]]);local t=((l["\117"..e[I]..e[p]..e['bslow3qpk']..e['uEO3WPF'].."\107"])or(l[""..e[o].."\97"..e[a].."\108\101"][""..e['OTI2uWQy'].."\110"..e[p]..e.bslow3qpk..e['uEO3WPF']..e[U]]));local U=(l[""..e[p].."\97"..e[y].."\114\115"]);local p=(l["\115"..e[f].."\116"..e[b].."\101\116\97\116\97"..e[a].."\108"..e[f]]);local p=(c["\98"..e[s].."\114"])or(function(e,l,...)return(D-A(D-e,D-l));end);g=((c["\114\115\104\105\102"..e[o]])or(function(l,e,...)if(e<i)then return(C(l,-(e)));end;return(E(l%d^m/d^e));end));local D=(c["\98\110\111"..e[o]])or(function(e,...)return(D-e);end);C=((c["\108"..e[w]..e[h].."\105"..e[W].."\116"])or(function(l,e,...)if(e<i)then return(g(l,-(e)));end;return((l*d^e)%d^m);end));A=(c[""..e[a]..e["bslow3qpk"].."\110\100"])or(function(e,l,...)return(((e+l)-x(e,l))/d);end);if((not(l["\98"..e[y]..e[o]..e[k]..e[q]]))and(not(l[""..e[a].."\105\116"])))then c[""..e.Pxy4D..e[w]..e[h].."\105"..e[W].."\116"]=g;c[""..e[a]..e[I]..e[s].."\116"]=D;c["\98"..e['bslow3qpk'].."\110\100"]=A;c[""..e[a].."\111\114"]=p;c[""..e[a]..e[P].."\111\114"]=x;c["\108"..e[w]..e[h]..e[y].."\102"..e[o]]=C;end;local d=(l[""..e[o].."\97\98\108"..e[f]]["\114"..e[f]..e[b]..e[s]..e[Y]..e[f]]);local d=(l["\116\97\98"..e["DcDma"].."\101"]["\105\110"..e[w].."\101"..e["Pxy4D"]..e[o]]);local s=(l[""..e[o].."\97"..e[a].."\108\101"][""..e["uEO3WPF"].."\111\110"..e['uEO3WPF'].."\97"..e[o]]);local w=(((l["\116"..e['bslow3qpk']..e[a].."\108"..e[f]][""..e["uEO3WPF"].."\114"..e[f].."\97\116"..e[f]]))or((function(e,...)return({t({},i,e);});end)));l[""..e[a].."\105"..e[o].."\51\50"]=c;local l=((-H+(function()local d,l=i,n;(function(l,n,e)e(n(e,l,e),l(n,e,l),e(e,l and n,e))end)(function(e,x,o)if d>X then return x end d=d+n l=(l+V)%z if(l%G)<M then l=(l-R)%j return o(e(o,o,x and e),e(x,e,o),x(e,e and x,e))else return e end return e end,function(o,x,e)if d>S then return e end d=d+n l=(l*Q)%Z if(l%v)<T then return x else return o(o(o and e,o,o),e(e,o,o)and x(e,x,e),x(e,o,o and x))end return x(e(o,x,x)and x(o,e,e and x),x(x,e,e),e(x,e,e))end,function(e,x,o)if d>(158)then return x end d=d+n l=(l-(709))%((#{654;424;332;}+26509))if(l%((#{125;748;260;53;(function(...)return 958,371,139;end)()}+295)))<(151)then l=(l+((#{376;984;}+419)))%((#{412;954;}+7832))return x(x(e,e,e),e(x,x,e and o),e(x,e,o))else return e end return x end)return l;end)()));local o=(#F+(165));local c,b=({}),({});for e=i,o-n do local l=L(e);c[e]=l;b[e]=l;b[l]=e;end;local h,d=(function(x)local e,d,a=u(x,n,(3));if((e+d+a)~=(248))then l=l+((170-#("woooow u hooked an opcode, congratulations~ now suck my cock")));o=o+(158);end;x=r(x,(5));local l,d,a=(""),(""),({});local e=n;local function f()local l=_(r(x,e,e),((#{810;322;(function(...)return 101,...;end)(48,749)}+31)));e+=n;local n=_(r(x,e,e+l-n),(36));e+=l;return(n);end;l=b[f()];a[n]=l;while(e<#x)do local e=f();if c[e]then d=c[e];else d=l..r(l,n,n);end;c[o]=l..r(d,n,n);a[#a+n],l,o=d,d,o+n;end;return(s(a));end)("PSU|23a21H1013131010121227927D27E1414279111127d1c1c1027K27K1021R21r27O27U101H1h27O27Q1021N21n27627827G2791d1d27e101u1u27926q26C1m27921u1z12181C1L1T1q1r1a21C2121j1f1t131h1J1n1b1d1Q2361E1527921Y21g1j1c1826Z24A27H1022721p1N1m26N24c27e26823z21b26R2551a27921z1Y1H21321i1N141V1a1622A21i23S23U278102321b1i24q26427q21t23621f28a26o25R25223K1927922A21J1M1s1Q171h161M23l26z2AQ1022c21d1t1c21K2191317191o23J1b29v29x21j2171115181M29124c26V297102341H181R1125C2542bg1021T2191R1M1o1a21O1X21m21N1V25F2501727922u1k1t1221R1L1522q2121627921v2182771T21T21K141f28i2191t1m111N2CA1j1V21h21l1h1t1921f22B27n1021u2172971E1D1E1J1m1z21E1S1Z2212aA22121m21E1u22d29U2b42b61C21j2CU132cW21z23429G2b52B721722i2bs2251Y1B111924c26o28a27926526129g22621b29C21X214182792212131T171l1f1d1625Y2522bs21Z2171d15112472b227922f21k1t1P1o28y121621M22j29g22B21m2D821b22629G22V1629C26Z24B2bS22d1H2191422n23f22127i28027M101i1i2761F2DH1I1J11131V1s2791X1w1127g21a21B111I1H1321D2171Q27i27V1112132Gu2El2BD1P112HC1P2Fn2Hf2hc27b1o2hk2gV1b1B2gY27j27v21P21p27z27a122172172841021c23b21z2Gt210152gi21A216141i1L1721d2101l27I142bS11161723o23L2BS1l22a2i627W27y2Gh1N15131r1o2I71516161O1t2i91k1621D1W2IX2IN2cG10191d142Gw2iM2IO1i2jb131u1T2gT2132J62J71U162Ie2iG21L2Ez2GH1Q1821d21328H2Gh1R1921D2k22791i2c72K72k911172cr27O1B1a1h1k2j5161b1g1R21d21G151717121L1N2KX152L6122F62Jp162J12J3101x2jv2j61O2Jy2k021d21C27Q2EL2K3191C2fF2kL27i19182k02JR2jT2lE2122kl2J71v171I2K52kd2K31I2kb2Ki2Kf2kH2ke2Gh1P1B2mC27o2io27i1A1B1H1n2IO172ku2KW21j16181827B1021D2MV1M1m121I1G2Lx2j22gT2M12LH2M42M62k621n2e211182B3191F162Jg27i2nJ2ne131c2D02le215181E1E1O1G2LW2mb21e2aa2kG1A21d2O42KF2MH2O82aa2Lo2mm2mO1M172Mx1b1O1j1X2nW1N1N1O1S141H2oH2Oj1v1K2NR2Js2Gt2Nw2Lh2o12mA2Kc2Mf2o62MJ1I2OB2p71U1C2Mj2oe27o1d1c2oU2Oi182MT21d21I2PL2mz2pO172N32N51g23O23o2Hy171A289102202202ge27D282102Mx28a2Ny2791B29629V2FD2ff22821Q2c129W1H2bj2BL2bN29124z25w2b32as2AU2aW2AY1m25c24W2aA22b21I2B72EB27929i29K22B2102g02g21825425t2Dh2DJ2dl2dn2dp2DR1s22Q122b32Fk2Fm2FO1H2FQ24726u29G23B1m181T25J2FA2792Bu2Bw1123n2Eo27E2am24h2442e22QM29Z2a12A3162322f72792361N2My1P1J26k2A92f02Dy22L2gs2hX2792GG2GI2761B2K32ht28A2T22782od28027d2t82T42KF2gO21D2ng2q62791j1j2GH2Gj131A2B32gn2Gp162bS2hC2hQ2hS2h12h32pP2h72lN2hA2hL122hn2Hg2gv2792u72hC27g2UB2GV27j2HS27P2792hV2hx27B2I02I221c2162h62Le2I82882iB2iD2iF2N12kM2jM27I2iO2IQ2IS1f2uR1o2lD1X2I827M2Uv2v0102tl102px2pZ1J1k2791R1r2TJ28128328828a28c27922221s2sF29x2sH2a22a42QJ2C12C32C52c72C92Cb1V122362Al25r1a21g2Ah1b22K2k928j28l28n28P28R28t28v28X28z29129325B25I29o29q23s25d2B32Ed2b82ba2bc2122272Bs2s62BX2182EG2792EI2eK1924X2QT2AR2aT2aV2AX2aZ23c2SM102cT2Cv21T25023r2eP101w2rb2XD2181R1V24t25g2rh2dk102DM2DO2Dq2Ds1T23G2K32F12f32F52F72rW2rc29c22821I2Dw2Dy23821E2JH2ci2CK2Cm1525n23N2E22X22e62xS25623x29g2R81m26w23U24Y2r12792aC1I26h2412nU21u2D22D42d62Fw2d92db2dd21221v2Rq2Fl2fn2fp1622821d2EC2e427123W2Bs29929b182FY2fu2Zn2yK2792eu29C21M22C2qL2BI2bK2bM2Bo1B26o2g52792g72G92Gb2gd2SZ102T12To142JH2tS2Ns2NU2Hc2792TY2h221d2121n2u227I2U42GV192he2U81127m2Ue112Tl311j1s1s2uH2HU2HW2Ht2uM2i12772i32i52J41g1G2Uv2Lk2Mf2VD2Jg2v32792It2Iv27x2Kf2iZ132dN2J41l1L2j82ja2jc21O2Q22No2JI2JK31242jO2jQ2p02lE2jv312G2li2JZ2ux21f27c2K42k621m2C12p521d31302mD2O7313427i2LT2kN2kp2kr2J62mO1Q2l5277121p2KW2KY1k1k2hA2h02jq312e312u16312w2Lj2uX2141P2lu2lP2lr2kK2Uz2lv2lX312T1x2M1312w2ND2M731382ka2kc313B2GH2Kh314g2pa2mi314J312N112mn2mp2mR313i2uY27b2fQ142Uy2HQ121K1M2lX313v314b2f4312h314e2K62mv2NP2nk2nm314q2nQ2k513192e22oN1827x2O02o22KC2Ky31392l52oA2mI315s27O2Lv2Of2Pk2oj1p1i315m2VM2or2oT2ov2PM1J1O2oZ2LZ315m312W2P42mB314M2kh314J314N313731311i2Pd21D314P315z2PH2PJ3169314v2Pp314x16314Z2Pp315131532vh27b2q02Q22Q42vO2Q82Qa27E2Qc1022N2fT2Y02y22rF2y62Rj2Ya2rm1Z2Vw2BH29Y2a02W02fr317H102g12G329F2792RZ2S123q26P2Yp21e1b21t310H2qn310J2Qq1B24m25P2X82bv2bX23C1f2Z629J1M26y2SU102r31t24l2xi102qV2XL2qY25C2512Km2sO2sQ1J254318V2rR2zV2RU162452Sa27D2AM1Z2SY2t6310v27n2t81729G319i2tc2To2tQ2vO319p276319M2tF1121d312L2vo2vF2t8310Y319W2t92gt2gV27B31152H321p2dh2ui27O311c314R1A311J2Ua2ho2ni18311J2J6311p27q2uk311s2HZ311U2782Up2uR2v92l61531212Ux2Lm2ik2JN2ip2iR31272v52Ua2V82I82Tx2Ic2Vd2VF317512172vJ2Vl2Vn310u2q81A2E224e2472zt2rS2Zw310B29H318n23C314R2cS318C21121127z21W2112fB2Qh1126Z31bS2Xj2QW2xM1m23c182R22r41C23I2vx317S2Si2A424T25O2Yl1821x2XZ102252y11V26K23Y2JH2ct27k1b161n22c1w2vO2gg2mz21l21L319T1i2iZ2Kf2tO2tU319s31Dj27631A32le1x1031aO21a2GH1G1221D21d27D319I2GP121x31dr2uD2j331E42842V731dQ27Z31EA31e82hm31e731dr311E21a31DU27C1221L21k2ln2801a2MY31Dd21n316O2GJ31Dh2Bs2t831Dl310u319t1331dP31e831DT31dv31Dx31DZ2vo31E231E831e631EB2mX31ed31Dr27j31fG2HY31fj31ei31Ek27A21L21m2Ta27d31Er12319I2Q8311v286102vR27E2Vt1026Q2br310p2g82ga24s2sE2792Z12e72Cw25623l2Yf2F22f42f61621X2172w32c42C62C82Ca2cc23M272317l2Y82rk2yB1s2622562qu2xK2Qx2AZ26y23m318A2qO310k291318f2eh2EJ2eL24E2rx31gB2e42582X031hj2B72b92BB2bD23b318623821c31c82Fe112a624Y2s410310529C22E2AK27D29p21b25L31d22cH2CJ2cL2Cn26423S2Wj28k28m28o28q28S28U28w28y2902921Q1D31Hs2ZD2aD22x28d2sb25R21g2QF2b43118102QZ31912CS31gD21T26M25U2Zi2zK2D52D72Zo2Dc1924k25L2aH267310O2bt318i1129M2XW21H21o31bt31992FQ26K2Z5279317y31CU31cw2fV2D821m2E1317r2VZ2sJ2FS2et2Ev18218310t319I310W2761k31192GH2Go131p31aX2gv311N31a921D3141311A31aE2HB2GV2l6311j2hq311j311L31ak31Ao2gz31ad31aR27k311t2uO311X2us1531BP31b12IG2u127o2iL2V131B62is2iU279312A2IY2j02h92j4315O2j92La21D21h319N2Ml312O2jl31lN2mK2M52JQ2aA313W315o313z2iG1z2gJ313221d2152lD313631mG315T31mK313c2UZ2Ko2KQ2Ks2pN2Ky2Pu1v1t2L527M31fu132la1331LW31mC1H312x2lk319z315y31442LS31472lW2iF311V2NA2Ax31N8315a21d31MN314h31mJ31ML2Kh31no316M31mP31M831602mq2l02Pn2Mv2GI2pv2UY2V7121n1l2Lx31n63157315o31Nm21k2b32NI315e2nn31M431og2Nr1n2VK2nV181f1f315P313621r1E315t31oU315V21d31Ox31Nc3160316w1A2Hg2nw1T1t316731612PM132Lw315i31Mb315m315o316h2Kc31nt2Kh31Nv316m31nt316Q31nV2Pg112PI31Pa2pn2PP31o22n62ps31o531O731bH3177279317931Bn283317c27D317E1w31C731GB31j51m26l31cC318w31h431CF25C25B31gw2y92Rl2dS24h31Hm1031982Rt2fQ1H235318h2S723l31Hi317X2RD21m22K318622p31qc102fc31Hx31CR2RY2S01T21Q22431922Sp313M1j2302B3319E31J11031h9318c310L24m25N31Cj1t22g21631Cn31KB2a423D319H2gF319k2to2tE31F131DN132gL31dm2Tn2t32M92tg2ti310u31A12TO319v31ko2TT2tv2gV2uu2GZ2TZ2oC31KY2H931l027j11311J2L031aI1031L32hr31l9311Q2UL31at2uO2uq2j431aO2ic2LK314G312q31LP31B82v631BB1531eI31bE31M731bg2PY317631bK102Vm317a2VQ2q227D31g223823H2X12e431hp2BC1o22q31ii2wl31Il2wo31IO2wR31ir29324x25q2Km2Xr2e821t23031r631iw1I23p31GV28I2Y731qO31GZ22131K52ZN21m22m2AH24Z31r2310d29d318031R329c2321c2Yt31iD2yW23u31Qs31Qu2ZW23231pC2f031Gi2Yi1624T318G2S531jr23l26X31Go2W531Gr2w826V2Xv31j026v25E31s1317t2Sj2zY31002eE2XC31cX31hF191U2WB2eP23t310331G6310r24S24531rs2qP310L2QS31h331Ce2QY1731CM31Hn2E531ja23222l2wx21B2392Zz317I1V2A61X21B31jE2D331jG2zn2dA31JJ1O31QY29829a29c25Y2Zc102DX21E23t31vr31J431191M21m31ki31S631sF31sC2GM31Kp31S92HC31Oq31kv31sj31Ad31sX2hc312W31Ak2V7311j31p7311J313Q31Ap2Uj311R31LC31TA311v2I42Iv31Ay31kU31tf2ux2JE31b431lo312610312831lS2Ix31ex31Pc2C131ay277312i31M031M231Lo2792Jj31m631b531n41g2tM313W31z631ME31Oz31OV31MI31nT2MB31p02P831nO314627i31MS313g2kT2962l52J6122Kz2L52Hi2l81d31N42pM2Ju2lB1331n92Ux21631bm2Pg2Lq31ne31432lx31Zg31nj31Z631nm31zq2Mb31Pk2o731zQ2Ob31zs31OJ314S31ny2mS31zy2mV2NY313s2Uy31o21o1q2lX32082M017320N2m52m731f927o2nj31Zb315F31OJ315H31cI31Oa2NW311e31oS2mb31J5314K2o7321S316m321S31pR314s316W2D3315m31T22Os31pU1r2N7315I320L31oO31z631pI31ZL315t31Nt2oB31zQ316q31zS316t31PS316v2Pl2qe152PS321231n52PS32151Q31Q22Q131Q42Q531q62Q92K331Q931Zm1b318L31K22rd26Z31gA31Ra2VY31w62a421X2CQ2sn31rk2Sr2f92BS22C31qe21y31x531cx31Cz31cV31re2s11031iv318r2r422531hv31VS2S721Y31jW31CD318Y2Az21N322z31rP21g2rp2fj2Zu31qv31GL31gn317r31hA318d24c31ut2di31Uv31GY2RM26231xn31XP2sX31dB31S727631f0319o31sb2J531se31EZ31Ey2Tg31OE31A02Tm31a2310z31Kp31Pf2uf1131Y62Nh2H831af31FF31aK2Ud31aK31z631ak2tx31T731Aq31yk2HY2un31yN31tc31lg2uu31ys2IG31AB31Yv31m831yX2f531tl2J431a831tP2Bs31TR2vI31on31tW323031BP2qD31j3323M31xU218317w31K3228324431qt324e2zW1h323w318S26E31v831CY2Y223231j331rB2Ff21x31s031ka323D2f831H2324531H531QF323A21V31c231c427j2292yS31j931d531D731d9324V2hy1031dE31Dg2h231sB27632522tO31fu2gt31Dr31F62n631DX31TH28031FB31Dr31t231eG1031L2328931ba31FE31AM328931fM27A31fO31eo2vo31Ft31Et31ev2Gh327t31Xz327V31Sa31xz327Y31Eb328131Dw316N31FA1331E332871731fJ31Fd31E8328D31e831ff328G1931EJ328i31eM31FQ328l2My31Fv2832632632792382372jH31i531D71R1T21s24S2492Jh22021o101421J29X23Q26t2JH21Z21h29031MY1D21222H2Km2371m161H171r22621d2iX22U1f1r2MQ1f31LH31OP1127x329S1T25625r2jH326o1d2oR1n1131Vu31Wo31HB1B24Z25x2K321Y21b31TN2142141M1R1Y31Ri27922P182CZ1D1R25825H2q22222112Io2aW1W3277232162Q222x1D21721r21521d21P1h21q22I31p72l0327531I221B32aR21i317t29023k26s2Km2322j21f171N23D31p427921326n32B127922X2OI1727n1221C2dG27922w2Cg141D1j1R1d1n1t2nN210318927932Ag2AY2a1152ek2l22362xp319331rl21X31R9234121R171Q21t1y31Kn21y1z27j1n1J1D21N21I1i21n2192OP210275161R1b32B61h26k31Wj1022r1h1b1927H22T2Ix22B21e1o21G32Bj2gh161221j21j1k141G2oh24P266318631XR2bs22s2Kk1N1i21k22E2b332B332b521H2Ds25032fh298191P24k32cq29v21229c21821925Z31J82XQ1531xK2rE25S2Q22dj2Q02j01e191w21F1J1b1Q25j2572K32ZJ1b31rG2qk1T26425A2Q222821R32Bz1732c131cp2FR32ae27932fs1S32cw31VL323b1A28l2aY1B24k32bD31vm1q1Y21j1D1P1G21B317Q318W2131r21P327732eS2Bs21t21e31J61H22c2eY329n1r1s2kL32E3192303236323v31rf23J1531zm22v122mp1C327L32DJ2nN2F321h21t32Db2gS14132212IJ22l2dp22h2211e1T1s1T2OP2aZ1n1h32iN1q32eW1q22I2251C1221u1u32911122f191t22L23D23C22X22Y22t29J22521U29c1721t22U2a232ja1l2dp27j1E21w31ZM21T21132eY2L02AW161J28O2nn2261Y313122n1O24a25i31BM21W1X2bb1K2fN2bj191L21331s02ax1821a21732kZ313732gn2Aw22b31XA31K232il32kh1m2K51h312g1l1332gj26z329x32dO2Bo317U2542Es32H921d1L311n2r62b42831322432i62DI31MG1m21h21D1J1625J3279318W21N1E1F1S21F21h1R1P21X21l2Dh2Xe1h1p1921i21C1H32mk1425j32g921v1Y29c32ec2c32Q222C312l21X2302Ba32eO32e31Q1S26931h82792241z32Ji1D21R32MU32mw217310G31Vm1U2Ff32eI31OP31D725J31Xn22V2PM2462Fi2B431MN1B2132132Nj26431i123728Y1m1p22J21k2Q221V2u12911q32a332N21j22Y324C1022e2JL32773108329N2Io1g24t31qs22x1Q21821o27b2921121832491021s26726722332oq32e632dJ1v31O71h1126l31K11023128n1S220324h32EU28Z2mA2C52A129025d2CF31j932j71y2dS22o31ro2792Am21G2xp32kt172Kv1Q25732BV27932pP1A1E21M21415329t32lk32gJ22828U32Ld1H2i02AV32dr32eF1D1132GO31p71d21F21U32gS31IJ1r2rU1822M324010310q2ga25c32a632d332p221p2ax1L25U24J1G31q421P1O2nT2IN1d21I2hw1R21032m81623q26Y2k322R32ex31nH32jB21E32da1023731dh29B172YH31GK26z2422Dh2f12hN141E32CM32py1n25631Uj31J92Xs1j323G32eu32in1D2L21031wW1032ni1821G327731k831W532h631Vq2bS22b21N111r32S231G51032bX32C732G731QM27932s62f72My32cU2fe1v1j24732Ri2E331191J181726o24d2AA2Ze25B25C31GH32Sh2F725Y25329G22F21E2Lv2292192lD2fV142Hn1D32Kj1121O21f151d1s1621r32Nj121D1932g621A2FZ27931gm2j224w25v31ZM2Qm21c1x1M1g2Kt1A152v51723L32g232sC32iA2bc23031RR310C21n1O32Cu1N32gl1f191232OZ2B332FL2g2122FM31tN26Z2462k322U32dG32di32DK1124c26831MH22b21k1A1L32aJ31Gy21g312L31o832jp1V22531r92EI1Q2AZ21b32bn1023628V2Mn1232aP29G31C6312g24331R22381T31Er25232Hk2e3311e1l31My1621732FQ327A31Cf21832NQ32t521l1K21E21I27Y2F3191K172bF27922b2jV32IB2n132HP1g24732TK32TF2cg2VN31U327932e631dS28H32J61b22h32M332N032wo28l1T32hi32VB29821B2Q01Y32Ck2kK324j1g32T432ap32Ar32LG32gj2F621F31uP2Bt1S1u21922931zM23632Ak21D21832ah2OH1n21M21F1p1K2582602x81J32v132T531r922U171d1V1M26z31Wn32NH32V01D21o312l32B524v2AG2791a26W26w2Sf2Ds21m32oU2252Jh2X221i32ej21e32V632iF1j1s26f32pN327E32kZ27123z2Km32IK32Dq122562632KM2202G932B41S21j32Sb21Z32G41832Cm32Xz2bc1k24U32Zu27932KT32F832B432Ly32z51n21b32dn2e32B731S22fr32zb22t1M1321x32mE28I21c1R31oP21p2122s01o21121f1T1D22D31CW31V623232Oq330z2TL31o62Mp23k324m22B21o31Im21J327722821P2k323932J91m15312G2172zS31811i2Ax1S29c1E1h25831W427923032lL151n32Vq1921z2132Jh2so32Fc1S32ar31cb2B323B2J831JY2sk2cz31HJ32xK32Xm33201h22S32rq32Re332D1N21N21332Ns11334731XI318r21n32V21026732RP32yw151o2Mp32ib1Y2171f32LL1932pL32NG2BT32w732r931D721721k1I32j632F02Xd1y32WZ1M21321j27k2BX22N23632bg31ER2492732Q222R32p51d21M32EJ32LW32T11632x12km2aS19333l24s31cs31wk1424F335o310c2172h233402122181J1p1E1n23k27031zM22632Vv32vX1x21I32Fc1g29231vp32d231BX1N21x22t2yo21B32Zg2xj2my32R91Z21F32dh32iP32WH336k2XJ2Ko31jg32Xy1032y01K25C32q11022I21h2l81B1c2qZ32Gr32Rr32RT1F32rV24s32Qh102391r1U335332dQ3356335831qR2rq21I1D1721k1Z2ij32pl31Ib32Or21f32ay21t1J333R2ar338I131b27831xh2bS33141j1426I32et2b5141c1U24U2622Jh31GM334x32gj1122932rD22E32HO32hq32lN2jH22321A1S21M2182EK228332732EU32ex32w0121g2j51N32ya31cG32oq22p1k32tH333V32yf24P32Xi331427w33901U17329P323h336r2oH21t338i32LU31Ir1q323M33192151F31ER1932dZ323L28U181524e32tZ32y632Li31yy11233334331qi32lw31lh2l232Pk32yz2BX1732FG2aA2371a1n26F2482IX23532fD311z21m2Lm2h41h334532dk333H2e233141Q1B142902oh26I32wb31Qd3119336y2yO23F32Vt31Qi33741h32gl32L923j33C722E21R32Ti111k1D21L334c32Cp2km32eV2A132WO33aq27922T311931p723d2OL2sN32zJ32Zl2aZ32cv21M21L32wE337926f338g330Z339R325E331X32ag33d232zo32P428926d31Gg27933332Bo32C432kz254339431C132kz27W3399323P31k321m2262IX32Dp1s31PS2kN33821t1v2L332C42242yo32dO31d721p33Dz32QU33e228932R133e533e72MQ28833Ab317X32IL32zW2ok21O330n32BO2v51t2MX1422u31vc31K22pm32w12Ek21x21C334A335q12292330l3294339v32uV333632eR32Pn22q2891326d335121U21c2a11A1X32bY32E41721l330t23832v21l32742e232tR2Mw2L82iN1O21F21y2Dh22c32o432HX32h61h23633CO32eW32eY1r22S31j331i31832TD31gb32O426o33C132ZY32mF32j62bc24V25j2Nu23B32Qo1T1h21M21O32At316331Gy25533dr33eP32Dq2ok24R331828I335g31tV319x32H81021x32gM32gO1722b31R923832qQ33Ap1z2aa22A21F1O24k318V22B32mu31191B2152Ds22K333132qU32jA32j51025C24L2k933Cp1432WO339k32zM33d333d5337832WG1q334j2Zy32vl22b32Ci23133FA1d1F1V1U2Ma1T326L2fU21i33ij10334J22U1A2781t21933Hl32D42d32Mq33A42K332dP337g331L22B2152B332Gt1t32C933H32FR22431Zh32dp32QW1q32qy338932r11q32r333i12B32202131v31Yy1N21c2171733Bg2ix2As33b432hf32wo1121j32hv1T32M91221B2Dv32D332e423J32Cy31kJ32D727c327r319w21d1c2HW27o32912792111821931SU1R2162kF1M314Z2o931Lu21D23D322Z31m023M24Z2KF2ux25823x2kF2m723821X2kf2mB24224j315T25623V31oY22N2322kF316q23w2592kF1V1D21D24B24Q2Kf1S1e21d33092kF1T1f21D26e25z2kf339S21D26U25j2kf28Y21d23k24X2Kf2gH21d26q25f2kf311k21D24y23N2Kf161K21d24M2472KF2f421D27225R2kf141m21D21131ON1I333M21D24824P2kf31AH21d33m12kF1B1p2ih2Ij2gH18313j316l192KW23h2242kf1E1s21d22A22R2kf28W21D22m2332Kf339121D1921K2kF330231NN31MH1I21e1W21D21w2392kf21f1X21d23R2522Kf21c1Y21d22P2282kF31nN21d24q24b2KF21i32s021y23b2kF21J21121d26X25K2KF21g21221d23v2562kF21H213311731KN1i32Qm21d25023p2kf21n32Ca2n02KF21k21621d32gb2Kf21L2172uY2kF21Q21821d22z22I2kF21r21921d23322m2kF21o21A21D26C25x2Kf21P21B21d22023d2kF1Y21c21D24L2442kf1Z31DY22Y22J2Kf1w21E21d23T2542kf1x21F2B62182KF21221g2Pf32jM111Q21A21g31SU24524K33lg314z22633cd33lk1j1y2KF2Jb21d24624n33Lr2iG1k31C431Mi23n24Y33lz2kc22i22z315t22T22C31oy26V2wW2GH316q24s24d33mD33MF1n21233mj33ML22l32vS2gH33mp21d25323q33Mu1g21D1A2832GH33n021t23433n41i32lv21033N91j21d26Y25N33nE33Ng1e27T2gH33NL22822p33nP33nR26a25V2KF33nw24n24633o01o21d24X23K33O433O61y31zh1i33oa21D21S2352Kf33od21D22K23133oH33OJ315x1I33OO21A33Kb2gh33ot24p24833Ox1v21D22w22H2Kf33p221D24U24F33p733p91O21533Pd33pf23y25B33PJ33rN22123C33po32s023o25133pT33pV24C24T33pz33Q124I24333Q533Q71Q2i12Gh33Qb23921w33qf32Ca1X334a32fo33Ql21b31iz1I33QP21D32562gH33qt21d1b21m33qy33r024r24a33r433r622x22g33RA33Rc23s25533RG33ri23q25333rm31DY33NY33rR33RT24k24533Rx33RZ2h533s233s422r22a27i329127B33s833SA31161V31du2Gh33lH21D22g22X312B322p1121c33SL2JC22U22f33sq21D23c310T2ne21d21u23733sx21D23432IT321T21D2192sy316M22233c633t72Pe26F25y33tB21d21z23a33Tf31nq33Mo33mq24h24033tO32an31DA33TT1h21d22523G33tX21d23I22733u121D23l24w33u621D22F22u33NK1L21d25523s33UE31M129g33nv2L424724M33uM21D1332I22gh33o521D1831df33O9313j31Kx2gH33v11s21933v52Zz2752GH33oO26T25g33oS1u21D21X23833vg21d27025p33Vl33p321Q2NU1i33p821D23621v33vU21D26G26133Vy21d24924O33w221d23031x12GH33PU21D23e22333wa21D26R25e33WE21D24w23l2kF33qb24t29N2GH33QG21D26S25h33Qj33Ql1U21b33qO33Qq26b25U33qS33qu22323E33X321D22v22e33X721D22S22D33xB21D27125o33xf21D1621J33xj21D23g22533XM21d320e33XQ21d24O24933XT31dY31e0329127733y031su25a23z33se21d23A2iv31Ex21d23122k33Ye21d24g24133yI24424l33Lv2K6314m2MB26h260315T22O22931oY26925s33m92pE22922o33z51g31Dr2gH33MK21d22e22v33ZB21d24v24e33zf24F24U33mz33Zj25923w33zn1F21q33zr31LL1I33Nf21D25231W1333B340022D22S340424z23M33UI2l433rp340B26j26233ur32CB2Gm33uw23Z25a33v02Kw2182Lz1i33Oi21D23b21Y33on31mz23222n340Y21d25723u341322h22W341721D25423t33vQ21D1I1Z341g26o25D341K24e24V341o1721i33w621D22723i341x22q22b342124324i342521421D24a24R33wm21d27325q342e21D24024h342I21d23F222342M21D24124g342q26825t342u31Zq33rb21D23x25834322P733RN21D22423h343a23521S343d23U257343H23p25033Xx1227g343m311626P25C348h2L61q1P31N52hA32cz21333Y5314z23721u32622lV313t2jc348y27923n23r141T26z26E27925z33MT31321325K33u531oo25w25w315p31OG31zB33jc2P831SJ314n1321333U033z11321o33u91X2191c22p22p1O1K1c1I33Me21D349427O1f31zm21021231Fu2Pi27i34ad322L27m1M313R314R2C121533vT316P2PE31Nb32r11A27M2My31p4316T29U1a349632fD25J349e26f26F33SE349g349I33fS1422622631672vD315k31n333sm21v31Wg2bl29g34aX2jz33Lh1325133pC2le21114228228312133sM341I27i15319N2kl34bD22T22T316734Bd22q22Q34Cb34bX25m25m34CF1432Bi34cj27x2Vc34c52tK325834bS23R2pY31lu34bt34Bv31ay2Ug2dK2Lk335E326232iw1734BO27932bI27O34cP1021833S131Ay22y22Y31lJ21D1231I631Ti2LF1625L25L32L52I92M724J24227933fA1931En2ln313d33JC1934dM34Do34dQ33Ym24D24S34Dv32EX21L31EU31Mq330F315J34dM23Y23y2Vc313D2vF329j10"),(#F-((#{520;59;3;}+87)));local function n(l,e,...)if(l==511789593)then return(x(x((e)-284194,887172),662372));elseif(l==895678820)then return((x(x(x((e)-748105,711275),110521),311593))-926114);elseif(l==276761843)then return(x((((e)-141462)-421718)-308516,940127));elseif(l==263846452)then return((((e)-68981)-107523)-353408);elseif(l==385515509)then return(x((x(e,563139))-446450,114735));elseif(l==55682904)then return((x(x((e)-204091,19926),248159))-787627);elseif(l==822453849)then return(x((x((e)-419394,256011))-360392,428182));elseif(l==135534653)then return(x((x(e,327590))-925490,171822));elseif(l==368211018)then return((x(x(x(x(e,757712),860126),176400),591524))-577931);elseif(l==752641987)then return((x(x(e,329551),485169))-44167);else end;end;local D=e[(500277575)];local p=e[(845955767)];local s=e['Z9Mlj'];local n=e[(853824535)];local a=e[(348344141)];local y=e[((884769077-#("psu == femboy hangout")))];local o=e[((934239828-#("If you see this, congrats you're gay")))];local c=e[((10464871-#("luraph is now down until further notice for an emergency major security update")))];local function f()local e,o=u(h,d,d+a);e=x(e,l);l=e%n;o=x(o,l);l=o%n;d=d+a;return((o*n)+e);end;local function i(l,e,n)if(n)then local e=(l/a^(e-o))%a^((n-o)-(e-o)+o);return(e-(e%o));else local e=a^(e-o);return(((l%(e+e)>=e)and(o))or(c));end;end;local function c()local e=x(u(h,d,d),l);l=e%n;d=(d+o);return(e);end;local function a()local c,e,a,o=u(h,d,d+y);c=x(c,l);l=c%n;e=x(e,l);l=e%n;a=x(a,l);l=a%n;o=x(o,l);l=o%n;d+=p;return((o*D)+(a*s)+(e*n)+c);end;local P="\35";local function s(...)return({...}),O(P,...);end;local function L(...)local C=e[((884769138-#("who the fuck looked at synapse xen and said 'yeah this is good enough for release'")))];local q=e[((916649771-#("The Voxel is sus")))];local y=e[((853824564-#("Perth Was here impossible ikr")))];local S=e[((#{65;208;}+572218108))];local n=e[((#{850;(function(...)return 796,...;end)(620,688,639)}+934239787))];local X=e[(160210623)];local v=e[(3212696)];local L=e.XSGs9H5ilu;local j=e[((713900530-#("Are you using AztupBrew, clvbrew, or IB2? Congratulations! You're deobfuscated!")))];local o=e[(10464793)];local T=e[((#{939;96;(function(...)return 689,580,487,17,...;end)()}+914750169))];local A=e[(650364385)];local z=e[(747777747)];local Z=e[(667031179)];local G=e[(89122239)];local W=e[(955836302)];local w=e[((348344208-#("i am not wally stop asking me for wally hub support please fuck off")))];local m=e[(439576265)];local I=e[(845955767)];local Y=e.vOky4VtNv;local g=e[((519156043-#("psu == femboy hangout")))];local D=e[((#{(function(...)return;end)()}+949442343))];local _=e[((316158413-#("Bunu yazan tosun... - federal")))];local p=e.ZjVDdq;local P=e.W0t6ZdHD0O;local t=e[((162058299-#("If you see this, congrats you're gay")))];local function k(...)local e=({});local F=({});local s=({});local O=f(l);local B=c(l);for e=o,a(l)-n,n do F[e]=k();end;for f=o,a(l)-n,n do local s=c(l);if(s%t==_)then local l=c(l);e[f]=(l~=o);elseif(s%t==v)then while(true)do local d=a(l);local x=a(l);local a=n;local d=(i(x,n,j)*(w^A))+d;local l=i(x,t,P);local x=((-n)^i(x,A));if(l==o)then if(d==o)then e[f]=E(x*o);break;else l=n;a=o;end;elseif(l==W)then e[f]=(d==o)and(x*(n/o))or(x*(o/o));break;end;local l=N(x,l-S)*(a+(d/(w^T)));e[f]=l%n==o and E(l)or l break;end;elseif(s%t==Z)then while(true)do local a=a(l);if(a==o)then e[f]=('');break;end;if(a>Y)then local o,c=(''),(r(h,d,d+a-n));d=d+a;for e=n,#c,n do local e=x(u(r(c,e,e)),l);l=e%y;o=o..b[e];end;e[f]=o;else local n,o=(''),({u(h,d,d+a-n)});d=d+a;for o,e in U(o)do local e=x(e,l);l=e%y;n=n..b[e];end;e[f]=n;end;break;end;elseif(s%t==n)then while(true)do local l=a(l);e[f]=r(h,d,d+l-n);d=d+l;break;end;else e[f]=nil end;end;local x=a(l);for e=o,x-n,n do s[e]=({});end;for A=o,x-n,n do local x=c(l);if(x~=o)then x=x-n;local y,b,u,r,t,d=o,o,o,o,o,o;local h=i(x,n,C);if(h==o)then t=(f(l));r=(f(l));u=(c(l));d=(f(l));elseif(h==D)then elseif(h==n)then t=(f(l));u=(c(l));d=(a(l));elseif(h==C)then t=(f(l));r=(f(l));u=(c(l));d=s[(a(l))];elseif(h==p)then t=(f(l));r=(f(l));u=(c(l));d=(a(l));b=({});for e=n,r,n do b[e]=({[o]=c(l),[n]=f(l)});end;elseif(h==w)then t=(f(l));u=(c(l));d=s[(a(l))];end;if(i(x,D,D)==n)then r=e[r];end;if(i(x,I,I)==n)then t=e[t];end;if(i(x,g,g)==n)then y=s[a(l)];else y=s[A+n];end;if(i(x,p,p)==n)then d=e[d];end;if(i(x,m,m)==n)then b=({});for e=n,c(),n do b[e]=a();end;end;local e=s[A];e['pbebq']=u;e['dqixrOBYN']=d;e[-L]=r;e['Y8uXYA4']=b;e[-990046.1438776195]=t;e[G]=y;end;end;return({[-q]=o;['MSP5L']=B;[-X]=F;["irLkEU6ZY"]=O;[-z]=s;[654653.8903493476]=e;});end;return(k(...));end;local function D(e,l,c,...)local a=e['MSP5L'];local o=e[-483177];local p=c['\121\112\99\97\108\108'];local x=0;local l=e[654653.8903493476];local f=e["irLkEU6ZY"];local E=e[-143327];return(function(...)local e=(878851181);local h={...};local d=-999594;local e=(true);local y='pbebq';local e=({});local e="Y8uXYA4";local b={};local n=-990046.1438776195;local l={};local i=o[x];local r=-(1);local x="dqixrOBYN";local o=192661;local u=(O(P,...)-1);local e=p and 1 or 0;for e=0,u,e do if(e>=a)then b[e-a]=h[e+1];else l[e]=h[e+1];end;end;local u=u-a+1;repeat local e=i;local a=e[y];i=e[o];if(a<=32)then if(a<=15)then if(a<=7)then if(a<=3)then if(a<=1)then if(a==0)then l[e[n]]();elseif(a<=1)then local n=e[n];l[n]=l[n](t(l,n+1,e[x]));for e=n+1,f do l[e]=nil;end;end;elseif(a>2)then l[e[n]]=c[e[x]];elseif(a<3)then l[e[n]][e[x]]=e[d];end;elseif(a<=5)then if(a>4)then l[e[n]]=e[x];e=e[o];l[e[n]]=l[e[x]];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]][e[x]]=l[e[d]];e=e[o];l[e[n]][e[x]]=e[d];e=e[o];l[e[n]][e[x]]=e[d];e=e[o];local h;local s;local u;local w;local b;local r=0;local function a(l,e,n)e=(r+e)%3 r=((e~=0)and r+((e<2)and-l or l)or r*l)%n return r end for o=0,34 do if a(7627,1210+o,1500)<=750 then if a(1055,5499+o,2208)>=1104 then if a(5373,4617+o,1432)>=716 then l[e[n]]=#l[e[x]];else w=h[u];end b=e[s];else if a(9214,2033+o,2440)<=1220 then l[e[n]]=e[x]-e[d];else l[e[n]]=l[e[x]];end end else h=c;if a(4365,9428+o,1248)>624 then if a(1611,2352+o,1026)<513 then s=n;else i=e[x];end u=e[x];else l[b]=w;if a(2464,3989+o,1878)>939 then else end end end end l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=l[e[x]];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]][e[x]]=l[e[d]];e=e[o];l[e[n]][e[x]]=e[d];e=e[o];l[e[n]][e[x]]=e[d];e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];e=e[o];elseif(a<5)then local n=e[n];local x,e=s(l[n](t(l,n+1,e[x])));r=e+n-1;local e=0;for n=n,r do e=e+1;l[n]=x[e];end;end;elseif(a>6)then local o=e[n];local d=e[d];local n=o+2;local o=({l[o](l[o+1],l[n]);});for e=1,d do l[n+e]=o[e];end;local o=o[1];if(o)then l[n]=o;i=e[x];end;elseif(a<7)then e=e[o];l[e[n]]=c[e[x]];e=e[o];local a=(_68);(function()l[e[n]]();e=e[o];end){};l[e[n]]=c[e[x]];e=e[o];l[e[n]]();e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a](l[1+a]);for e=a,f do l[e]=nil;end;e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=c[e[x]];e=e[o];local a=e[n];local c=l[e[x]];l[a+1]=c;l[a]=c[e[d]];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];local a=e[n];local x=l[e[x]];l[a+1]=x;l[a]=x[e[d]];e=e[o];local x=e[n];local c,a=s(l[x](l[x+1]));r=a+x-1;local a=0;for e=x,r do a=a+1;l[e]=c[a];end;e=e[o];local n=e[n];local a={l[n](t(l,n+1,r));};local d=e[d];local x=0;for e=n,d do x=x+1;l[e]=a[x];end;for e=d+1,f do l[e]=nil;end;e=e[o];e=e[o];end;elseif(a<=11)then if(a<=9)then if(a>8)then local a;local t;local f;local c;local s;local r;local d=0;local i=0;local function o(e,l,n)e=(d+e)%3 d=((e~=0)and d+((1==e)and l or-l)or d*l)%n return d end for d=2,28 do if o(5172,9145+d,2680)<1340 then if o(2717,1859+d,1412)>=706 then a=e;if o(7166,6338+d,3808)<1904 then else t=x;end else if o(2569,4157+d,1498)>749 then else r=a[f];end end else if o(2790,4489+d,2124)<=1062 then if i~=1 then l[r]=s;i=1;end;if o(7802,5417+d,1590)<795 then else end else f=n;if o(8573,3732+d,2238)<1119 then c=l;else s=c[a[t]];end end end end elseif(a<9)then local o=e[x];local x=l[o];for e=o+1,e[d]do x=x..l[e];end;l[e[n]]=x;end;elseif(a==10)then local n=e[n];l[n](t(l,n+1,e[x]));for e=n+1,f do l[e]=nil;end;elseif(a<=11)then l[e[n]][e[x]]=l[e[d]];end;elseif(a<=13)then if(a>12)then e=e[o];local h;local u;local y;local b;local w;local i=0;local function a(e,l,n)e=(i+e)%3 i=((e~=0)and i+((e<2)and-l or l)or i*l)%n return i end for o=2,34 do if a(2954,7587+o,1884)>=942 then if a(9083,6415+o,3110)<1555 then if a(5836,3232+o,2224)>=1112 then local o=e[x];local x=l[o];for e=o+1,e[d]do x=x..l[e];end;l[e[n]]=x;else u=n;end else if a(7795,7998+o,308)>=154 then w=e[u];else l[e[n]]=e[x]-e[d];end end y=e[x];else if a(9759,5717+o,3088)<1544 then if a(8071,1053+o,1836)>=918 then b=h[y];else end else if a(1243,5264+o,3256)>=1628 then h=c;else l[w]=b;end end end end l[e[n]]=c[e[x]];e=e[o];local a=e[n];local c=l[e[x]];l[a+1]=c;l[a]=c[e[d]];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];local a=e[n];local x=l[e[x]];l[a+1]=x;l[a]=x[e[d]];e=e[o];local x=e[n];local c,a=s(l[x](l[x+1]));r=a+x-1;local a=0;for e=x,r do a=a+1;l[e]=c[a];end;e=e[o];local x=e[n];local a={l[x](t(l,x+1,r));};local d=e[d];local n=0;for e=x,d do n=n+1;l[e]=a[n];end;for e=d+1,f do l[e]=nil;end;e=e[o];e=e[o];elseif(a<13)then end;elseif(a==14)then e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]();e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]();e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a](l[1+a]);for e=a,f do l[e]=nil;end;e=e[o];l[e[n]]=c[e[x]];e=e[o];local p;local w;local b;local u;local y;local h=0;local function a(l,e,n)e=(h+e)%3 h=((e~=0)and h+((e<2)and l or-l)or h*l)%n return h end for o=0,34 do if a(3072,2573+o,2550)>1275 then if a(8040,7003+o,1250)>=625 then if a(8497,2081+o,2950)>1475 then if(l[e[n]]==e[d])then i=i+1;else i=e[x];end;else u=p[b];end else p=c;if a(1918,1925+o,1194)>597 then w=n;else y=e[w];end end else if a(3528,2782+o,2274)<=1137 then if a(8598,3484+o,610)>=305 then else end else if a(9754,6557+o,2592)<=1296 then l[y]=u;else b=e[x];end end end end local a=(_110);(function()local n=e[n];local x=l[e[x]];l[n+1]=x;l[n]=x[e[d]];e=e[o];end){};l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];local a=e[n];local x=l[e[x]];l[a+1]=x;l[a]=x[e[d]];e=e[o];local x=(_74);(function()local n=e[n];local d,x=s(l[n](l[n+1]));r=x+n-1;local x=0;for e=n,r do x=x+1;l[e]=d[x];end;e=e[o];end){};local n=e[n];local a={l[n](t(l,n+1,r));};local d=e[d];local x=0;for e=n,d do x=x+1;l[e]=a[x];end;for e=d+1,f do l[e]=nil;end;e=e[o];e=e[o];elseif(a<=15)then l[e[n]]=e[x];e=e[o];local s;local h;local u;local b;local w;local y;local r=0;local p=0;local function a(e,l,n)e=(r+e)%3 r=((e~=0)and r+((e<2)and l or-l)or r*l)%n return r end for o=0,31 do if a(1921,6944+o,2390)<=1195 then if a(1302,8033+o,2490)>=1245 then if a(7725,3003+o,3030)<1515 then u=n;else b=l;end else if a(7531,2893+o,2164)>=1082 then if p~=1 then l[y]=w;p=1;end;else end end else if a(3813,7345+o,3458)>=1729 then s=e;if a(2481,6833+o,3710)<1855 then else h=x;end else if a(5181,1380+o,3882)>=1941 then w=b[s[h]];else end y=s[u];end end end local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=e[x];e=e[o];local h;local s;local u;local r=0;local function a(l,e,n)e=(r+e)%3 r=((e~=0)and r+((1==e)and-l or l)or r*l)%n return r end for o=1,26 do if a(8772,4615+o,2668)<=1334 then if a(6820,5158+o,2570)>=1285 then if a(3142,4846+o,2072)<1036 then u=e[h];else h=n;end s=e[x];else l[u]=s;if a(9569,4163+o,2466)<=1233 then else local o=e[x];local x=l[o];for e=o+1,e[d]do x=x..l[e];end;l[e[n]]=x;end end else if a(1804,9634+o,1794)<=897 then if a(1017,7715+o,1190)<=595 then else end else if a(8326,8016+o,2356)>=1178 then i=e[x];else end end end end local a=(_190);(function()l[e[n]]=e[x];e=e[o];end){};l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]][e[x]]=l[e[d]];e=e[o];l[e[n]][e[x]]=e[d];e=e[o];l[e[n]][e[x]]=e[d];e=e[o];l[e[n]]=c[e[x]];e=e[o];local a=(_153);(function()l[e[n]]=l[e[x]][e[d]];e=e[o];end){};l[e[n]]=e[x];e=e[o];l[e[n]]=l[e[x]];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local a=(_171);(function()l[e[n]]=e[x];e=e[o];end){};local s;local h;local r;local i=0;local function a(l,e,n)e=(i+e)%3 i=((e~=0)and i+((1==e)and-l or l)or i*l)%n return i end for o=0,30 do if a(6875,5098+o,418)>209 then if a(3220,2784+o,646)<=323 then s=n;if a(4408,5464+o,3076)>=1538 then h=e[x];else l[e[n]]=e[x]-e[d];end else if a(8221,2254+o,3220)<=1610 then else local o=e[x];local x=l[o];for e=o+1,e[d]do x=x..l[e];end;l[e[n]]=x;end end else r=e[s];if a(4227,5067+o,2414)<1207 then l[r]=h;if a(4922,8166+o,490)<=245 then else end else if a(6248,6457+o,624)<=312 then else end end end end local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]][e[x]]=l[e[d]];e=e[o];l[e[n]][e[x]]=e[d];e=e[o];l[e[n]][e[x]]=e[d];e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];e=e[o];end;elseif(a<=23)then if(a<=19)then if(a<=17)then if(a>16)then local e=e[n];do return t(l,e,r);end;elseif(a<17)then local n=e[n];local d=l[n+2];local o=l[n]+d;l[n]=o;if(d>0)then if(o<=l[n+1])then i=e[x];l[n+3]=o;end;elseif(o>=l[n+1])then i=e[x];l[n+3]=o;end;end;elseif(a>18)then local t;local c;local d;local o=0;local a=0;local function x(e,l,n)e=(o+e)%3 o=((e~=0)and o+((1==e)and l or-l)or o*l)%n return o end for o=1,32 do if x(5791,1390+o,1478)<=739 then d=c[t];if x(4845,9503+o,2692)<=1346 then if x(6191,2957+o,906)<=453 then if a==-1 then for e=d,f do l[e]=nil;end;a=-2 end;else end else if x(7930,2566+o,780)>390 then if a>-1 then l[d](l[1+d]);a=-1 end;else end end else t=n;if x(4463,3909+o,2488)>=1244 then if x(6982,6840+o,2446)<=1223 then else end else if x(9417,8125+o,460)>=230 then else c=e;end end end end elseif(a<19)then local f;local r;local i;local t;local s;local a=0;local function o(l,e,n)e=(a+e)%3 a=((e~=0)and a+((e<2)and-l or l)or a*l)%n return a end for a=1,31 do if o(8434,4503+a,1300)>650 then if o(4149,5233+a,3024)>1512 then if o(2006,5242+a,2634)<=1317 then f=e;else c[t]=s;end r=l;else if o(4543,6724+a,1030)<515 then l[e[n]]=l[e[x]]+e[d];else end end i=n;else if o(6373,7942+a,2784)<=1392 then if o(1422,3445+a,954)<=477 then else end else t=e[x];if o(9006,4257+a,2780)<=1390 then s=r[f[i]];else end end end end end;elseif(a<=21)then if(a==20)then local a=(_109);(function()l[e[n]]=e[x];e=e[o];end){};l[e[n]]=l[e[x]];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];local a=(_114);(function()l[e[n]]=e[x];e=e[o];end){};local a=(_178);(function()l[e[n]]=e[x];e=e[o];end){};l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];local a=(_102);(function()l[e[n]][e[x]]=l[e[d]];e=e[o];end){};l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]][e[x]]=l[e[d]];e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=e[x];e=e[o];local r;local s;local i;local c=0;local function a(l,e,n)e=(c+e)%3 c=((e~=0)and c+((e<2)and l or-l)or c*l)%n return c end for o=0,28 do if a(9406,2372+o,3890)<1945 then if a(3589,2141+o,816)>=408 then if a(9427,5963+o,3798)>=1899 then else end else if a(7846,5032+o,2740)>1370 then else end end else r=n;if a(5052,3983+o,840)<=420 then l[i]=s;if a(6828,3593+o,604)<302 then else end else if a(5718,5763+o,2200)>=1100 then s=e[x];else end i=e[r];end end end local a=(_170);(function()l[e[n]]=e[x];e=e[o];end){};local a=(_199);(function()l[e[n]]=e[x];e=e[o];end){};local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];local a=(_5);(function()l[e[n]][e[x]]=l[e[d]];e=e[o];end){};l[e[n]][e[x]]=e[d];e=e[o];l[e[n]][e[x]]=e[d];e=e[o];e=e[o];elseif(a<=21)then if(not(l[e[n]]))then i=e[x];end;end;elseif(a>22)then local u;local A;local p;local D;local y;local w;local h=0;local b=0;local function a(e,l,n)e=(h+e)%3 h=((e~=0)and h+((e<2)and-l or l)or h*l)%n return h end for o=0,32 do if a(8629,6916+o,3662)>1831 then p=n;if a(6242,2811+o,1876)<=938 then if a(7591,6091+o,1980)<990 then w=u[p];else end if b~=1 then l[w]=y;b=1;end;else if a(3613,5930+o,2978)>=1489 then else D=l;end y=D[u[A]];end else if a(3254,8451+o,3222)<1611 then if a(9252,1590+o,3822)<=1911 then else end else if a(3950,2322+o,3502)<=1751 then u=e;else end A=x;end end end l[e[n]]=e[x];e=e[o];local a=e[n];l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=c[e[x]];e=e[o];local a=e[n];local h=l[e[x]];l[a+1]=h;l[a]=h[e[d]];e=e[o];l[e[n]]=e[x];e=e[o];local a=(_58);(function()local n=e[n];l[n]=l[n](t(l,n+1,e[x]));for e=n+1,f do l[e]=nil;end;e=e[o];end){};l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];local a=(_42);(function()local n=e[n];local x=l[e[x]];l[n+1]=x;l[n]=x[e[d]];e=e[o];end){};local a=e[n];l[a](l[1+a]);for e=a,f do l[e]=nil;end;e=e[o];local a=(_40);(function()l[e[n]]=c[e[x]];e=e[o];end){};local w;local b;local u;local y;local p;local h=0;local function a(l,e,n)e=(h+e)%3 h=((e~=0)and h+((1==e)and l or-l)or h*l)%n return h end for o=2,34 do if a(7813,3479+o,3932)<1966 then if a(3296,8838+o,308)<=154 then l[p]=y;if a(4957,4849+o,3076)<=1538 then else l[e[n]]=l[e[x]];end else if a(3352,3072+o,484)>=242 then y=w[u];else end p=e[b];end else w=c;if a(5672,1512+o,1236)<=618 then if a(9255,2199+o,998)<499 then l[e[n]]=e[x]-e[d];else i=e[x];end else b=n;if a(9344,1136+o,2456)>1228 then u=e[x];else local o=e[x];local x=l[o];for e=o+1,e[d]do x=x..l[e];end;l[e[n]]=x;end end end end local c=e[n];local a=l[e[x]];l[c+1]=a;l[c]=a[e[d]];e=e[o];local a=(_38);(function()l[e[n]]=e[x];e=e[o];end){};local a=e[n];local s,c=s(l[a](t(l,a+1,e[x])));r=c+a-1;local c=0;for e=a,r do c=c+1;l[e]=s[c];end;e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,r));for e=a+1,r do l[e]=nil;end;e=e[o];local a=e[n];l[a]=l[a]();e=e[o];local a=(_96);(function()local n=e[n];local x=l[e[x]];l[n+1]=x;l[n]=x[e[d]];e=e[o];end){};local r;local s;local h;local c=0;local function a(l,e,n)e=(c+e)%3 c=((e~=0)and c+((e<2)and-l or l)or c*l)%n return c end for o=1,34 do if a(9626,1229+o,3938)>1969 then if a(8679,8533+o,1562)<=781 then if a(2166,1421+o,1206)>=603 then else end else if a(3350,2510+o,3512)>=1756 then else h=e[r];end l[h]=s;end else if a(5905,7531+o,2230)<1115 then if a(9932,5161+o,2970)<=1485 then if(l[e[n]]==e[d])then i=i+1;else i=e[x];end;else end else r=n;if a(8194,4621+o,2358)>=1179 then l[e[n]]=l[e[x]];else s=e[x];end end end end local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];local a=(_11);(function()local a=e[n];local n=l[e[x]];l[a+1]=n;l[a]=n[e[d]];e=e[o];end){};local d=(_118);(function()l[e[n]]=e[x];e=e[o];end){};e=e[o];elseif(a<23)then l[e[n]]=l[e[x]][l[e[d]]];end;elseif(a<=27)then if(a<=25)then if(a>24)then e=e[o];l[e[n]]=c[e[x]];e=e[o];local w;local y;local p;local u;local b;local h=0;local function a(l,e,n)e=(h+e)%3 h=((e~=0)and h+((e<2)and-l or l)or h*l)%n return h end for o=0,25 do if a(7323,8592+o,366)<=183 then if a(8145,2160+o,214)>=107 then b=e[y];if a(8226,6621+o,3094)<1547 then else l[b]=u;end else if a(6577,9627+o,446)<=223 then w=c;else end end y=n;else if a(8523,5716+o,1900)>950 then if a(9455,1475+o,2080)<=1040 then p=e[x];else if(e[n]~=e[d])then i=i+1;else i=e[x];end;end u=w[p];else if a(2857,4012+o,2952)>1476 then i=e[x];else end end end end local a=e[n];local c=l[e[x]];l[a+1]=c;l[a]=c[e[d]];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];local a=e[n];local x=l[e[x]];l[a+1]=x;l[a]=x[e[d]];e=e[o];local x=e[n];local c,a=s(l[x](l[x+1]));r=a+x-1;local a=0;for e=x,r do a=a+1;l[e]=c[a];end;e=e[o];local n=e[n];local a={l[n](t(l,n+1,r));};local d=e[d];local x=0;for e=n,d do x=x+1;l[e]=a[x];end;for e=d+1,f do l[e]=nil;end;e=e[o];e=e[o];elseif(a<25)then l[e[n]]=l[e[x]][e[d]];end;elseif(a>26)then l[e[n]]=l[e[x]];e=e[o];local h;local s;local u;local r=0;local function a(l,e,n)e=(r+e)%3 r=((e~=0)and r+((1==e)and l or-l)or r*l)%n return r end for o=1,34 do if a(5045,6248+o,1438)>719 then if a(1789,7326+o,3682)<1841 then l[e[n]]=#l[e[x]];if a(5684,9145+o,502)<=251 then if(e[n]~=e[d])then i=i+1;else i=e[x];end;else l[e[n]]=c[e[x]];end else u=e[h];if a(9839,5892+o,3726)<=1863 then l[u]=s;else l[e[n]]=l[e[x]];end end else if a(8997,2129+o,2288)<1144 then h=n;if a(9560,3366+o,604)>=302 then s=e[x];else end else if a(1549,1928+o,736)>=368 then else end end end end local h;local w;local s;local u;local b;local r=0;local function a(l,e,n)e=(r+e)%3 r=((e~=0)and r+((e<2)and l or-l)or r*l)%n return r end for o=2,25 do if a(4496,1812+o,2864)<=1432 then if a(3821,3837+o,1996)>998 then if a(6077,6715+o,1186)<=593 then l[e[n]]=l[e[x]]+e[d];else h=c;end w=n;else if a(3351,2946+o,3764)>1882 then else if(l[e[n]]==e[d])then i=i+1;else i=e[x];end;end end else if a(1189,3227+o,3192)<=1596 then s=e[x];if a(9021,5098+o,1064)<=532 then else u=h[s];end else if a(5187,7841+o,392)>=196 then else l[b]=u;end end b=e[w];end end l[e[n]]=c[e[x]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=#l[e[x]];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=l[e[x]][l[e[d]]];e=e[o];local a=e[n];l[a]=l[a](l[a+1]);for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=e[x];e=e[o];local c=e[x];local a=l[c];for e=c+1,e[d]do a=a..l[e];end;l[e[n]]=a;e=e[o];local n=e[n];l[n](t(l,n+1,e[x]));for e=n+1,f do l[e]=nil;end;e=e[o];e=e[o];elseif(a<27)then local n=e[n];local x=e[x];local d=50*(e[d]-1);local o=l[n];local e=0;for x=n+1,x do o[d+e+1]=l[n+(x-n)];e=e+1;end;end;elseif(a<=29)then if(a==28)then l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local f;local c;local t;local a=0;local function d(l,e,n)e=(a+e)%3 a=((e~=0)and a+((1==e)and-l or l)or a*l)%n return a end for o=1,26 do if d(2837,2354+o,1972)>=986 then if d(7971,9351+o,3114)>=1557 then if d(3785,7783+o,3082)<=1541 then else t=e[f];end l[t]=c;else if d(1119,2822+o,3880)>1940 then else end end else f=n;if d(4718,9402+o,3612)<=1806 then if d(7924,9181+o,3070)<1535 then else end else if d(6912,4944+o,3622)>1811 then c=e[x];else l[e[n]]=#l[e[x]];end end end end l[e[n]]=e[x];e=e[o];local c;local t;local f;local a=0;local function d(e,l,n)e=(a+e)%3 a=((e~=0)and a+((e<2)and-l or l)or a*l)%n return a end for o=2,26 do if d(7185,5505+o,1364)>=682 then if d(9243,6082+o,826)>413 then if d(5692,1688+o,1566)<=783 then t=e[x];else end else if d(5792,9669+o,3134)>1567 then f=e[c];else end end else if d(6073,9364+o,1820)<910 then if d(6543,4385+o,3736)<1868 then l[f]=t;else end else if d(7723,5766+o,1718)<859 then i=e[x];else c=n;end end end end local t;local c;local f;local a=0;local function d(e,l,n)e=(a+e)%3 a=((e~=0)and a+((1==e)and-l or l)or a*l)%n return a end for o=1,28 do if d(8708,7922+o,1312)<656 then t=n;if d(3100,7425+o,3664)<1832 then if d(1359,1780+o,3468)>1734 then else f=e[t];end l[f]=c;else if d(2949,6762+o,1776)<888 then else c=e[x];end end else if d(1666,5018+o,1960)>=980 then if d(3112,4380+o,1392)<=696 then else end else if d(3376,2662+o,2596)<1298 then else end end end end e=e[o];elseif(a<=29)then local n=e[n];l[n]=0+(l[n]);l[n+1]=0+(l[n+1]);l[n+2]=0+(l[n+2]);local o=l[n];local d=l[n+2];if(d>0)then if(o>l[n+1])then i=e[x];else l[n+3]=o;end;elseif(o<l[n+1])then i=e[x];else l[n+3]=o;end;end;elseif(a<=30)then local r;local h;local s;local b;local u;local i=0;local function a(e,l,n)e=(i+e)%3 i=((e~=0)and i+((e<2)and-l or l)or i*l)%n return i end for o=2,34 do if a(5375,4183+o,3472)>1736 then if a(2108,5692+o,3738)>=1869 then if a(8663,9580+o,1330)<=665 then else end else if a(8309,5956+o,3878)<=1939 then b=r[s];else end u=e[h];end else if a(5002,1032+o,2604)>=1302 then if a(3417,6325+o,1626)<813 then else end else r=c;if a(3201,9223+o,1252)>=626 then h=n;else l[u]=b;end end s=e[x];end end l[e[n]]();e=e[o];local r;local s;local u;local h;local b;local i=0;local function a(e,l,n)e=(i+e)%3 i=((e~=0)and i+((1==e)and-l or l)or i*l)%n return i end for o=1,34 do if a(3529,3411+o,1330)<665 then if a(4432,8918+o,718)<=359 then if a(5722,3758+o,316)<158 then b=e[s];else end else if a(4052,6259+o,3942)>1971 then r=c;else end s=n;end else if a(2017,4709+o,2322)<=1161 then u=e[x];if a(3437,6580+o,3738)<=1869 then l[b]=h;else h=r[u];end else if a(8721,1788+o,232)<=116 then else end end end end local c=e[n];local a=l[e[x]];l[c+1]=a;l[c]=a[e[d]];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];local n=e[n];local x=l[e[x]];l[n+1]=x;l[n]=x[e[d]];e=e[o];e=e[o];elseif(a>31)then l[e[n]]=e[x];e=e[o];local f;local r;local t;local c=0;local function a(l,e,n)e=(c+e)%3 c=((e~=0)and c+((e<2)and l or-l)or c*l)%n return c end for o=2,25 do if a(3337,7842+o,504)>=252 then if a(4915,9515+o,2384)<=1192 then if a(5462,9464+o,2134)<1067 then else end else if a(1027,9994+o,1952)>=976 then else end end else f=n;if a(8310,4110+o,2666)<=1333 then if a(3320,9889+o,454)<227 then else r=e[x];end t=e[f];else if a(1269,4370+o,1144)<572 then else l[t]=r;end end end end l[e[n]]=e[x];e=e[o];local t;local r;local f;local c=0;local function a(l,e,n)e=(c+e)%3 c=((e~=0)and c+((e<2)and l or-l)or c*l)%n return c end for o=1,30 do if a(8347,4131+o,1450)>725 then if a(9890,2098+o,3768)<=1884 then if a(5924,8509+o,764)>382 then l[e[n]]=l[e[x]]+e[d];else end else if a(3176,8646+o,3942)>1971 then else t=n;end end else r=e[x];if a(1189,7973+o,1280)<=640 then if a(7354,4225+o,2844)>1422 then l[f]=r;else f=e[t];end else if a(8658,5264+o,3620)>=1810 then else l[e[n]]=#l[e[x]];end end end end l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local t;local r;local f;local c=0;local function a(e,l,n)e=(c+e)%3 c=((e~=0)and c+((e<2)and-l or l)or c*l)%n return c end for o=0,30 do if a(3490,8366+o,572)>=286 then if a(7771,7001+o,1296)>=648 then if a(9349,5902+o,3804)>1902 then l[f]=r;else end else if a(4776,7189+o,1000)>=500 then else if(e[n]~=e[d])then i=i+1;else i=e[x];end;end end else if a(4404,7761+o,2010)<1005 then t=n;if a(2255,9737+o,1880)>=940 then else r=e[x];end else if a(9605,6348+o,510)>=255 then else end end f=e[t];end end l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];e=e[o];elseif(a<32)then l[e[n]]=c[e[x]];e=e[o];l[e[n]]();e=e[o];local b;local u;local s;local r;local h;local i=0;local function a(e,l,n)e=(i+e)%3 i=((e~=0)and i+((e<2)and l or-l)or i*l)%n return i end for o=1,28 do if a(1302,2964+o,1208)<604 then if a(7207,8832+o,3198)<1599 then if a(4661,5786+o,430)>215 then else l[h]=r;end else b=c;if a(8975,3505+o,1582)>791 then u=n;else end end else if a(7158,6901+o,3494)>=1747 then if a(8054,1028+o,3364)<1682 then h=e[u];else end else if a(5841,1837+o,3480)<=1740 then s=e[x];else r=b[s];end end end end local a=(_196);(function()local n=e[n];local x=l[e[x]];l[n+1]=x;l[n]=x[e[d]];e=e[o];end){};l[e[n]]=e[x];e=e[o];local a=(_78);(function()local n=e[n];l[n]=l[n](t(l,n+1,e[x]));for e=n+1,f do l[e]=nil;end;e=e[o];end){};l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];local n=e[n];local x=l[e[x]];l[n+1]=x;l[n]=x[e[d]];e=e[o];e=e[o];end;elseif(a<=48)then if(a<=40)then if(a<=36)then if(a<=34)then if(a==33)then local a=e[n];local x=l[e[x]];l[a+1]=x;l[a]=x[e[d]];e=e[o];local n=e[n];l[n](l[1+n]);for e=n,f do l[e]=nil;end;e=e[o];e=e[o];elseif(a<=34)then l[e[n]]=e[x];e=e[o];l[e[n]]=l[e[x]];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]][e[x]]=l[e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]][e[x]]=l[e[d]];e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]][e[x]]=l[e[d]];e=e[o];l[e[n]][e[x]]=e[d];e=e[o];l[e[n]][e[x]]=e[d];e=e[o];e=e[o];end;elseif(a==35)then l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local s;local r;local t;local f=0;local function a(e,l,n)e=(f+e)%3 f=((e~=0)and f+((1==e)and-l or l)or f*l)%n return f end for o=1,34 do if a(2580,3688+o,820)<=410 then s=n;if a(6952,8857+o,3602)<=1801 then if a(2359,5973+o,3226)>1613 then else end else if a(2276,6029+o,2830)>1415 then r=e[x];else end end else if a(1461,9701+o,2042)>=1021 then if a(8129,9293+o,1236)>=618 then else end else if a(9879,3485+o,2346)>1173 then t=e[s];else end l[t]=r;end end end local t;local s;local r;local f=0;local function a(l,e,n)e=(f+e)%3 f=((e~=0)and f+((e<2)and l or-l)or f*l)%n return f end for o=2,32 do if a(7952,2407+o,2020)>1010 then if a(3571,7014+o,2656)<=1328 then if a(2112,8007+o,2292)<1146 then else end else if a(3885,7705+o,348)>=174 then else end end else if a(2528,9477+o,1940)<=970 then r=e[t];if a(4453,5246+o,3028)<1514 then else l[r]=s;end else t=n;if a(4754,7726+o,616)<=308 then s=e[x];else end end end end l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local t;local r;local s;local f=0;local function a(l,e,n)e=(f+e)%3 f=((e~=0)and f+((e<2)and l or-l)or f*l)%n return f end for o=0,31 do if a(6339,2270+o,2444)<=1222 then if a(3089,6670+o,676)>=338 then if a(2560,3282+o,1322)>661 then if(l[e[n]]==e[d])then i=i+1;else i=e[x];end;else r=e[x];end else if a(9865,9084+o,1356)<678 then else t=n;end end else s=e[t];if a(2890,5201+o,1252)<=626 then l[s]=r;if a(7367,9435+o,2176)>1088 then else end else if a(7502,9951+o,3880)>=1940 then else end end end end l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local s;local r;local t;local f=0;local function a(l,e,n)e=(f+e)%3 f=((e~=0)and f+((1==e)and l or-l)or f*l)%n return f end for o=0,28 do if a(4700,8976+o,976)<488 then if a(3531,6448+o,2472)<1236 then if a(8325,3896+o,1162)<581 then else s=n;end else if a(7975,3554+o,1666)<=833 then else r=e[x];end t=e[s];end else if a(5909,2486+o,1580)>=790 then l[e[n]]=c[e[x]];if a(4024,4492+o,1120)<=560 then l[e[n]]=l[e[x]]+e[d];else local o=e[x];local x=l[o];for e=o+1,e[d]do x=x..l[e];end;l[e[n]]=x;end else if a(3745,5068+o,512)<=256 then else l[t]=r;end end end end local f;local c;local t;local a=0;local function d(l,e,n)e=(a+e)%3 a=((e~=0)and a+((1==e)and-l or l)or a*l)%n return a end for o=0,34 do if d(4583,9307+o,2822)>1411 then if d(2781,8283+o,3278)>1639 then if d(6933,8211+o,2204)>1102 then else end else l[t]=c;if d(2467,9554+o,3304)>1652 then else end end else f=n;if d(2212,7097+o,3162)<1581 then if d(4155,6523+o,3674)<=1837 then else i=e[x];end else if d(3260,5094+o,804)<402 then c=e[x];else end t=e[f];end end end l[e[n]]=e[x];e=e[o];e=e[o];elseif(a<=36)then l[e[n]]=#l[e[x]];end;elseif(a<=38)then if(a>37)then local t;local f;local i;local c=0;local function a(l,e,n)e=(c+e)%3 c=((e~=0)and c+((e<2)and l or-l)or c*l)%n return c end for o=2,26 do if a(3220,5412+o,1882)<941 then if a(7439,2618+o,1874)>937 then if a(2755,7110+o,3366)>1683 then i=e[t];else l[e[n]]=e[x]-e[d];end else if a(4251,8337+o,1842)>=921 then t=n;else f=e[x];end end else l[i]=f;if a(3263,8642+o,724)>=362 then if a(2642,1023+o,526)<=263 then else end else if a(9794,6333+o,2740)>=1370 then else l[e[n]]=#l[e[x]];end end end end l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local c;local f;local t;local a=0;local function d(e,l,n)e=(a+e)%3 a=((e~=0)and a+((e<2)and l or-l)or a*l)%n return a end for o=2,32 do if d(9021,2463+o,2678)>1339 then l[t]=f;if d(6849,9638+o,2810)>1405 then if d(2561,8229+o,1034)<517 then else end else if d(1001,4560+o,2304)<=1152 then else end end else if d(2813,2944+o,3332)>=1666 then if d(5017,7773+o,1344)<672 then else end else if d(8573,9835+o,2122)>1061 then c=n;else end f=e[x];end t=e[c];end end l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];e=e[o];elseif(a<38)then l[e[n]]=w(e[x]);end;elseif(a>39)then local e=e[n];l[e]=l[e](t(l,e+1,r));for e=e+1,r do l[e]=nil;end;elseif(a<40)then l[e[n]]=w(256);end;elseif(a<=44)then if(a<=42)then if(a==41)then local e=e[n];l[e]=l[e](l[e+1]);for e=e+1,f do l[e]=nil;end;elseif(a<=42)then l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local s;local r;local t;local f=0;local function a(l,e,n)e=(f+e)%3 f=((e~=0)and f+((e<2)and-l or l)or f*l)%n return f end for o=1,26 do if a(2631,8790+o,726)<363 then s=n;if a(9781,6791+o,3512)>=1756 then if a(8237,8371+o,3514)>=1757 then else end else if a(3936,6632+o,1462)>731 then else r=e[x];end t=e[s];end else if a(4343,7806+o,3378)<=1689 then l[t]=r;if a(3377,5524+o,3878)<1939 then else if(l[e[n]]==e[d])then i=i+1;else i=e[x];end;end else if a(5775,6151+o,2632)>=1316 then else end end end end l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local i;local r;local t;local f=0;local function a(e,l,n)e=(f+e)%3 f=((e~=0)and f+((e<2)and-l or l)or f*l)%n return f end for o=2,33 do if a(1469,7365+o,3782)<1891 then if a(4028,7320+o,922)>=461 then if a(6164,1146+o,1698)>849 then else end else if a(5716,8487+o,2298)<=1149 then else end end else i=n;if a(4723,1907+o,1800)<900 then if a(4728,6213+o,594)>297 then l[t]=r;else end else if a(1505,5811+o,3744)>1872 then r=e[x];else end t=e[i];end end end l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local r;local i;local t;local f=0;local function a(e,l,n)e=(f+e)%3 f=((e~=0)and f+((1==e)and-l or l)or f*l)%n return f end for o=2,27 do if a(7666,3180+o,1798)>899 then if a(8935,5042+o,3328)<=1664 then if a(3578,3389+o,812)<406 then else end else if a(9208,4371+o,1936)<=968 then t=e[r];else end end l[t]=i;else if a(8654,1173+o,486)>243 then if a(2052,2619+o,720)>=360 then else end else if a(1024,9194+o,2824)<=1412 then else r=n;end end i=e[x];end end l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local i;local t;local r;local f=0;local function a(l,e,n)e=(f+e)%3 f=((e~=0)and f+((1==e)and-l or l)or f*l)%n return f end for o=1,33 do if a(5071,3599+o,3504)>=1752 then if a(4615,7550+o,3070)<=1535 then if a(4778,3300+o,1490)<=745 then else end else if a(2112,8192+o,3794)>1897 then else l[r]=t;end end else i=n;if a(5037,3018+o,1038)>519 then if a(3490,7233+o,2222)>=1111 then else l[e[n]]=l[e[x]]+e[d];end else t=e[x];if a(1224,2233+o,1726)>=863 then r=e[i];else l[e[n]]=c[e[x]];end end end end l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];e=e[o];end;elseif(a==43)then local n=e[n];local o={l[n](t(l,n+1,r));};local x=e[d];local e=0;for n=n,x do e=e+1;l[n]=o[e];end;for e=x+1,f do l[e]=nil;end;elseif(a<=44)then local e=e[n];l[e]=l[e]();end;elseif(a<=46)then if(a==45)then l[e[n]]=e[x];e=e[o];l[e[n]]=l[e[x]];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]][e[x]]=l[e[d]];e=e[o];l[e[n]][e[x]]=e[d];e=e[o];l[e[n]][e[x]]=e[d];e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];local u;local s;local h;local r=0;local function a(l,e,n)e=(r+e)%3 r=((e~=0)and r+((e<2)and l or-l)or r*l)%n return r end for o=0,33 do if a(5466,1720+o,3396)>=1698 then if a(6573,4945+o,2938)>1469 then if a(4807,7283+o,2310)>1155 then u=n;else local o=e[x];local x=l[o];for e=o+1,e[d]do x=x..l[e];end;l[e[n]]=x;end s=e[x];else if a(1817,6629+o,3996)>1998 then else end end h=e[u];else l[h]=s;if a(4477,8641+o,2770)<1385 then if a(4441,3961+o,1642)<=821 then i=e[x];else end else if a(3411,8310+o,1422)<=711 then else end end end end local s;local p;local u;local y;local w;local b;local r=0;local h=0;local function a(l,e,n)e=(r+e)%3 r=((e~=0)and r+((1==e)and-l or l)or r*l)%n return r end for o=2,33 do if a(3871,9692+o,2504)>1252 then if a(9535,5349+o,1962)<=981 then if a(3407,6733+o,236)>=118 then if h~=1 then l[b]=w;h=1;end;else u=n;end else if a(8010,1640+o,1692)>=846 then else w=y[s[p]];end b=s[u];end y=l;else if a(8918,9072+o,3052)>1526 then if a(5384,1506+o,2256)>=1128 then l[e[n]]=l[e[x]]+e[d];else end else if a(2690,8865+o,1552)>776 then s=e;else end p=x;end end end local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];local s;local h;local u;local r=0;local function a(l,e,n)e=(r+e)%3 r=((e~=0)and r+((e<2)and-l or l)or r*l)%n return r end for o=1,30 do if a(9096,6157+o,2966)<1483 then if a(2845,8110+o,1286)>643 then if a(7468,9056+o,490)<=245 then else end else if a(9379,5188+o,1254)>627 then s=n;else u=e[s];end end h=e[x];else if a(4448,2912+o,632)<=316 then if a(9861,6062+o,978)<489 then l[u]=h;else l[e[n]]=e[x]-e[d];end else if a(8725,8339+o,3174)<=1587 then l[e[n]]=#l[e[x]];else if(l[e[n]]==e[d])then i=i+1;else i=e[x];end;end end end end l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]][e[x]]=l[e[d]];e=e[o];l[e[n]][e[x]]=e[d];e=e[o];l[e[n]][e[x]]=e[d];e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];e=e[o];elseif(a<=46)then local n=e[n];local x=l[e[x]];l[n+1]=x;l[n]=x[e[d]];end;elseif(a==47)then l[e[n]]=c[e[x]];e=e[o];l[e[n]]();e=e[o];local r;local s;local h;local u;local b;local i=0;local function a(e,l,n)e=(i+e)%3 i=((e~=0)and i+((1==e)and l or-l)or i*l)%n return i end for o=2,27 do if a(6370,9196+o,2944)>1472 then if a(5740,5989+o,2290)>=1145 then if a(9084,1477+o,2802)<=1401 then u=r[h];else end else if a(4323,1581+o,3072)>=1536 then b=e[s];else l[e[n]]=#l[e[x]];end l[b]=u;end else r=c;if a(9667,3221+o,2894)>1447 then if a(7835,9998+o,2088)<1044 then else end else if a(6785,2264+o,3512)>1756 then s=n;else end h=e[x];end end end local a=e[n];local c=l[e[x]];l[a+1]=c;l[a]=c[e[d]];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];local n=e[n];local x=l[e[x]];l[n+1]=x;l[n]=x[e[d]];e=e[o];e=e[o];elseif(a<=48)then i=e[x];end;elseif(a<=56)then if(a<=52)then if(a<=50)then if(a>49)then l[e[n]]=w(e[x]);e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local r;local f;local t;local c=0;local function a(l,e,n)e=(c+e)%3 c=((e~=0)and c+((1==e)and-l or l)or c*l)%n return c end for o=2,29 do if a(3788,5278+o,3232)<=1616 then r=n;if a(4663,2434+o,1574)<787 then if a(8199,8267+o,1602)>=801 then f=e[x];else end else t=e[r];if a(4221,2715+o,2542)<1271 then l[t]=f;else end end else if a(3049,2614+o,3904)<=1952 then if a(3614,8259+o,2486)<1243 then else if(l[e[n]]==e[d])then i=i+1;else i=e[x];end;end else if a(2230,4856+o,1706)>853 then else end end end end l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local f;local t;local r;local c=0;local function a(e,l,n)e=(c+e)%3 c=((e~=0)and c+((1==e)and l or-l)or c*l)%n return c end for o=0,33 do if a(2292,7730+o,1728)<=864 then if a(2103,8622+o,2734)>=1367 then if a(5499,8846+o,444)<222 then else end else if a(7376,7513+o,2522)>1261 then if(e[n]~=e[d])then i=i+1;else i=e[x];end;else f=n;end end else if a(8751,9207+o,3660)>1830 then if a(4941,9742+o,1638)<819 then else t=e[x];end r=e[f];else if a(6448,9497+o,2664)>1332 then l[r]=t;else end end end end l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local i;local f;local t;local c=0;local function a(e,l,n)e=(c+e)%3 c=((e~=0)and c+((1==e)and l or-l)or c*l)%n return c end for o=2,27 do if a(7296,9717+o,1624)<=812 then i=n;if a(8393,5517+o,2704)<1352 then if a(6419,1720+o,2406)>=1203 then else end else f=e[x];if a(7536,4416+o,2332)<=1166 then t=e[i];else end end else l[t]=f;if a(6035,2301+o,2898)>1449 then if a(2771,8602+o,1714)<857 then else end else if a(9864,3893+o,2782)>1391 then else l[e[n]]=l[e[x]];end end end end l[e[n]]=e[x];e=e[o];local f;local t;local i;local c=0;local function a(e,l,n)e=(c+e)%3 c=((e~=0)and c+((1==e)and l or-l)or c*l)%n return c end for o=2,31 do if a(2630,7022+o,3500)>=1750 then if a(1437,2313+o,1966)>983 then f=n;if a(1713,9889+o,936)>468 then t=e[x];else end else if a(4627,8712+o,2308)<1154 then else end end i=e[f];else if a(8546,9814+o,1726)<863 then l[i]=t;if a(5653,4999+o,2930)<=1465 then else end else if a(1675,3324+o,240)>120 then else end end end end local f;local t;local i;local c=0;local function a(l,e,n)e=(c+e)%3 c=((e~=0)and c+((1==e)and l or-l)or c*l)%n return c end for o=2,26 do if a(2528,8364+o,1650)<=825 then if a(9973,4652+o,220)<110 then f=n;if a(4824,1692+o,2192)>1096 then t=e[x];else end else if a(5903,4447+o,1896)<=948 then i=e[f];else end end else if a(3803,9042+o,732)<=366 then if a(4530,5024+o,260)>=130 then else end else l[i]=t;if a(6099,1302+o,930)>465 then l[e[n]]=e[x]-e[d];else end end end end l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];e=e[o];elseif(a<50)then local c;local f;local a;local d=0;local function o(e,l,n)e=(d+e)%3 d=((e~=0)and d+((e<2)and l or-l)or d*l)%n return d end for d=2,31 do if o(6815,6240+d,3118)<1559 then if o(5861,9041+d,1312)<656 then if o(2371,4022+d,2916)>=1458 then else l[a]=f;end else if o(7231,9155+d,1178)>589 then else end end else if o(3779,3095+d,2030)>1015 then if o(7428,9952+d,324)<162 then else c=n;end f=e[x];else if o(2789,2083+d,2516)>1258 then else end end a=e[c];end end end;elseif(a>51)then e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=c[e[x]];e=e[o];local c=e[n];local a=l[e[x]];l[c+1]=a;l[c]=a[e[d]];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];local a=e[n];local x=l[e[x]];l[a+1]=x;l[a]=x[e[d]];e=e[o];local x=e[n];local c,a=s(l[x](l[x+1]));r=a+x-1;local a=0;for e=x,r do a=a+1;l[e]=c[a];end;e=e[o];local x=e[n];local a={l[x](t(l,x+1,r));};local d=e[d];local n=0;for e=x,d do n=n+1;l[e]=a[n];end;for e=d+1,f do l[e]=nil;end;e=e[o];e=e[o];elseif(a<52)then e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=c[e[x]];e=e[o];local c=e[n];local a=l[e[x]];l[c+1]=a;l[c]=a[e[d]];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];local a=e[n];local x=l[e[x]];l[a+1]=x;l[a]=x[e[d]];e=e[o];local x=e[n];local c,a=s(l[x](l[x+1]));r=a+x-1;local a=0;for e=x,r do a=a+1;l[e]=c[a];end;e=e[o];local n=e[n];local a={l[n](t(l,n+1,r));};local d=e[d];local x=0;for e=n,d do x=x+1;l[e]=a[x];end;for e=d+1,f do l[e]=nil;end;e=e[o];e=e[o];end;elseif(a<=54)then if(a>53)then l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local r;local f;local t;local c=0;local function a(l,e,n)e=(c+e)%3 c=((e~=0)and c+((1==e)and-l or l)or c*l)%n return c end for o=0,29 do if a(3783,6796+o,2564)>=1282 then if a(6055,3666+o,1146)<573 then if a(6833,3169+o,1654)<827 then f=e[x];else t=e[r];end else if a(2193,9726+o,556)<=278 then r=n;else end end else if a(1190,7519+o,3920)<=1960 then if a(3646,3113+o,2994)>=1497 then else i=e[x];end else if a(3815,5644+o,3868)<1934 then if(e[n]~=e[d])then i=i+1;else i=e[x];end;else l[t]=f;end end end end l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];e=e[o];elseif(a<54)then l[e[n]]=c[e[x]];e=e[o];l[e[n]]();e=e[o];l[e[n]]=c[e[x]];e=e[o];local a=e[n];local c=l[e[x]];l[a+1]=c;l[a]=c[e[d]];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];local a=e[n];local n=l[e[x]];l[a+1]=n;l[a]=n[e[d]];e=e[o];e=e[o];end;elseif(a>55)then l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];e=e[o];elseif(a<56)then l[e[n]]=e[x];e=e[o];l[e[n]]=l[e[x]];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]][e[x]]=l[e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]][e[x]]=l[e[d]];e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=e[x];e=e[o];local s;local h;local r;local c=0;local function a(e,l,n)e=(c+e)%3 c=((e~=0)and c+((e<2)and-l or l)or c*l)%n return c end for o=2,28 do if a(8865,1714+o,390)>=195 then if a(2239,8810+o,2250)<=1125 then if a(7896,5099+o,2560)<1280 then else end else if a(8398,6353+o,2946)<1473 then else l[e[n]]=l[e[x]];end end else if a(2047,8778+o,2620)<=1310 then if a(9709,6467+o,214)>107 then l[e[n]]=e[x]-e[d];else l[r]=h;end else if a(4653,9395+o,3568)<1784 then s=n;else r=e[s];end h=e[x];end end end local r;local s;local h;local c=0;local function a(l,e,n)e=(c+e)%3 c=((e~=0)and c+((1==e)and l or-l)or c*l)%n return c end for o=2,31 do if a(1795,7098+o,3070)<1535 then if a(9586,1547+o,3704)<=1852 then if a(9412,5895+o,1952)<976 then h=e[r];else i=e[x];end l[h]=s;else r=n;if a(1460,4220+o,1792)>=896 then s=e[x];else end end else if a(8497,7933+o,1038)>=519 then if a(4279,8221+o,1420)>710 then else end else if a(2223,5195+o,992)>496 then else end end end end l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]][e[x]]=l[e[d]];e=e[o];l[e[n]][e[x]]=e[d];e=e[o];l[e[n]][e[x]]=e[d];e=e[o];e=e[o];end;elseif(a<=60)then if(a<=58)then if(a==57)then l[e[n]]=D(E[e[x]],(nil),c);elseif(a<=58)then l[e[n]]=e[x];e=e[o];l[e[n]]=l[e[x]];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]][e[x]]=l[e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]][e[x]]=l[e[d]];e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=e[x];e=e[o];local i;local s;local r;local c=0;local function a(e,l,n)e=(c+e)%3 c=((e~=0)and c+((e<2)and-l or l)or c*l)%n return c end for o=1,26 do if a(4921,5707+o,3508)>1754 then if a(6960,6766+o,3780)>1890 then if a(8730,7487+o,1368)<684 then else end else if a(2823,1674+o,1414)<=707 then else end end else if a(1102,6502+o,666)>=333 then s=e[x];if a(2624,1437+o,3068)<=1534 then else r=e[i];end else if a(1781,8493+o,2804)<=1402 then l[r]=s;else i=n;end end end end l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]][e[x]]=l[e[d]];e=e[o];l[e[n]][e[x]]=e[d];e=e[o];l[e[n]][e[x]]=e[d];e=e[o];e=e[o];end;elseif(a==59)then do return;end;elseif(a<=60)then e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]();e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]();e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a](l[1+a]);for e=a,f do l[e]=nil;end;e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=c[e[x]];e=e[o];local c=e[n];local a=l[e[x]];l[c+1]=a;l[c]=a[e[d]];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];local a=e[n];local x=l[e[x]];l[a+1]=x;l[a]=x[e[d]];e=e[o];local x=e[n];local c,a=s(l[x](l[x+1]));r=a+x-1;local a=0;for e=x,r do a=a+1;l[e]=c[a];end;e=e[o];local x=e[n];local a={l[x](t(l,x+1,r));};local d=e[d];local n=0;for e=x,d do n=n+1;l[e]=a[n];end;for e=d+1,f do l[e]=nil;end;e=e[o];e=e[o];end;elseif(a<=62)then if(a==61)then local e=e[n];local x,n=s(l[e](l[e+1]));r=n+e-1;local n=0;for e=e,r do n=n+1;l[e]=x[n];end;elseif(a<=62)then local a=(_190);(function()e=e[o];end){};l[e[n]]=c[e[x]];e=e[o];l[e[n]]();e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]();e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a](l[1+a]);for e=a,f do l[e]=nil;end;e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=c[e[x]];e=e[o];local c=e[n];local a=l[e[x]];l[c+1]=a;l[c]=a[e[d]];e=e[o];l[e[n]]=e[x];e=e[o];local a=(_86);(function()local n=e[n];l[n]=l[n](t(l,n+1,e[x]));for e=n+1,f do l[e]=nil;end;e=e[o];end){};l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];local a=e[n];local x=l[e[x]];l[a+1]=x;l[a]=x[e[d]];e=e[o];local x=e[n];local c,a=s(l[x](l[x+1]));r=a+x-1;local a=0;for e=x,r do a=a+1;l[e]=c[a];end;e=e[o];local n=e[n];local a={l[n](t(l,n+1,r));};local d=e[d];local x=0;for e=n,d do x=x+1;l[e]=a[x];end;for e=d+1,f do l[e]=nil;end;e=e[o];e=e[o];end;elseif(a<=63)then local e=e[n];r=e+u-1;for n=0,u do l[e+n]=b[n];end;for e=r+1,f do l[e]=nil;end;elseif(a>64)then e=e[o];local x=e[n];r=x+u-1;for e=0,u do l[x+e]=b[e];end;for e=r+1,f do l[e]=nil;end;e=e[o];local n=e[n];do return t(l,n,r);end;e=e[o];e=e[o];elseif(a<65)then l[e[n]]=e[x];e=e[o];l[e[n]]=l[e[x]];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]][e[x]]=l[e[d]];e=e[o];l[e[n]][e[x]]=e[d];e=e[o];l[e[n]][e[x]]=e[d];e=e[o];local s;local h;local b;local w;local u;local r=0;local function a(e,l,n)e=(r+e)%3 r=((e~=0)and r+((e<2)and-l or l)or r*l)%n return r end for o=2,33 do if a(4629,7004+o,1470)>=735 then if a(8203,8010+o,410)<205 then if a(6885,4001+o,3248)<=1624 then l[u]=w;else end else if a(3670,5090+o,2680)>=1340 then if(e[n]~=e[d])then i=i+1;else i=e[x];end;else u=e[h];end end else if a(5476,3803+o,2254)<=1127 then if a(3845,5475+o,3386)>=1693 then w=s[b];else s=c;end else h=n;if a(2446,2895+o,268)>=134 then b=e[x];else end end end end l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=e[x];e=e[o];local s;local w;local b;local y;local u;local h;local r=0;local p=0;local function a(l,e,n)e=(r+e)%3 r=((e~=0)and r+((1==e)and-l or l)or r*l)%n return r end for o=0,27 do if a(8193,5737+o,2124)<1062 then if a(2034,8046+o,2256)<=1128 then s=e;if a(8053,4145+o,3508)<=1754 then w=x;else if p~=1 then l[h]=u;p=1;end;end else if a(5018,6709+o,3268)>=1634 then h=s[b];else end end b=n;else y=l;if a(8074,6989+o,1818)<909 then if a(1942,3184+o,3012)>=1506 then u=y[s[w]];else i=e[x];end else if a(7978,1773+o,2068)<1034 then l[e[n]]=l[e[x]];else l[e[n]]=c[e[x]];end end end end local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];l[e[n]]=e[x];e=e[o];local a=e[n];l[a]=l[a](t(l,a+1,e[x]));for e=a+1,f do l[e]=nil;end;e=e[o];l[e[n]][e[x]]=l[e[d]];e=e[o];l[e[n]][e[x]]=e[d];e=e[o];l[e[n]][e[x]]=e[d];e=e[o];l[e[n]]=c[e[x]];e=e[o];l[e[n]]=l[e[x]][e[d]];e=e[o];e=e[o];end;until false end);end;return D(L(),{},B())(...);end)(({[(776801314)]=((421));[(667031179)]=(((#{(function(...)return 67,276,655,422,...;end)(730,489)}+5)));[(525772191)]=("\107");[((#{714;1;398;508;(function(...)return 899,965;end)()}+134943433))]=("\112");N62YABHk=(((#{730;947;621;}+155)));['J8bkmv']=(((#{337;490;807;439;}+298)));[((89122306-#("i am not wally stop asking me for wally hub support please fuck off")))]=((192661));[(232363738)]=(((#{893;743;363;(function(...)return 108,590,201;end)()}+159)));[((#{514;}+439576264))]=((7));["WA1ykPqGyd"]=(((#{}+134943439)));[(162058263)]=(((#{234;214;728;(function(...)return...;end)(971,381,217)}+15)));HT5X4F2if=("\119");[((424840392-#("why the fuck would we sell a deobfuscator for a product we created.....")))]=("\51");[(236697185)]=(((205045327-#("Perth Was here impossible ikr"))));["UfXdiRX4"]=("\121");[(221015486)]=((479964307));[((#{(function(...)return 253,424,169,218;end)()}+710929111))]=(((#{707;985;(function(...)return 613,657,322,689,...;end)(406,484,605)}+142)));[((355995866-#("When the exploiter is sus")))]=(((#{500;751;869;(function(...)return 198,828,184;end)()}+653016941)));['IXBQXF1H']=((36));[(3212696)]=(((45-#("If you see this, congrats you're gay"))));[(747777747)]=(((#{150;34;121;865;(function(...)return;end)()}+483173)));[(143666998)]=(((967704249-#("Are you using AztupBrew, clvbrew, or IB2? Congratulations! You're deobfuscated!"))));ylGwQYO0=(((43638-#("you dumped constants by printing the deserializer??? ladies and gentlemen stand clear we have a genius in the building."))));["piwSo3XT"]=(((#{}+424840321)));[((205717939-#("who the fuck looked at synapse xen and said 'yeah this is good enough for release'")))]=((709));[((470920978-#("Bunu yazan tosun... - federal")))]=(((59199007-#("still waiting for luci to fix the API :|"))));["XSGs9H5ilu"]=(((#{827;170;246;(function(...)return 579,242,500,753;end)()}+999587)));DcDma=("\108");[((853824587-#("why does psu.dev attract so many ddosing retards wtf")))]=(((277-#("psu == femboy hangout"))));[((845955803-#("If you see this, congrats you're gay")))]=((4));[((#{481;171;}+967704168))]=("\109");["wNRLWvt"]=((253785256));[((#{572;(function(...)return 158,916,337,...;end)(810,220,21)}+160210616))]=((143327));[((210788146-#("IIiIIiillIiiIIIiiii :troll:")))]=(((481-#("luraph is now down until further notice for an emergency major security update"))));[((#{670;871;895;706;}+519156018))]=(((79-#("why the fuck would we sell a deobfuscator for a product we created....."))));[(316158384)]=(((#{205;}+12)));[((#{538;671;}+326751862))]=("\104");[((205045325-#("IIiIIiillIiiIIIiiii :troll:")))]=("\115");['Pxy4D']=("\114");[(305611807)]=(((#{561;779;(function(...)return 148,485,57,80;end)()}+228577112)));[(567633514)]=(((19378-#("psu == femboy hangout"))));[(716032180)]=(((26607-#("uh oh everyone watch out pain exist coming in with the backspace method one dot two dot man dot"))));[(120476329)]=((9755));[(10464793)]=(((40-#("still waiting for luci to fix the API :|"))));[(823411985)]=(((525772251-#("woooow u hooked an opcode, congratulations~ now suck my cock"))));[((#{970;366;617;0;(function(...)return 181,832,...;end)(491)}+423350938))]=("\110");[(10227367)]=((90));[((228577213-#("uh oh everyone watch out pain exist coming in with the backspace method one dot two dot man dot")))]=("\101");[(499631252)]=(((105758533-#("woooow u hooked an opcode, congratulations~ now suck my cock"))));[((#{404;205;969;442;(function(...)return;end)()}+103843394))]=((423350945));['T5yPfs']=((110));[(354891969)]=((57));[((#{633;943;219;474;(function(...)return;end)()}+884769052))]=((3));[(221526625)]=("\98");[((105758544-#("why the fuck would we sell a deobfuscator for a product we created.....")))]=("\105");["gfPIjZ1wY"]=(((304-#("psu 34567890fps, luraph 1fps, xen 0fps"))));[((#{92;482;798;}+916649752))]=(((#{304;174;320;354;}+910288)));["vOky4VtNv"]=((5000));[(736419610)]=((34));[(825682115)]=((326751864));[(747128510)]=("\111");["xt4s2Xco"]=((880));[((239826626-#("When the exploiter is sus")))]=(((7901-#("@everyone designs are done. luraph website coming.... eta JULY 2020"))));[(653016947)]=("\50");['bslow3qpk']=("\97");[((#{388;185;(function(...)return 437,374,526;end)()}+348344136))]=(((187-#("Luraph: Probably considered the worst out of the three, Luraph is another Lua Obfuscator. It isnt remotely as secure as Ironbrew or Synapse Xen, and it isn't as fast as Ironbrew either."))));OTI2uWQy=("\117");[((#{892;333;494;}+572218107))]=((1023));[(479964307)]=("\120");["uEO3WPF"]=("\99");[(533257380)]=((520));[((546438240-#("I'm not ignoring you, my DMs are full. Can't DM me? Shoot me a email: mem@mem.rip (Business enquiries only)")))]=("\116");[(878074569)]=((185));[(713900451)]=(((102-#("who the fuck looked at synapse xen and said 'yeah this is good enough for release'"))));[(59198967)]=("\102");[((#{317;743;654;803;}+565417470))]=(((#{761;6;(function(...)return 894,224,217;end)()}+128)));[(949442343)]=((6));[(500277575)]=((16777216));[((#{(function(...)return 405,280,190,809;end)()}+591027260))]=((440));UOJLLzBf=((248));[(378193123)]=(((#{}+747128510)));[(955836302)]=((2047));m0GY1Dzbej=("\103");W0t6ZdHD0O=(((#{578;138;632;}+28)));[((#{427;}+253785255))]=("\118");ZjVDdq=((5));[(914750175)]=((52));[((#{(function(...)return 292,172,545,206;end)()}+163324370))]=(((#{242;273;243;(function(...)return 153;end)()}+546438129)));[((277226012-#("psu == femboy hangout")))]=(((#{1;719;235;}+34359)));[((#{112;465;526;804;(function(...)return 26,975,954;end)()}+650364378))]=((32));[(934239792)]=((1));[(315462093)]=(((221526640-#("concat was here"))));["Z9Mlj"]=((65536));}),...)})do return e end;
+local Config = {
+    WindowName = "V.G Hub",
+	Color = Color3.fromRGB(255,128,64),
+	Keybind = Enum.KeyCode.RightControl
+}
+game:GetService("Players").LocalPlayer.Idled:connect(function()
+game:GetService("VirtualUser"):ClickButton2(Vector2.new())
+end)
+
+pcall(function()
+game:GetService("ReplicatedStorage").Resources.Data.Events.Administration:remove()
+game:GetService("ReplicatedStorage").Resources.Data.Events.PlayerData:remove()
+end)
+
+
+local function getNearestFish()
+    local TargetDistance = math.huge
+    local Target
+    for i, v in ipairs(game:GetService("Workspace").Resources.Glade.Fish:GetChildren()) do
+        if v:FindFirstChild("MouseTarget") and v:FindFirstChild("WaterBubbles") and v.Properties.Alive.Value ~= false  then
+            local Mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v:FindFirstChildOfClass("Part").Position).Magnitude
+            if Mag < TargetDistance then
+                TargetDistance = Mag
+                Target = v
+            end
+        end
+    end
+    return Target
+end;
+
+local function getNearestIngredients()
+    local TargetDistance = math.huge
+    local Target
+    for i, v in ipairs(game:GetService("Workspace").Resources.Glade.Ingredients:GetChildren()) do
+        if v:FindFirstChild("MouseTarget") and v:FindFirstChild("Model") and v.Properties.Alive.Value ~= false  then
+            local Mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v:FindFirstChildOfClass("Part").Position).Magnitude
+            if Mag < TargetDistance then
+                TargetDistance = Mag
+                Target = v
+            end
+        end
+    end
+    return Target
+end;
+
+local function getNearestTrees()
+    local TargetDistance = math.huge
+    local Target
+    for i, v in ipairs(game:GetService("Workspace").Resources.Glade.Trees:GetChildren()) do
+        if v:FindFirstChild("MouseTarget") and v:FindFirstChild("Leaf1") and v.Properties.Alive.Value ~= false  then
+            local Mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v:FindFirstChildOfClass("Part").Position).Magnitude
+            if Mag < TargetDistance then
+                TargetDistance = Mag
+                Target = v
+            end
+        end
+    end
+    return Target
+end;
+
+local function getNearestOres()
+    local TargetDistance = math.huge
+    local Target
+    for i, v in ipairs(game:GetService("Workspace").Resources.Glade.Ores:GetChildren()) do
+        if v:FindFirstChild("MouseTarget") and v:FindFirstChild("Rock") and v.Properties.Alive.Value ~= false   then
+            local Mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v:FindFirstChildOfClass("Part").Position).Magnitude
+            if Mag < TargetDistance then
+                TargetDistance = Mag
+                Target = v
+            end
+        end
+    end
+    return Target
+end;
+
+
+function Invis()
+local Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
+game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
+Clone.Parent = game:GetService("Players").LocalPlayer.Character.LowerTorso
+end
+
+
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
+local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
+
+local Tab1 = Window:CreateTab("The Labyrinth")
+local Tab2 = Window:CreateTab("UI Settings")
+
+local Section1 = Tab1:CreateSection("")
+local Section2 = Tab1:CreateSection("")
+local Section3 = Tab2:CreateSection("Menu")
+local Section4 = Tab2:CreateSection("Background")
+
+
+local Slider2 = Section1:CreateSlider("Hitbox Radius", 0,50,nil,false, function(Value)
+head = Value
+end)
+local Toggle1 = Section1:CreateToggle("Hitbox Extender", nil, function(State)
+HEAD = State
+while HEAD do
+    wait()
+    for i, v in pairs(game.Players:GetPlayers()) do
+        if v.Name ~= game.Players.LocalPlayer.Name then
+            pcall(
+                function()
+                    v.Character.LowerTorso.CanCollide = false
+                    v.Character.LowerTorso.Material = "Neon"
+                    v.Character.LowerTorso.Transparency = 0.5
+                    v.Character.LowerTorso.Size = Vector3.new(head, head, head)
+                    v.Character.HumanoidRootPart.Size = Vector3.new(head, head, head)
+                end
+            )
+        end
+    end
+end
+ end)
+local Toggle1 = Section1:CreateToggle("Auto Invis", nil, function(State)
+getgenv().invis = State
+Invis()
+game.Players.LocalPlayer.CharacterAdded:Connect(function()
+repeat wait() until game.Players.LocalPlayer.Character
+wait(4)
+if getgenv().invis then
+Invis()
+end end)
+end)
+local Toggle1 = Section1:CreateToggle("AutoFarm Ore", nil, function(State)
+getgenv().Tween1 = State
+
+speed = 15
+----------------
+Invis()
+game.Players.LocalPlayer.CharacterAdded:Connect(function()
+repeat wait() until game.Players.LocalPlayer.Character
+wait(4)
+if getgenv().Tween1 then
+Invis()
+end end)
+----------------
+game:GetService("RunService").Stepped:connect(
+    function()
+        if getgenv().Tween1 then
+            game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+        end
+    end
+)
+----------------
+
+while getgenv().Tween1 do
+    wait()
+    pcall(
+        function()
+            local Time =
+                (getNearestOres():FindFirstChild("Rock").CFrame.p -
+                game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / speed
+            local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
+            local Tween =
+                game:GetService("TweenService"):Create(
+                game.Players.LocalPlayer.Character.HumanoidRootPart,
+                Info,
+                {CFrame = CFrame.new(getNearestOres():FindFirstChild("Rock").CFrame.p)}
+            )
+            Tween:Play()
+            repeat
+                wait()
+                if getNearestOres():FindFirstChild("MouseTarget") then
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+                    wait(2)
+                end
+            until getNearestOres():FindFirstChild("MouseTarget").HP
+
+            repeat
+                wait()
+                if getNearestOres().MouseTarget:FindFirstChild("HP") then
+                    game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+                end
+            until getNearestOres():FindFirstChild("MouseTarget").HP.Health.Percent.Text == "0%"
+        end
+    )
+end
+
+end)
+
+local Toggle1 = Section1:CreateToggle("AutoFarm Trees", nil, function(State)
+getgenv().Tween = State
+
+speed = 15
+----------------
+
+Invis()
+game.Players.LocalPlayer.CharacterAdded:Connect(function()
+repeat wait() until game.Players.LocalPlayer.Character
+wait(4)
+if getgenv().Tween then
+Invis()
+end end)
+----------------
+game:GetService("RunService").Stepped:connect(
+    function()
+        if getgenv().Tween then
+            game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+        end
+    end
+)
+----------------
+
+while getgenv().Tween do
+    wait()
+    pcall(
+        function()
+            local Time =
+                (getNearestTrees():FindFirstChild("Leaf1").CFrame.p + Vector3.new(0,-5,0) -
+                game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / speed
+            local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
+            local Tween =
+                game:GetService("TweenService"):Create(
+                game.Players.LocalPlayer.Character.HumanoidRootPart,
+                Info,
+                {CFrame = CFrame.new(getNearestTrees():FindFirstChild("Leaf1").CFrame.p + Vector3.new(0,-5,0))}
+            )
+            Tween:Play()
+            repeat
+                wait()
+                if getNearestTrees():FindFirstChild("MouseTarget") then
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+                    wait(2)
+                end
+            until getNearestTrees():FindFirstChild("MouseTarget").HP
+
+            repeat
+                wait()
+                if getNearestTrees().MouseTarget:FindFirstChild("HP") then
+                    game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+                end
+            until getNearestTrees():FindFirstChild("MouseTarget").HP.Health.Percent.Text == "0%"
+        end
+    )
+end
+end)
+
+local Toggle1 = Section1:CreateToggle("AutoFarm Ingredients", nil, function(State)
+getgenv().Tween2 = State
+
+speed = 15
+----------------
+game:GetService("RunService").Stepped:connect(
+    function()
+        if getgenv().Tween2 then
+            game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+        end
+    end
+)
+----------------
+Invis()
+game.Players.LocalPlayer.CharacterAdded:Connect(function()
+repeat wait() until game.Players.LocalPlayer.Character
+wait(4)
+if getgenv().Tween2 then
+Invis()
+end end)
+----------------
+
+while getgenv().Tween2 do
+    wait()
+    pcall(
+        function()
+            local Time =
+                (getNearestIngredients().Model:FindFirstChildOfClass("MeshPart").CFrame.p + Vector3.new(0,0,0) -
+                game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / speed
+            local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
+            local Tween =
+                game:GetService("TweenService"):Create(
+                game.Players.LocalPlayer.Character.HumanoidRootPart,
+                Info,
+                {CFrame = CFrame.new(getNearestIngredients().Model:FindFirstChildOfClass("MeshPart").CFrame.p + Vector3.new(0,0,0))}
+            )
+            Tween:Play()
+            repeat
+                wait()
+                if getNearestIngredients():FindFirstChild("MouseTarget") then
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+                    wait(2)
+                end
+            until getNearestIngredients():FindFirstChild("MouseTarget").HP
+
+            repeat
+                wait()
+                if getNearestIngredients().MouseTarget:FindFirstChild("HP") then
+                    game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+                end
+            until getNearestIngredients():FindFirstChild("MouseTarget").HP.Health.Percent.Text == "0%"
+        end
+    )
+end
+end)
+
+
+local Toggle1 = Section1:CreateToggle("Auto Fish", nil, function(State)
+getgenv().Tween3 = State
+
+speed = 15
+----------------
+game:GetService("RunService").Stepped:connect(
+    function()
+        if getgenv().Tween3 then
+            game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+        end
+    end
+)
+----------------
+Invis()
+game.Players.LocalPlayer.CharacterAdded:Connect(function()
+repeat wait() until game.Players.LocalPlayer.Character
+wait(4)
+if getgenv().Tween3 then
+Invis()
+end end)
+----------------
+
+while getgenv().Tween3 do
+    wait()
+    pcall(
+        function()
+            local Time =
+                (getNearestFish():FindFirstChild("WaterBubbles").CFrame.p + Vector3.new(0,0,0) -
+                game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / speed
+            local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
+            local Tween =
+                game:GetService("TweenService"):Create(
+                game.Players.LocalPlayer.Character.HumanoidRootPart,
+                Info,
+                {CFrame = CFrame.new(getNearestFish():FindFirstChild("WaterBubbles").CFrame.p + Vector3.new(0,0,0))}
+            )
+            Tween:Play()
+            repeat
+                wait()
+                if getNearestFish():FindFirstChild("MouseTarget") then
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+                    wait(2)
+                end
+            until getNearestFish():FindFirstChild("MouseTarget").HP
+
+            repeat
+                wait()
+                if getNearestFish().MouseTarget:FindFirstChild("HP") then
+                    game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+                end
+            until getNearestFish():FindFirstChild("MouseTarget").HP.Health.Percent.Text == "0%"
+        end
+    )
+end
+end)
+
+local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
+
+local Toggle1 = Section1:CreateToggle("Player Esp", nil, function(State)
+    ESP:Toggle(State)
+end)
+local Toggle1 = Section1:CreateToggle("Tracers Esp", nil, function(State)
+    ESP.Tracers = State
+end)
+local Toggle1 = Section1:CreateToggle("Name Esp", nil, function(State)
+    ESP.Names = State
+end)
+local Toggle1 = Section1:CreateToggle("Boxes Esp", nil, function(State)
+    ESP.Boxes = State
+end)
+
+
+local Slider2 = Section1:CreateSlider("WalkSpeed", 0,30,nil,false, function(Value)
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+end)
+
+local Slider2 = Section1:CreateSlider("WalkSpeed", 0,100,nil,false, function(Value)
+game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+end)
+
+
+local Toggle1 = Section2:CreateToggle("G PlatFormNoclip", nil, function(State)
+yes44 = State
+noclip = false
+game:GetService("RunService").Stepped:connect(
+    function()
+        if noclip then
+            game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+        end
+    end
+)
+game.Players.LocalPlayer:GetMouse().KeyDown:connect(
+    function(key)
+        if key == "g" then
+            if yes44 then
+                noclip = not noclip
+                game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+            end
+        end
+    end
+)
+end)
+local Toggle1 = Section2:CreateToggle("N NonePlatFormNoclip", nil, function(State)
+hoe = State
+game.Players.LocalPlayer:GetMouse().KeyDown:connect(
+    function(v)
+        if v == "n" then
+            NoClip = not NoClip
+            game:GetService("RunService").Stepped:connect(
+                function()
+                    if NoClip then
+                     if hoe then
+                        for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+                            pcall(
+                                function()
+                                    if v.ClassName == "Part" or v.ClassName == "MeshPart" then
+                                        v.CanCollide = false
+                                    end
+                                end
+                            )
+                        end
+                    end
+                end
+            end
+            )
+        end
+    end
+)
+end)
+
+
+local Toggle1 = Section2:CreateToggle("B Fly", nil, function(State)
+sex2 = State
+local Max = 0
+local Players = game.Players
+local LP = Players.LocalPlayer
+local Mouse = LP:GetMouse()
+Mouse.KeyDown:connect(function(k)
+if k:lower() == 'b' then
+Max = Max + 1
+getgenv().Fly = false
+if sex2 then
+local T = LP.Character.UpperTorso
+local S = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
+local S2 = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
+local SPEED = 5
+local function FLY()
+getgenv().Fly = true
+local BodyGyro = Instance.new('BodyGyro', T)
+local BodyVelocity = Instance.new('BodyVelocity', T)
+BodyGyro.P = 9e4
+BodyGyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+BodyGyro.cframe = T.CFrame
+BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+BodyVelocity.maxForce = Vector3.new(9e9, 9e9, 9e9)
+spawn(function()
+repeat
+wait()
+LP.Character.Humanoid.PlatformStand = false
+if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
+SPEED = 30
+elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
+SPEED = 0
+end
+if (S.L + S.R) ~= 0 or (S.F + S.B) ~= 0 then
+BodyVelocity.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S.F + S.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(S.L + S.R, (S.F + S.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+S2 = {
+F = S.F,
+B = S.B,
+L = S.L,
+R = S.R
+}
+elseif (S.L + S.R) == 0 and (S.F + S.B) == 0 and SPEED ~= 0 then
+BodyVelocity.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S2.F + S2.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(S2.L + S2.R, (S2.F + S2.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+else
+BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+end
+BodyGyro.cframe = game.Workspace.CurrentCamera.CoordinateFrame
+until not getgenv().Fly
+S = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
+S2 = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
+SPEED = 0
+BodyGyro:destroy()
+BodyVelocity:destroy()
+LP.Character.Humanoid.PlatformStand = false
+end)
+end
+Mouse.KeyDown:connect(function(k)
+if k:lower() == 'w' then
+S.F = 1
+elseif k:lower() == 's' then
+S.B = -1
+elseif k:lower() == 'a' then
+S.L = -1
+elseif k:lower() == 'd' then
+S.R = 1
+end
+end)
+Mouse.KeyUp:connect(function(k)
+if k:lower() == 'w' then
+S.F = 0
+elseif k:lower() == 's' then
+S.B = 0
+elseif k:lower() == 'a' then
+S.L = 0
+elseif k:lower() == 'd' then
+S.R = 0
+end
+end)
+FLY()
+if Max == 2 then
+getgenv().Fly = false
+Max = 0
+end
+end
+end
+end)
+end)
+local Button1 = Section2:CreateButton("Anti Lag", function()
+for _, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+    if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then --- i stole this from the actual game LOL >-<
+        v.Material = Enum.Material.SmoothPlastic
+        if v:IsA("Texture") then
+            v:Destroy()
+        end
+    end
+end
+
+end)
+
+local Button1 = Section2:CreateButton("Lag Switch F3", function()
+local X = false
+local C = settings()
+
+game:service "UserInputService".InputEnded:connect(
+    function(V)
+        if V.KeyCode == Enum.KeyCode.F3 then
+            X = not X
+            C.Network.IncomingReplicationLag = X and 10 or 0
+        end
+    end
+)
+end) 
+local Button1 = Section2:CreateButton("ServerHop", function()
+local PlaceID = game.PlaceId
+local AllIDs = {}
+local foundAnything = ""
+local actualHour = os.date("!*t").hour
+local Deleted = false
+local File = pcall(function()
+    AllIDs = game:GetService('HttpService'):JSONDecode(readfile("NotSameServers.json"))
+end)
+if not File then
+    table.insert(AllIDs, actualHour)
+    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+end
+function TPReturner()
+    local Site;
+    if foundAnything == "" then
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
+    else
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
+    end
+    local ID = ""
+    if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+        foundAnything = Site.nextPageCursor
+    end
+    local num = 0;
+    for i,v in pairs(Site.data) do
+        local Possible = true
+        ID = tostring(v.id)
+        if tonumber(v.maxPlayers) > tonumber(v.playing) then
+            for _,Existing in pairs(AllIDs) do
+                if num ~= 0 then
+                    if ID == tostring(Existing) then
+                        Possible = false
+                    end
+                else
+                    if tonumber(actualHour) ~= tonumber(Existing) then
+                        local delFile = pcall(function()
+                            delfile("NotSameServers.json")
+                            AllIDs = {}
+                            table.insert(AllIDs, actualHour)
+                        end)
+                    end
+                end
+                num = num + 1
+            end
+            if Possible == true then
+                table.insert(AllIDs, ID)
+                wait()
+                pcall(function()
+                    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+                    wait()
+                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
+                end)
+                wait(4)
+            end
+        end
+    end
+end
+
+function Teleport()
+    while wait() do
+        pcall(function()
+            TPReturner()
+            if foundAnything ~= "" then
+                TPReturner()
+            end
+        end)
+    end
+end
+
+-- If you'd like to use a script before server hopping (Like a Automatic Chest collector you can put the Teleport() after it collected everything.
+Teleport() 
+end)
+local Button1 = Section2:CreateButton("Rejoin", function()
+game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer) end)
+
+local Toggle3 = Section3:CreateToggle("UI Toggle", nil, function(State)
+	Window:Toggle(State)
+end)
+Toggle3:CreateKeybind(tostring(Config.Keybind):gsub("Enum.KeyCode.", ""), function(Key)
+	Config.Keybind = Enum.KeyCode[Key]
+end)
+Toggle3:SetState(true)
+Section3:CreateLabel("Credits DekuDimz#7960")
+Section3:CreateLabel("Credits AlexR32#3232 Ui")
+Section3:CreateLabel("Credits e621")
+local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
+	Window:ChangeColor(Color)
+end)
+Colorpicker3:UpdateColor(Config.Color)
+-- credits to jan for patterns
+local Dropdown3 = Section4:CreateDropdown("Image")
+local Option7 = Dropdown3:AddOption("Default", function(String)
+	Window:SetBackground("2151741365")
+end)
+local Option8 = Dropdown3:AddOption("Hearts", function(String)
+	Window:SetBackground("6073763717")
+end)
+local Option9 = Dropdown3:AddOption("Abstract", function(String)
+	Window:SetBackground("6073743871")
+end)
+local Option10 = Dropdown3:AddOption("Hexagon", function(String)
+	Window:SetBackground("6073628839")
+end)
+local Option11 = Dropdown3:AddOption("Circles", function(String)
+	Window:SetBackground("6071579801")
+end)
+local Option12 = Dropdown3:AddOption("Lace With Flowers", function(String)
+	Window:SetBackground("6071575925")
+end)
+local Option13 = Dropdown3:AddOption("Floral", function(String)
+	Window:SetBackground("5553946656")
+end)
+Option7:SetOption()
+
+local Colorpicker4 = Section4:CreateColorpicker("Color", function(Color)
+	Window:SetBackgroundColor(Color)
+end)
+Colorpicker4:UpdateColor(Color3.new(1,1,1))
+
+local Slider3 = Section4:CreateSlider("Transparency",0,1,nil,false, function(Value)
+	Window:SetBackgroundTransparency(Value)
+end)
+Slider3:SetValue(0)
+
+local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value)
+	Window:SetTileScale(Value)
+end)
+Slider4:SetValue(0.5)
+
