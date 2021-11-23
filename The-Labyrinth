@@ -3,11 +3,13 @@ local Config = {
 	Color = Color3.fromRGB(255,128,64),
 	Keybind = Enum.KeyCode.RightShift
 }
+repeat wait() until game:IsLoaded()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 
 pcall(function()
+game:GetService("Workspace").Map.Glade.Doors:remove()
 game:GetService("ReplicatedStorage").Resources.Data.Events.Administration:remove()
 game:GetService("ReplicatedStorage").Resources.Data.Events.PlayerData:remove()
 end)
@@ -73,6 +75,68 @@ local function getNearestOres()
     return Target
 end;
 
+
+
+
+local function getNearestFishMaze()
+    local TargetDistance = math.huge
+    local Target
+    for i, v in ipairs(game:GetService("Workspace").Resources.Maze.Fish:GetChildren()) do
+        if v:FindFirstChild("MouseTarget") and v:FindFirstChild("WaterBubbles") and v.Properties.Alive.Value ~= false  then
+            local Mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v:FindFirstChildOfClass("Part").Position).Magnitude
+            if Mag < TargetDistance then
+                TargetDistance = Mag
+                Target = v
+            end
+        end
+    end
+    return Target
+end;
+
+local function getNearestIngredientsMaze()
+    local TargetDistance = math.huge
+    local Target
+    for i, v in ipairs(game:GetService("Workspace").Resources.Maze.Ingredients:GetChildren()) do
+        if v:FindFirstChild("MouseTarget") and v:FindFirstChild("Model") and v.Properties.Alive.Value ~= false  then
+            local Mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v:FindFirstChildOfClass("Part").Position).Magnitude
+            if Mag < TargetDistance then
+                TargetDistance = Mag
+                Target = v
+            end
+        end
+    end
+    return Target
+end;
+
+local function getNearestTreesMaze()
+    local TargetDistance = math.huge
+    local Target
+    for i, v in ipairs(game:GetService("Workspace").Resources.Maze.Trees:GetChildren()) do
+        if v:FindFirstChild("MouseTarget") and v:FindFirstChild("Leaf1") and v.Properties.Alive.Value ~= false  then
+            local Mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v:FindFirstChildOfClass("Part").Position).Magnitude
+            if Mag < TargetDistance then
+                TargetDistance = Mag
+                Target = v
+            end
+        end
+    end
+    return Target
+end;
+
+local function getNearestOresMaze()
+    local TargetDistance = math.huge
+    local Target
+    for i, v in ipairs(game:GetService("Workspace").Resources.Maze.Ores:GetChildren()) do
+        if v:FindFirstChild("MouseTarget") and v:FindFirstChild("Rock") and v.Properties.Alive.Value ~= false   then
+            local Mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v:FindFirstChildOfClass("Part").Position).Magnitude
+            if Mag < TargetDistance then
+                TargetDistance = Mag
+                Target = v
+            end
+        end
+    end
+    return Target
+end;
 
 function Invis()
 local Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
@@ -347,6 +411,234 @@ while getgenv().Tween3 do
                     game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
                 end
             until getNearestFish():FindFirstChild("MouseTarget").HP == nil
+        end
+    )
+end
+end)
+
+
+local Toggle1 = Section1:CreateToggle("AutoFarm Ore Maze", nil, function(State)
+getgenv().Twee = State
+
+speed = 15
+----------------
+Invis()
+game.Players.LocalPlayer.CharacterAdded:Connect(function()
+repeat wait() until game.Players.LocalPlayer.Character
+wait(4)
+if getgenv().Tween1 then
+Invis()
+end end)
+----------------
+game:GetService("RunService").Stepped:connect(
+    function()
+        if getgenv().Twee then
+            game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+        end
+    end
+)
+----------------
+
+while getgenv().Twee do
+    wait()
+    pcall(
+        function()
+            local Time =
+                (getNearestOresMaze():FindFirstChild("Rock").CFrame.p -
+                game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / speed
+            local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
+            local Tween =
+                game:GetService("TweenService"):Create(
+                game.Players.LocalPlayer.Character.HumanoidRootPart,
+                Info,
+                {CFrame = CFrame.new(getNearestOresMaze():FindFirstChild("Rock").CFrame.p)}
+            )
+            Tween:Play()
+            repeat
+                wait()
+                if getNearestOresMaze():FindFirstChild("MouseTarget") then
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+                    wait(2)
+                end
+            until getNearestOresMaze():FindFirstChild("MouseTarget").HP
+
+            repeat
+                wait()
+                if getNearestOresMaze().MouseTarget:FindFirstChild("HP") then
+                    game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+                end
+            until getNearestOresMaze():FindFirstChild("MouseTarget").HP == nil
+        end
+    )
+end
+
+end)
+
+local Toggle1 = Section1:CreateToggle("AutoFarm Trees Maze", nil, function(State)
+getgenv().Twe = State
+
+speed = 15
+----------------
+
+Invis()
+game.Players.LocalPlayer.CharacterAdded:Connect(function()
+repeat wait() until game.Players.LocalPlayer.Character
+wait(4)
+if getgenv().Twe then
+Invis()
+end end)
+----------------
+game:GetService("RunService").Stepped:connect(
+    function()
+        if getgenv().Twe then
+            game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+        end
+    end
+)
+----------------
+
+while getgenv().Twe do
+    wait()
+    pcall(
+        function()
+            local Time =
+                (getNearestTreesMaze():FindFirstChild("MouseTarget").CFrame.p -
+                game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / speed
+            local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
+            local Tween =
+                game:GetService("TweenService"):Create(
+                game.Players.LocalPlayer.Character.HumanoidRootPart,
+                Info,
+                {CFrame = CFrame.new(getNearestTreesMaze():FindFirstChild("MouseTarget").CFrame.p )}
+            )
+            Tween:Play()
+            repeat
+                wait()
+                if getNearestTreesMaze():FindFirstChild("MouseTarget") then
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+                    wait(2)
+                end
+            until getNearestTreesMaze():FindFirstChild("MouseTarget").HP
+
+            repeat
+                wait()
+                if getNearestTreesMaze().MouseTarget:FindFirstChild("HP") then
+                    game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+                end
+            until getNearestTreesMaze():FindFirstChild("MouseTarget").HP == nil
+        end
+    )
+end
+end)
+
+local Toggle1 = Section1:CreateToggle("AutoFarm Ingredients Maze", nil, function(State)
+getgenv().Twee2 = State
+
+speed = 15
+----------------
+game:GetService("RunService").Stepped:connect(
+    function()
+        if getgenv().Twee2 then
+            game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+        end
+    end
+)
+----------------
+Invis()
+game.Players.LocalPlayer.CharacterAdded:Connect(function()
+repeat wait() until game.Players.LocalPlayer.Character
+wait(4)
+if getgenv().Twee2 then
+Invis()
+end end)
+----------------
+
+while getgenv().Twee2 do
+    wait()
+    pcall(
+        function()
+            local Time =
+                (getNearestIngredientsMaze().Model:FindFirstChildOfClass("MeshPart").CFrame.p + Vector3.new(0,0,0) -
+                game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / speed
+            local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
+            local Tween =
+                game:GetService("TweenService"):Create(
+                game.Players.LocalPlayer.Character.HumanoidRootPart,
+                Info,
+                {CFrame = CFrame.new(getNearestIngredientsMaze().Model:FindFirstChildOfClass("MeshPart").CFrame.p + Vector3.new(0,0,0))}
+            )
+            Tween:Play()
+            repeat
+                wait()
+                if getNearestIngredientsMaze():FindFirstChild("MouseTarget") then
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+                    wait(2)
+                end
+            until getNearestIngredientsMaze():FindFirstChild("MouseTarget").HP
+
+            repeat
+                wait()
+                if getNearestIngredients().MouseTarget:FindFirstChild("HP") then
+                    game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+                end
+            until getNearestIngredients():FindFirstChild("MouseTarget").HP == nil
+        end
+    )
+end
+end)
+
+
+local Toggle1 = Section1:CreateToggle("Auto Fish", nil, function(State)
+getgenv().T = State
+
+speed = 15
+----------------
+game:GetService("RunService").Stepped:connect(
+    function()
+        if getgenv().T then
+            game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+        end
+    end
+)
+----------------
+Invis()
+game.Players.LocalPlayer.CharacterAdded:Connect(function()
+repeat wait() until game.Players.LocalPlayer.Character
+wait(4)
+if getgenv().T then
+Invis()
+end end)
+----------------
+
+while getgenv().T do
+    wait()
+    pcall(
+        function()
+            local Time =
+                (getNearestFishMaze():FindFirstChild("WaterBubbles").CFrame.p + Vector3.new(0,0,0) -
+                game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / speed
+            local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
+            local Tween =
+                game:GetService("TweenService"):Create(
+                game.Players.LocalPlayer.Character.HumanoidRootPart,
+                Info,
+                {CFrame = CFrame.new(getNearestFishMaze():FindFirstChild("WaterBubbles").CFrame.p + Vector3.new(0,0,0))}
+            )
+            Tween:Play()
+            repeat
+                wait()
+                if getNearestFishMaze():FindFirstChild("MouseTarget") then
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+                    wait(2)
+                end
+            until getNearestFishMaze():FindFirstChild("MouseTarget").HP
+
+            repeat
+                wait()
+                if getNearestFishMaze().MouseTarget:FindFirstChild("HP") then
+                    game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+                end
+            until getNearestFishMaze():FindFirstChild("MouseTarget").HP == nil
         end
     )
 end
