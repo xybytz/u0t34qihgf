@@ -1,7 +1,7 @@
 local Config = {
     WindowName = "V.G Hub",
 	Color = Color3.fromRGB(255,128,64),
-	Keybind = Enum.KeyCode.RightControl
+	Keybind = Enum.KeyCode.RightShift
 }
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
