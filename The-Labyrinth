@@ -14,6 +14,89 @@ game:GetService("ReplicatedStorage").Resources.Data.Events.Administration:remove
 game:GetService("ReplicatedStorage").Resources.Data.Events.PlayerData:remove()
 end)
 
+local Circle = Drawing.new("Circle")
+Circle.Color =  Color3.fromRGB(22, 13, 56)
+Circle.Thickness = 1
+Circle.Radius = 250
+Circle.Visible = false
+Circle.NumSides = 1000
+Circle.Filled = false
+Circle.Transparency = 1
+
+game:GetService("RunService").RenderStepped:Connect(function()
+    local Mouse = game:GetService("UserInputService"):GetMouseLocation()
+    Circle.Position = Vector2.new(Mouse.X, Mouse.Y)
+end)
+getgenv().AimBot = {
+WallCheck = false,
+Enabled = false,
+FOV = 250,
+}
+
+
+
+local Shoot = false
+
+
+
+
+
+
+function NotObstructing(i, v)
+    if getgenv().AimBot.WallCheck then
+        c = workspace.CurrentCamera.CFrame.p
+        a = Ray.new(c, i- c)
+        f = workspace:FindPartOnRayWithIgnoreList(a, v)
+        return f == nil
+    else
+        return true
+    end
+end
+game:GetService("UserInputService").InputBegan:Connect(function(v)
+    if v.UserInputType == Enum.UserInputType.MouseButton2 then
+        Shoot = true
+    end
+end)
+
+game:GetService("UserInputService").InputEnded:Connect(function(v)
+    if v.UserInputType == Enum.UserInputType.MouseButton2 then
+        Shoot = false
+    end
+end)
+
+function GetMouse()
+    return Vector2.new(game.Players.LocalPlayer:GetMouse().X, game.Players.LocalPlayer:GetMouse().Y)
+end
+function GetClosestToCuror()
+    MousePos = GetMouse()
+    Closest = math.huge
+    Target = nil
+    for _,v in pairs(game:GetService("Players"):GetPlayers()) do
+            if v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("HumanoidRootPart") and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health ~= 0  then
+                Point,OnScreen = workspace.CurrentCamera:WorldToViewportPoint(v.Character.HumanoidRootPart.Position)
+                if OnScreen and NotObstructing(v.Character.HumanoidRootPart.Position,{game.Players.LocalPlayer.Character,v.Character}) then
+                    Distance = (Vector2.new(Point.X,Point.Y) - MousePos).magnitude
+                      if Distance <= getgenv().AimBot.FOV then
+                          Closest = Distance
+                       Target = v
+                  end
+               end
+            end
+         end
+    return Target
+end 
+
+game:GetService('RunService').Stepped:connect(function()
+
+    if getgenv().AimBot.Enabled == false or Shoot == false then return end
+    ClosestPlayer = GetClosestToCuror()
+    if ClosestPlayer then
+     workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.p,ClosestPlayer.Character.HumanoidRootPart.CFrame.p)
+    end 
+
+end)
+
+
 
 local function getNearestFish()
     local TargetDistance = math.huge
@@ -138,6 +221,7 @@ local function getNearestOresMaze()
     return Target
 end;
 
+
 function Invis()
 local Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
 game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
@@ -156,6 +240,24 @@ local Section2 = Tab1:CreateSection("")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 
+
+local Toggle1 = Section1:CreateToggle("Aimbot", nil, function(State)
+    getgenv().AimBot.Enabled = State
+end)
+local Toggle1 = Section1:CreateToggle("WallCheck", nil, function(State)
+    getgenv().AimBot.WallCheck = State
+end)
+local Slider2 = Section1:CreateSlider("Aimbot Radius", 0,1000,nil,false, function(Value)
+    getgenv().AimBot.FOV = Value
+    Circle.Radius = Value
+end)
+local Toggle1 = Section1:CreateToggle("Circle Visible", nil, function(State)
+   Circle.Visible = State
+end)
+
+local Colorpicker3 = Section1:CreateColorpicker("Circle Color", function(Color)
+    Circle.Color = Color
+end)
 
 local Slider2 = Section1:CreateSlider("Hitbox Radius", 0,50,nil,false, function(Value)
 head = Value
@@ -417,7 +519,7 @@ end
 end)
 
 
-local Toggle1 = Section1:CreateToggle("AutoFarm Ore Maze", nil, function(State)
+local Toggle1 = Section2:CreateToggle("AutoFarm Ore Maze", nil, function(State)
 getgenv().Twee = State
 
 speed = 15
@@ -474,7 +576,7 @@ end
 
 end)
 
-local Toggle1 = Section1:CreateToggle("AutoFarm Trees Maze", nil, function(State)
+local Toggle1 = Section2:CreateToggle("AutoFarm Trees Maze", nil, function(State)
 getgenv().Twe = State
 
 speed = 15
@@ -588,7 +690,7 @@ end
 end)
 
 
-local Toggle1 = Section1:CreateToggle("Auto Fish", nil, function(State)
+local Toggle1 = Section2:CreateToggle("Auto Fish", nil, function(State)
 getgenv().T = State
 
 speed = 15
@@ -667,6 +769,22 @@ end)
 local Slider2 = Section2:CreateSlider("JumpPower", 0,100,nil,false, function(Value)
 game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
 end)
+
+local Slider2 = Section2:CreateSlider("Gravity", 0,196.2,nil,false, function(Value)
+game.Workspace.Gravity = Value
+end)
+
+local Toggle1 = Section2:CreateToggle("FullBright", nil, function(State)
+FullBright = State
+game.Lighting.Changed:connect(function()
+if FullBright then
+game.Lighting.TimeOfDay = "14:00:00"
+game.Lighting.FogEnd = 9999
+game.Lighting.Brightness = 2
+game.Lighting.ColorCorrection.Brightness = 0.1
+game.Lighting.ColorCorrection.Saturation = 0.1
+game.Lighting.Bloom.Intensity = 0.1
+end end) end)
 
 
 local Toggle1 = Section2:CreateToggle("G PlatFormNoclip", nil, function(State)
