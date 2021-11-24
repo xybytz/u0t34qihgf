@@ -27,6 +27,7 @@ game:GetService("ReplicatedStorage").Remotes.generateBoost:FireServer("Coins", 4
 end end)
 local Toggle1 = Section1:CreateToggle("No Cooldown", nil, function(State)
 vvv = State
+while vvv do wait()
 for i,v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetDescendants()) do
   if v:IsA("Tool")  then
   x=require(v.Stats)
@@ -37,7 +38,13 @@ for i,v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetDescendants(
   end 
   end
 end
+end
 end)
+local Toggle1 = Section1:CreateToggle("Auto Sell", nil, function(State)
+autosell = State
+while autosell do wait()
+game:GetService("ReplicatedStorage").Remotes.sellBricks:FireServer()
+end end)
 local Toggle1 = Section1:CreateToggle("Auto Rank", nil, function(State)
 rank = State
 while rank do wait()
