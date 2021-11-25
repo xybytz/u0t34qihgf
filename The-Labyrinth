@@ -17,6 +17,16 @@ game:GetService("RunService").RenderStepped:Connect(function()
 if game.Players.LocalPlayer.Character.Head:FindFirstChild("NameBillboard") then
 game.Players.LocalPlayer.Character.Head.NameBillboard:remove()
 end end)
+
+Sell = {}
+local A = require(game:GetService("ReplicatedStorage").Shared.ItemsModule)
+for i,v in pairs(A.Items) do
+if i:match("Log") or i:match("Ore")  or i:match("Fish") or not i:match("Bow") then
+
+table.insert(Sell, i)
+table.sort(Sell)
+end end
+
 loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G_Hub_Extras/main/Woah-hi'))()
 local Circle = Drawing.new("Circle")
 Circle.Color =  Color3.fromRGB(22, 13, 56)
@@ -266,6 +276,20 @@ end)
 local Slider2 = Section1:CreateSlider("Hitbox Radius", 0,50,nil,false, function(Value)
 head = Value
 end)
+local Toggle1 = Section1:CreateToggle("Auto Sell Selected Item", nil, function(State)
+sell = State
+while sell do wait()
+game:GetService("ReplicatedStorage").Resources.Data.Events.Traffic.Trader:InvokeServer("Sell",Sell,1)
+end end)
+
+local Dropdown1 = Section1:CreateDropdown("Select Item To Sell")
+Dropdown1:AddToolTip("Select Item To Sell")
+for i,v in next, Sell do
+Dropdown1:AddOption(v, function(String)
+Sell = String
+end)
+end 
+
 local Toggle1 = Section1:CreateToggle("Hitbox Extender", nil, function(State)
 HEAD = State
 while HEAD do
