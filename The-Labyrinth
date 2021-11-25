@@ -47,15 +47,7 @@ Enabled = false,
 FOV = 250,
 }
 
-
-
 local Shoot = false
-
-
-
-
-
-
 function NotObstructing(i, v)
     if getgenv().AimBot.WallCheck then
         c = workspace.CurrentCamera.CFrame.p
@@ -289,6 +281,66 @@ Dropdown1:AddOption(v, function(String)
 Sell = String
 end)
 end 
+local Toggle1 = Section1:CreateToggle("Tree Esp", nil, function(State)
+getgenv().esp = State
+local function esp(v)
+    local T = Drawing.new("T")
+    T.Visible = false
+    T.Center = true
+    T.Outline = true
+    T.Font = 2
+    T.T = "Tree"
+    T.Size = 14
+    T.Color = Color3.fromRGB(255, 5, 0)
+    local function update()
+        local Re
+        Re =
+            game:GetService("RunService").Re:Connect(
+            function()
+                if v and v:FindFirstChild("MainPart") then
+                    local Vector, Screen = workspace.CurrentCamera:WorldToViewportPoint(v.MainPart.Position)
+                    if getgenv().esp and Screen then
+                        T.Position = Vector2.new(Vector.X, Vector.Y)
+                        T.Visible = true
+                        T.T = v.Name
+                    else
+                        T.Visible = false
+                    end
+                elseif v:FindFirstChild("MainPart") == nil then
+                    T:Remove()
+                    Re:disconnect()
+                end
+            end
+        )
+    end
+    update()
+end
+for i, v in pairs(game:GetService("Workspace").Resources.Glade.Trees:GetChildren()) do
+    if v:IsA("Model") and v:FindFirstChild("MainPart") then
+        esp(v)
+    end
+end
+game:GetService("Workspace").Resources.Glade.Trees.DescendantAdded:Connect(
+    function(v)
+        if v:IsA("Part") and string.match(v.Name, "MainPart") then
+            esp(v.Parent)
+        end
+    end
+)
+for i, v in pairs(game:GetService("Workspace").Resources.Maze.Trees:GetChildren()) do
+    if v:IsA("Model") and v:FindFirstChild("MainPart") then
+        esp(v)
+    end
+end
+game:GetService("Workspace").Resources.Maze.Trees.DescendantAdded:Connect(
+    function(v)
+        if v:IsA("Part") and string.match(v.Name, "MainPart") then
+            esp(v.Parent)
+        end
+    end
+)
+
+end)
 
 local Toggle1 = Section1:CreateToggle("Hitbox Extender", nil, function(State)
 HEAD = State
@@ -319,7 +371,7 @@ if getgenv().invis then
 Invis()
 end end)
 end)
-local Toggle1 = Section1:CreateToggle("AutoFarm Ore", nil, function(State)
+local Toggle1 = Section2:CreateToggle("AutoFarm Ore", nil, function(State)
 getgenv().Tween1 = State
 
 speed = 15
@@ -376,7 +428,7 @@ end
 
 end)
 
-local Toggle1 = Section1:CreateToggle("AutoFarm Trees", nil, function(State)
+local Toggle1 = Section2:CreateToggle("AutoFarm Trees", nil, function(State)
 getgenv().Tween = State
 
 speed = 15
@@ -433,7 +485,7 @@ while getgenv().Tween do
 end
 end)
 
-local Toggle1 = Section1:CreateToggle("AutoFarm Ingredients", nil, function(State)
+local Toggle1 = Section2:CreateToggle("AutoFarm Ingredients", nil, function(State)
 getgenv().Tween2 = State
 
 speed = 15
@@ -490,7 +542,7 @@ end
 end)
 
 
-local Toggle1 = Section1:CreateToggle("Auto Fish", nil, function(State)
+local Toggle1 = Section2:CreateToggle("Auto Fish", nil, function(State)
 getgenv().Tween3 = State
 
 speed = 15
@@ -661,7 +713,7 @@ while getgenv().Twe do
 end
 end)
 
-local Toggle1 = Section1:CreateToggle("AutoFarm Ingredients Maze", nil, function(State)
+local Toggle1 = Section2:CreateToggle("AutoFarm Ingredients Maze", nil, function(State)
 getgenv().Twee2 = State
 
 speed = 15
@@ -774,6 +826,247 @@ while getgenv().T do
 end
 end)
 
+local Toggle1 = Section2:CreateToggle("Tree Esp", nil, function(State)
+getgenv().esp = State
+local function esp(v)
+    local T = Drawing.new("Text")
+    T.Visible = false
+    T.Center = true
+    T.Outline = true
+    T.Font = 2
+    T.Text = "Tree"
+    T.Size = 14
+    T.Color = Color3.fromRGB(255, 5, 0)
+    local function update()
+        local Re
+        Re =
+            game:GetService('RunService').Stepped:Connect(
+            function()
+                if v and v:FindFirstChild("MainPart") then
+                    local Vector, Screen = workspace.CurrentCamera:WorldToViewportPoint(v.MainPart.Position)
+                    if getgenv().esp and Screen then
+                        T.Position = Vector2.new(Vector.X, Vector.Y)
+                        T.Visible = true
+                        T.Text = v.Name
+                    else
+                        T.Visible = false
+                    end
+                elseif v:FindFirstChild("MainPart") == nil then
+                    T:Remove()
+                    Re:disconnect()
+                end
+            end
+        )
+    end
+    update()
+end
+for i, v in pairs(game:GetService("Workspace").Resources.Glade.Trees:GetChildren()) do
+    if v:IsA("Model") and v:FindFirstChild("MainPart") then
+        esp(v)
+    end
+end
+game:GetService("Workspace").Resources.Glade.Trees.DescendantAdded:Connect(
+    function(v)
+        if v:IsA("Part") and string.match(v.Name, "MainPart") then
+            esp(v.Parent)
+        end
+    end
+)
+for i, v in pairs(game:GetService("Workspace").Resources.Maze.Trees:GetChildren()) do
+    if v:IsA("Model") and v:FindFirstChild("MainPart") then
+        esp(v)
+    end
+end
+game:GetService("Workspace").Resources.Maze.Trees.DescendantAdded:Connect(
+    function(v)
+        if v:IsA("Part") and string.match(v.Name, "MainPart") then
+            esp(v.Parent)
+        end
+    end
+)
+
+end)
+local Toggle1 = Section2:CreateToggle("Ores Esp", nil, function(State)
+getgenv().esp1 = State
+local function esp(v)
+    local T = Drawing.new("Text")
+    T.Visible = false
+    T.Center = true
+    T.Outline = true
+    T.Font = 2
+    T.Text = "Tree"
+    T.Size = 14
+    T.Color = Color3.fromRGB(0, 255, 0)
+    local function update()
+        local Re
+        Re =
+            game:GetService('RunService').Stepped:Connect(
+            function()
+                if v and v:FindFirstChild("MainPart") then
+                    local Vector, Screen = workspace.CurrentCamera:WorldToViewportPoint(v.MainPart.Position)
+                    if getgenv().esp1 and Screen then
+                        T.Position = Vector2.new(Vector.X, Vector.Y)
+                        T.Visible = true
+                        T.Text = v.Name
+                    else
+                        T.Visible = false
+                    end
+                elseif v:FindFirstChild("MainPart") == nil then
+                    T:Remove()
+                    Re:disconnect()
+                end
+            end
+        )
+    end
+    update()
+end
+for i, v in pairs(game:GetService("Workspace").Resources.Glade.Ores:GetChildren()) do
+    if v:IsA("Model") and v:FindFirstChild("MainPart") then
+        esp(v)
+    end
+end
+game:GetService("Workspace").Resources.Glade.Ores.DescendantAdded:Connect(
+    function(v)
+        if v:IsA("Part") and string.match(v.Name, "MainPart") then
+            esp(v.Parent)
+        end
+    end
+)
+for i, v in pairs(game:GetService("Workspace").Resources.Maze.Ores:GetChildren()) do
+    if v:IsA("Model") and v:FindFirstChild("MainPart") then
+        esp(v)
+    end
+end
+game:GetService("Workspace").Resources.Maze.Ores.DescendantAdded:Connect(
+    function(v)
+        if v:IsA("Part") and string.match(v.Name, "MainPart") then
+            esp(v.Parent)
+        end
+    end
+)
+
+end)
+local Toggle1 = Section2:CreateToggle("Ingredients Esp", nil, function(State)
+getgenv().esp2 = State
+local function esp(v)
+    local T = Drawing.new("Text")
+    T.Visible = false
+    T.Center = true
+    T.Outline = true
+    T.Font = 2
+    T.Text = "Tree"
+    T.Size = 14
+    T.Color = Color3.fromRGB(0, 0, 255)
+    local function update()
+        local Re
+        Re =
+            game:GetService('RunService').Stepped:Connect(
+            function()
+                if v and v:FindFirstChild("MainPart") then
+                    local Vector, Screen = workspace.CurrentCamera:WorldToViewportPoint(v.MainPart.Position)
+                    if getgenv().esp2 and Screen then
+                        T.Position = Vector2.new(Vector.X, Vector.Y)
+                        T.Visible = true
+                        T.Text = v.Name
+                    else
+                        T.Visible = false
+                    end
+                elseif v:FindFirstChild("MainPart") == nil then
+                    T:Remove()
+                    Re:disconnect()
+                end
+            end
+        )
+    end
+    update()
+end
+for i, v in pairs(game:GetService("Workspace").Resources.Glade.Ingredients:GetChildren()) do
+    if v:IsA("Model") and v:FindFirstChild("MainPart") then
+        esp(v)
+    end
+end
+game:GetService("Workspace").Resources.Glade.Ingredients.DescendantAdded:Connect(
+    function(v)
+        if v:IsA("Part") and string.match(v.Name, "MainPart") then
+            esp(v.Parent)
+        end
+    end
+)
+for i, v in pairs(game:GetService("Workspace").Resources.Maze.Ingredients:GetChildren()) do
+    if v:IsA("Model") and v:FindFirstChild("MainPart") then
+        esp(v)
+    end
+end
+game:GetService("Workspace").Resources.Maze.Ingredients.DescendantAdded:Connect(
+    function(v)
+        if v:IsA("Part") and string.match(v.Name, "MainPart") then
+            esp(v.Parent)
+        end
+    end
+)
+
+end)
+
+local Toggle1 = Section2:CreateToggle("Fish Esp", nil, function(State)
+getgenv().esp3 = State
+local function esp(v)
+    local T = Drawing.new("Text")
+    T.Visible = false
+    T.Center = true
+    T.Outline = true
+    T.Font = 2
+    T.Text = "Tree"
+    T.Size = 14
+    T.Color = Color3.fromRGB(0, 255, 255)
+    local function update()
+        local Re
+        Re =
+            game:GetService('RunService').Stepped:Connect(
+            function()
+                if v and v:FindFirstChild("MainPart") then
+                    local Vector, Screen = workspace.CurrentCamera:WorldToViewportPoint(v.MainPart.Position)
+                    if getgenv().esp3 and Screen then
+                        T.Position = Vector2.new(Vector.X, Vector.Y)
+                        T.Visible = true
+                        T.Text = v.Name
+                    else
+                        T.Visible = false
+                    end
+                elseif v:FindFirstChild("MainPart") == nil then
+                    T:Remove()
+                    Re:disconnect()
+                end
+            end
+        )
+    end
+    update()
+end
+for i, v in pairs(game:GetService("Workspace").Resources.Glade.Fish:GetChildren()) do
+    if v:IsA("Model") and v:FindFirstChild("MainPart") then
+        esp(v)
+    end
+end
+game:GetService("Workspace").Resources.Glade.Fish.DescendantAdded:Connect(
+    function(v)
+        if v:IsA("Part") and string.match(v.Name, "MainPart") then
+            esp(v.Parent)
+        end
+    end
+)
+for i, v in pairs(game:GetService("Workspace").Resources.Maze.Fish:GetChildren()) do
+    if v:IsA("Model") and v:FindFirstChild("MainPart") then
+        esp(v)
+    end
+end
+game:GetService("Workspace").Resources.Maze.Fish.DescendantAdded:Connect(
+    function(v)
+        if v:IsA("Part") and string.match(v.Name, "MainPart") then
+            esp(v.Parent)
+        end
+    end
+)
+
+end)
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 
 local Toggle1 = Section1:CreateToggle("Player Esp", nil, function(State)
@@ -788,6 +1081,7 @@ end)
 local Toggle1 = Section1:CreateToggle("Boxes Esp", nil, function(State)
     ESP.Boxes = State
 end)
+
 
 
 local Slider2 = Section2:CreateSlider("WalkSpeed", 0,30,nil,false, function(Value)
