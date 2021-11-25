@@ -13,7 +13,11 @@ game:GetService("Workspace").Map.Glade.Doors:remove()
 game:GetService("ReplicatedStorage").Resources.Data.Events.Administration:remove()
 game:GetService("ReplicatedStorage").Resources.Data.Events.PlayerData:remove()
 end)
-
+game:GetService("RunService").RenderStepped:Connect(function()
+if game.Players.LocalPlayer.Character.Head:FindFirstChild("NameBillboard") then
+game.Players.LocalPlayer.Character.Head.NameBillboard:remove()
+end end)
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G_Hub_Extras/main/Woah-hi'))()
 local Circle = Drawing.new("Circle")
 Circle.Color =  Color3.fromRGB(22, 13, 56)
 Circle.Thickness = 1
