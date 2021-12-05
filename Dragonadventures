@@ -10,10 +10,8 @@ end)
 
 game:GetService("Players").LocalPlayer.PlayerGui.NodeGui.BoostFrame.ChildAdded:Connect(function(v)
 if v.Name == "Default" and v:FindFirstChild("ClickLabel") then
-wait()
-firesignal(v.ClickButton.MouseButton1Down)
-
-v:Destroy()
+wait(2)
+v:remove()
 end
 end)
 pcall(function()
@@ -324,8 +322,12 @@ while yes33 do
                         break
                     end
                     game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
-
-                    wait(19)
+                    spawn(function()
+                    for i=1,20 do wait(1)
+                    v.BoostRemote:InvokeServer(true,"Food" .. v.CurrentBoosts.Value)
+                    end 
+                    end)
+                    wait(20)
                 end
             end
         end
@@ -358,6 +360,12 @@ while egg do
                         break
                     end
                     game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+                    spawn(function()
+                    for i=1,20 do wait(1)
+                    v.BoostRemote:InvokeServer(true,"Food" .. v.CurrentBoosts.Value)
+                    end 
+                    end)
+
                     v.Harvested.Value = true
                     v.Harvested.Value = false
                    
@@ -367,17 +375,7 @@ while egg do
     )
      wait(15)
 end
-game:GetService("Players").LocalPlayer.PlayerGui.NodeGui.BoostFrame.ChildAdded:Connect(
-    function(v)
-        if egg then
-            if v.Name == "Default" and v:FindFirstChild("ClickLabel") then
-                wait()
-                firesignal(v.ClickButton.MouseButton1Down)
-                v:Destroy()
-            end
-        end
-    end
-)
+
 
 end)
 Toggle1:AddToolTip("Teleports to Eggs")
