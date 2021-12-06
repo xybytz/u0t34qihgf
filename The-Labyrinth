@@ -7,7 +7,15 @@ repeat wait() until game:IsLoaded()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
-
+local OldNameCall = nil
+OldNameCall = hookmetamethod(game, "__namecall", function(...)
+    local Args = {...}
+    local Self = Args[1]
+    if getnamecallmethod()=="InvokeServer" and tostring(Self)=="Ping" then
+            return wait(math.huge)
+    end
+    return OldNameCall(...)
+end)
 pcall(function()
 game:GetService("Workspace").Map.Glade.Doors:remove()
 game:GetService("ReplicatedStorage").Resources.Data.Events.Administration:remove()
@@ -229,9 +237,9 @@ end;
 
 
 function Invis()
-local Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
-game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
-Clone.Parent = game:GetService("Players").LocalPlayer.Character.LowerTorso
+local Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso:Clone()
+game:GetService("Players").LocalPlayer.Character.LowerTorso:Destroy()
+Clone.Parent = game:GetService("Players").LocalPlayer.Character
 end
 
 
@@ -376,14 +384,7 @@ getgenv().Tween1 = State
 
 speed = 15
 ----------------
-Invis()
-game.Players.LocalPlayer.CharacterAdded:Connect(function()
-repeat wait() until game.Players.LocalPlayer.Character
-wait(4)
-if getgenv().Tween1 then
-Invis()
-end end)
-----------------
+
 game:GetService("RunService").Stepped:connect(
     function()
         if getgenv().Tween1 then
@@ -431,7 +432,7 @@ end)
 local Toggle1 = Section2:CreateToggle("AutoFarm Trees", nil, function(State)
 getgenv().Tween = State
 
-speed = 15
+speed = 14
 ----------------
 
 Invis()
