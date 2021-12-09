@@ -23,7 +23,7 @@ game:GetService("ReplicatedStorage").Resources.Data.Events.PlayerData:remove()
 end)
 game:GetService("RunService").RenderStepped:Connect(function()
 if game.Players.LocalPlayer.Character.Head:FindFirstChild("NameBillboard") then
-game.Players.LocalPlayer.Character.Head.NameBillboard:remove()
+game.Players.LocalPlayer.Character:WaitForChild('Head'):WaitForChild('NameBillboard'):remove()
 end end)
 
 Sell = {}
@@ -237,9 +237,7 @@ end;
 
 
 function Invis()
-local Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso:Clone()
-game:GetService("Players").LocalPlayer.Character.LowerTorso:Destroy()
-Clone.Parent = game:GetService("Players").LocalPlayer.Character
+print('cant go invis anymore')
 end
 
 
