@@ -177,6 +177,40 @@ local Section1 = Tab1:CreateSection("AutoFarms")
 local SectionA = Tab1:CreateSection("Misc")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
+if game.PlaceId == 5777228223 then
+local a = game:GetService("ReplicatedStorage")["_replicationFolder"].BakeryClassClient
+require(a)._getNextOrder = function()
+end
+
+local Toggle1 = Section1:CreateToggle("Bakery Autofarm", nil, function(State)
+OwO = State
+game:GetService('RunService').Stepped:connect(function()
+if OwO then
+game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 30
+end
+end)
+while wait() and OwO do
+
+game:GetService("ReplicatedStorage").Remotes.StartBakeryMinigameRemote:InvokeServer()
+
+    local walt = game:GetService("ReplicatedStorage").Remotes.GetBakeryOrderRemote:InvokeServer()
+    if walt then
+        game:GetService("ReplicatedStorage").Remotes.SubmitBakeryOrderRemote:InvokeServer(walt)
+    end
+    if
+        game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui:FindFirstChild("RewardFrame") and
+            game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui:FindFirstChild("RewardFrame").Visible == true
+     then
+        game:GetService("ReplicatedStorage").Remotes.GetMinigameRewardRemote:InvokeServer(1)
+        game:GetService("ReplicatedStorage").Remotes.EndMinigameRewardsRemote:FireServer("Bakery")
+        game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui:FindFirstChild("RewardFrame").Visible = false
+        game:GetService("Lighting").InterfaceBlur.Enabled = false
+    end
+end
+end) end 
+
+
 
 if game.PlaceId == 3475397644 then
 
@@ -362,7 +396,7 @@ while egg do
                     game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
                     spawn(function()
                     for i=1,20 do wait(1)
-                    v.BoostRemote:InvokeServer(true,"Food" .. v.CurrentBoosts.Value)
+                    v.BoostRemote:InvokeServer(true,"Eggs" .. v.CurrentBoosts.Value)
                     end 
                     end)
 
@@ -512,8 +546,12 @@ game:GetService('Players').LocalPlayer.Character.UpperTorso:Destroy()
 end
 end)
 local Label1 = Section1:CreateLabel("World Teleports")
+local Button1 = Section1:CreateButton("Winter Event", function()
+game:GetService("TeleportService"):Teleport(5777228223, LocalPlayer) end)
+
 local Button1 = Section1:CreateButton("Lobby", function()
 game:GetService("TeleportService"):Teleport(3475397644, LocalPlayer) end)
+
 
 local Button1 = Section1:CreateButton("Accessory", function()
 game:GetService("TeleportService"):Teleport(5391312853, LocalPlayer) end)
@@ -773,6 +811,7 @@ end)
 Toggle3:SetState(true)
 Section3:CreateLabel("Credits DekuDimz#7960")
 Section3:CreateLabel("Credits AlexR32#3232 Ui")
+Section3:CreateLabel("Credits e621")
 local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
 	Window:ChangeColor(Color)
 end)
