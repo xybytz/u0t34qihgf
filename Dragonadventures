@@ -372,7 +372,21 @@ while yes33 do
 end
 
 end)
-
+local Toggle1 = Section1:CreateToggle("Test", nil, function(State)
+test = State
+while test do wait()
+for i,v in pairs(game:GetService("Workspace").Camera.ClientMobs:GetDescendants()) do
+if v.ClassName == 'Model' and v:FindFirstChild("Health") then
+game.Players.LocalPlayer.Character.Dragons[Dragon].HumanoidRootPart.CFrame = v:FindFirstChildOfClass("MeshPart")
+end end end
+end)
+local Dropdown1 = Section1:CreateDropdown("Select Dragon")
+Dropdown1:AddToolTip("Select Dragon")
+for i,v in next,Dragon do
+Dropdown1:AddOption(v, function(String)
+Dragon = String
+end)
+end
 
 local Dropdown1 = Section1:CreateDropdown("Select Collection")
 Dropdown1:AddToolTip("Select Collection")
@@ -551,36 +565,6 @@ end)
 local Label1 = Section1:CreateLabel("World Teleports")
 local Button1 = Section1:CreateButton("Winter Event", function()
 game:GetService("TeleportService"):Teleport(5777228223, LocalPlayer) end)
-if game.PlaceId == 3475397644 then
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Dragonadventures'))()
-elseif game.PlaceId == 5391312853 then
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Dragonadventures'))()    
-elseif game.PlaceId == 3752680052 then
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Dragonadventures'))()    
-elseif game.PlaceId == 4174118306 then
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Dragonadventures'))()    
-elseif game.PlaceId == 3475419198 then
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Dragonadventures'))()    
-elseif game.PlaceId == 3475422608 then
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Dragonadventures'))()    
-elseif game.PlaceId == 4601778915 then
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Dragonadventures'))()    
-elseif game.PlaceId == 4869039553 then
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Dragonadventures'))()   
-elseif game.PlaceId == 5777228223 then
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Dragonadventures'))()  
-elseif game.PlaceId == 3623549100 then
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Dragonadventures'))()    
-elseif game.PlaceId == 3737848045 then
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Dragonadventures'))()    
-elseif game.PlaceId == 3487210751 then
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Dragonadventures'))()    
-elseif game.PlaceId == 4728805070 then
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Dragonadventures'))()   
-elseif game.PlaceId == 5777228223 then
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Dragonadventures'))()   
-
-end
 local Button1 = Section1:CreateButton("Lobby", function()
 game:GetService("TeleportService"):Teleport(3475397644, LocalPlayer) end)
 
