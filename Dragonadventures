@@ -146,6 +146,12 @@ end
 NewIndex(t, k, ...)
 end)
 setreadonly(Meta, true)
+
+healing = {}
+for i,v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Healing:GetDescendants()) do
+if v.ClassName == "Tool" then
+table.insert(healing, v.Name)
+end end 
 foods ={}
 for i,v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Food:GetDescendants()) do
 if v.ClassName == "Tool" then
@@ -184,13 +190,7 @@ end
 
 local Toggle1 = Section1:CreateToggle("Bakery Autofarm", nil, function(State)
 OwO = State
-game:GetService('RunService').Stepped:connect(function()
 
-if not OwO then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Interactions.ChristmasEvent.Bakery.BillboardPart.CFrame
-end 
-
-end)
 while wait() and OwO do
 pcall(function()
 game:GetService("ReplicatedStorage").Remotes.StartBakeryMinigameRemote:InvokeServer()
@@ -552,6 +552,32 @@ Dropdown1:AddOption(v, function(String)
 list = String
 end)
 end
+
+
+
+local Toggle1 = Section1:CreateToggle("Auto Heal Dragons", nil, function(State) 
+pcall(function()
+feed = State
+game:GetService('RunService').Stepped:connect(function()
+if feed then
+for i,v in pairs(game:GetService('Players').LocalPlayer.Character.Dragons:GetDescendants()) do
+if v.ClassName == "Model" and  v:FindFirstChild("ID") then
+game:GetService("ReplicatedStorage").Remotes.FeedDragonRemote:InvokeServer(v.Name,{["Amount"] = 1,["ItemName"] = healing})
+end
+end
+end
+end)
+end)
+end)
+local Dropdown1 = Section1:CreateDropdown("Select Healing")
+Dropdown1:AddToolTip("Select Healing")
+for i,v in next,healing do
+Dropdown1:AddOption(v, function(String)
+healing = String
+end)
+end
+
+
 local Toggle1 = Section1:CreateToggle("Auto Invis", nil, function(State)
 ssyes = State
 Invis()
