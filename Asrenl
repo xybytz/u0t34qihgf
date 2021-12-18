@@ -393,6 +393,20 @@ game:GetService("RunService").RenderStepped:Connect(
     end
 )
 end)
+local Toggle1 = Section1:CreateToggle("Auto Burn All", nil, function(State)
+soso = State
+while wait() and soso do
+pcall(function()
+for i,v in pairs(game.Players:GetPlayers()) do
+    if v.Character and v.Character:FindFirstChild("Hitbox") and v ~= game.Players.LocalPlayer then wait(0.5)
+        game.ReplicatedStorage.Events.Fire:FireServer(
+            v.Character.HumanoidRootPart.CFrame.p
+        )
+    end
+end
+end)
+end
+end)
 
 local Toggle1 = Section1:CreateToggle("Auto Heal", nil, function(State)
 wow1 = State
