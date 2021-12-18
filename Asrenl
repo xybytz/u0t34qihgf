@@ -29,10 +29,7 @@ game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 23
 game.Players.LocalPlayer.Character.Humanoid.JumpPower = 15
 
 
-game:GetService("RunService").RenderStepped:Connect(function()
-    local Mouse = game:GetService("UserInputService"):GetMouseLocation()
-    circle.Position = Vector2.new(Mouse.X, Mouse.Y)
-end)
+
 
 
 function fuckyou()
