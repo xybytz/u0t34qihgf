@@ -189,7 +189,7 @@ pcall(function()
 end)
 end)
 getgenv().TriggerBot = {
-   FreeForAll = false;
+   TeamCheck = false;
    Delay = 0.01;
    Keybind = Enum.UserInputType.MouseButton2;
    Enabled = false;
@@ -201,9 +201,10 @@ game:GetService("UserInputService").InputBegan:connect(function(v)
        Holding = true
        while Holding do wait()
            if game:GetService("Players").LocalPlayer:GetMouse().Target and game:GetService("Players"):FindFirstChild(game:GetService("Players").LocalPlayer:GetMouse().Target.Parent.Name) then
-               if FreeForAll(v) then
+            local Person = game:GetService("Players"):FindFirstChild(game:GetService("Players").LocalPlayer:GetMouse().Target.Parent.Name)
+               if Person.Team ~= game:GetService("Players").LocalPlayer.Team or not getgenv().TriggerBot.TeamCheck then
                    if getgenv().TriggerBot.Delay > 0 then wait(getgenv().TriggerBot.Delay) end
-                   mouse1press(); wait(0.01); mouse1release()
+                   mouse1press(); wait(); mouse1release()
                end
            end
            if not getgenv().TriggerBot.Enabled then break end
@@ -276,7 +277,7 @@ end)
 
 local Toggle1 = Section1:CreateToggle("FreeForAll", nil, function(State)
     getgenv().AimBot.FreeForAll = State
-     getgenv().TriggerBot.FreeForAll = State
+     getgenv().TriggerBot.TeamCheck = State
 end)
 
 local Toggle1 = Section1:CreateToggle("TriggerBot", nil, function(State)
