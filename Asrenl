@@ -130,7 +130,7 @@ FOV = 250,
 local Shoot = false
 
 function FreeForAll(v)
-    if getgenv().AimBot.FreeForAll or getgenv().TriggerBot.FreeForAll == false then
+    if getgenv().AimBot.FreeForAll == false or getgenv().TriggerBot.FreeForAll == false then
         if game.Players.LocalPlayer.Team == v.Team then return false
         else return true end
     else return true end
