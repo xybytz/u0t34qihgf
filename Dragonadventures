@@ -8,12 +8,14 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 
-game:GetService("Players").LocalPlayer.PlayerGui.NodeGui.BoostFrame.ChildAdded:Connect(function(v)
-if v.Name == "Default" and v:FindFirstChild("ClickLabel") then
-wait(2)
-v:remove()
-end
-end)
+game:GetService("Players").LocalPlayer.PlayerGui.NodeGui.BoostFrame.ChildAdded:Connect(
+    function(v)
+        if v.Name == "Default" and v:FindFirstChild("ClickLabel") then
+            wait(2)
+            v:remove()
+        end
+    end
+)
 pcall(function()
 
 game:GetService("ReplicatedStorage").Remotes.SpinWheelRemote:InvokeServer()
@@ -136,43 +138,46 @@ end
 -- If you'd like to use a script before server hopping (Like a Automatic Chest collector you can put the Teleport() after it collected everything.
 Teleport()
 end
-local Meta = getrawmetatable(game)
-local NewIndex = Meta.__newindex
-setreadonly(Meta, false)
-Meta.__newindex = newcclosure(function(t, k, ...)
-if not checkcaller() and (k == "WalkSpeed" or k == "JumpPower") then
-return
-end
-NewIndex(t, k, ...)
+local OldNameCall
+OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
+    if not checkcaller()  and (B == "WalkSpeed" or B == "JumpPower") then
+        return
+    end
+    return OldNameCall(A, B, ...)
 end)
-setreadonly(Meta, true)
 
 healing = {}
-for i,v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Healing:GetDescendants()) do
-if v.ClassName == "Tool" then
-table.insert(healing, v.Name)
-end end 
-foods ={}
-for i,v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Food:GetDescendants()) do
-if v.ClassName == "Tool" then
-table.insert(foods,v.Name )
-end end 
-list ={}
-for i,v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Food:GetDescendants()) do
-if v.ClassName == "Tool" then
-table.insert(list,v.Name)
-end end 
+for i, v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Healing:GetDescendants()) do
+    if v.ClassName == "Tool" then
+        table.insert(healing, v.Name)
+    end
+end
+foods = {}
+for i, v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Food:GetDescendants()) do
+    if v.ClassName == "Tool" then
+        table.insert(foods, v.Name)
+    end
+end
+list = {}
+for i, v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Food:GetDescendants()) do
+    if v.ClassName == "Tool" then
+        table.insert(list, v.Name)
+    end
+end
 Dragon = {}
-for i,v in pairs(game:GetService("Players").LocalPlayer.Data.Dragons:GetChildren()) do
-if v:FindFirstChild("Age") then
-table.insert(Dragon,v.Value)
-end end 
+for i, v in pairs(game:GetService("Players").LocalPlayer.Data.Dragons:GetChildren()) do
+    if v:FindFirstChild("Age") then
+        table.insert(Dragon, v.Value)
+    end
+end
+
 
 
 game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 30
-local deku1 = {"SolsticeFlares","SolsticeBoxes"}
-local deku ={"Food","Magic","Resources"}
+local deku1 = {"SolsticeFlares", "SolsticeBoxes"}
+local deku = {"Food", "Magic", "Resources"}
+
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -180,7 +185,7 @@ local Tab1 = Window:CreateTab("Dragon Adventures")
 local Tab2 = Window:CreateTab("UI Settings")
 
 local Section1 = Tab1:CreateSection("AutoFarms")
-local SectionA = Tab1:CreateSection("Misc")
+local Section2 = Tab1:CreateSection("Misc")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 if game.PlaceId == 5777228223 then
@@ -216,54 +221,78 @@ end) end
 
 
 if game.PlaceId == 3475397644 then
+for i, v in pairs(game:GetService("Workspace").Interactions.Plots.Portals:GetChildren()) do
+    if v.Name == "Portal" and v:FindFirstChild("ActivePortal") then
+        if
+            v.ActivePortal.DefaultPortalGui.PlayerLabel.Text ==
+                game:GetService("Players").LocalPlayer.PlayerGui.WorkspaceGui[
+                    game.Players.LocalPlayer.Name .. "_DisplayGui"
+                ].ContainerFrame.NameLabel.Text
+         then
+            firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.TeleportPart, 0)
+        end
+    end
+end
 
-for i,v in pairs(game:GetService("Workspace").Interactions.Plots.Portals:GetChildren()) do
-if v.Name == "Portal" and v:FindFirstChild("ActivePortal") then
-if v.ActivePortal.DefaultPortalGui.PlayerLabel.Text == game:GetService("Players").LocalPlayer.PlayerGui.WorkspaceGui[game.Players.LocalPlayer.Name.."_DisplayGui"].ContainerFrame.NameLabel.Text then
-firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.TeleportPart, 0) 
-end end end 
+repeat
+    wait()
+until game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name .. "_Plot"]:WaitForChild(
+    "Base"
+)
 
-repeat wait() until game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"]:WaitForChild("Base")
+ss1 = {}
+for i, v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Eggs:GetDescendants()) do
+    if v.ClassName == "Model" then
+        table.insert(ss1, v.Name)
+    end
+end
 
-
-ss1={}
-for i,v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Eggs:GetDescendants()) do
-if v.ClassName == "Model"  then
-table.insert(ss1,v.Name)
-end end 
 
 
 
 local Toggle1 = Section1:CreateToggle("Money Method", nil, function(State)
 red = State
 while wait() do
-if red then
-spawn(function()
-for i,v in pairs(game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].Base.Buildings:GetDescendants()) do
-if v.ClassName == "Model" and v:FindFirstChild("HarvestRemote") then
-v.HarvestRemote:InvokeServer()
-end end end)
-spawn(function()
+    if red then
+        spawn(
+            function()
+                for i, v in pairs(
+                    game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name .. "_Plot"].Base.Buildings:GetDescendants(
 
-game:GetService("ReplicatedStorage").Remotes.SellItemRemote:FireServer({["Amount"] = 1,["ItemName"] = "Apple"})
-end)
+                    )
+                ) do
+                    if v.ClassName == "Model" and v:FindFirstChild("HarvestRemote") then
+                        v.HarvestRemote:InvokeServer()
+                    end
+                end
+            end
+        )
+        spawn(
+            function()
+                game:GetService("ReplicatedStorage").Remotes.SellItemRemote:FireServer(
+                    {["Amount"] = 1, ["ItemName"] = "Apple"}
+                )
+            end
+        )
+    end
 end
-end
-
 end)
 
 local Toggle1 = Section1:CreateToggle("Auto Incubate Eggs", nil, function(State) 
 Incubate = State
-while Incubate do wait()
+while Incubate do
+    wait()
 
+    for i, v in pairs(
+        game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name .. "_Plot"].Base.Buildings:GetDescendants(
 
-for i,v in pairs(game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].Base.Buildings:GetDescendants()) do
-if v.Name == "Incubator" then 
-v.IncubateRemote:InvokeServer(ss1)
-v.ClaimRemote:InvokeServer()
-end
-end
-
+        )
+    ) do
+        if v.Name == "Incubator" then
+            v.IncubateRemote:InvokeServer(ss1)
+            v.ClaimRemote:InvokeServer()
+        end
+    end
 end
 end)
 local Dropdown1 = Section1:CreateDropdown("Select Egg")
@@ -285,43 +314,72 @@ end end)
 Button1:AddToolTip("Sells Items needed for Merchant")
 local Toggle1 = Section1:CreateToggle("Auto Sell", nil, function(State) 
 sex = State
-while sex do wait()
-for i,v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Food:GetDescendants()) do
-if v.ClassName == "Tool" then
-game:GetService("ReplicatedStorage").Remotes.SellItemRemote:FireServer({["Amount"] = 1,["ItemName"] = v.Name})
-end end 
-end end)
+while sex do
+    wait()
+    for i, v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Food:GetDescendants()) do
+        if v.ClassName == "Tool" then
+            game:GetService("ReplicatedStorage").Remotes.SellItemRemote:FireServer(
+                {["Amount"] = 1, ["ItemName"] = v.Name}
+            )
+        end
+    end
+end
+end)
 
 
 
 local Toggle1 = Section1:CreateToggle("Alchemy AutoFarm", nil, function(State) 
 doo = State
 while wait() and doo do
-for i,v in pairs(game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].Base.Buildings:GetDescendants()) do
-if v.ClassName == "Model" and v:FindFirstChild("HarvestRemote") then
-v.HarvestRemote:InvokeServer()
-end end 
-game:GetService("ReplicatedStorage").Remotes.RecycleResourceRemote:InvokeServer({["Apple"] = 1})
+    for i, v in pairs(
+        game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name .. "_Plot"].Base.Buildings:GetDescendants(
 
+        )
+    ) do
+        if v.ClassName == "Model" and v:FindFirstChild("HarvestRemote") then
+            v.HarvestRemote:InvokeServer()
+        end
+    end
+    game:GetService("ReplicatedStorage").Remotes.RecycleResourceRemote:InvokeServer({["Apple"] = 1})
+end
+
+end)
+
+local Toggle1 = Section1:CreateToggle("Salvage Apple Plants", nil, function(State)
+nigj = State
+while nigj do
+    wait()
+    game:GetService("Players").LocalPlayer.Remote:FireServer("SalvageBuilding", {"Plant_Apple", 1})
 end
 end)
-local Toggle1 = Section1:CreateToggle("Salvage Apple Plants", nil, function(State)
-nigj=State
-while nigj do wait()
-game:GetService("Players").LocalPlayer.Remote:FireServer("SalvageBuilding",{"Plant_Apple",1})
-end end)
 
 
 local Toggle1 = Section1:CreateToggle("Automatic Apple Plants", nil, function(State)
-nij=State    
-while nij do wait()
-if nij then
-for i,v in pairs(game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].Base.Buildings:GetDescendants()) do
-if v.Name == "Plant_Apple" and v.ID then
-game:GetService("Workspace").Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].PlaceBuildingRemote:InvokeServer({["CFrame"] = CFrame.new(Vector3.new(-1955, 3.8000018596649, 4955), Vector3.new(4.3711388286738e-08, -6.9938096203259e-07, 1)),["Index"] = v.ID.Value,["Name"] = "Plant_Apple"})
-end end 
+nij = State
+while nij do
+    wait()
+    if nij then
+        for i, v in pairs(
+            game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name .. "_Plot"].Base.Buildings:GetDescendants(
+
+            )
+        ) do
+            if v.Name == "Plant_Apple" and v.ID then
+                game:GetService("Workspace").Plots.Plots[game.Players.LocalPlayer.Name .. "_Plot"].PlaceBuildingRemote:InvokeServer(
+                    {
+                        ["CFrame"] = CFrame.new(
+                            Vector3.new(-1955, 3.8000018596649, 4955),
+                            Vector3.new(4.3711388286738e-08, -6.9938096203259e-07, 1)
+                        ),
+                        ["Index"] = v.ID.Value,
+                        ["Name"] = "Plant_Apple"
+                    }
+                )
+            end
+        end
+    end
 end
-end    
+   
 end)
 end
 
@@ -374,11 +432,15 @@ end
 end)
 local Toggle1 = Section1:CreateToggle("Test", nil, function(State)
 test = State
-while test do wait()
-for i,v in pairs(game:GetService("Workspace").Camera.ClientMobs:GetDescendants()) do
-if v.ClassName == 'Model' and v:FindFirstChild("Health") then
-game.Players.LocalPlayer.Character.Dragons[Dragon].HumanoidRootPart.CFrame = v:FindFirstChildOfClass("MeshPart")
-end end end
+while test do
+    wait()
+    for i, v in pairs(game:GetService("Workspace").Camera.ClientMobs:GetDescendants()) do
+        if v.ClassName == "Model" and v:FindFirstChild("Health") then
+            game.Players.LocalPlayer.Character.Dragons[Dragon].HumanoidRootPart.CFrame =
+                v:FindFirstChildOfClass("MeshPart")
+        end
+    end
+end
 end)
 local Dropdown1 = Section1:CreateDropdown("Select Dragon")
 Dropdown1:AddToolTip("Select Dragon")
@@ -525,25 +587,33 @@ end
 
 
 local Button1 = Section1:CreateButton("UnEquip All Dragons", function()
-for i,v in pairs(game:GetService('Players').LocalPlayer.Character.Dragons:GetDescendants()) do
-if v.ClassName == "Model" and  v:FindFirstChild("ID") then
-game:GetService("ReplicatedStorage").Remotes.UnequipDragonRemote:InvokeServer(v.Name)
-end
+for i, v in pairs(game:GetService("Players").LocalPlayer.Character.Dragons:GetDescendants()) do
+    if v.ClassName == "Model" and v:FindFirstChild("ID") then
+        game:GetService("ReplicatedStorage").Remotes.UnequipDragonRemote:InvokeServer(v.Name)
+    end
 end
 end)
+
 local Toggle1 = Section1:CreateToggle("Auto Feed Dragon", nil, function(State) 
-pcall(function()
 feed = State
-game:GetService('RunService').Stepped:connect(function()
-if feed then
-for i,v in pairs(game:GetService('Players').LocalPlayer.Character.Dragons:GetDescendants()) do
-if v.ClassName == "Model" and  v:FindFirstChild("ID") then
-game:GetService("ReplicatedStorage").Remotes.FeedDragonRemote:InvokeServer(v.Name,{["Amount"] = 1,["ItemName"] = list})
-end
-end
-end
-end)
-end)
+game:GetService("RunService").Stepped:connect(
+    function()
+        if feed then
+            pcall(
+                function()
+                    for i, v in pairs(game:GetService("Players").LocalPlayer.Character.Dragons:GetDescendants()) do
+                        if v.ClassName == "Model" and v:FindFirstChild("ID") then
+                            game:GetService("ReplicatedStorage").Remotes.FeedDragonRemote:InvokeServer(
+                                v.Name,
+                                {["Amount"] = 1, ["ItemName"] = list}
+                            )
+                        end
+                    end
+                end
+            )
+        end
+    end
+)
 end)
 local Dropdown1 = Section1:CreateDropdown("Select Food")
 Dropdown1:AddToolTip("Select Food")
@@ -556,18 +626,25 @@ end
 
 
 local Toggle1 = Section1:CreateToggle("Auto Heal Dragons", nil, function(State) 
-pcall(function()
 feed = State
-game:GetService('RunService').Stepped:connect(function()
-if feed then
-for i,v in pairs(game:GetService('Players').LocalPlayer.Character.Dragons:GetDescendants()) do
-if v.ClassName == "Model" and  v:FindFirstChild("ID") then
-game:GetService("ReplicatedStorage").Remotes.FeedDragonRemote:InvokeServer(v.Name,{["Amount"] = 1,["ItemName"] = healing})
-end
-end
-end
-end)
-end)
+game:GetService("RunService").Stepped:connect(
+    function()
+        if feed then
+            pcall(
+                function()
+                    for i, v in pairs(game:GetService("Players").LocalPlayer.Character.Dragons:GetDescendants()) do
+                        if v.ClassName == "Model" and v:FindFirstChild("ID") then
+                            game:GetService("ReplicatedStorage").Remotes.HealDragonRemote:InvokeServer(
+                                tostring(v.Name),
+                                healing
+                            )
+                        end
+                    end
+                end
+            )
+        end
+    end
+)
 end)
 local Dropdown1 = Section1:CreateDropdown("Select Healing")
 Dropdown1:AddToolTip("Select Healing")
@@ -627,16 +704,29 @@ game:GetService("TeleportService"):Teleport(4728805070, LocalPlayer) end)
 
 local Button1 = Section1:CreateButton("Prehistoric", function()
 game:GetService("TeleportService"):Teleport(4869039553, LocalPlayer) end)
+local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
+
+local Toggle1 = Section2:CreateToggle("Player Esp", nil, function(State)
+    ESP:Toggle(State)
+end)
+local Toggle1 = Section2:CreateToggle("Tracers Esp", nil, function(State)
+    ESP.Tracers = State
+end)
+local Toggle1 = Section2:CreateToggle("Name Esp", nil, function(State)
+    ESP.Names = State
+end)
+local Toggle1 = Section2:CreateToggle("Boxes Esp", nil, function(State)
+    ESP.Boxes = State
+end)
 
 
-
-local TextBox1 = SectionA:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
+local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
 end)
-local TextBox1 = SectionA:CreateTextBox("JumpPower", "Only numbers", true, function(Value)
+local TextBox1 = Section2:CreateTextBox("JumpPower", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
 end)
-local Toggle1 = SectionA:CreateToggle("Infinite Jump", nil, function(State)
+local Toggle1 = Section2:CreateToggle("Infinite Jump", nil, function(State)
 Infinite = State
 game:GetService("UserInputService").JumpRequest:connect(function()
 	if Infinite then
@@ -644,131 +734,203 @@ game:GetService("UserInputService").JumpRequest:connect(function()
 	end
 end) end)
 
-local Toggle1 = SectionA:CreateToggle("G Noclip", nil, function(State)
-sex = State
-noclip = false
-game:GetService('RunService').Stepped:connect(function()
-if noclip then
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-end
-end)
-plr = game.Players.LocalPlayer
-mouse = plr:GetMouse()
-mouse.KeyDown:connect(function(key)
 
-if key == "g" then
-if sex then
-noclip = not noclip
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-end end 
-end) end)
-local Toggle1 = SectionA:CreateToggle("B Fly", nil, function(State)
+local Toggle1 = Section2:CreateToggle("G PlatFormNoclip", nil, function(State)
+yes44 = State
+noclip = false
+game:GetService("RunService").Stepped:connect(
+    function()
+        if noclip then
+            game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+        end
+    end
+)
+game.Players.LocalPlayer:GetMouse().KeyDown:connect(
+    function(key)
+        if key == "g" then
+            if yes44 then
+                noclip = not noclip
+                game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+            end
+        end
+    end
+)
+end)
+local Toggle1 = Section2:CreateToggle("N NonePlatFormNoclip", nil, function(State)
+hoe = State
+game.Players.LocalPlayer:GetMouse().KeyDown:connect(
+    function(v)
+        if v == "n" then
+            NoClip = not NoClip
+            game:GetService("RunService").Stepped:connect(
+                function()
+                    if NoClip then
+                     if hoe then
+                        for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+                            pcall(
+                                function()
+                                    if v.ClassName == "Part" or v.ClassName == "MeshPart" then
+                                        v.CanCollide = false
+                                    end
+                                end
+                            )
+                        end
+                    end
+                end
+            end
+            )
+        end
+    end
+)
+end)
+
+
+local Toggle1 = Section2:CreateToggle("B Fly", nil, function(State)
 sex2 = State
-local gogo1000 = 0
-local LP = game:service('Players').LocalPlayer
-local MOUSE = LP:GetMouse()
-MOUSE.KeyDown:connect(function(KEY)
-if KEY:lower() == 'b' then
+local Max = 0
+local Players = game.Players
+local LP = Players.LocalPlayer
+local Mouse = LP:GetMouse()
+Mouse.KeyDown:connect(function(k)
+if k:lower() == 'b' then
+Max = Max + 1
+getgenv().Fly = false
 if sex2 then
-local LP = game:service('Players').LocalPlayer
-local MOUSE = LP:GetMouse()
-gogo1000 = gogo1000 + 1
-_G.FLYING = false
 local T = LP.Character.UpperTorso
-local CONTROL = {F = 0, B = 0, L = 0, R = 0}
-local lCONTROL = {F = 0, B = 0, L = 0, R = 0}
+local S = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
+local S2 = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
 local SPEED = 5
 local function FLY()
-_G.FLYING = true
-local BG = Instance.new('BodyGyro', T)
-local BV = Instance.new('BodyVelocity', T)
-BG.P = 9e4
-BG.maxTorque = Vector3.new(9e9, 9e9, 9e9)
-BG.cframe = T.CFrame
-BV.velocity = Vector3.new(0, 0.1, 0)
-BV.maxForce = Vector3.new(9e9, 9e9, 9e9)
+getgenv().Fly = true
+local BodyGyro = Instance.new('BodyGyro', T)
+local BodyVelocity = Instance.new('BodyVelocity', T)
+BodyGyro.P = 9e4
+BodyGyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+BodyGyro.cframe = T.CFrame
+BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+BodyVelocity.maxForce = Vector3.new(9e9, 9e9, 9e9)
 spawn(function()
-repeat wait()
-LP.Character.Humanoid.PlatformStand = true
-if CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0 then
+repeat
+wait()
+LP.Character.Humanoid.PlatformStand = false
+if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
 SPEED = 200
-elseif not (CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0) and SPEED ~= 0 then
+elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
 SPEED = 0
 end
-if (CONTROL.L + CONTROL.R) ~= 0 or (CONTROL.F + CONTROL.B) ~= 0 then
-BV.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (CONTROL.F + CONTROL.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(CONTROL.L + CONTROL.R, (CONTROL.F + CONTROL.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
-lCONTROL = {F = CONTROL.F, B = CONTROL.B, L = CONTROL.L, R = CONTROL.R}
-elseif (CONTROL.L + CONTROL.R) == 0 and (CONTROL.F + CONTROL.B) == 0 and SPEED ~= 0 then
-BV.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lCONTROL.F + lCONTROL.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lCONTROL.L + lCONTROL.R, (lCONTROL.F + lCONTROL.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+if (S.L + S.R) ~= 0 or (S.F + S.B) ~= 0 then
+BodyVelocity.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S.F + S.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(S.L + S.R, (S.F + S.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+S2 = {
+F = S.F,
+B = S.B,
+L = S.L,
+R = S.R
+}
+elseif (S.L + S.R) == 0 and (S.F + S.B) == 0 and SPEED ~= 0 then
+BodyVelocity.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S2.F + S2.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(S2.L + S2.R, (S2.F + S2.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
 else
-BV.velocity = Vector3.new(0, 0.1, 0)
+BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
 end
-BG.cframe = game.Workspace.CurrentCamera.CoordinateFrame
-until not _G.FLYING
-CONTROL = {F = 0, B = 0, L = 0, R = 0}
-lCONTROL = {F = 0, B = 0, L = 0, R = 0}
+BodyGyro.cframe = game.Workspace.CurrentCamera.CoordinateFrame
+until not getgenv().Fly
+S = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
+S2 = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
 SPEED = 0
-BG:destroy()
-BV:destroy()
+BodyGyro:destroy()
+BodyVelocity:destroy()
 LP.Character.Humanoid.PlatformStand = false
 end)
 end
-MOUSE.KeyDown:connect(function(KEY)
-if KEY:lower() == 'w' then
-CONTROL.F = 1
-elseif KEY:lower() == 's' then
-CONTROL.B = -1
-elseif KEY:lower() == 'a' then
-CONTROL.L = -1 
-elseif KEY:lower() == 'd' then 
-CONTROL.R = 1
+Mouse.KeyDown:connect(function(k)
+if k:lower() == 'w' then
+S.F = 1
+elseif k:lower() == 's' then
+S.B = -1
+elseif k:lower() == 'a' then
+S.L = -1
+elseif k:lower() == 'd' then
+S.R = 1
 end
 end)
-MOUSE.KeyUp:connect(function(KEY)
-if KEY:lower() == 'w' then
-CONTROL.F = 0
-elseif KEY:lower() == 's' then
-CONTROL.B = 0
-elseif KEY:lower() == 'a' then
-CONTROL.L = 0
-elseif KEY:lower() == 'd' then
-CONTROL.R = 0
+Mouse.KeyUp:connect(function(k)
+if k:lower() == 'w' then
+S.F = 0
+elseif k:lower() == 's' then
+S.B = 0
+elseif k:lower() == 'a' then
+S.L = 0
+elseif k:lower() == 'd' then
+S.R = 0
 end
 end)
 FLY()
-if gogo1000 == 2 then
-_G.FLYING = false
-gogo1000 = 0
+if Max == 2 then
+getgenv().Fly = false
+Max = 0
 end
 end
 end
-end) end)
-local Button1 = SectionA:CreateButton("Anti Lag", function()
-for _,v in pairs(game:GetService("Workspace"):GetDescendants()) do
-if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then --- i stole this from the actual game LOL >-<
-v.Material = Enum.Material.SmoothPlastic;
-if v:IsA("Texture") then
-v:Destroy();
-end end;		
-end;
+end)
+end)
+local Button1 = Section2:CreateButton("Anti Lag", function()
+for _, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+    if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then --- i stole this from the actual game LOL >-<
+        v.Material = Enum.Material.SmoothPlastic
+        if v:IsA("Texture") then
+            v:Destroy()
+        end
+    end
+end
+
 end)
 
-local Button1 = SectionA:CreateButton("Teleport to RandomPlayer", function()
-local randomPlayer = game.Players:GetPlayers()
-[math.random(1,#game.Players:GetPlayers())]
+local Button1 = Section2:CreateButton("Teleport to RandomPlayer", function()
+local randomPlayer = game.Players:GetPlayers()[math.random(1, #game.Players:GetPlayers())]
 
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(randomPlayer.Character.Head.Position.X, randomPlayer.Character.Head.Position.Y, randomPlayer.Character.Head.Position.Z)) end)
-local Button1 = SectionA:CreateButton("Lag Switch F3", function()
-local a = false
-local b = settings()
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+    CFrame.new(
+    Vector3.new(
+        randomPlayer.Character.Head.Position.X,
+        randomPlayer.Character.Head.Position.Y,
+        randomPlayer.Character.Head.Position.Z
+    )
+)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(randomPlayer.Character.Head.Position.X, randomPlayer.Character.Head.Position.Y, randomPlayer.Character.Head.Position.Z))
+end)
+local Button1 = Section2:CreateButton("Lag Switch F3", function()
+local X = false
+local C = settings()
 
-game:service'UserInputService'.InputEnded:connect(function(i)
-if i.KeyCode == Enum.KeyCode.F3 then
-a = not a
-b.Network.IncomingReplicationLag = a and 10 or 0
-end
-end) end) 
-local Button1 = SectionA:CreateButton("ServerHop", function()
+game:service "UserInputService".InputEnded:connect(
+    function(V)
+        if V.KeyCode == Enum.KeyCode.F3 then
+            X = not X
+            C.Network.IncomingReplicationLag = X and 10 or 0
+        end
+    end
+)
+end) 
+local Button1 = Section2:CreateButton("ServerHop", function()
 local PlaceID = game.PlaceId
 local AllIDs = {}
 local foundAnything = ""
@@ -839,9 +1001,9 @@ function Teleport()
 end
 
 -- If you'd like to use a script before server hopping (Like a Automatic Chest collector you can put the Teleport() after it collected everything.
-Teleport()
+Teleport() 
 end)
-local Button1 = SectionA:CreateButton("Rejoin", function()
+local Button1 = Section2:CreateButton("Rejoin", function()
 game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer) end)
 
 local Toggle3 = Section3:CreateToggle("UI Toggle", nil, function(State)
@@ -897,3 +1059,4 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
