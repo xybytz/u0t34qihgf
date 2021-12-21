@@ -4,10 +4,6 @@ local Config = {
 	Keybind = Enum.KeyCode.RightControl
 }
 
-function SwitchToKnife()
-game:GetService("VirtualInputManager"):SendKeyEvent(true, 51, false, game)
-game:GetService("VirtualInputManager"):SendKeyEvent(false, 51, false, game)	
-end
 
 function NoGui()
 game.Players.LocalPlayer.PlayerGui.GUI.Enabled = true
