@@ -328,6 +328,8 @@ end)
 
 
 
+
+
 local Toggle1 = Section1:CreateToggle("Alchemy AutoFarm", nil, function(State) 
 doo = State
 while wait() and doo do
@@ -622,14 +624,29 @@ Dropdown1:AddOption(v, function(String)
 list = String
 end)
 end
-
-
-
-local Toggle1 = Section1:CreateToggle("Auto Heal Dragons", nil, function(State) 
-feed = State
+local Toggle1 = Section1:CreateToggle("Auto grow Dragons", nil, function(State) 
+feed2 = State
 game:GetService("RunService").Stepped:connect(
     function()
-        if feed then
+        if feed2 then
+            pcall(
+                function()
+                    for i, v in pairs(game:GetService("Players").LocalPlayer.Character.Dragons:GetDescendants()) do
+                        if v.ClassName == "Model" and v:FindFirstChild("ID") then
+                            game:GetService("ReplicatedStorage").Remotes.GrowDragonRemote:InvokeServer(tostring(v.Name))
+                        end
+                    end
+                end
+            )
+        end
+    end
+)
+end)
+local Toggle1 = Section1:CreateToggle("Auto Heal Dragons", nil, function(State) 
+feed1 = State
+game:GetService("RunService").Stepped:connect(
+    function()
+        if feed1 then
             pcall(
                 function()
                     for i, v in pairs(game:GetService("Players").LocalPlayer.Character.Dragons:GetDescendants()) do
