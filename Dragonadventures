@@ -11,7 +11,7 @@ end)
 game:GetService("Players").LocalPlayer.PlayerGui.NodeGui.BoostFrame.ChildAdded:Connect(
     function(v)
         if v.Name == "Default" and v:FindFirstChild("ClickLabel") then
-            wait(2)
+            wait(0.5)
             v:remove()
         end
     end
@@ -418,7 +418,7 @@ while yes33 do
                     end
                     game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
                     spawn(function()
-                    for i=1,20 do wait(1)
+                    for i=1,20 do wait(0.4)
                     v.BoostRemote:InvokeServer(true,"Food" .. v.CurrentBoosts.Value)
                     end 
                     end)
@@ -474,7 +474,7 @@ while egg do
                     end
                     game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
                     spawn(function()
-                    for i=1,20 do wait(1)
+                    for i=1,20 do wait(0.4)
                     v.BoostRemote:InvokeServer(true,"Eggs" .. v.CurrentBoosts.Value)
                     end 
                     end)
