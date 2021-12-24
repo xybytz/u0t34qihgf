@@ -461,34 +461,41 @@ end)
 end
 local Toggle1 = Section1:CreateToggle("Auto Egg", nil, function(State) 
 egg = State
+game:GetService("RunService").Stepped:connect(
+    function()
+        if egg then
+            pcall(
+                function()
+                    game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+                end
+            )
+        end
+    end
+)
 while egg do
     wait(1)
     pcall(
         function()
             for i, v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest.Eggs.ActiveNodes:GetDescendants()) do
-                if v:IsA("MeshPart") then
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame * CFrame.new(40, -3, 0)
+                if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v:FindFirstChildOfClass("MeshPart").CFrame * CFrame.new(40, -3, 0)
                     wait(1)
-                    game.Players.LocalPlayer.Character.Humanoid:MoveTo(v.CFrame.Position)
+                    game.Players.LocalPlayer.Character.Humanoid:MoveTo(v:FindFirstChildOfClass("MeshPart").CFrame.Position)
                     wait(3)
                     if not egg then
                         break
                     end
                     game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
                     spawn(function()
-                    for i=1,20 do wait(0.4)
+                    for i=1,40 do wait(0.3)
                     v.BoostRemote:InvokeServer(true,"Eggs" .. v.CurrentBoosts.Value)
-                    end 
+                    end
                     end)
-
-                    v.Harvested.Value = true
-                    v.Harvested.Value = false
-                   
                 end
             end
         end
     )
-     wait(15)
+     wait(30)
 end
 
 
