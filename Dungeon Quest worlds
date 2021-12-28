@@ -1,5 +1,3 @@
-
-
 if game.PlaceId == 2317712696 then
 loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Dungeon%20Quest'))()
 elseif game.PlaceId == 2606294912 then
@@ -50,5 +48,6 @@ elseif game.PlaceId == 2886606697 then
 loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Dungeon%20Quest'))()
 elseif game.PlaceId == 6878973814 then
 loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Dungeon%20Quest'))()
-
+elseif game.PlaceId == 8376888496 then
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Dungeon%20Quest'))()
 end
