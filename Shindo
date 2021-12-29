@@ -94,7 +94,7 @@ end)
 
 
 
-
+--[[
 local Toggle1 = Section1:CreateToggle("AutoFarm Candy", nil, function(State)
 getgenv().AutoCandy = State
 game:GetService("RunService").Stepped:connect(
@@ -129,7 +129,7 @@ while getgenv().AutoCandy do
         end
     )
 end
-end)
+end)]]--
 local Toggle1 = Section1:CreateToggle("AutoFarm Mobs", nil, function(State)
 getgenv().AutoMobs = State
 game:GetService("RunService").Stepped:connect(
@@ -144,6 +144,10 @@ while getgenv().AutoMobs do
     pcall(function()
             repeat
                 wait(0.5)
+                local Split = string.split(mission.bg.name.Text,"Defeat ")[1]
+                if string.find(Split,"(s)") then
+                Split = string.gsub(Split,"(s)","")
+                end
                 for i, v in pairs(game:GetService("Workspace").missiongivers:GetDescendants()) do
                     if v:FindFirstChild("Head") and v.Head:FindFirstChild("givemission") and v.Head.givemission.Enabled and
                             v.Head.givemission:FindFirstChild("color").Image ==
