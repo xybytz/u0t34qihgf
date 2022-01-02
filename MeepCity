@@ -30,7 +30,7 @@ NoClip2=false ,
 }
 
 
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
 local Tab1 = Window:CreateTab("MeepCity")
@@ -54,29 +54,14 @@ game.ReplicatedStorage.Connection:InvokeServer(50)
 game.ReplicatedStorage.Connection:InvokeServer(51)
 local Arg1 = 11
 local Arg2 = {
-	["FishingPolePos"] = game:GetService("Workspace").TempFish.Position,
+	["FishingPolePos"] = game:GetService("Workspace").VW.TempFish.Position,
 	["Power"] = 1,
-	["Face"] = game:GetService("Workspace").TempFish.Position,
-	["PlayerPos"] = game:GetService("Workspace").TempFish.Position,
+	["Face"] = game:GetService("Workspace").VW.TempFish.Position,
+	["PlayerPos"] = game:GetService("Workspace").VW.TempFish.Position,
 	["FishingZonePos"] = Vector3.new(-5.29345703, -18.0412292, 43.7173767)
 }
 game:GetService("ReplicatedStorage").Connection:InvokeServer(Arg1, Arg2) end 
 end)
-end)
-
-
-local Button1 = Section1:CreateButton("BoomBox GamePass", function()
-game.ReplicatedStorage.PlayerData[game.Players.LocalPlayer.UserId].BoomBox.Value = true
-end)
-local Button1 = Section1:CreateButton("Plus GamePass", function()
-game.ReplicatedStorage.PlayerData[game.Players.LocalPlayer.UserId].PLUS.Value = true
-end)
-
-local Button1 = Section1:CreateButton("CandyPack Gamepass", function()
-game.ReplicatedStorage.PlayerData[game.Players.LocalPlayer.UserId].CandyPack.Value = true
-end)
-local Button1 = Section1:CreateButton("SimpleVelvet Gamepass", function()
-game.ReplicatedStorage.PlayerData[game.Players.LocalPlayer.UserId].SimpleVelvet.Value = true
 end)
 
 local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
@@ -435,4 +420,5 @@ while wait(3) do
 Save()
 end
 end)
+
 
