@@ -478,7 +478,7 @@ while egg do
         function()
             for i, v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest.Eggs.ActiveNodes:GetDescendants()) do
                 if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v:FindFirstChildOfClass("MeshPart").CFrame * CFrame.new(40, -3, 0)
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v:FindFirstChildOfClass("MeshPart").CFrame * CFrame.new(40, 0, 0)
                     wait(1)
                     game.Players.LocalPlayer.Character.Humanoid:MoveTo(v:FindFirstChildOfClass("MeshPart").CFrame.Position)
                     wait(3)
@@ -487,9 +487,9 @@ while egg do
                     end
                     game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
                     spawn(function()
-                    for i=1,40 do wait(0.3)
+                    for i=1,4000 do wait(0.1)
                     v.BoostRemote:InvokeServer(true,"Eggs" .. v.CurrentBoosts.Value)
-                    end
+                    end 
                     end)
                 end
             end
@@ -501,7 +501,6 @@ end
 
 end)
 Toggle1:AddToolTip("Teleports to Eggs")
-
 local Player = game.Players.LocalPlayer
 local Pointer = Player.PlayerGui.FishingGui.ContainerFrame.ReelingFrame.BarLabel.InnerLabel.PointerLabel
 local SafeBar = Player.PlayerGui.FishingGui.ContainerFrame.ReelingFrame.BarLabel.InnerLabel.SafeBarLabel
