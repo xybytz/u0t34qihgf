@@ -1,7 +1,7 @@
 local Config = {
     WindowName = "V.G Hub",
 	Color = Color3.fromRGB(255,128,64),
-	Keybind = Enum.KeyCode.RightControl
+	Keybind = Enum.KeyCode.RightControl 
 }
 repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
@@ -24,6 +24,9 @@ local a1 = require(game:GetService("ReplicatedStorage").Modules.BossInfo)
 for i,v in pairs(a1) do
 table.insert(aa1,i)
 end
+pcall(function()
+game:GetService("Workspace").Teleporters.Bosses.ToBoss["Jimmy's Empire Boss"].Name = "Jimmy Boss"
+end)
 game:GetService('RunService').Stepped:connect(function()
 pcall(function()
 if game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("CustomName") then
@@ -100,27 +103,27 @@ end) end end) end)
 
 local Toggle1 = Section1:CreateToggle("AutoFarm Boss", nil, function(State)
 ss = State
-for i,v in pairs(game:GetService("Workspace").Bosses.Timers:GetDescendants()) do
-if v.Name:match(aa) then
+for i,v in pairs(game:GetService("Workspace").Teleporters.Bosses.ToBoss:GetChildren()) do
+if v.Name:match(aa) or string.find(aa, "Snake") then
 if ss then
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
 end 
 end 
 end
 wait(2)
-while wait() and yes2 do wait()
+game:GetService('RunService').Stepped:connect(function()
 pcall(function()
-game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
-for i,v in pairs(game:GetService("Workspace").Bosses.Bosses:GetDescendants()) do
-if v.Name:match(aa) then
 if ss then
+game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+for i,v in pairs(game:GetService("Workspace").Bosses.Bosses:GetChildren()) do
+if v.Name:match(aa) then
+
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v:FindFirstChild("HumanoidRootPart").CFrame
-game:GetService("ReplicatedStorage").Remotes.Attack:FireServer(v.HumanoidRootPart)
+game:GetService("ReplicatedStorage").Remotes.Attack:FireServer(v:FindFirstChildOfClass("Part"))
 end 
 end 
 end
-end)
-end
+end) end)
 end)
 local Dropdown1 = Section1:CreateDropdown("Select Boss")
 Dropdown1:AddToolTip("Select Boss")
@@ -130,7 +133,37 @@ aa = String
 end)
 end 
 
+local Toggle1 = Section1:CreateToggle("AutoFarm Boss2", nil, function(State)
+ss2 = State
+for i,v in pairs(game:GetService("Workspace").Teleporters.Bosses.ToBoss:GetChildren()) do
+if v.Name:match(aa1) or table.find(aa, "Snake") then
+if ss2 then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+end 
+end 
+end
+wait(2)
+game:GetService('RunService').Stepped:connect(function()
+pcall(function()
+if ss2 then
+game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+for i,v in pairs(game:GetService("Workspace").Bosses.Bosses:GetDescendants()) do
+if v.Name:match(aa1) then
 
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v:FindFirstChild("HumanoidRootPart").CFrame
+game:GetService("ReplicatedStorage").Remotes.Attack:FireServer(v:FindFirstChildOfClass("Part"))
+end 
+end 
+end
+end) end)
+end)
+local Dropdown1 = Section1:CreateDropdown("Select Boss2")
+Dropdown1:AddToolTip("Select Boss2")
+for i,v in next, aa1 do
+Dropdown1:AddOption(v, function(String)
+aa1 = String
+end)
+end 
 local Toggle1 = Section1:CreateToggle("Auto Flags", nil, function(State)
 wow = State
 game:GetService('RunService').Stepped:connect(function()
