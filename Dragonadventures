@@ -248,53 +248,6 @@ for i, v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Eggs:
 end
 
 
-
-
-local Toggle1 = Section1:CreateToggle("Money Method", nil, function(State)
-red = State
-while wait() do
-    if red then
-        spawn(
-            function()
-                for i, v in pairs(
-                    game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name .. "_Plot"].Base.Buildings:GetDescendants(
-
-                    )
-                ) do
-                    if v.ClassName == "Model" and v:FindFirstChild("HarvestRemote") then
-                        v.HarvestRemote:InvokeServer()
-                    end
-                end
-            end
-        )
-        spawn(
-            function()
-                game:GetService("ReplicatedStorage").Remotes.SellItemRemote:FireServer(
-                    {["Amount"] = 1, ["ItemName"] = "Apple"}
-                )
-            end
-        )
-    end
-end
-end)
-
-local Toggle1 = Section1:CreateToggle("Auto Incubate Eggs", nil, function(State) 
-Incubate = State
-while Incubate do
-    wait()
-
-    for i, v in pairs(
-        game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name .. "_Plot"].Base.Buildings:GetDescendants(
-
-        )
-    ) do
-        if v.Name == "Incubator" then
-            v.IncubateRemote:InvokeServer(ss1)
-            v.ClaimRemote:InvokeServer()
-        end
-    end
-end
-end)
 local Dropdown1 = Section1:CreateDropdown("Select Egg")
 Dropdown1:AddToolTip("Select Egg To Incubate")
 for i,v in next, ss1 do
@@ -317,7 +270,7 @@ sex = State
 while sex do
     wait()
     for i, v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Food:GetDescendants()) do
-        if v.ClassName == "Tool" then
+        if v.ClassName == "Tool" then wait(0.1)
             game:GetService("ReplicatedStorage").Remotes.SellItemRemote:FireServer(
                 {["Amount"] = 1, ["ItemName"] = v.Name}
             )
@@ -1082,4 +1035,5 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
 
