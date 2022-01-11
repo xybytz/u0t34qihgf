@@ -72,8 +72,7 @@ getgenv().AutoFarm = State
 game:GetService("RunService").Stepped:connect(
     function()
         if getgenv().AutoFarm then
-            game.Players.LocalPlayer.Character:WaitForChild("Humanoid")
-            ChangeState(11)
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
         end
     end
 )
@@ -315,11 +314,19 @@ end)
 
 local Toggle1 = Section1:CreateToggle("AutoWar", nil, function(State)
 getgenv().War = State
+
+
+game:GetService("RunService").Stepped:connect(
+    function()
+        if getgenv().War then
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+        end
+    end
+)
+
 while getgenv().War do
-    wait(0.5)
-    pcall(
-        function()
-            for i, v in pairs(workspace.npc:GetChildren()) do
+    wait()pcall(function()   
+        for i, v in pairs(workspace.npc:GetChildren()) do
                 if
                     v.ClassName == "Model" and v:FindFirstChild("npc") and string.find(v.Name, "npc") and
                         v:FindFirstChild("HumanoidRootPart") and
@@ -343,13 +350,17 @@ while getgenv().War do
                         v:FindFirstChild("megaboss")
                  then
                     wait(6)
+                     for i = 1, 50 do
+                        wait()
+                        game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", true)
+                        game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", false)
+                    end
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                         v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
                     v.Humanoid.Health = 0
                 end
             end
-        end
-    )
+end)
 end
 end)
 
