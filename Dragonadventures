@@ -188,35 +188,7 @@ local Section1 = Tab1:CreateSection("AutoFarms")
 local Section2 = Tab1:CreateSection("Misc")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
-if game.PlaceId == 5777228223 then
-local a = game:GetService("ReplicatedStorage")["_replicationFolder"].BakeryClassClient
-require(a)._getNextOrder = function()
-end
 
-local Toggle1 = Section1:CreateToggle("Bakery Autofarm", nil, function(State)
-OwO = State
-
-while wait() and OwO do
-pcall(function()
-game:GetService("ReplicatedStorage").Remotes.StartBakeryMinigameRemote:InvokeServer()
-
-    local walt = game:GetService("ReplicatedStorage").Remotes.GetBakeryOrderRemote:InvokeServer()
-    if walt then
-        game:GetService("ReplicatedStorage").Remotes.SubmitBakeryOrderRemote:InvokeServer(walt)
-    end
-    if
-        game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui:FindFirstChild("RewardFrame") and
-            game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui:FindFirstChild("RewardFrame").Visible == true
-     then
-        game:GetService("ReplicatedStorage").Remotes.GetMinigameRewardRemote:InvokeServer(1)
-        game:GetService("ReplicatedStorage").Remotes.EndMinigameRewardsRemote:FireServer("Bakery")
-        game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui:FindFirstChild("RewardFrame").Visible = false
-        game:GetService("Lighting").InterfaceBlur.Enabled = false
-     end
-
-end)
-end
-end) end 
 
 
 
@@ -247,7 +219,23 @@ for i, v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Eggs:
     end
 end
 
+local Toggle1 = Section1:CreateToggle("Auto Incubate Eggs", nil, function(State) 
+Incubate = State
+while Incubate do
+    wait()
 
+    for i, v in pairs(
+        game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name .. "_Plot"].Base.Buildings:GetDescendants(
+
+        )
+    ) do wait(2)
+        if v.Name == "Incubator" then
+            v.IncubateRemote:InvokeServer(ss1) wait(2)
+            v.ClaimRemote:InvokeServer()
+        end
+    end
+end
+end)
 local Dropdown1 = Section1:CreateDropdown("Select Egg")
 Dropdown1:AddToolTip("Select Egg To Incubate")
 for i,v in next, ss1 do
@@ -1035,5 +1023,4 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
 
