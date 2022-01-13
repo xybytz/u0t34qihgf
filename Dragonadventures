@@ -10,12 +10,14 @@ end)
 
 game:GetService("Players").LocalPlayer.PlayerGui.NodeGui.BoostFrame.ChildAdded:Connect(
     function(v)
-        if v.Name == "Default" and v:FindFirstChild("ClickLabel") then
+        if v.ClassName == "Frame" and v:FindFirstChild("ClickButton") then
             wait(0.5)
-            v:remove()
+            firesignal(v.ClickShadowButton.MouseButton1Down)
+            firesignal(v.ClickButton.MouseButton1Down)
         end
     end
 )
+
 pcall(function()
 
 game:GetService("ReplicatedStorage").Remotes.SpinWheelRemote:InvokeServer()
@@ -360,11 +362,6 @@ while yes33 do
                         break
                     end
                     game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
-                    spawn(function()
-                    for i=1,40 do wait(0.2)
-                    v.BoostRemote:InvokeServer(true,"Food" .. v.CurrentBoosts.Value)
-                    end 
-                    end)
                     wait(20)
                 end
             end
@@ -427,11 +424,6 @@ while egg do
                         break
                     end
                     game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
-                    spawn(function()
-                    for i=1,4000 do wait(0.1)
-                    v.BoostRemote:InvokeServer(true,"Eggs" .. v.CurrentBoosts.Value)
-                    end 
-                    end)
                 end
             end
         end
