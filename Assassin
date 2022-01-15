@@ -13,18 +13,25 @@ OldNameCall = hookmetamethod(game, "__namecall", function(...)
     local Self = Args[1]
     if getnamecallmethod()=="FireServer" and tostring(Self)=="clientkick" or tostring(Self)=="PingReceive" or tostring(Self)=="reeeee" or tostring(Self)=="pong" or tostring(Self)=="Telebackup" or tostring(Self)=="ClientRequestTele" or tostring(Self) == "setChair" then
         return nil
-    end
-    if Args[1] == "Throw" then
-    if Args[2] == "HumanoidRootPart" then 
-       Args[3] = Vector3.new(1,2,1) 
-    return
-    end
+ 
     end 
     if getnamecallmethod()=="Kick" then
     return nil 
     end
 
     return OldNameCall(...)
+end)
+
+local OldNameCall = nil
+OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
+    local Args = {...}
+    local Self = Args[1]
+        if Args[4] == "throw" and tostring(self) == "RemoteEvent" and getnamecallmethod() == "FireServer" then
+            if Args[6] == "HumanoidRootPart" then
+                 Args[7] = Vector3.new(2, 2, 1)
+            end
+        end
+    return OldNameCall(self, table.unpack(Args))
 end)
 
 
@@ -46,6 +53,22 @@ local Section2 = Tab1:CreateSection("")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 
+local Slider2 = Section1:CreateSlider("Hitbox Radius", 0,50,nil,false, function(Value)
+head = Value
+end)
+local Toggle1 = Section1:CreateToggle("Hitbox Extender", nil, function(State)
+HEAD = State
+while HEAD do wait()
+for i, v in pairs(game.Players:GetPlayers()) do
+if v.Name ~= game.Players.LocalPlayer.Name then
+pcall(function()
+v.Character.HumanoidRootPart.CanCollide = false
+v.Character.HumanoidRootPart.Material = "Neon"
+v.Character.HumanoidRootPart.Transparency = 0.5
+v.Character.HumanoidRootPart.BrickColor = BrickColor.new("Really blue")
+v.Character.HumanoidRootPart.Size = Vector3.new(head,head,head)
+v.Character.HumanoidRootPart.Size = Vector3.new(head,head,head)
+end) end end end end)
 
 
 local Toggle1 = Section1:CreateToggle("Silent Aim", nil, function(State)
@@ -57,7 +80,7 @@ local Mouse = LocalPlayer:GetMouse()
 function ClosestPlayerToCurser()
     local MaxDistance, Closest = math.huge
     for i,v in pairs(Players.GetPlayers(Players)) do
-        if v ~= LocalPlayer  and v.Character then
+        if v ~= LocalPlayer  and v.Character  then
             local H = v.Character.FindFirstChild(v.Character, "Head")
             if H then 
                 local Pos, Vis = workspace.CurrentCamera.WorldToScreenPoint(workspace.CurrentCamera, H.Position)
