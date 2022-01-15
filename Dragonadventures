@@ -260,9 +260,9 @@ sex = State
 while sex do
     wait()
     for i, v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Food:GetDescendants()) do
-        if v.ClassName == "Tool" then wait(0.1)
+        if v.ClassName == "Tool" then wait(0.5)
             game:GetService("ReplicatedStorage").Remotes.SellItemRemote:FireServer(
-                {["Amount"] = 1, ["ItemName"] = v.Name}
+                {["Amount"] = 9e9, ["ItemName"] = v.Name}
             )
         end
     end
