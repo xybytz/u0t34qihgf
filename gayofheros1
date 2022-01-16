@@ -17,6 +17,50 @@ table.insert(Table,i)
 end 
 
 SS = {"Thug",'Civilian','Police'}
+
+local function CharacterAdded(v)
+    local Food = false
+    local LastPostion
+    v:WaitForChild("Humanoid").HealthChanged:Connect(
+        function(f)
+            if f <= 40 and not Food then
+                Food = true
+                LastPostion = v:WaitForChild("HumanoidRootPart").CFrame
+                v:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(-1726.80713, 94.5901413, -1368.02319)
+            elseif f > 40 and Food then
+                Food = false
+                if LastPostion then
+                    v:WaitForChild("HumanoidRootPart").CFrame = LastPostion
+                    LastPostion = nil
+                end
+            end
+        end
+    )
+end
+local Debounce = false
+function WalkSpeed_System()
+    if Debounce == false then
+        getgenv().WalkSpeed = 200
+        game:GetService("Players").LocalPlayer.Character.Humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(
+            function()
+                game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = getgenv().WalkSpeed
+            end
+        )
+        game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = getgenv().WalkSpeed
+        Debounce = true
+    elseif Debounce == true then
+        getgenv().WalkSpeed = 20
+        game:GetService("Players").LocalPlayer.Character.Humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(
+            function()
+                game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = getgenv().WalkSpeed
+            end
+        )
+        game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = getgenv().WalkSpeed
+        Debounce = false
+    end
+end
+
+
 function Invis()
 local Player = game.Players.LocalPlayer
 local savepos = Player.Character.HumanoidRootPart.CFrame
@@ -43,28 +87,42 @@ local Section4 = Tab2:CreateSection("Background")
 
 local Toggle1 = Section1:CreateToggle("Rep Farm", nil, function(State)
 tt = State
-spawn(function()
-while tt do wait(1)
-game:GetService("ReplicatedStorage").Events.Punch:FireServer(0,0.1,1)
-end end)
-if tt then
-Invis()
-end
-game.Players.LocalPlayer.CharacterAdded:Connect(function(v) 
-repeat wait() until v
-if tt then
-Invis()
-end 
-end)
-game:GetService('RunService').RenderStepped:connect(function()
-if tt then
-end end)
-while tt do wait()
-    for i,v in pairs(game.Workspace:GetChildren()) do
-        if v.ClassName == "Model" and v.Name == SS and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then 
-            game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,0,2) 
+spawn(
+    function()
+        while tt do
+            wait(1)
+            game:GetService("ReplicatedStorage").Events.Punch:FireServer(0, 0.1, 1)
         end
-end end end) 
+    end
+)
+if tt then
+    Invis()
+end
+game.Players.LocalPlayer.CharacterAdded:Connect(
+    function(v)
+        repeat
+            wait()
+        until v
+        if tt then
+            Invis()
+        end
+    end
+)
+
+while tt do
+    wait()
+    pcall(
+        function()
+            for i, v in pairs(game.Workspace:GetChildren()) do
+                if v.ClassName == "Model" and v.Name == SS and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame =
+                        v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
+                end
+            end
+        end
+    )
+end
+end) 
 
 local Dropdown1 = Section1:CreateDropdown("Select Mob")
 Dropdown1:AddToolTip("Select Mob")
@@ -74,21 +132,62 @@ SS = String
 end)
 end
 
+local Toggle1 = Section1:CreateToggle("Life Saver", nil, function(State)
+gogo = State
+if gogo then
+    CharacterAdded(
+        game:GetService("Players").LocalPlayer.Character or game:GetService("Players").LocalPlayer.CharacterAdded:Wait()
+    )
+end
+game:GetService("Players").LocalPlayer.CharacterAdded:Connect(
+    function()
+        if gogo then
+            CharacterAdded(
+                game:GetService("Players").LocalPlayer.Character or
+                    game:GetService("Players").LocalPlayer.CharacterAdded:Wait()
+            )
+        end
+    end
+)
+end)
+local Toggle1 = Section1:CreateToggle("Press X WalkSpeed", nil, function(State)
+getgenv().Waiting = State
+game:GetService("Players").LocalPlayer:GetMouse().KeyDown:connect(
+    function(v)
+        if getgenv().Waiting and v == "x" then
+            WalkSpeed_System()
+        end
+    end
+)
+end)
+
+
 local Toggle1 = Section1:CreateToggle("Auto Orbs", nil, function(State)
 wow = State
-game:GetService('RunService').RenderStepped:connect(function()
-if wow then
-pcall(function()
-firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, game:GetService("Workspace").ExperienceOrbs.experienceOrb, 0)
+game:GetService("RunService").RenderStepped:connect(
+    function()
+        if wow then
+            pcall(
+                function()
+                    firetouchinterest(
+                        game.Players.LocalPlayer.Character.HumanoidRootPart,
+                        game:GetService("Workspace").ExperienceOrbs.experienceOrb,
+                        0
+                    )
+                end
+            )
+        end
+    end
+)
 end)
-end end) end)
 
 local Toggle1 = Section1:CreateToggle("Auto UpgradeAbility", nil, function(State)
 ab = State
-while ab do wait()
-
-game:GetService("ReplicatedStorage").Events.UpgradeAbility:InvokeServer(Table)
-end end)
+while ab do
+    wait()
+    game:GetService("ReplicatedStorage").Events.UpgradeAbility:InvokeServer(Table)
+end
+end)
 
 local Dropdown1 = Section1:CreateDropdown("Select Ability")
 Dropdown1:AddToolTip("Select Ability")
@@ -97,6 +196,34 @@ Dropdown1:AddOption(v, function(String)
 Table = String
 end)
 end
+local Toggle1 = Section1:CreateToggle("Telekinesis No Cooldown", nil, function(State)
+a = require(game.Players.LocalPlayer.Character.telekinesisClient)
+if nocool then
+    a.coolDown = 0
+    a.startCost = 0
+    a.loopCost = 0
+else
+    a.coolDown = 5
+    a.startCost = 30
+    a.loopCost = 20
+end
+end)
+
+local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
+
+local Toggle1 = Section1:CreateToggle("Player Esp", nil, function(State)
+    ESP:Toggle(State)
+end)
+local Toggle1 = Section1:CreateToggle("Tracers Esp", nil, function(State)
+    ESP.Tracers = State
+end)
+local Toggle1 = Section1:CreateToggle("Name Esp", nil, function(State)
+    ESP.Names = State
+end)
+local Toggle1 = Section1:CreateToggle("Boxes Esp", nil, function(State)
+    ESP.Boxes = State
+end)
+
 
 local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
@@ -113,33 +240,55 @@ game:GetService("UserInputService").JumpRequest:connect(function()
 end) end)
 
 
-local Toggle1 = Section2:CreateToggle("G Noclip", nil, function(State)
-sex = State
-local noclip = true
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-plr = game.Players.LocalPlayer
-mouse = plr:GetMouse()
-mouse.KeyDown:connect(function(key)
+local Toggle1 = Section2:CreateToggle("G PlatFormNoclip", nil, function(State)
+yes44 = State
+noclip = false
+game:GetService("RunService").Stepped:connect(
+    function()
+        if noclip then
+            game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+        end
+    end
+)
+game.Players.LocalPlayer:GetMouse().KeyDown:connect(
+    function(key)
+        if key == "g" then
+            if yes44 then
+                noclip = not noclip
+                game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+            end
+        end
+    end
+)
+end)
+local Toggle1 = Section2:CreateToggle("N NonePlatFormNoclip", nil, function(State)
+hoe = State
+game.Players.LocalPlayer:GetMouse().KeyDown:connect(
+    function(v)
+        if v == "n" then
+            NoClip = not NoClip
+            game:GetService("RunService").Stepped:connect(
+                function()
+                    if NoClip then
+                     if hoe then
+                        for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+                            pcall(
+                                function()
+                                    if v.ClassName == "Part" or v.ClassName == "MeshPart" then
+                                        v.CanCollide = false
+                                    end
+                                end
+                            )
+                        end
+                    end
+                end
+            end
+            )
+        end
+    end
+)
+end)
 
-if key == "g" then
-noclip = not noclip
-game:GetService('RunService').Stepped:connect(function()
-if noclip  and sex then
-for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-pcall(function()
-if v:IsA("BasePart") then
-v.CanCollide = false
-end
-end)
-end
-end
-game:GetService("RunService").Stepped:wait()
-end)
-end
-end)
-
-end)
 
 local Toggle1 = Section2:CreateToggle("B Fly", nil, function(State)
 sex2 = State
@@ -249,30 +398,43 @@ end
 end)
 end)
 local Button1 = Section2:CreateButton("Anti Lag", function()
-for _,v in pairs(game:GetService("Workspace"):GetDescendants()) do
-if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then --- i stole this from the actual game LOL >-<
-v.Material = Enum.Material.SmoothPlastic;
-if v:IsA("Texture") then
-v:Destroy();
-end end;		
-end;
+for _, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+    if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then --- i stole this from the actual game LOL >-<
+        v.Material = Enum.Material.SmoothPlastic
+        if v:IsA("Texture") then
+            v:Destroy()
+        end
+    end
+end
+
 end)
 
 local Button1 = Section2:CreateButton("Teleport to RandomPlayer", function()
-local randomPlayer = game.Players:GetPlayers()
-[math.random(1,#game.Players:GetPlayers())]
+local randomPlayer = game.Players:GetPlayers()[math.random(1, #game.Players:GetPlayers())]
 
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(randomPlayer.Character.Head.Position.X, randomPlayer.Character.Head.Position.Y, randomPlayer.Character.Head.Position.Z)) end)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+    CFrame.new(
+    Vector3.new(
+        randomPlayer.Character.Head.Position.X,
+        randomPlayer.Character.Head.Position.Y,
+        randomPlayer.Character.Head.Position.Z
+    )
+)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(randomPlayer.Character.Head.Position.X, randomPlayer.Character.Head.Position.Y, randomPlayer.Character.Head.Position.Z))
+end)
 local Button1 = Section2:CreateButton("Lag Switch F3", function()
-local d = false
-local b = settings()
+local X = false
+local C = settings()
 
-game:service'UserInputService'.InputEnded:connect(function(i)
-if i.KeyCode == Enum.KeyCode.F3 then
-d = not d
-b.Network.IncomingReplicationLag = d and 10 or 0
-end
-end) end) 
+game:service "UserInputService".InputEnded:connect(
+    function(V)
+        if V.KeyCode == Enum.KeyCode.F3 then
+            X = not X
+            C.Network.IncomingReplicationLag = X and 10 or 0
+        end
+    end
+)
+end) 
 local Button1 = Section2:CreateButton("ServerHop", function()
 local PlaceID = game.PlaceId
 local AllIDs = {}
@@ -358,7 +520,7 @@ end)
 Toggle3:SetState(true)
 Section3:CreateLabel("Credits DekuDimz#7960")
 Section3:CreateLabel("Credits AlexR32#3232 Ui")
-Section3:CreateLabel("Credits The3Bakers")
+
 local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
 	Window:ChangeColor(Color)
 end)
@@ -402,3 +564,4 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
