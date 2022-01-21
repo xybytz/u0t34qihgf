@@ -20,6 +20,7 @@ if v:FindFirstChild("Rock") then table.insert(Rocks,v.Name) end end
 function c()
 for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
 if v.ClassName == "Tool" and v.Name == "Handstands" or v.Name == "Situps" or v.Name == "Pushups" or v.Name == "Weight" then
+v:FindFirstChildOfClass("NumberValue").Value = 0
 repeat wait() until game.Players.LocalPlayer.Backpack:FindFirstChildOfClass("Tool") 
 game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):EquipTool(v)
 end
@@ -77,6 +78,23 @@ Dropdown1:AddOption(v, function(String)
 Rocks = String
 end)
 end
+local Toggle1 = Section2:CreateToggle("PapaPlantz#3856 Personal Feature", nil, function(State)
+ok = State
+game:GetService('RunService').Stepped:connect(function()
+pcall(function()
+if ok then
+game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-8980, -30, -6049) 
+game:GetService("Players").LocalPlayer.muscleEvent:FireServer("punch","leftHand")
+game:GetService("Players").LocalPlayer.muscleEvent:FireServer("punch","rightHand")
+game.Players.LocalPlayer.Character.Humanoid:EquipTool(game:GetService("Players").LocalPlayer.Backpack.Punch)
+end end) end) end)
+
+Toggle1:AddToolTip("haha i fucked your mom last night")
+local Button1 = Section2:CreateButton("No Tool CoolDown", function()
+c()
+game:GetService("Players").LocalPlayer.Backpack.Punch:FindFirstChildOfClass("NumberValue").Value = 0
+end)
 
 local Toggle1 = Section1:CreateToggle("Auto Rebirth", nil, function(State)
 dragons= State
@@ -466,5 +484,4 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
 
