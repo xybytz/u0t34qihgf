@@ -27,7 +27,7 @@ end
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
-local Tab1 = Window:CreateTab("Ninja Legends")
+local Tab1 = Window:CreateTab("Muscle Legends")
 local Tab2 = Window:CreateTab("UI Settings")
 
 local Section1 = Tab1:CreateSection("")
@@ -72,7 +72,7 @@ end)
 local Toggle1 = Section1:CreateToggle("Auto Crystal", nil, function(State)
 pets = State
 while pets do wait() 
-game:GetService("ReplicatedStorage").rEvents.openCrystalRemote:InvokeServer("openCrystal",jk2)
+game:GetService("ReplicatedStorage").rEvents.openCrystalRemote:InvokeServer("openCrystal",jk1)
 end end)
 
 local Dropdown1 = Section1:CreateDropdown("Select Crystal")
