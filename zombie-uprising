@@ -4,6 +4,14 @@ local Config = {
 	Keybind = Enum.KeyCode.RightControl
 }
 
+local OldNameCall = nil
+OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
+    local Args = {...}
+        if Args[1] == "K" then
+            return nil
+        end
+    return OldNameCall(self, unpack(Args))
+end)
 
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
