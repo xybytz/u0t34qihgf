@@ -22,9 +22,22 @@ game:GetService("ReplicatedStorage").Resources.Data.Events.Administration:remove
 game:GetService("ReplicatedStorage").Resources.Data.Events.PlayerData:remove()
 end)
 game:GetService("RunService").RenderStepped:Connect(function()
-if game.Players.LocalPlayer.Character.Head:FindFirstChild("NameBillboard") then
-game.Players.LocalPlayer.Character:WaitForChild('Head'):WaitForChild('NameBillboard'):remove()
-end end)
+pcall(function()
+game.Players.LocalPlayer.Character:WaitForChild('Head'):WaitForChild('NameBillboard'):remove() end) end)
+
+
+for i, v in pairs(game:GetService("Workspace").Map.Maze:GetDescendants()) do
+    if string.match(v.Name, "Trap")  then
+        v:Destroy()
+    end
+end
+
+game:GetService("Workspace").Map.Maze.DescendantAdded:Connect(function(v)
+        if string.match(v.Name, "Trap")  then
+            v:Destroy()
+        end
+    end
+)
 
 Sell = {}
 local A = require(game:GetService("ReplicatedStorage").Shared.ItemsModule)
@@ -272,8 +285,62 @@ local Colorpicker3 = Section1:CreateColorpicker("Circle Color", function(Color)
 end)
 
 local Slider2 = Section1:CreateSlider("Hitbox Radius", 0,50,nil,false, function(Value)
-head = Value
+head= Value
 end)
+
+local Toggle1 = Section1:CreateToggle("Anti Grass", nil, function(State)
+getgenv().Grass = State
+if getgenv().Grass then
+    sethiddenproperty(workspace.Terrain, "Decoration", false)
+else
+    sethiddenproperty(workspace.Terrain, "Decoration", true)
+end
+end)
+local Toggle1 = Section1:CreateToggle("Anti Traps", nil, function(State)
+getgenv().Traps = State
+for i, v in pairs(game:GetService("Workspace").Map.Maze:GetDescendants()) do
+    if string.match(v.Name, "Trap")  then if getgenv().Traps then
+        v:Destroy()
+    end end 
+end
+
+game:GetService("Workspace").Map.Maze.DescendantAdded:Connect(function(v)
+        if string.match(v.Name, "Trap")  then if getgenv().Traps then
+            v:Destroy()
+        end end 
+    end
+)
+end)
+
+local Toggle1 = Section1:CreateToggle("Anti Walls", nil, function(State)
+getgenv().Trapss = State
+for i, v in pairs(game:GetService("Workspace").Map.Maze:GetDescendants()) do
+    if v:IsA("BasePart") and v.BrickColor.Name:match("stone") then
+        if getgenv().Trapss then
+            v.Transparency = 1
+            v.CanCollide = false
+        else
+            v.Transparency = 0
+            v.CanCollide = false
+        end
+    end
+end
+
+game:GetService("Workspace").Map.Maze.DescendantAdded:Connect(
+    function(v)
+        if v:IsA("BasePart") and v.BrickColor.Name:match("stone") then
+            if getgenv().Trapss then
+                v.Transparency = 1
+                v.CanCollide = false
+            else
+                v.Transparency = 0
+                v.CanCollide = false
+            end
+        end
+    end
+)
+end)
+
 local Toggle1 = Section1:CreateToggle("Auto Sell Selected Item", nil, function(State)
 sell = State
 while sell do wait()
@@ -287,67 +354,6 @@ Dropdown1:AddOption(v, function(String)
 Sell = String
 end)
 end 
-local Toggle1 = Section1:CreateToggle("Tree Esp", nil, function(State)
-getgenv().esp = State
-local function esp(v)
-    local T = Drawing.new("T")
-    T.Visible = false
-    T.Center = true
-    T.Outline = true
-    T.Font = 2
-    T.T = "Tree"
-    T.Size = 14
-    T.Color = Color3.fromRGB(255, 5, 0)
-    local function update()
-        local Re
-        Re =
-            game:GetService("RunService").Re:Connect(
-            function()
-                if v and v:FindFirstChild("MainPart") then
-                    local Vector, Screen = workspace.CurrentCamera:WorldToViewportPoint(v.MainPart.Position)
-                    if getgenv().esp and Screen then
-                        T.Position = Vector2.new(Vector.X, Vector.Y)
-                        T.Visible = true
-                        T.T = v.Name
-                    else
-                        T.Visible = false
-                    end
-                elseif v:FindFirstChild("MainPart") == nil then
-                    T:Remove()
-                    Re:disconnect()
-                end
-            end
-        )
-    end
-    update()
-end
-for i, v in pairs(game:GetService("Workspace").Resources.Glade.Trees:GetChildren()) do
-    if v:IsA("Model") and v:FindFirstChild("MainPart") then
-        esp(v)
-    end
-end
-game:GetService("Workspace").Resources.Glade.Trees.DescendantAdded:Connect(
-    function(v)
-        if v:IsA("Part") and string.match(v.Name, "MainPart") then
-            esp(v.Parent)
-        end
-    end
-)
-for i, v in pairs(game:GetService("Workspace").Resources.Maze.Trees:GetChildren()) do
-    if v:IsA("Model") and v:FindFirstChild("MainPart") then
-        esp(v)
-    end
-end
-game:GetService("Workspace").Resources.Maze.Trees.DescendantAdded:Connect(
-    function(v)
-        if v:IsA("Part") and string.match(v.Name, "MainPart") then
-            esp(v.Parent)
-        end
-    end
-)
-
-end)
-
 local Toggle1 = Section1:CreateToggle("Hitbox Extender", nil, function(State)
 HEAD = State
 while HEAD do
@@ -511,14 +517,14 @@ while getgenv().Tween2 do
     pcall(
         function()
             local Time =
-                (getNearestIngredients().Model:FindFirstChildOfClass("MeshPart").CFrame.p + Vector3.new(0,0,0) -
+                (getNearestIngredients().Model:FindFirstChildOfClass("MeshPart").CFrame.p + Vector3.new(0,-5,0) -
                 game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / speed
             local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
             local Tween =
                 game:GetService("TweenService"):Create(
                 game.Players.LocalPlayer.Character.HumanoidRootPart,
                 Info,
-                {CFrame = CFrame.new(getNearestIngredients().Model:FindFirstChildOfClass("MeshPart").CFrame.p + Vector3.new(0,0,0))}
+                {CFrame = CFrame.new(getNearestIngredients().Model:FindFirstChildOfClass("MeshPart").CFrame.p + Vector3.new(0,-5,0))}
             )
             Tween:Play()
             repeat
@@ -739,14 +745,14 @@ while getgenv().Twee2 do
     pcall(
         function()
             local Time =
-                (getNearestIngredientsMaze().Model:FindFirstChildOfClass("MeshPart").CFrame.p + Vector3.new(0,0,0) -
+                (getNearestIngredientsMaze().Model:FindFirstChildOfClass("MeshPart").CFrame.p + Vector3.new(0,-5,0) -
                 game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / speed
             local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
             local Tween =
                 game:GetService("TweenService"):Create(
                 game.Players.LocalPlayer.Character.HumanoidRootPart,
                 Info,
-                {CFrame = CFrame.new(getNearestIngredientsMaze().Model:FindFirstChildOfClass("MeshPart").CFrame.p + Vector3.new(0,0,0))}
+                {CFrame = CFrame.new(getNearestIngredientsMaze().Model:FindFirstChildOfClass("MeshPart").CFrame.p + Vector3.new(0,-5,0))}
             )
             Tween:Play()
             repeat
@@ -1095,17 +1101,31 @@ local Slider2 = Section2:CreateSlider("Gravity", 0,196.2,nil,false, function(Val
 game.Workspace.Gravity = Value
 end)
 
-local Toggle1 = Section2:CreateToggle("FullBright", nil, function(State)
+local Toggle1 = Section1:CreateToggle("FullBright", nil, function(State)
 FullBright = State
-game.Lighting.Changed:connect(function()
-if FullBright then
-game.Lighting.TimeOfDay = "14:00:00"
-game.Lighting.FogEnd = 9999
-game.Lighting.Brightness = 2
-game.Lighting.ColorCorrection.Brightness = 0.1
-game.Lighting.ColorCorrection.Saturation = 0.1
-game.Lighting.Bloom.Intensity = 0.1
-end end) end)
+        if FullBright then
+            game:GetService("Lighting").Ambient = Color3.new(1, 1, 1)
+            game:GetService("Lighting").ColorShift_Bottom = Color3.new(1, 1, 1)
+            game:GetService("Lighting").ColorShift_Top = Color3.new(1, 1, 1)
+        else
+            game:GetService("Lighting").Ambient = Color3.new(0, 0, 0)
+            game:GetService("Lighting").ColorShift_Bottom = Color3.new(0, 0, 0)
+            game:GetService("Lighting").ColorShift_Top = Color3.new(0, 0, 0)
+        end
+game.Lighting.Changed:connect(
+    function()
+        if FullBright then
+            game:GetService("Lighting").Ambient = Color3.new(1, 1, 1)
+            game:GetService("Lighting").ColorShift_Bottom = Color3.new(1, 1, 1)
+            game:GetService("Lighting").ColorShift_Top = Color3.new(1, 1, 1)
+        else
+            game:GetService("Lighting").Ambient = Color3.new(0, 0, 0)
+            game:GetService("Lighting").ColorShift_Bottom = Color3.new(0, 0, 0)
+            game:GetService("Lighting").ColorShift_Top = Color3.new(0, 0, 0)
+        end
+    end
+)
+end)
 
 
 local Toggle1 = Section2:CreateToggle("G PlatFormNoclip", nil, function(State)
@@ -1142,7 +1162,7 @@ game.Players.LocalPlayer:GetMouse().KeyDown:connect(
                         for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
                             pcall(
                                 function()
-                                    if v.ClassName == "Part" or v.ClassName == "MeshPart" then
+                                    if v:IsA("BasePart") then
                                         v.CanCollide = false
                                     end
                                 end
