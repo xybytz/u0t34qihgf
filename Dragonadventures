@@ -259,10 +259,10 @@ local Toggle1 = Section1:CreateToggle("Auto Sell", nil, function(State)
 sex = State
 while sex do
     wait()
-    for i, v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Food:GetDescendants()) do
-        if v.ClassName == "Tool" then wait(0.5)
+    for i, v in pairs(game:GetService("Players").LocalPlayer.Data.Resources:GetChildren()) do
+        if table.find(foods,v.Name) and v.Value ~= 0 then wait(0.5)
             game:GetService("ReplicatedStorage").Remotes.SellItemRemote:FireServer(
-                {["Amount"] = 9e9, ["ItemName"] = v.Name}
+                {["Amount"] = v.Value, ["ItemName"] = v.Name}
             )
         end
     end
@@ -516,7 +516,7 @@ for i,v in pairs(game:GetService("Players").LocalPlayer.Data.Dragons:GetDescenda
 if  v.ClassName == 'StringValue' and  v.Value == Dragon and v:FindFirstChild("Stats") then 
 game:GetService("ReplicatedStorage").Remotes.EquipDragonRemote:InvokeServer(v.Name)
 end end 
-end)
+end) 
 
 local Dropdown1 = Section1:CreateDropdown("Select Dragon")
 Dropdown1:AddToolTip("Select Dragon")
@@ -537,12 +537,11 @@ end)
 
 local Toggle1 = Section1:CreateToggle("Auto Feed Dragon", nil, function(State) 
 feed = State
-game:GetService("RunService").Stepped:connect(
-    function()
+while feed do wait()
         if feed then
             pcall(
                 function()
-                    for i, v in pairs(game:GetService("Players").LocalPlayer.Character.Dragons:GetDescendants()) do
+                    for i, v in pairs(game:GetService("Players").LocalPlayer.Character.Dragons:GetChildren()) do
                         if v.ClassName == "Model" and v:FindFirstChild("ID") then
                             game:GetService("ReplicatedStorage").Remotes.FeedDragonRemote:InvokeServer(
                                 v.Name,
@@ -554,7 +553,6 @@ game:GetService("RunService").Stepped:connect(
             )
         end
     end
-)
 end)
 local Dropdown1 = Section1:CreateDropdown("Select Food")
 Dropdown1:AddToolTip("Select Food")
@@ -1015,4 +1013,3 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
