@@ -18,8 +18,16 @@ game:GetService("Players").LocalPlayer.PlayerGui.NodeGui.BoostFrame.ChildAdded:C
     end
 )
 
+local function GetDragons()
+  local Target
+    for i, v in ipairs(game.Players.LocalPlayer.Character.Dragons:GetChildren()) do
+        if v.ClassName == "Model" and v:FindFirstChild("HumanoidRootPart")  then
+            Target = v
+        end
+    end
+    return Target
+end
 pcall(function()
-
 game:GetService("ReplicatedStorage").Remotes.SpinWheelRemote:InvokeServer()
 game:GetService("ReplicatedStorage").Remotes.ClaimWheelRemote:FireServer()
 
@@ -374,21 +382,14 @@ local Toggle1 = Section1:CreateToggle("Test", nil, function(State)
 test = State
 while test do
     wait()
-    for i, v in pairs(game:GetService("Workspace").Camera.ClientMobs:GetDescendants()) do
-        if v.ClassName == "Model" and v:FindFirstChild("Health") then
-            game.Players.LocalPlayer.Character.Dragons[Dragon].HumanoidRootPart.CFrame =
-                v:FindFirstChildOfClass("MeshPart")
+    for i, v in pairs(game:GetService("Workspace").Interactions.Nodes.Mobs.ActiveMobs.Global:GetChildren()) do
+        if v.ClassName == "MeshPart" and v:FindFirstChild("Health") then
+            game.Players.LocalPlayer.Character.Dragons[Dragon]:MoveTo(v.CFrame.p + Vector3.new(0,10,0))
         end
     end
 end
 end)
-local Dropdown1 = Section1:CreateDropdown("Select Dragon")
-Dropdown1:AddToolTip("Select Dragon")
-for i,v in next,Dragon do
-Dropdown1:AddOption(v, function(String)
-Dragon = String
-end)
-end
+
 
 local Dropdown1 = Section1:CreateDropdown("Select Collection")
 Dropdown1:AddToolTip("Select Collection")
@@ -511,6 +512,8 @@ end)
 Toggle1:CreateKeybind("F", function(Key)
 end)
 
+
+
 local Button1 = Section1:CreateButton("Equip Selected Dragon", function()
 for i,v in pairs(game:GetService("Players").LocalPlayer.Data.Dragons:GetDescendants()) do
 if  v.ClassName == 'StringValue' and  v.Value == Dragon and v:FindFirstChild("Stats") then 
@@ -563,8 +566,7 @@ end)
 end
 local Toggle1 = Section1:CreateToggle("Auto grow Dragons", nil, function(State) 
 feed2 = State
-game:GetService("RunService").Stepped:connect(
-    function()
+while feed2 do wait()
         if feed2 then
             pcall(
                 function()
@@ -577,16 +579,14 @@ game:GetService("RunService").Stepped:connect(
             )
         end
     end
-)
 end)
 local Toggle1 = Section1:CreateToggle("Auto Heal Dragons", nil, function(State) 
 feed1 = State
-game:GetService("RunService").Stepped:connect(
-    function()
+while feed1 do wait(0.1)
         if feed1 then
             pcall(
                 function()
-                    for i, v in pairs(game:GetService("Players").LocalPlayer.Character.Dragons:GetDescendants()) do
+                    for i, v in pairs(game:GetService("Players").LocalPlayer.Character.Dragons:GetChildren()) do
                         if v.ClassName == "Model" and v:FindFirstChild("ID") then
                             game:GetService("ReplicatedStorage").Remotes.HealDragonRemote:InvokeServer(
                                 tostring(v.Name),
@@ -598,7 +598,6 @@ game:GetService("RunService").Stepped:connect(
             )
         end
     end
-)
 end)
 local Dropdown1 = Section1:CreateDropdown("Select Healing")
 Dropdown1:AddToolTip("Select Healing")
@@ -885,77 +884,7 @@ game:service "UserInputService".InputEnded:connect(
 )
 end) 
 local Button1 = Section2:CreateButton("ServerHop", function()
-local PlaceID = game.PlaceId
-local AllIDs = {}
-local foundAnything = ""
-local actualHour = os.date("!*t").hour
-local Deleted = false
-local File = pcall(function()
-    AllIDs = game:GetService('HttpService'):JSONDecode(readfile("NotSameServers.json"))
-end)
-if not File then
-    table.insert(AllIDs, actualHour)
-    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
-end
-function TPReturner()
-    local Site;
-    if foundAnything == "" then
-        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
-    else
-        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
-    end
-    local ID = ""
-    if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
-        foundAnything = Site.nextPageCursor
-    end
-    local num = 0;
-    for i,v in pairs(Site.data) do
-        local Possible = true
-        ID = tostring(v.id)
-        if tonumber(v.maxPlayers) > tonumber(v.playing) then
-            for _,Existing in pairs(AllIDs) do
-                if num ~= 0 then
-                    if ID == tostring(Existing) then
-                        Possible = false
-                    end
-                else
-                    if tonumber(actualHour) ~= tonumber(Existing) then
-                        local delFile = pcall(function()
-                            delfile("NotSameServers.json")
-                            AllIDs = {}
-                            table.insert(AllIDs, actualHour)
-                        end)
-                    end
-                end
-                num = num + 1
-            end
-            if Possible == true then
-                table.insert(AllIDs, ID)
-                wait()
-                pcall(function()
-                    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
-                    wait()
-                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
-                end)
-                wait(4)
-            end
-        end
-    end
-end
-
-function Teleport()
-    while wait() do
-        pcall(function()
-            TPReturner()
-            if foundAnything ~= "" then
-                TPReturner()
-            end
-        end)
-    end
-end
-
--- If you'd like to use a script before server hopping (Like a Automatic Chest collector you can put the Teleport() after it collected everything.
-Teleport() 
+fuckyou() 
 end)
 local Button1 = Section2:CreateButton("Rejoin", function()
 game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer) end)
