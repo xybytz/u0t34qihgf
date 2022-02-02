@@ -231,17 +231,20 @@ end
 
 local Toggle1 = Section1:CreateToggle("Auto Incubate Eggs", nil, function(State) 
 Incubate = State
-while Incubate do
+while Incubate do 
     wait()
-
     for i, v in pairs(
         game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name .. "_Plot"].Base.Buildings:GetDescendants(
 
         )
-    ) do wait(2)
+    ) do 
         if v.Name == "Incubator" then
-            v.IncubateRemote:InvokeServer(ss1) wait(2)
+            if not v:FindFirstChild("Egg") then
+            v.IncubateRemote:InvokeServer(ss1)
+            end 
+            if v:FindFirstChild("Egg") then
             v.ClaimRemote:InvokeServer()
+            end 
         end
     end
 end
@@ -298,42 +301,6 @@ end
 
 end)
 
-local Toggle1 = Section1:CreateToggle("Salvage Apple Plants", nil, function(State)
-nigj = State
-while nigj do
-    wait()
-    game:GetService("Players").LocalPlayer.Remote:FireServer("SalvageBuilding", {"Plant_Apple", 1})
-end
-end)
-
-
-local Toggle1 = Section1:CreateToggle("Automatic Apple Plants", nil, function(State)
-nij = State
-while nij do
-    wait()
-    if nij then
-        for i, v in pairs(
-            game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name .. "_Plot"].Base.Buildings:GetDescendants(
-
-            )
-        ) do
-            if v.Name == "Plant_Apple" and v.ID then
-                game:GetService("Workspace").Plots.Plots[game.Players.LocalPlayer.Name .. "_Plot"].PlaceBuildingRemote:InvokeServer(
-                    {
-                        ["CFrame"] = CFrame.new(
-                            Vector3.new(-1955, 3.8000018596649, 4955),
-                            Vector3.new(4.3711388286738e-08, -6.9938096203259e-07, 1)
-                        ),
-                        ["Index"] = v.ID.Value,
-                        ["Name"] = "Plant_Apple"
-                    }
-                )
-            end
-        end
-    end
-end
-   
-end)
 end
 
 
@@ -532,7 +499,7 @@ local function esp(v)
         local Re
         Re =
             game:GetService("RunService").Stepped:Connect(
-            function()
+            function() pcall(function()
                         if v and v:FindFirstChildOfClass("MeshPart") then
                             wait()
                             local Vector, Screen =
@@ -563,8 +530,8 @@ local function esp(v)
                         end
                     end
                 )
-     
-    end
+            end)
+        end
     update()
 end
 for i, v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest.Eggs.ActiveNodes:GetChildren()) do
@@ -574,7 +541,7 @@ for i, v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest.Eggs.A
 end
 game:GetService("Workspace").Interactions.Nodes.Harvest.Eggs.ActiveNodes.ChildAdded:Connect(
     function(v)
-        if v:IsA("Model") and v:FindFirstChild("Egg") then
+        if v:IsA("Model") then
             esp(v)
         end
     end
