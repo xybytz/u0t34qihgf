@@ -37,6 +37,14 @@ game.StarterGui:SetCoreGuiEnabled(3, true)
 
 
 end)
+Worlds = {}
+local Poop = require(game:GetService("ReplicatedStorage").Storage.Worlds.Worlds)
+for i,v in pairs(Poop) do
+table.insert(Worlds,v.Name .." " .. v.GameId)
+end 
+
+
+
 function Invis()
 local Clone = game.Players.LocalPlayer.Character.LowerTorso.Root:Clone()
 game.Players.LocalPlayer.Character.LowerTorso.Root:remove()
@@ -652,45 +660,23 @@ if not ssyes then
 game:GetService('Players').LocalPlayer.Character.UpperTorso:Destroy()
 end
 end)
-local Label1 = Section1:CreateLabel("World Teleports")
-local Button1 = Section1:CreateButton("Winter Event", function()
-game:GetService("TeleportService"):Teleport(5777228223, LocalPlayer) end)
-local Button1 = Section1:CreateButton("Lobby", function()
-game:GetService("TeleportService"):Teleport(3475397644, LocalPlayer) end)
 
 
-local Button1 = Section1:CreateButton("Accessory", function()
-game:GetService("TeleportService"):Teleport(5391312853, LocalPlayer) end)
 
-local Button1 = Section1:CreateButton("Leisure", function()
-game:GetService("TeleportService"):Teleport(4601778915, LocalPlayer) end)
-local Button1 = Section1:CreateButton("GrassLands", function()
-
-game:GetService("TeleportService"):Teleport(3475419198, LocalPlayer) end)
-local Button1 = Section1:CreateButton("Jungle", function()
-
-game:GetService("TeleportService"):Teleport(3475422608, LocalPlayer) end)
-
-local Button1 = Section1:CreateButton("Valcano", function()
-game:GetService("TeleportService"):Teleport(3487210751, LocalPlayer) end)
-
-local Button1 = Section1:CreateButton("Tundra", function()
-game:GetService("TeleportService"):Teleport(3623549100, LocalPlayer) end)
-
-local Button1 = Section1:CreateButton("Ocean", function()
-game:GetService("TeleportService"):Teleport(3737848045, LocalPlayer) end)
-
-local Button1 = Section1:CreateButton("Desert", function()
-game:GetService("TeleportService"):Teleport(3752680052, LocalPlayer) end)
-
-local Button1 = Section1:CreateButton("Fantasy", function()
-game:GetService("TeleportService"):Teleport(4174118306, LocalPlayer) end)
-
-local Button1 = Section1:CreateButton("WasteLands", function()
-game:GetService("TeleportService"):Teleport(4728805070, LocalPlayer) end)
-
-local Button1 = Section1:CreateButton("Prehistoric", function()
-game:GetService("TeleportService"):Teleport(4869039553, LocalPlayer) end)
+local Label1 = Section2:CreateLabel("World Teleports")
+local Button1 = Section2:CreateButton("Teleport to Selected World", function()
+for i,v in pairs(Poop) do
+if string.find(Worlds,v.GameId) then
+game:GetService("ReplicatedStorage").Remotes.WorldTeleportRemote:InvokeServer(v.GameId,{})
+end end 
+end)
+local Dropdown1 = Section2:CreateDropdown("Select World")
+Dropdown1:AddToolTip("Select World")
+for i,v in next, Worlds do
+Dropdown1:AddOption(v, function(String)
+Worlds = String
+end)
+end
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 
 local Toggle1 = Section2:CreateToggle("Player Esp", nil, function(State)
