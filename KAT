@@ -234,27 +234,24 @@ local Toggle1 = Section2:CreateToggle("Boxes Esp", nil, function(State)
 end)
 
 local Toggle1 = Section1:CreateToggle("AutoFarm", nil, function(State)
-sexx = State
+getgenv().Sex = State
 game:GetService("RunService").Stepped:connect(
     function()
         pcall(
             function()
-                if sexx then
+                if getgenv().Sex then
                     game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
                     for _, v in pairs(game.Players:GetChildren()) do
-                        if game.Players.LocalPlayer.PlayerGui.GameUI.HUD.TargetUI.TargetHolder.TargetName.Text == v.Name then
-                            if
-                                game.Players.LocalPlayer.PlayerGui.GameUI.HUD.TargetUI.TargetHolder.TargetName.Visible ==
-                                    true
-                             then
-                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                                    v.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 2)
-                                if game:GetService("Workspace").Gamemode.Value == "Classic" then
-                                    game:GetService("VirtualUser"):ClickButton1(Vector2.new(125, 125))
-                                    for _, x in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-                                        if x.Name == "Knife" then
-                                            x.Parent = game.Players.LocalPlayer.Character
-                                        end
+                        if v ~= game.Players.LocalPlayer then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                game:GetService("Workspace").Spawn.DefaultSpawns.SpawnPoint.CFrame
+                            v.Character.HumanoidRootPart.CFrame =
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, -2)
+                            if game:GetService("Workspace").Gamemode.Value == "Classic" then
+                                game:GetService("VirtualUser"):ClickButton1(Vector2.new(125, 125))
+                                for _, x in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                                    if x.Name == "Knife" then
+                                        x.Parent = game.Players.LocalPlayer.Character
                                     end
                                 end
                             end
@@ -269,7 +266,6 @@ game:GetService("RunService").Stepped:connect(
         )
     end
 )
-
 end)
 
 
@@ -523,7 +519,7 @@ end)
 Toggle3:SetState(true)
 Section3:CreateLabel("Credits DekuDimz#7960")
 Section3:CreateLabel("Credits AlexR32#3232 Ui")
-Section3:CreateLabel("Credits FruitBux")
+Section3:CreateLabel("Credits BaconLord#0001")
 local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
 	Window:ChangeColor(Color)
 end)
@@ -567,4 +563,3 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
