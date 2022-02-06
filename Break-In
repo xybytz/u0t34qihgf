@@ -49,6 +49,19 @@ while getgenv().Hurt do
 end
 end)
 
+local Toggle1 = Section1:CreateToggle("Kill All Players", nil, function(State)
+getgenv().Hurt2 = State
+while getgenv().Hurt2 do
+    wait()
+    for i, v in pairs(game.Players:GetPlayers()) do
+        if v ~= game.Players.LocalPlayer and v.Name ~= "Ashleegreninja" then
+            game:GetService("ReplicatedStorage").RemoteEvents.ToxicDrown:FireServer(1, v)
+        end
+    end
+end
+
+end)
+
 Section1:CreateLabel("Item Givers")
 local Button1 = Section1:CreateButton("Give All Items", function()
 game:GetService("ReplicatedStorage").RemoteEvents.GiveTool:FireServer("Bat")
@@ -410,4 +423,3 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
