@@ -26,7 +26,7 @@ local function GetDragons()
         end
     end
     return Target
-end
+end 
 pcall(function()
 game:GetService("ReplicatedStorage").Remotes.SpinWheelRemote:InvokeServer()
 game:GetService("ReplicatedStorage").Remotes.ClaimWheelRemote:FireServer()
@@ -230,11 +230,128 @@ until game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPl
     "Base"
 )
 
+
+
 ss1 = {}
 for i, v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Eggs:GetDescendants()) do
     if v.ClassName == "Model" then
         table.insert(ss1, v.Name)
     end
+end
+
+if game:GetService("Workspace").Interactions.Nodes.Harvest:FindFirstChild("Valentines") then
+
+Drago = {}
+for i, v in pairs(game.Players.LocalPlayer.Character.Dragons:GetChildren()) do
+    table.insert(Drago, v.Name)
+end
+
+
+
+
+
+local Toggle1 = Section1:CreateToggle("Auto Feed Dragons Chocolate", nil, function(State)
+okthen = State
+firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart,game:GetService("Workspace").Interactions.ValentinesEvent.TeleportPortals.ToPortal.TeleportPart,0)
+while wait()  and okthen do pcall(function()
+    wait()
+    for i, v in pairs(game:GetService("Players").LocalPlayer.Data.Dragons:GetChildren()) do
+        if table.find(Drago, v.Name) and v.Chocolate.Value ~= "" then
+            game:GetService("Players").LocalPlayer.Character.Dragons:FindFirstChild(v.Name).Remotes.FeedChocolateRemote:InvokeServer(
+                v.Chocolate.Value
+            )
+        end
+    end
+    end)
+end
+end)
+
+local Toggle1 = Section1:CreateToggle("AutoMaze", nil, function(State)
+pol = State
+firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart,game:GetService("Workspace").Interactions.ValentinesEvent.TeleportPortals.ToPortal.TeleportPart,0)
+while wait() and pol do
+    pcall(
+        function()
+            for i, v in pairs(game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Chocolates:GetChildren()) do
+                if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
+                    
+
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                        v:FindFirstChildOfClass("MeshPart").CFrame
+                end
+            end
+            
+           
+       
+            
+            if
+                not game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Chocolates:FindFirstChildOfClass(
+                    "Model"
+                )
+             then
+           
+            
+                firetouchinterest(
+                    game.Players.LocalPlayer.Character.HumanoidRootPart,
+                    game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Mazes["1"].TeleportPart,
+                    0
+                )
+                firetouchinterest(
+                    game.Players.LocalPlayer.Character.HumanoidRootPart,
+                    game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Mazes["2"].TeleportPart,
+                    0
+                )
+                    if game:GetService("Workspace").Interactions.ValentinesEvent.Maze.StartZone.CountdownGui.PromptLabel.Text == "Singleplayer Maze Minigame" then wait(2)
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Interactions.ValentinesEvent.Maze.ReturnPart.CFrame 
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                game:GetService("Workspace").Interactions.ValentinesEvent.Maze.StartZone.CountdownPart.CFrame *CFrame.new(math.random(1,10),0,math.random(1,10)) end 
+            end
+        end
+    )
+end
+
+end)
+
+local Toggle1 = Section1:CreateToggle("Autocollect Valentines", nil, function(State)
+y = State
+firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart,game:GetService("Workspace").Interactions.ValentinesEvent.TeleportPortals.ToPortal.TeleportPart,0)
+game:GetService("RunService").Stepped:connect(
+    function()
+        if y then
+            pcall(
+                function()
+                    game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+                end
+            )
+        end
+    end
+)
+
+while y do
+    wait()
+    pcall(
+        function()
+            for i, v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest.Valentines.ActiveNodes:GetDescendants()) do
+                if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                        v:FindFirstChildOfClass("MeshPart").CFrame * CFrame.new(40, -3, 0)
+                    wait(1)
+                    game.Players.LocalPlayer.Character.Humanoid:MoveTo(
+                        v:FindFirstChildOfClass("MeshPart").CFrame.Position
+                    )
+                    wait(3)
+                    if not y then
+                        break
+                    end
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+                    wait(20)
+                end
+            end
+        end
+    )
+end
+
+end)
 end
 
 local Toggle1 = Section1:CreateToggle("Auto Incubate Eggs", nil, function(State) 
