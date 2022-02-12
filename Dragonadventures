@@ -252,7 +252,9 @@ end
 
 local Toggle1 = Section1:CreateToggle("Auto Feed Dragons Chocolate", nil, function(State)
 okthen = State
+if okthen then
 firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart,game:GetService("Workspace").Interactions.ValentinesEvent.TeleportPortals.ToPortal.TeleportPart,0)
+end
 while wait()  and okthen do pcall(function()
     wait()
     for i, v in pairs(game:GetService("Players").LocalPlayer.Data.Dragons:GetChildren()) do
@@ -268,7 +270,9 @@ end)
 
 local Toggle1 = Section1:CreateToggle("AutoMaze", nil, function(State)
 pol = State
+if pol then
 firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart,game:GetService("Workspace").Interactions.ValentinesEvent.TeleportPortals.ToPortal.TeleportPart,0)
+end
 while wait() and pol do
     pcall(
         function()
@@ -314,7 +318,9 @@ end)
 
 local Toggle1 = Section1:CreateToggle("Autocollect Valentines", nil, function(State)
 y = State
+if y then
 firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart,game:GetService("Workspace").Interactions.ValentinesEvent.TeleportPortals.ToPortal.TeleportPart,0)
+end
 game:GetService("RunService").Stepped:connect(
     function()
         if y then
