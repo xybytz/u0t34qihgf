@@ -273,24 +273,11 @@ firetouchinterest(
     0
 )
 
-while wait() and pol do
+while wait() and pol do pcall(function()
     for i, v in pairs(game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Chocolates:GetChildren()) do
         if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v:FindFirstChildOfClass("MeshPart").CFrame
         end
-    end
-
-    if not game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Chocolates:FindFirstChildOfClass("Model") then
-        firetouchinterest(
-            game.Players.LocalPlayer.Character.HumanoidRootPart,
-            game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Mazes["1"].TeleportPart,
-            0
-        )
-        firetouchinterest(
-            game.Players.LocalPlayer.Character.HumanoidRootPart,
-            game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Mazes["2"].TeleportPart,
-            0
-        )
     end
     if
         game:GetService("Workspace").Interactions.ValentinesEvent.Maze.StartZone.CountdownGui.PromptLabel.Text ==
@@ -304,6 +291,20 @@ while wait() and pol do
             game:GetService("Workspace").Interactions.ValentinesEvent.Maze.StartZone.CountdownPart.CFrame *
             CFrame.new(math.random(1, 10), 0, math.random(1, 10))
     end
+    if not game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Chocolates:FindFirstChildOfClass("Model") then
+        firetouchinterest(
+            game.Players.LocalPlayer.Character.HumanoidRootPart,
+            game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Mazes["1"].TeleportPart,
+            0
+        )
+        firetouchinterest(
+            game.Players.LocalPlayer.Character.HumanoidRootPart,
+            game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Mazes["2"].TeleportPart,
+            0
+        )
+    end
+
+end)
 end
 end)
 
