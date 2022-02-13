@@ -172,6 +172,11 @@ getgenv().AutoMobs = State
 game:GetService("RunService").Stepped:connect(
     function()
         if getgenv().AutoMobs then
+            j = string.split(mission.bg.name.Text, "(s)")[1]
+
+            game.Players.LocalPlayer.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").bg.name.Text =
+                string.gsub(j, tostring((s)), "")
+
             game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
         end
     end
@@ -188,36 +193,45 @@ while getgenv().AutoMobs do
                             v.Head.givemission:FindFirstChild("color").Image ==
                                 "http://www.roblox.com/asset/?id=5459241648"
                      then
-                        pcall(
-                            function()
-                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                                    v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
-                                v:FindFirstChild("CLIENTTALK"):FireServer()
-                                v:FindFirstChild("CLIENTTALK"):FireServer("accept")
-                            end
-                        )
+                        if mission.Visible == false then 
+                            pcall(
+                                function()
+                                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                        v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
+                                        wait(0.1)
+                                    v:FindFirstChild("CLIENTTALK"):FireServer()
+                                    v:FindFirstChild("CLIENTTALK"):FireServer("accept") wait(0.5)
+                                end
+                            )
+                        end
                     end
                 end
             until getgenv().AutoMobs == false or mission.Visible == true
             repeat
                 wait()
-                for i, v in pairs(game:GetService("Workspace").npc:GetChildren()) do
-                    if
-                        v.ClassName == "Model" and v:FindFirstChild("npctype") and string.find(v.Name, "npc") and
-                            v:FindFirstChild("HumanoidRootPart") and
-                            v:FindFirstChild("Humanoid") and
-                            v.Head.CFrame.Y > -1000
-                     then
-                        pcall(
-                            function()
-                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                                    v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
+                if mission.Visible == true then
+                    for i, v in pairs(game:GetService("Workspace").npc:GetChildren()) do
+                        if v:FindFirstChild("npctype") then
+                          print("Hi")
+                        end
+                        if 
+                            v.ClassName == "Model" and v:FindFirstChild("npctype") and
+                                string.find(mission.bg.name.Text, v.Head.mob.fram.name.info.Text) and
+                                v:FindFirstChild("HumanoidRootPart") and
+                                v:FindFirstChild("Humanoid") and
+                                v.Head.CFrame.Y > -1000
+                         then
+                            pcall(
+                                function()
+                                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                        v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
                                     if v:FindFirstChild("antiexploit") then
-                                    v.antiexploit:remove()
+                                        v.antiexploit:remove()
                                     end
-                                v.Humanoid.Health = 0
-                            end
-                        )
+                                    v.Humanoid.Health = 0
+                                end
+                            )
+                        end
                     end
                 end
                 game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", true)
@@ -226,6 +240,7 @@ while getgenv().AutoMobs do
         end
     )
 end
+
 end)
 
 
@@ -659,14 +674,14 @@ game.Players.LocalPlayer:GetMouse().KeyDown:connect(
 )
 end)
 
-local Toggle1 = Section2:CreateToggle("O Fly", nil, function(State)
+local Toggle1 = Section2:CreateToggle("J Fly", nil, function(State)
 sex2 = State
 local Max = 0
 local Players = game.Players
 local LP = Players.LocalPlayer
 local Mouse = LP:GetMouse()
 Mouse.KeyDown:connect(function(k)
-if k:lower() == 'o' then
+if k:lower() == 'j' then
 Max = Max + 1
 getgenv().Fly = false
 if sex2 then
