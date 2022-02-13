@@ -241,10 +241,6 @@ end
 
 if game:GetService("Workspace").Interactions.Nodes.Harvest:FindFirstChild("Valentines") then
 
-Drago = {}
-for i, v in pairs(game.Players.LocalPlayer.Character.Dragons:GetChildren()) do
-    table.insert(Drago, v.Name)
-end
 
 
 
@@ -254,6 +250,10 @@ local Toggle1 = Section1:CreateToggle("Auto Feed Dragons Chocolate", nil, functi
 okthen = State
 while wait()  and okthen do pcall(function()
     wait()
+    Drago = {}
+for i, v in pairs(game.Players.LocalPlayer.Character.Dragons:GetChildren()) do
+    table.insert(Drago, v.Name)
+end
     for i, v in pairs(game:GetService("Players").LocalPlayer.Data.Dragons:GetChildren()) do
         if table.find(Drago, v.Name) and v.Chocolate.Value ~= "" then
             game:GetService("Players").LocalPlayer.Character.Dragons:FindFirstChild(v.Name).Remotes.FeedChocolateRemote:InvokeServer(
