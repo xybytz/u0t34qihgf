@@ -153,13 +153,10 @@ while wait() and getgenv().DD do
                 pcall(
                     function()
                         game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
-                            v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
-                        for i = 1, 50 do
-                            wait()
-                            game.Players.LocalPlayer.Character.combat.update:FireServer("mouse1", true)
-                            game.Players.LocalPlayer.Character.combat.update:FireServer("mouse1", false)
+                        v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
+                        game.Players.LocalPlayer.Character.combat.update:FireServer("mouse1", true)
+                        game.Players.LocalPlayer.Character.combat.update:FireServer("mouse1", false)
                         end
-                    end
                 )
             until v.Humanoid.Health == 0 or not v or not getgenv().DD
         end
@@ -171,13 +168,14 @@ local Toggle1 = Section1:CreateToggle("AutoFarm Mobs", nil, function(State)
 getgenv().AutoMobs = State
 game:GetService("RunService").Stepped:connect(
     function()
-        if getgenv().AutoMobs then
+        if getgenv().AutoMobs then pcall(function()
             j = string.split(mission.bg.name.Text, "(s)")[1]
 
             game.Players.LocalPlayer.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").bg.name.Text =
                 string.gsub(j, tostring((s)), "")
 
             game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+            end)
         end
     end
 )
@@ -198,7 +196,7 @@ while getgenv().AutoMobs do
                                 function()
                                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                                         v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
-                                        wait(0.1)
+                                        wait(0.3)
                                     v:FindFirstChild("CLIENTTALK"):FireServer()
                                     v:FindFirstChild("CLIENTTALK"):FireServer("accept") wait(0.5)
                                 end
@@ -222,7 +220,7 @@ while getgenv().AutoMobs do
                                 v.Head.CFrame.Y > -1000
                          then
                             pcall(
-                                function()
+                                function() wait(0.2)
                                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                                         v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
                                     if v:FindFirstChild("antiexploit") then
