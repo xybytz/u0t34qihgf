@@ -226,14 +226,15 @@ while getgenv().AutoMobs do
                                     if v:FindFirstChild("antiexploit") then
                                         v.antiexploit:remove()
                                     end
+                                    game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", true)
+                                    game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", false)
                                     v.Humanoid.Health = 0
                                 end
                             )
                         end
                     end
                 end
-                game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", true)
-                game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", false)
+               
             until getgenv().AutoMobs == false or mission.Visible == false and v.Humanoid.Health == 0 and v
         end
     )
@@ -250,7 +251,7 @@ end
 local Toggle1 = Section1:CreateToggle("AutoRank", nil, function(State)
 getgenv().Rank = State
 while wait() and getgenv().Rank do
-    if game.Players.LocalPlayer.statz.lvl:FindFirstChild("lvl").Value == 1000 then
+    if game.Players.LocalPlayer.statz.lvl:FindFirstChild("lvl").Value >= 500 then
         if
             game.Players.LocalPlayer.statz.prestige.maxlvlpres.Value >= 1 or
                 game.Players.LocalPlayer.statz.prestige.maxlvlpres.Value == 0 and
