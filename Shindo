@@ -19,6 +19,11 @@ OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
     end
     return OldNameCall(A, B, ...)
 end)
+repeat wait() until game:GetService("Players").LocalPlayer.Character
+repeat wait() until game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("Main") wait(2)
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50
+game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
+
 game:GetService("UserInputService").MouseIconEnabled = true
 game:GetService("UserInputService").MouseBehavior = Enum.MouseBehavior.Default
 game:GetService("RunService").Stepped:connect(function()
