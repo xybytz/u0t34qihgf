@@ -267,48 +267,44 @@ end)
 
 local Toggle1 = Section1:CreateToggle("AutoMaze", nil, function(State)
 pol = State
-firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart,game:GetService("Workspace").Interactions.ValentinesEvent.TeleportPortals.ToPortal.TeleportPart,0)
+firetouchinterest(
+    game.Players.LocalPlayer.Character.HumanoidRootPart,
+    game:GetService("Workspace").Interactions.ValentinesEvent.TeleportPortals.ToPortal.TeleportPart,
+    0
+)
 
-while wait() and pol do pcall(function()
+while wait() and pol do
+    for i, v in pairs(game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Chocolates:GetChildren()) do
+        if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v:FindFirstChildOfClass("MeshPart").CFrame
+        end
+    end
 
-            for i, v in pairs(game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Chocolates:GetChildren()) do
-                if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
-                    
-
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                        v:FindFirstChildOfClass("MeshPart").CFrame
-                end
-            end
-            
-           
-       
-            
-            if
-                not game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Chocolates:FindFirstChildOfClass(
-                    "Model"
-                )
-             then
-           
-             if game:GetService("Workspace").Interactions.ValentinesEvent.Maze.StartZone.CountdownGui.PromptLabel.Text ~= "Singleplayer Maze Minigame" then
-                firetouchinterest(
-                    game.Players.LocalPlayer.Character.HumanoidRootPart,
-                    game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Mazes["1"].TeleportPart,
-                    0
-                )
-                firetouchinterest(
-                    game.Players.LocalPlayer.Character.HumanoidRootPart,
-                    game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Mazes["2"].TeleportPart,
-                    0
-                )
-                end
-                    if game:GetService("Workspace").Interactions.ValentinesEvent.Maze.StartZone.CountdownGui.PromptLabel.Text == "Singleplayer Maze Minigame" then wait(2)
-                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Interactions.ValentinesEvent.Maze.ReturnPart.CFrame 
-                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                game:GetService("Workspace").Interactions.ValentinesEvent.Maze.StartZone.CountdownPart.CFrame *CFrame.new(math.random(1,10),0,math.random(1,10)) end 
-            end
-end)
+    if not game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Chocolates:FindFirstChildOfClass("Model") then
+        firetouchinterest(
+            game.Players.LocalPlayer.Character.HumanoidRootPart,
+            game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Mazes["1"].TeleportPart,
+            0
+        )
+        firetouchinterest(
+            game.Players.LocalPlayer.Character.HumanoidRootPart,
+            game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Mazes["2"].TeleportPart,
+            0
+        )
+    end
+    if
+        game:GetService("Workspace").Interactions.ValentinesEvent.Maze.StartZone.CountdownGui.PromptLabel.Text ==
+            "Singleplayer Maze Minigame" and
+            not game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Chocolates:FindFirstChildOfClass("Model")
+     then
+        wait(2)
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+            game:GetService("Workspace").Interactions.ValentinesEvent.Maze.ReturnPart.CFrame
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+            game:GetService("Workspace").Interactions.ValentinesEvent.Maze.StartZone.CountdownPart.CFrame *
+            CFrame.new(math.random(1, 10), 0, math.random(1, 10))
+    end
 end
-
 end)
 
 local Toggle1 = Section1:CreateToggle("Autocollect Valentines", nil, function(State)
