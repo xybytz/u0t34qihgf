@@ -8,6 +8,11 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 
+ game:GetService("RunService").Stepped:connect(
+            function()
+                sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
+            end
+        )
 
 --Credits to https://devforum.roblox.com/t/finding-the-closest-player/442618/4
 local function GetClosestt()
@@ -130,12 +135,12 @@ end end
 
 mobs = {}
 for i,v in pairs(game:GetService("ReplicatedStorage"):GetDescendants()) do
-if v.ClassName == "Model"  and v:FindFirstChild("Stun") then
+if v.ClassName == "Model"  and v:FindFirstChild("Stun") and not table.find(mobs,v.Name) then
 table.insert(mobs,v.Name)
 table.sort(mobs)
 end end 
 for i,v in pairs(game:GetService("Workspace").Enemies:GetDescendants()) do
-if v.ClassName == "Model"  and v:FindFirstChild("Stun") then
+if v.ClassName == "Model"  and v:FindFirstChild("Stun") and not table.find(mobs,v.Name) then
 table.insert(mobs,v.Name)
 table.sort(mobs)
 end end  
@@ -318,28 +323,6 @@ spawn(
 )
 
 
-spawn(function()
-        while farm do
-            wait()
-            wait(1)
-            pcall(
-                function()
-                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "Z", false, uwu)
-                    wait(.1)
-                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "X", false, uwu)
-                    wait(.1)
-                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "C", false, uwu)
-                    wait(.1)
-                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "V", false, uwu)
-                    wait(.1)
-                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "F", false, uwu)
-                    wait(.1)
-                    wait(0.5)
-                end
-            )
-        end
-    end
-)
 
 spawn(
     function()
@@ -376,8 +359,6 @@ spawn(
                     for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                         if v.ClassName == "Tool" and v.Name == tools then
                             v.Parent = game.Players.LocalPlayer.Character
-                            wait(5)
-                            v.Parent = game.Players.LocalPlayer.Backpack
                         end
                     end
                 end
@@ -392,10 +373,9 @@ spawn(
                 pcall(
                     function()
                         if farm then
-                            game.Workspace.Gravity = 0
                             game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
-                            for i, v in pairs(game:GetService("Workspace").Enemies:GetDescendants()) do
-                                if v:IsA("Model") and v.Name == mobs then
+                            for i, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                                if v:IsA("Model") and v.Name == mobs  and v:FindFirstChild("Humanoid") and v.Humanoid.Health ~= 0 then
                                     local Time =
                                         (v.HumanoidRootPart.CFrame.p + Vector3.new(0, -5, 3) -
                                         game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude /
@@ -410,9 +390,6 @@ spawn(
                                         }
                                     )
                                     Tween:Play()
-                                    if not farm then
-                                    game.Workspace.Gravity = 196.2
-                                    end
                                 end
                             end
                         end
