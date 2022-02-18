@@ -279,6 +279,7 @@ while wait() and pol do pcall(function()
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v:FindFirstChildOfClass("MeshPart").CFrame
         end
     end
+    y = false
     if
         game:GetService("Workspace").Interactions.ValentinesEvent.Maze.StartZone.CountdownGui.PromptLabel.Text ==
             "Singleplayer Maze Minigame" and
@@ -329,10 +330,11 @@ while y do
     wait()
     pcall(
         function()
+             pol  = false
             for i, v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest.Valentines.ActiveNodes:GetDescendants()) do
                 if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                        v:FindFirstChildOfClass("MeshPart").CFrame * CFrame.new(40, -3, 0)
+                        v:FindFirstChildOfClass("MeshPart").CFrame * CFrame.new(50, -3, 0)
                     wait(1)
                     game.Players.LocalPlayer.Character.Humanoid:MoveTo(
                         v:FindFirstChildOfClass("MeshPart").CFrame.Position
