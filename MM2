@@ -10,7 +10,7 @@ game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 pcall(function()
 game:GetService("ReplicatedStorage").IsXbox:FireServer()
-for i,v in pairs(Workspace:GetDescendants()) do
+for i,v in pairs(Workspace:GetChildren()) do
   if v:IsA("Part") and  v.Name ~= "Part" then
     v.CanCollide =false
   end
@@ -29,9 +29,6 @@ for i,v in pairs(game:GetService("ReplicatedStorage").GetPlayerData:InvokeServer
 end
      end)
 end)
-getgenv().Coin = false
-getgenv().GodMode = false
-
 local Player = game.Players.LocalPlayer
 local UIS = game:GetService("UserInputService")
 local CoinTarget = nil
@@ -92,43 +89,47 @@ function GodModeFunc()
 	end
 end
 
+local UIS = game:GetService("UserInputService")
+local CoinTarget = nil
+local AutoFarming
+
 function GetClosestCoin()
-	local TargetDistance = 100
-	local Target
-	for i,v in pairs(workspace:GetDescendants()) do
-		if v.Name == "Coin_Server" and v:FindFirstChild("TouchInterest") and v.Name ~= "CollectedCoin" then
-			local mag = (Player.Character.HumanoidRootPart.Position - v.Position).magnitude
-			if mag < TargetDistance then
-				TargetDistance = mag
-				CoinTarget = v
-			end
-		end
-	end
+    local TargetDistance = 100
+    local Target
+    for i, v in pairs(workspace:GetChildren()) do
+        if v:IsA("Model") and v:FindFirstChild("CoinContainer") then
+            for i, v in pairs(v.CoinContainer:GetChildren()) do
+                if v.Name == "Coin_Server" and v.Name ~= "CollectedCoin" then
+                    local mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).magnitude
+                    if mag < TargetDistance then
+                        TargetDistance = mag
+                        CoinTarget = v
+                    end
+                end
+            end
+        end
+    end
 end
+
+
 
 
 
 spawn(function()
 	while wait() do
 		pcall(function()
-			if  getgenv().Coin and not AutoFarming and Player.PlayerGui.MainGUI.Game.CashBag.Visible and not Player.PlayerGui.MainGUI.Game.CashBag.Full.Visible and Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") then
+			if getgenv().Coin and not AutoFarming and game.Players.LocalPlayer.PlayerGui.MainGUI.Game.CashBag.Visible and not game.Players.LocalPlayer.PlayerGui.MainGUI.Game.CashBag.Full.Visible and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
 				AutoFarming = true
-				if getgenv().GodMode and not Player.Character:FindFirstChild("GodMode") then
+				if getgenv().GodMode and not game.Players.LocalPlayer.Character:FindFirstChild("GodMode") then
 					GodModeFunc()
 				end
 				GetClosestCoin()
 				if CoinTarget ~= nil then
 					spawn(function()
-						Player.Character.HumanoidRootPart.CFrame = CFrame.new(CoinTarget.Position.X, CoinTarget.Position.Y, CoinTarget.Position.Z)
-					end)
-					for i,v in pairs(workspace:GetDescendants()) do
-						if v.Name == "Coin_Server" and v:FindFirstChild("TouchInterest") and v.Name ~= "CollectedCoin" then
-							local mag = (Player.Character.HumanoidRootPart.Position - v.Position).magnitude
-							if mag < 8 then
-								v.Position = Player.Character.HumanoidRootPart.Position
-							end
-						end
-					end
+				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(CoinTarget.Position.X,CoinTarget.Position.Y + 1.5,CoinTarget.Position.Z) wait()
+				firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, CoinTarget, 0)
+				firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, CoinTarget, 1)
+				end)
 				end
 				wait(2)
 				CoinTarget = nil
@@ -140,8 +141,10 @@ spawn(function()
 end)
 
 game:GetService('RunService').Stepped:connect(function()
-if  getgenv().Coin then
+if getgenv().Coin then
+pcall(function()
 game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+end)
 end
 end)
 
@@ -163,6 +166,7 @@ local Section4 = Tab2:CreateSection("Background")
 
 local Toggle1 = Section1:CreateToggle("AutoFarm", nil, function(State)
 getgenv().Coin = State
+
 end)
 local Toggle1 = Section1:CreateToggle("GodMode AutoFarm", nil, function(State)
 getgenv().Coin = State
@@ -220,47 +224,6 @@ ESP.Tracers = State
 ESP.Names = State
 ESP.Boxes = State
 end)
-local Toggle1 = Section1:CreateToggle("Spam Throw Knife", nil, function(State)
-FastKnife = State
-
-while FastKnife do wait()
-pcall(function()
-game:GetService("Players").LocalPlayer.Character.Knife.Throw:FireServer(1
-,CFrame.new(Vector3.new(game.Players.LocalPlayer:GetMouse().hit.p), Vector3.new(-0, -0, -1))
-,Vector3.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position))
-end) end 
-end)  
-Toggle1:CreateKeybind("E", function(Key)
-end)
-
-local Toggle1 = Section1:CreateToggle("Grab Gun", nil, function(State)
-yes = State
-Player = game.Players.LocalPlayer.Character
-while wait(3) do
-if game.Worksapce("GunDrop") then
-if yes then 
-box = Instance.new('Part',workspace) -- makes part
-box.Name = ""
-box.Anchored = true
-box.CanCollide = false
-box.Size = Vector3.new(Player.HumanoidRootPart.Position)
-game.Workspace[""].CFrame =  Player.HumanoidRootPart.CFrame
-wait(1)
-Player.HumanoidRootPart.CFrame = game.Workspace.GunDrop.CFrame -- goes to thingy
-wait(1)
-Player.HumanoidRootPart.CFrame = game.Workspace[""].CFrame
-end 
-end end  end) 
-
-
-local Button1 = Section1:CreateButton("Muder Kill All", function()
-Player = game.Players.LocalPlayer.Character
-for i,v in pairs(game.Players:GetPlayers()) do
-    if v.Name ~= game.Players.LocalPlayer.Name then
-Player.Knife.Throw:FireServer(CFrame.new(v.Character.UpperTorso.Position), v.Character.UpperTorso.Position)
-Player.Knife.Throw:FireServer(CFrame.new(v.Character.UpperTorso.Position), v.Character.UpperTorso.Position)
-Player.Knife.Throw:FireServer(CFrame.new(v.Character.UpperTorso.Position), v.Character.UpperTorso.Position)
-end end end) 
 
 
 local Button1 = Section1:CreateButton("Floss", function()
