@@ -9,12 +9,13 @@ game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 
  game:GetService("RunService").Stepped:connect(
-            function()
-                sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
-            end
-        )
+    function()
+        sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
+    end
+)
 
---Credits to https://devforum.roblox.com/t/finding-the-closest-player/442618/4
+local Quest = game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest
+
 local function GetClosestt()
     local TargetDistance = math.huge
     local Target
@@ -30,8 +31,9 @@ local function GetClosestt()
     return Target
 end
 
+
 local Circle = Drawing.new("Circle")
-Circle.Color =  Color3.fromRGB(22, 13, 56)
+Circle.Color = Color3.fromRGB(22, 13, 56)
 Circle.Thickness = 1
 Circle.Radius = 250
 Circle.Visible = false
@@ -39,47 +41,57 @@ Circle.NumSides = 1000
 Circle.Filled = false
 Circle.Transparency = 1
 
-game:GetService("RunService").RenderStepped:Connect(function()
-    local Mouse = game:GetService("UserInputService"):GetMouseLocation()
-    Circle.Position = Vector2.new(Mouse.X, Mouse.Y)
-end)
+game:GetService("RunService").RenderStepped:Connect(
+    function()
+        local Mouse = game:GetService("UserInputService"):GetMouseLocation()
+        Circle.Position = Vector2.new(Mouse.X, Mouse.Y)
+    end
+)
 
 getgenv().AimBot = {
-FreeForAll= false,
-WallCheck = false,
-Enabled = false,
-FOV = 250
+    FreeForAll = false,
+    WallCheck = false,
+    Enabled = false,
+    FOV = 250
 }
-
 
 function FreeForAll(v)
     if getgenv().AimBot.FreeForAll == false then
-        if game.Players.LocalPlayer.Team == v.Team then return false
-        else return true end
-    else return true end
+        if game.Players.LocalPlayer.Team == v.Team then
+            return false
+        else
+            return true
+        end
+    else
+        return true
+    end
 end
 
 function NotObstructing(i, v)
     if getgenv().AimBot.WallCheck then
         c = workspace.CurrentCamera.CFrame.p
-        a = Ray.new(c, i- c)
+        a = Ray.new(c, i - c)
         f = workspace:FindPartOnRayWithIgnoreList(a, v)
         return f == nil
     else
         return true
     end
 end
-game:GetService("UserInputService").InputBegan:Connect(function(v)
-    if v.UserInputType == Enum.UserInputType.MouseButton2 then
-        Shoot = true
+game:GetService("UserInputService").InputBegan:Connect(
+    function(v)
+        if v.UserInputType == Enum.UserInputType.MouseButton2 then
+            Shoot = true
+        end
     end
-end)
+)
 
-game:GetService("UserInputService").InputEnded:Connect(function(v)
-    if v.UserInputType == Enum.UserInputType.MouseButton2 then
-        Shoot = false
+game:GetService("UserInputService").InputEnded:Connect(
+    function(v)
+        if v.UserInputType == Enum.UserInputType.MouseButton2 then
+            Shoot = false
+        end
     end
-end)
+)
 
 function GetMouse()
     return Vector2.new(mouse.X, mouse.Y)
@@ -88,64 +100,137 @@ function GetClosestToCuror()
     MousePos = GetMouse()
     Closest = math.huge
     Target = nil
-    for _,v in pairs(game:GetService("Players"):GetPlayers()) do
+    for _, v in pairs(game:GetService("Players"):GetPlayers()) do
         if FreeForAll(v) then
             if v.Character:FindFirstChild("UpperTorso") and v ~= game.Players.LocalPlayer then
-                Point,OnScreen = workspace.CurrentCamera:WorldToViewportPoint(v.Character.UpperTorso.Position)
-                if OnScreen and NotObstructing(v.Character.UpperTorso.Position,{game.Players.LocalPlayer.Character,v.Character}) then
-                    Distance = (Vector2.new(Point.X,Point.Y) - MousePos).magnitude
-                      if Distance <= getgenv().AimBot.FOV then
-                          Closest = Distance
-                       Target = v
-                     end
-                  end
-               end
+                Point, OnScreen = workspace.CurrentCamera:WorldToViewportPoint(v.Character.UpperTorso.Position)
+                if
+                    OnScreen and
+                        NotObstructing(
+                            v.Character.UpperTorso.Position,
+                            {game.Players.LocalPlayer.Character, v.Character}
+                        )
+                 then
+                    Distance = (Vector2.new(Point.X, Point.Y) - MousePos).magnitude
+                    if Distance <= getgenv().AimBot.FOV then
+                        Closest = Distance
+                        Target = v
+                    end
+                end
             end
-         end
+        end
+    end
     return Target
-end 
+end
 
-game:GetService('RunService').Stepped:connect(function()
+game:GetService("RunService").Stepped:connect(
+    function()
+        if getgenv().AimBot.Enabled == false or Shoot == false then
+            return
+        end
+        ClosestPlayer = GetClosestToCuror()
+        if ClosestPlayer then
+            workspace.CurrentCamera.CFrame =
+                CFrame.new(workspace.CurrentCamera.CFrame.p, ClosestPlayer.Character.HumanoidRootPart.CFrame.p)
+        end
+    end
+)
+yes1 = {"Melee", "Defense", "Sword", "Gun", "Blox Fruit"}
 
-    if getgenv().AimBot.Enabled == false or Shoot == false then return end
-    ClosestPlayer = GetClosestToCuror()
-    if ClosestPlayer then
-     workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.p,ClosestPlayer.Character.HumanoidRootPart.CFrame.p)
-    end 
+game:GetService("RunService").Stepped:connect(
+    function()
+for i, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+    if v:IsA("Model") and v:FindFirstChild("Humanoid") then
+        v.Name = string.gsub(v.Name, "[Lv. " .. "%d+]", "")
+
+        v.Name = string.gsub(v.Name, "[%[%]]", "")
+    end
+end
+
+
+for i, v in pairs(game:GetService("ReplicatedStorage"):GetChildren()) do
+    if v:IsA("Model") and v:FindFirstChild("Humanoid") then
+        v.Name = string.gsub(v.Name, "[Lv. " .. "%d+]", "")
+
+        v.Name = string.gsub(v.Name, "[%[%]]", "")
+    end
+end
 end)
-yes1 = {"Melee","Defense","Sword","Gun","Blox Fruit"}
-
--- Script generated by SimpleSpy - credits to exx#9394
-
 
 if game.PlaceId == 2753915549 then
-game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetTeam","Pirates")
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetTeam", "Pirates")
 end
-repeat wait() until game.Players.LocalPlayer.Backpack:FindFirstChild("Combat")
-for i,v in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants()) do
-if v.ClassName == "Tool" then
-v.Parent = game.Players.LocalPlayer.Backpack
-end end 
+repeat wait() until game.Players.LocalPlayer.Backpack:FindFirstChildOfClass("Tool")
+for i, v in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants()) do
+    if v.ClassName == "Tool" then
+        v.Parent = game.Players.LocalPlayer.Backpack
+    end
+end
 
-tools ={}
-for i,v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetDescendants()) do
-if v.ClassName == "Tool" then
-table.insert(tools,v.Name)
-end end 
+tools = {}
+for i, v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetDescendants()) do
+    if v.ClassName == "Tool" then
+        table.insert(tools, v.Name)
+    end
+end
+
+local Qat = require(game:GetService("ReplicatedStorage").Quests)
+Quests = {}
+for i, v in pairs(Qat) do
+    table.insert(Quests, i)
+    table.sort(Quests)
+end
 
 mobs = {}
-for i,v in pairs(game:GetService("ReplicatedStorage"):GetDescendants()) do
-if v.ClassName == "Model"  and v:FindFirstChild("Stun") and not table.find(mobs,v.Name) then
-table.insert(mobs,v.Name)
-table.sort(mobs)
-end end 
-for i,v in pairs(game:GetService("Workspace").Enemies:GetDescendants()) do
-if v.ClassName == "Model"  and v:FindFirstChild("Stun") and not table.find(mobs,v.Name) then
-table.insert(mobs,v.Name)
-table.sort(mobs)
-end end  
+for i, v in pairs(game:GetService("ReplicatedStorage"):GetDescendants()) do
+    if v.ClassName == "Model" and v:FindFirstChild("Stun") and not table.find(mobs, v.Name) then
+        table.insert(mobs, v.Name)
+        table.sort(mobs)
+    end
+end
+for i, v in pairs(game:GetService("Workspace").Enemies:GetDescendants()) do
+    if v.ClassName == "Model" and v:FindFirstChild("Stun") and not table.find(mobs, v.Name) then
+        table.insert(mobs, v.Name)
+        table.sort(mobs)
+    end
+end
 getgenv().speed = 100
+local function c()
+    for i, v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
+        if v:IsA("Tool") and v:FindFirstChild("Level") and v.Name == tools then
+            game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+        end
+    end
+end
 
+local function GetClosestMob()
+    local TargetDistance = math.huge
+    local Target
+    for i, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                if v:IsA("Model") and string.find(Quest.Container.QuestTitle.Title.Text,v.Name) and v:FindFirstChild("Humanoid") and v.Humanoid.Health ~= 0 then
+            local Mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).magnitude
+            if Mag < TargetDistance then
+                TargetDistance = Mag
+                Target = v
+            end
+        end
+    end
+    return Target
+end
+local function GetClosestMobRep()
+    local TargetDistance = math.huge
+    local Target
+    for i, v in pairs(game:GetService("ReplicatedStorage"):GetChildren()) do
+                if v:IsA("Model") and string.find(Quest.Container.QuestTitle.Title.Text,v.Name) and v:FindFirstChild("Humanoid") and v.Humanoid.Health ~= 0 then
+            local Mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).magnitude
+            if Mag < TargetDistance then
+                TargetDistance = Mag
+                Target = v
+            end
+        end
+    end
+    return Target
+end
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
@@ -263,11 +348,8 @@ jjsploit = State
 while wait() and jjsploit do
     pcall(
         function()
-            firetouchinterest(
-                game.Players.LocalPlayer.Character.HumanoidRootPart,
-                game.workspace:FindFirstChildOfClass("Tool").Handle,
-                0
-            )
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                game.workspace:FindFirstChildOfClass("Tool").Handle.CFrame
         end
     )
 end
@@ -282,123 +364,90 @@ end)
 end
 
 local Toggle1 =Section1:CreateToggle("MobFarm", nil, function(State)
-farm = State
-game:GetService("RunService").Stepped:connect(function()
-        if farm then
-           game.Players.LocalPlayer.Character:WaitForChild('Humanoid'):ChangeState(11)
+getgenv().Farm = State
+game:GetService("RunService").Stepped:connect(
+    function()
+        if getgenv().Farm then
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+        end
+    end
+)
+if getgenv().Farm then
+    local Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
+    game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
+    Clone.Parent = game:GetService("Players").LocalPlayer.Character.LowerTorso
+end
+
+game.Players.LocalPlayer.CharacterAdded:Connect(
+    function()
+        if getgenv().Farm then
+            wait(3)
+            local Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
+            game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
+            Clone.Parent = game:GetService("Players").LocalPlayer.Character.LowerTorso
         end
     end
 )
 spawn(
     function()
-        game:GetService("RunService").Stepped:connect(
-            function()
-                pcall(
-                    function()
-                        if farm then
-                            for i, v in pairs(game:GetService("ReplicatedStorage")[mobs]:GetDescendants()) do
-                                if v:IsA("MeshPart") and v.Name ~= "UpperTorso" then
-                                    local Time =
-                                        (v.CFrame.p + Vector3.new(0, 0, 0) -
-                                        game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude /
-                                        getgenv().speed
-                                    local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
-                                    local Tween =
-                                        game:GetService("TweenService"):Create(
-                                        game.Players.LocalPlayer.Character.HumanoidRootPart,
-                                        Info,
-                                        {
-                                            CFrame = CFrame.new(v.CFrame.p + Vector3.new(0, 0, -3))
-                                        }
-                                    )
-                                    Tween:Play()
-                                end
-                            end
-                        end
-                    end
-                )
-            end
-        )
-    end
-)
-
-
-
-spawn(
-    function()
-        if farm then
-            local Character = game:GetService("Players").LocalPlayer.Character
-            local Clone = Character.LowerTorso.Root:Clone()
-            Character.LowerTorso.Root:Destroy()
-            Clone.Parent = Character.LowerTorso
-        end
-    end
-)
-spawn(
-    function()
-        game.Players.LocalPlayer.CharacterAdded:Connect(
-            function()
-                if farm then
-                    wait(3)
-                    local Character = game:GetService("Players").LocalPlayer.Character
-                    local Clone = Character.LowerTorso.Root:Clone()
-                    Character.LowerTorso.Root:Destroy()
-                    Clone.Parent = Character.LowerTorso
-                end
-            end
-        )
-    end
-)
-
-spawn(
-    function()
-        while farm do
+        while getgenv().Farm do
             wait()
-            pcall(
-                function()
-                    for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-                        if v.ClassName == "Tool" and v.Name == tools then
-                            v.Parent = game.Players.LocalPlayer.Character
-                        end
-                    end
+            pcall(function()
+            for i, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                if v:IsA("Model") and v.Name == mobs and v:FindFirstChild("Humanoid") and v.Humanoid.Health ~= 0 then
+                    repeat
+                        wait()
+                        local Time =
+                            (v.HumanoidRootPart.CFrame.p + Vector3.new(0, -5, 3) -
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / getgenv().speed
+                        local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
+                        local Tween =
+                            game:GetService("TweenService"):Create(
+                            game.Players.LocalPlayer.Character.HumanoidRootPart,
+                            Info,
+                            {
+                                CFrame = CFrame.new(v.HumanoidRootPart.CFrame.p + Vector3.new(0, -5, 3))
+                            }
+                        )
+                        Tween:Play()
+                        game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+                    until v.Humanoid.Health == 0 or getgenv().Farm == false 
                 end
-            )
+            end
+            for i, v in pairs(game:GetService("ReplicatedStorage")[mobs]:GetChildren()) do
+                if v:IsA("Model") and v.Name == mobs and v:FindFirstChild("Humanoid") and v.Humanoid.Health ~= 0 then
+                    repeat
+                        wait()
+                        local Time =
+                            (v.CFrame.p + Vector3.new(0, 0, 0) -
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / getgenv().speed
+                        local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
+                        local Tween =
+                            game:GetService("TweenService"):Create(
+                            game.Players.LocalPlayer.Character.HumanoidRootPart,
+                            Info,
+                            {
+                                CFrame = CFrame.new(v.CFrame.p + Vector3.new(0, 0, -3))
+                            }
+                        )
+                        Tween:Play()
+                    until getgenv().Farm == false or v == nil
+                end
+            end
+            end)
         end
     end
 )
 
 spawn(
     function()
-      while wait() do
-                pcall(
-                    function()
-                        if farm then
-                            game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
-                            for i, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                                if v:IsA("Model") and v.Name == mobs  and v:FindFirstChild("Humanoid") and v.Humanoid.Health ~= 0 then
-                                    local Time =
-                                        (v.HumanoidRootPart.CFrame.p + Vector3.new(0, -5, 3) -
-                                        game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude /
-                                        getgenv().speed
-                                    local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
-                                    local Tween =
-                                        game:GetService("TweenService"):Create(
-                                        game.Players.LocalPlayer.Character.HumanoidRootPart,
-                                        Info,
-                                        {
-                                            CFrame = CFrame.new(v.HumanoidRootPart.CFrame.p + Vector3.new(0, -5, 3))
-                                        }
-                                    )
-                                    Tween:Play()
-                                end
-                            end
-                        end
-                    end
-                )
-            end
+        while getgenv().Farm do pcall(function()
+            wait(0.2)
+            c()
+        end) 
+        end
     end
 )
-
 
 end)
 
@@ -409,6 +458,95 @@ Dropdown1:AddOption(v, function(String)
 mobs = String
 end)
 end
+
+local Toggle1 =Section1:CreateToggle("Auto Quest", nil, function(State)
+getgenv().Qu = State
+
+
+game:GetService("RunService").Stepped:connect(
+    function()
+        if getgenv().Qu then
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+        end
+    end
+)
+if getgenv().Qu then
+    local Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
+    game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
+    Clone.Parent = game:GetService("Players").LocalPlayer.Character.LowerTorso
+end
+
+game.Players.LocalPlayer.CharacterAdded:Connect(
+    function()
+        if getgenv().Qu then
+            wait(3)
+            local Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
+            game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
+            Clone.Parent = game:GetService("Players").LocalPlayer.Character.LowerTorso
+        end
+    end
+)
+
+
+
+while getgenv().Qu do
+    pcall(
+        function()
+            wait()
+            repeat
+                wait()
+                if Quest.Visible == true then
+                    local Time =
+                        (GetClosestMob().HumanoidRootPart.CFrame.p + Vector3.new(0, -5, 3) -
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / getgenv().speed
+                    local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
+                    local Tween =
+                        game:GetService("TweenService"):Create(
+                        game.Players.LocalPlayer.Character.HumanoidRootPart,
+                        Info,
+                        {
+                            CFrame = CFrame.new(GetClosestMob().HumanoidRootPart.CFrame.p + Vector3.new(0, -5, 3))
+                        }
+                    )
+                    Tween:Play()
+                    game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+                    c()
+                    local Time =
+                        (GetClosestMobRep().HumanoidRootPart.CFrame.p + Vector3.new(0, 0, 0) -
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / getgenv().speed
+                    local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
+                    local Tween =
+                        game:GetService("TweenService"):Create(
+                        game.Players.LocalPlayer.Character.HumanoidRootPart,
+                        Info,
+                        {
+                            CFrame = CFrame.new(GetClosestMobRep().HumanoidRootPart.CFrame.p + Vector3.new(0, 0, -3))
+                        }
+                    )
+                    Tween:Play()
+                end
+            until Quest.Visible == false or getgenv().Qu == false
+            repeat
+                wait()
+                if Quest.Visible == false then
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", Quests, 1)
+                end
+            until Quest.Visible == true or getgenv().Qu == false
+        end
+    )
+end
+
+end)
+
+
+local Dropdown1 = Section1:CreateDropdown("Select Quest")
+Dropdown1:AddToolTip("Select Quest")
+for i,v in next,Quests do
+Dropdown1:AddOption(v, function(String)
+Quests = String
+end)
+end
+
 
 local Toggle1 = Section1:CreateToggle("Auto Stats", nil, function(State)
 jjsploit1 = State
