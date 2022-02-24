@@ -217,9 +217,25 @@ for i, v in pairs(game:GetService("Workspace").Interactions.Plots:GetDescendants
             v.ActivePortal.DefaultPortalGui.PlayerLabel.Text ==
                 game:GetService("Players").LocalPlayer.PlayerGui.WorkspaceGui[
                     game.Players.LocalPlayer.Name .. "_DisplayGui"
-                ].ContainerFrame.NameLabel.Text
+                ].ContainerFrame.NameLabel.Text 
          then
+        if not game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name .. "_Plot"]:FindFirstChild("Base") then
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =  v.TeleportPart.CFrame
+        end
+        end
+    end
+end
+for i, v in pairs(game:GetService("Workspace").Interactions.Plots:GetDescendants()) do
+    if v.Name == "Portal" and v:FindFirstChild("ActivePortal") then
+        if
+            v.ActivePortal.DefaultPortalGui.PlayerLabel.Text ==
+                game:GetService("Players").LocalPlayer.PlayerGui.WorkspaceGui[
+                    game.Players.LocalPlayer.Name .. "_DisplayGui"
+                ].ContainerFrame.NameLabel.Text 
+         then
+        if not game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name .. "_Plot"]:FindFirstChild("Base") then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =  v.TeleportPart.CFrame
+        end
         end
     end
 end
@@ -229,7 +245,6 @@ repeat
 until game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name .. "_Plot"]:WaitForChild(
     "Base"
 )
-
 
 
 ss1 = {}
@@ -267,11 +282,7 @@ end)
 
 local Toggle1 = Section1:CreateToggle("AutoMaze", nil, function(State)
 pol = State
-firetouchinterest(
-    game.Players.LocalPlayer.Character.HumanoidRootPart,
-    game:GetService("Workspace").Interactions.ValentinesEvent.TeleportPortals.ToPortal.TeleportPart,
-    0
-)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Interactions.ValentinesEvent.TeleportPortals.ToPortal.TeleportPart.CFrame
 
 while wait() and pol do pcall(function()
     for i, v in pairs(game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Chocolates:GetChildren()) do
@@ -283,7 +294,7 @@ while wait() and pol do pcall(function()
     if
         game:GetService("Workspace").Interactions.ValentinesEvent.Maze.StartZone.CountdownGui.PromptLabel.Text ==
             "Singleplayer Maze Minigame" and
-            not game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Chocolates:FindFirstChildOfClass("Model")
+            not game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Chocolates:FindFirstChildOfClass("Model") and game:GetService("Players").LocalPlayer.PlayerGui.MazeGui.TopFrame.ChocolatesLabel.Visible ~= true
      then
         wait(2)
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
@@ -292,17 +303,12 @@ while wait() and pol do pcall(function()
             game:GetService("Workspace").Interactions.ValentinesEvent.Maze.StartZone.CountdownPart.CFrame *
             CFrame.new(math.random(1, 10), 0, math.random(1, 10))
     end
-    if not game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Chocolates:FindFirstChildOfClass("Model") then
-        firetouchinterest(
-            game.Players.LocalPlayer.Character.HumanoidRootPart,
-            game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Mazes["1"].TeleportPart,
-            0
-        )
-        firetouchinterest(
-            game.Players.LocalPlayer.Character.HumanoidRootPart,
-            game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Mazes["2"].TeleportPart,
-            0
-        )
+    if not game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Chocolates:FindFirstChildOfClass("Model") and   game:GetService("Players").LocalPlayer.PlayerGui.MazeGui.TopFrame.ChocolatesLabel.Visible == true  then
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Mazes["1"].TeleportPart.CFrame
+           wait(2)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+            game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Mazes["2"].TeleportPart.CFrame
+            
     end
 
 end)
@@ -312,7 +318,7 @@ end)
 local Toggle1 = Section1:CreateToggle("Autocollect Valentines", nil, function(State)
 y = State
 
-firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart,game:GetService("Workspace").Interactions.ValentinesEvent.TeleportPortals.ToPortal.TeleportPart,0)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Interactions.ValentinesEvent.TeleportPortals.ToPortal.TeleportPart.CFrame
 
 game:GetService("RunService").Stepped:connect(
     function()
