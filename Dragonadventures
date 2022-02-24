@@ -211,7 +211,7 @@ local Section4 = Tab2:CreateSection("Background")
 
 
 if game.PlaceId == 3475397644 then
-for i, v in pairs(game:GetService("Workspace").Interactions.Plots.Portals:GetChildren()) do
+for i, v in pairs(game:GetService("Workspace").Interactions.Plots:GetDescendants()) do
     if v.Name == "Portal" and v:FindFirstChild("ActivePortal") then
         if
             v.ActivePortal.DefaultPortalGui.PlayerLabel.Text ==
@@ -219,7 +219,7 @@ for i, v in pairs(game:GetService("Workspace").Interactions.Plots.Portals:GetChi
                     game.Players.LocalPlayer.Name .. "_DisplayGui"
                 ].ContainerFrame.NameLabel.Text
          then
-            firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.TeleportPart, 0)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =  v.TeleportPart.CFrame
         end
     end
 end
