@@ -414,12 +414,12 @@ spawn(
                     until v.Humanoid.Health == 0 or getgenv().Farm == false 
                 end
             end
-            for i, v in pairs(game:GetService("ReplicatedStorage")[mobs]:GetChildren()) do
+            for i, v in pairs(game:GetService("ReplicatedStorage"):GetChildren()) do
                 if v:IsA("Model") and v.Name == mobs and v:FindFirstChild("Humanoid") and v.Humanoid.Health ~= 0 then
                     repeat
                         wait()
                         local Time =
-                            (v.CFrame.p + Vector3.new(0, 0, 0) -
+                            (v.HumanoidRootPart.CFrame.p + Vector3.new(0, 0, 0) -
                             game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / getgenv().speed
                         local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
                         local Tween =
@@ -427,7 +427,7 @@ spawn(
                             game.Players.LocalPlayer.Character.HumanoidRootPart,
                             Info,
                             {
-                                CFrame = CFrame.new(v.CFrame.p + Vector3.new(0, 0, -3))
+                                CFrame = CFrame.new(v.HumanoidRootPart.CFrame.p + Vector3.new(0, 0, -3))
                             }
                         )
                         Tween:Play()
