@@ -211,34 +211,21 @@ local Section4 = Tab2:CreateSection("Background")
 
 
 if game.PlaceId == 3475397644 then
-for i, v in pairs(game:GetService("Workspace").Interactions.Plots:GetDescendants()) do
-    if v.Name == "Portal" and v:FindFirstChild("ActivePortal") then
+
+for i, v in pairs(game:GetService("Workspace").Interactions:GetDescendants()) do
+    if v:IsA("TextLabel") and v.Name:match("Player")  then
         if
-            v.ActivePortal.DefaultPortalGui.PlayerLabel.Text ==
+            v.Text ==
                 game:GetService("Players").LocalPlayer.PlayerGui.WorkspaceGui[
                     game.Players.LocalPlayer.Name .. "_DisplayGui"
                 ].ContainerFrame.NameLabel.Text 
          then
-        if not game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name .. "_Plot"]:FindFirstChild("Base") then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =  v.TeleportPart.CFrame
-        end
-        end
-    end
-end
-for i, v in pairs(game:GetService("Workspace").Interactions.Plots:GetDescendants()) do
-    if v.Name == "Portal" and v:FindFirstChild("ActivePortal") then
-        if
-            v.ActivePortal.DefaultPortalGui.PlayerLabel.Text ==
-                game:GetService("Players").LocalPlayer.PlayerGui.WorkspaceGui[
-                    game.Players.LocalPlayer.Name .. "_DisplayGui"
-                ].ContainerFrame.NameLabel.Text 
-         then
-        if not game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name .. "_Plot"]:FindFirstChild("Base") then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =  v.TeleportPart.CFrame
-        end
+             firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent.Parent.Parent.TeleportPart, 0)
+
         end
     end
 end
+
 
 repeat
     wait()
@@ -254,111 +241,6 @@ for i, v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Eggs:
     end
 end
 
-if game:GetService("Workspace").Interactions.Nodes.Harvest:FindFirstChild("Valentines") then
-
-
-
-
-
-
-local Toggle1 = Section1:CreateToggle("Auto Feed Dragons Chocolate", nil, function(State)
-okthen = State
-while wait()  and okthen do pcall(function()
-    wait()
-    Drago = {}
-for i, v in pairs(game.Players.LocalPlayer.Character.Dragons:GetChildren()) do
-    table.insert(Drago, v.Name)
-end
-    for i, v in pairs(game:GetService("Players").LocalPlayer.Data.Dragons:GetChildren()) do
-        if table.find(Drago, v.Name) and v.Chocolate.Value ~= "" then
-            game:GetService("Players").LocalPlayer.Character.Dragons:FindFirstChild(v.Name).Remotes.FeedChocolateRemote:InvokeServer(
-                v.Chocolate.Value
-            )
-        end
-    end
-    end)
-end
-end)
-
-local Toggle1 = Section1:CreateToggle("AutoMaze", nil, function(State)
-pol = State
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Interactions.ValentinesEvent.TeleportPortals.ToPortal.TeleportPart.CFrame
-
-while wait() and pol do pcall(function()
-    for i, v in pairs(game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Chocolates:GetChildren()) do
-        if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v:FindFirstChildOfClass("MeshPart").CFrame
-        end
-    end
-    y = false
-    if
-        game:GetService("Workspace").Interactions.ValentinesEvent.Maze.StartZone.CountdownGui.PromptLabel.Text ==
-            "Singleplayer Maze Minigame" and
-            not game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Chocolates:FindFirstChildOfClass("Model") and game:GetService("Players").LocalPlayer.PlayerGui.MazeGui.TopFrame.ChocolatesLabel.Visible ~= true
-     then
-        wait(2)
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-            game:GetService("Workspace").Interactions.ValentinesEvent.Maze.ReturnPart.CFrame
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-            game:GetService("Workspace").Interactions.ValentinesEvent.Maze.StartZone.CountdownPart.CFrame *
-            CFrame.new(math.random(1, 10), 0, math.random(1, 10))
-    end
-    if not game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Chocolates:FindFirstChildOfClass("Model") and   game:GetService("Players").LocalPlayer.PlayerGui.MazeGui.TopFrame.ChocolatesLabel.Visible == true  then
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Mazes["1"].TeleportPart.CFrame
-           wait(2)
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-            game:GetService("Workspace").Interactions.ValentinesEvent.Maze.Mazes["2"].TeleportPart.CFrame
-            
-    end
-
-end)
-end
-end)
-
-local Toggle1 = Section1:CreateToggle("Autocollect Valentines", nil, function(State)
-y = State
-
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Interactions.ValentinesEvent.TeleportPortals.ToPortal.TeleportPart.CFrame
-
-game:GetService("RunService").Stepped:connect(
-    function()
-        if y then
-            pcall(
-                function()
-                    game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
-                end
-            )
-        end
-    end
-)
-
-while y do
-    wait()
-    pcall(
-        function()
-             pol  = false
-            for i, v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest.Valentines.ActiveNodes:GetDescendants()) do
-                if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                        v:FindFirstChildOfClass("MeshPart").CFrame * CFrame.new(50, -3, 0)
-                    wait(1)
-                    game.Players.LocalPlayer.Character.Humanoid:MoveTo(
-                        v:FindFirstChildOfClass("MeshPart").CFrame.Position
-                    )
-                    wait(3)
-                    if not y then
-                        break
-                    end
-                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
-                    wait(20)
-                end
-            end
-        end
-    )
-end
-
-end)
-end
 
 local Toggle1 = Section1:CreateToggle("Auto Incubate Eggs", nil, function(State) 
 Incubate = State
