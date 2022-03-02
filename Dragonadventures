@@ -165,21 +165,33 @@ OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
 end)
 
 healing = {}
-for i, v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Healing:GetDescendants()) do
-    if v.ClassName == "Tool" then
-        table.insert(healing, v.Name)
+for i, v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Healing:GetChildren()) do
+     if v.ClassName == "ModuleScript" then
+       r = require(v)
+        for i,v in pairs(r) do
+        table.insert(healing, i)
+        end
     end
 end
+
+
+
 foods = {}
-for i, v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Food:GetDescendants()) do
-    if v.ClassName == "Tool" then
-        table.insert(foods, v.Name)
+for i, v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Food:GetChildren()) do
+    if v.ClassName == "ModuleScript" then
+       g = require(v)
+        for i,v in pairs(g) do
+        table.insert(foods,i)
+        end
     end
 end
 list = {}
-for i, v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Food:GetDescendants()) do
-    if v.ClassName == "Tool" then
-        table.insert(list, v.Name)
+for i, v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Food:GetChildren()) do
+        if v.ClassName == "ModuleScript" then
+       f = require(v)
+        for i,v in pairs(f) do
+        table.insert(list, i)
+        end
     end
 end
 Dragon = {}
@@ -235,32 +247,36 @@ until game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPl
 
 
 ss1 = {}
-for i, v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Eggs:GetDescendants()) do
-    if v.ClassName == "Model" then
-        table.insert(ss1, v.Name)
+for i, v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Eggs:GetChildren()) do
+          if v.ClassName == "ModuleScript" then
+       f = require(v)
+        for i,v in pairs(f) do
+        table.insert(ss1, i)
+        end
     end
 end
 
 
 local Toggle1 = Section1:CreateToggle("Auto Incubate Eggs", nil, function(State) 
 Incubate = State
-while Incubate do 
+while Incubate do
     wait()
     for i, v in pairs(
         game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name .. "_Plot"].Base.Buildings:GetDescendants(
 
         )
-    ) do 
+    ) do
         if v.Name == "Incubator" then
             if not v:FindFirstChild("Egg") then
-            v.IncubateRemote:InvokeServer(ss1)
-            end 
+                v.IncubateRemote:InvokeServer(ss1)
+            end
             if v:FindFirstChild("Egg") then
-            v.ClaimRemote:InvokeServer()
-            end 
+                v.ClaimRemote:InvokeServer()
+            end
         end
     end
 end
+
 end)
 local Dropdown1 = Section1:CreateDropdown("Select Egg")
 Dropdown1:AddToolTip("Select Egg To Incubate")
