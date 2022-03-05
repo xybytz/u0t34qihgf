@@ -37,6 +37,7 @@ game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
 end
 end)
 while pc do wait()
+pcall(function()
 game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(0,0,9000)
 game:GetService("VirtualInputManager"):SendKeyEvent(true, 49, false, game) wait(1)
 game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9,9e9))
@@ -44,6 +45,7 @@ game:GetService("VirtualInputManager"):SendKeyEvent(true, 50, false, game) wait(
 game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9,9e9))
 game:GetService("VirtualInputManager"):SendKeyEvent(true, 51, false, game) wait(1)
 game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9,9e9))
+end)
 end
 end)
 
