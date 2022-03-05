@@ -17,6 +17,7 @@ OldNameCall = hookmetamethod(game, "__namecall", function(...)
     return OldNameCall(...)
 end)
 function ToxmodsisHOT()
+    game.workspace.Gravity = 0
     game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(-51.1823959, 80.6168747, -536.437805)
     tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(30, Enum.EasingStyle.Linear)
     tween =
@@ -35,6 +36,7 @@ function ToxmodsisHOT()
         {CFrame = CFrame.new(-55.5486526, -360.063782, 9489.0498)}
     )
     tween:Play()
+    game.workspace.Gravity = 196.2
 end
 getgenv().Number = 1
 
