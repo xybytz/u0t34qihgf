@@ -32,6 +32,32 @@ OldNameCall =
     end
 )
 
+getgenv().Speed = 25
+game.Players.LocalPlayer:GetMouse().KeyDown:connect(function(v)
+	if v == "0" then --"Shift to run" 0 == shift
+		print("Running")
+		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = getgenv().Speed 
+	end
+end)
+
+game.Players.LocalPlayer:GetMouse().KeyUp:connect(function(v)
+	if v == "0" then
+		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16 
+	end
+end)
+
+local OldNameCall
+OldNameCall =
+    hookmetamethod(
+    game,
+    "__newindex",
+    function(A, B, C)
+        if (not checkcaller() and A.ClassName == "Humanoid" and (B == "WalkSpeed" or B == "JumpPower")) then
+            return
+        end
+        return OldNameCall(A, B, C)
+    end
+)
 
     
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
@@ -51,6 +77,7 @@ getgenv().Get = State
 game:GetService("RunService").Stepped:connect(
     function()
         if getgenv().Get then
+            pcall(function()
             for i, v in pairs(game:GetService("Workspace").Baddies:GetChildren()) do
                 if v:FindFirstChild("Head") then
                     v.HeadBox.Transparency = 0
@@ -58,13 +85,16 @@ game:GetService("RunService").Stepped:connect(
                     v.HeadBox.CanCollide = false
                     v.HeadBox.Anchored = true
                     v.HeadBox.Position =
-                        game.Players.LocalPlayer.Character.HumanoidRootPart.Position + Vector3.new(5, 0, 5)
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.Position + Vector3.new(5, 0, 5)
                 end
             end
+            end)
         end
     end
 )
 end)
+
+
 
 local Toggle1 = Section1:CreateToggle("GodMode", nil, function(State)
 getgenv().God = State
