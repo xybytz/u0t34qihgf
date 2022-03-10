@@ -16,13 +16,9 @@ OldNameCall =
     "__namecall",
     function(self, ...)
         local Args = {...}
-        if getgenv().InstantKill and getnamecallmethod() == "FireServer" and tostring(self) == "Damage" then
-            Args[1].Damage = 9999
-            return OldNameCall(self, unpack(Args))
-        end
         if getgenv().Wallbang and getnamecallmethod() == "FindPartOnRayWithIgnoreList" then
-        table.insert(Args[2], Map)
-        table.insert(Args[2], Interact)
+        table.insert(Args[2], game.GetService(game, 'Workspace').Ignore)
+        table.insert(Args[2], game.GetService(game, 'Workspace').Map)
         end 
         if getnamecallmethod() == "FireServer" and self.Name == "SendData" then
         return nil
@@ -59,11 +55,14 @@ OldNameCall =
     end
 )
 
+
+
+
     
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
-local Tab1 = Window:CreateTab("Anime Rifts")
+local Tab1 = Window:CreateTab("Project Larus")
 local Tab2 = Window:CreateTab("UI Settings")
 
 local Section1 = Tab1:CreateSection("")
@@ -98,10 +97,11 @@ end)
 
 local Toggle1 = Section1:CreateToggle("GodMode", nil, function(State)
 getgenv().God = State
+game.Players.LocalPlayer.Character.Humanoid.Health = 0
 game:GetService("RunService").Stepped:connect(
     function()
         if getgenv().God then
-            if game.Players.LocalPlayer.Character:FindFirstChild("Health") then
+            if game.Players.LocalPlayer.Character:FindFirstChild("Health") and game.Players.LocalPlayer.Character.Humanoid.Changed:wait(2) and game.Players.LocalPlayer.Character.Humanoid.Health ~= 0 then
                 game.Players.LocalPlayer.Character:WaitForChild("Health"):remove()
             end
         end
@@ -191,7 +191,7 @@ for i, v in pairs(game.Players.LocalPlayer:WaitForChild("Backpack"):GetChildren(
 end
 game.Players.LocalPlayer:WaitForChild("Backpack").ChildAdded:Connect(
     function(v)
-        if v.Name == "Weapon1" or v.Name == "Weapon2" or v.Name == "Weapon3" then
+        if v.Name == "Weapon1" or v.Name == "Weapon2" or v.Name == "Weapon3" then wait()
             local o = require(v)
             if getgenv().InfiniteAmmo then
             local o = require(v)
@@ -206,7 +206,7 @@ end)
 local Toggle1 = Section1:CreateToggle("Fast FireRate", nil, function(State)
 getgenv().Firerate = State
 for i, v in pairs(game.Players.LocalPlayer:WaitForChild("Backpack"):GetChildren()) do
-    if v.Name == "Weapon1" or v.Name == "Weapon2" or v.Name == "Weapon3" then
+    if v.Name == "Weapon1" or v.Name == "Weapon2" or v.Name == "Weapon3" then wait()
         local o = require(v)
         o.Semi = false
         o.FireTime = 0
@@ -214,7 +214,7 @@ for i, v in pairs(game.Players.LocalPlayer:WaitForChild("Backpack"):GetChildren(
 end
 game.Players.LocalPlayer:WaitForChild("Backpack").ChildAdded:Connect(
     function(v)
-        if v.Name == "Weapon1" or v.Name == "Weapon2" or v.Name == "Weapon3" then
+        if v.Name == "Weapon1" or v.Name == "Weapon2" or v.Name == "Weapon3" then wait()
             local o = require(v)
             if getgenv().Firerate then
             local o = require(v)
@@ -229,7 +229,7 @@ end)
 local Toggle1 = Section1:CreateToggle("WallBang", nil, function(State)
 getgenv().Wallbang = State
 for i, v in pairs(game.Players.LocalPlayer:WaitForChild("Backpack"):GetChildren()) do
-    if v.Name == "Weapon1" or v.Name == "Weapon2" or v.Name == "Weapon3" then
+    if v.Name == "Weapon1" or v.Name == "Weapon2" or v.Name == "Weapon3" then wait()
         local o = require(v)
         o.BulletPenetration = 420.0
     end
@@ -237,7 +237,7 @@ end
 
 game.Players.LocalPlayer:WaitForChild("Backpack").ChildAdded:Connect(
     function(v)
-        if v.Name == "Weapon1" or v.Name == "Weapon2" or v.Name == "Weapon3" then
+        if v.Name == "Weapon1" or v.Name == "Weapon2" or v.Name == "Weapon3" then wait()
             local o = require(v)
             if getgenv().Wallbang then
                 o.BulletPenetration = 420.0
@@ -249,7 +249,7 @@ end)
 local Toggle1 = Section1:CreateToggle("No Spread", nil, function(State)
 getgenv().Spread = State
 for i, v in pairs(game.Players.LocalPlayer:WaitForChild("Backpack"):GetChildren()) do
-    if v.Name == "Weapon1" or v.Name == "Weapon2" or v.Name == "Weapon3" then
+    if v.Name == "Weapon1" or v.Name == "Weapon2" or v.Name == "Weapon3" then wait()
         local o = require(v)
         if getgenv().Spread then
             o.Spread.Min = 0
@@ -259,7 +259,7 @@ for i, v in pairs(game.Players.LocalPlayer:WaitForChild("Backpack"):GetChildren(
 end
 game.Players.LocalPlayer:WaitForChild("Backpack").ChildAdded:Connect(
     function(v)
-        if v.Name == "Weapon1" or v.Name == "Weapon2" or v.Name == "Weapon3" then
+        if v.Name == "Weapon1" or v.Name == "Weapon2" or v.Name == "Weapon3" then wait()
             if getgenv().Spread then
                 o.Spread.Min = 0
                 o.Spread.Max = 0
@@ -268,6 +268,8 @@ game.Players.LocalPlayer:WaitForChild("Backpack").ChildAdded:Connect(
     end
 )
 end)
+
+
 
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 ESP:AddObjectListener(game:GetService("Workspace").Baddies, {
