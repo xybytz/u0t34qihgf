@@ -8,13 +8,15 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 local OldNameCall = nil
-OldNameCall = hookmetamethod(game, "__namecall", function(...)
+OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
     local Args = {...}
-    local Self = Args[1]
-    if getnamecallmethod()=="FireServer" and tostring(Self)=="SendData" then
+    if getnamecallmethod()=="FireServer" and tostring(self)=="SendData" then
             return nil
     end
-    return OldNameCall(...)
+    if getnamecallmethod()=="BreakJoints" then
+            return false
+    end
+    return OldNameCall(self, ...)
 end)
 
 game:GetService('RunService').Stepped:connect(function()
@@ -23,24 +25,23 @@ game.Players.LocalPlayer.Character:FindFirstChild("Move")
 game.Players.LocalPlayer.Character.Move:remove()
 end) end) 
 
-
 local accessories = {}
 function GodMode()
     if game.Players.LocalPlayer.Character then
-        if game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
-            for _, accessory in pairs(game.Players.LocalPlayer.Character.Humanoid:GetAccessories()) do
+        if game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+            for _, accessory in pairs(game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):GetAccessories()) do
                 table.insert(accessories, accessory:Clone())
             end
-            game.Players.LocalPlayer.Character.Humanoid.Name = "deku"
+            game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").Name = "deku"
         end
         local v = game.Players.LocalPlayer.Character["deku"]:Clone()
         v.Parent = game.Players.LocalPlayer.Character
         v.Name = "Humanoid"
         wait(0.1)
         game.Players.LocalPlayer.Character["deku"]:Destroy()
-        workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character.Humanoid
+        workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
         for _, accessory in pairs(accessories) do
-            game.Players.LocalPlayer.Character.Humanoid:AddAccessory(accessory)
+            game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):AddAccessory(accessory)
         end
         game.Players.LocalPlayer.Character.Animate.Disabled = true
         wait(0.1)
@@ -72,24 +73,28 @@ local Section4 = Tab2:CreateSection("Background")
 
 local Toggle1 = Section1:CreateToggle("AutoFarm", nil, function(State)
 autofarm = State
+game:GetService('RunService').Stepped:connect(function()
+pcall(function()
+if autofarm then
+game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(11)
+end
+end) end)
 while autofarm do wait()
 pcall(function()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(183.00367736816, 147.98768615723, -29.190372467041)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-38, 300, 29)
 
 tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(5, Enum.EasingStyle.Linear)
-tween = tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(194.23913574219, 147.98768615723, 249.15061950684)})
-tween:Play() wait(5)
-
-tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(5, Enum.EasingStyle.Linear)
-tween = tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(-91.719169616699, 147.98768615723, 241.94903564453)})
+tween = tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(-39, 300, 182)})
 tween:Play() wait(5)
 
 tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(5, Enum.EasingStyle.Linear)
-tween = tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(-89.401222229004, 147.98768615723, -31.243858337402)})
+tween = tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(120, 300, 25)})
 tween:Play() wait(5)
+
 tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(5, Enum.EasingStyle.Linear)
-tween = tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(193.96499633789, 147.98768615723, -26.163602828979)})
+tween = tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(-38, 300, 29)})
 tween:Play() wait(5)
+
 end)
 end end)
 
