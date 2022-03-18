@@ -233,7 +233,9 @@ while getgenv().AutoMobs do
                                     end
                                     game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", true)
                                     game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", false)
+                                    if isnetworkowner(v.HumanoidRootPart) and v.Humanoid.Health < v.Humanoid.MaxHealth then
                                     v.Humanoid.Health = 0
+                                    end 
                                 end
                             )
                         end
@@ -247,7 +249,62 @@ end
 
 end)
 
+local Toggle1 = Section1:CreateToggle("AutoFarm Boss", nil, function(State)
+getgenv().KO = State
+game:GetService("RunService").Stepped:connect(
+    function()
+        if getgenv().KO then
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+        end
+    end
+)
 
+while getgenv().KO do
+    pcall(
+        function()
+            wait()
+            repeat
+                wait()
+                for i, v in pairs(game:GetService("Workspace").bossdropmission.missions:GetChildren()) do
+                    for i, v in pairs(v:GetChildren()) do
+                        if v:IsA("Model") and v:FindFirstChild("Head") then
+                            if mission.Visible == false then
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                    v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
+                                wait(0.3)
+                                v:FindFirstChild("CLIENTTALK"):FireServer()
+                                v:FindFirstChild("CLIENTTALK"):FireServer("accept")
+                                wait(0.5)
+                            end
+                        end
+                    end
+                end
+            until getgenv().KO == false or mission.Visible == true
+            repeat
+                wait()
+                for i, v in pairs(game:GetService("Workspace").npc:GetChildren()) do
+                    if
+                        v.ClassName == "Model" and v:FindFirstChild("npctype") and
+                            string.find(mission.bg.name.Text, v.Head.mob.fram.name.info.Text)
+                     then
+                        if mission.Visible == true then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                v.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0)
+                            game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", true)
+                            game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", false)
+                            if v.Humanoid.Health < v.Humanoid.MaxHealth and isnetworkowner(v.HumanoidRootPart) then
+                                v.Humanoid.Health = 0
+                            end
+                        end
+                    end
+                end
+            until getgenv().KO == false or mission.Visible == false and v.Humanoid.Health == 0 and v
+        end
+    )
+end
+
+
+end)
 if setclipboard then
 local Toggle1 = Section1:CreateToggle("Vip Servers", nil, function(State)
 setclipboard("-E0BJK 0Skr9C 1Isuub 2tgOb8 2vy3Dn 7rTU-A 7v09lz 8CGAZH BcBuAN CI98Au Do2o8A JFDOST KFXSrq QeR2eN Qratoy RRu4E7 Rjb0rQ SbFkZm TVDDoU WY4chE _5_oXy cJ7LIe cdv9R4 dBNARC dG5Y-3 fLe-Az hnI8qv nWv2xH puv68h sCCXqk tkqyBR v5-9u3 w1wF1v zfU90r")
@@ -298,7 +355,9 @@ while wait() and getgenv().Jin do
                             v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 0)
                             game.Players.LocalPlayer.Character.combat.update:FireServer("mouse1", true)
                             game.Players.LocalPlayer.Character.combat.update:FireServer("mouse1", false)
-                        v.Humanoid.Health = 0
+                         if isnetworkowner(v.HumanoidRootPart) and v.Humanoid.Health < v.Humanoid.MaxHealth then
+                            v.Humanoid.Health = 0
+                        end 
                     end
                 )
             until v.Humanoid.Health == 0 or not v or not getgenv().Jin
@@ -334,7 +393,9 @@ while getgenv().War do
                         game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", false)
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                         v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
-                    v.Humanoid.Health = 0
+                     if isnetworkowner(v.HumanoidRootPart) and v.Humanoid.Health < v.Humanoid.MaxHealth then
+                                    v.Humanoid.Health = 0
+                                    end 
                 elseif
                     v.ClassName == "Model" and v:FindFirstChild("npc") and string.find(v.Name, "npc") and
                         v:FindFirstChild("HumanoidRootPart") and
@@ -347,7 +408,9 @@ while getgenv().War do
                         game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", false)
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                         v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
-                    v.Humanoid.Health = 0
+                     if isnetworkowner(v.HumanoidRootPart) and v.Humanoid.Health < v.Humanoid.MaxHealth then
+                                    v.Humanoid.Health = 0
+                                    end 
                 end
             end
 end)
