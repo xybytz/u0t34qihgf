@@ -7,11 +7,12 @@ repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
-  game:GetService("RunService").Stepped:connect(
-            function()
-                sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
-            end
-        )
+game:GetService("RunService").Stepped:connect(
+    function()
+        sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
+    end
+)
+
 local OldNameCall
 OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
     if not checkcaller()  and (B == "WalkSpeed" or B == "JumpPower") then
@@ -33,11 +34,6 @@ game:GetService("RunService").Stepped:connect(function()
                         v:remove()
                     end
                 end
-            end
-        )
-        pcall(
-            function()
-                sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
             end
         )
         if game:GetService("Workspace"):FindFirstChild("CCoff") then
@@ -200,7 +196,7 @@ while getgenv().AutoMobs do
                             pcall(
                                 function()
                                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                                        v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
+                                        v.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0)
                                         wait(0.3)
                                     v:FindFirstChild("CLIENTTALK"):FireServer()
                                     v:FindFirstChild("CLIENTTALK"):FireServer("accept") wait(0.5)
@@ -227,7 +223,7 @@ while getgenv().AutoMobs do
                             pcall(
                                 function() wait(0.2)
                                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                                        v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
+                                        v.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0)
                                     if v:FindFirstChild("antiexploit") then
                                         v.antiexploit:remove()
                                     end
@@ -270,7 +266,7 @@ while getgenv().KO do
                         if v:IsA("Model") and v:FindFirstChild("Head") then
                             if mission.Visible == false then
                                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                                    v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
+                                    v.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0)
                                 wait(0.3)
                                 v:FindFirstChild("CLIENTTALK"):FireServer()
                                 v:FindFirstChild("CLIENTTALK"):FireServer("accept")
@@ -287,9 +283,12 @@ while getgenv().KO do
                         v.ClassName == "Model" and v:FindFirstChild("npctype") and
                             string.find(mission.bg.name.Text, v.Head.mob.fram.name.info.Text)
                      then
-                        if mission.Visible == true then
+                        if mission.Visible == true then 
                             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                                 v.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0)
+                            if v:FindFirstChild("antiexploit") then
+                            v.antiexploit:remove()
+                            end
                             game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", true)
                             game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", false)
                             if v.Humanoid.Health < v.Humanoid.MaxHealth and isnetworkowner(v.HumanoidRootPart) then
@@ -369,7 +368,6 @@ end)
 local Toggle1 = Section1:CreateToggle("AutoWar", nil, function(State)
 getgenv().War = State
 
-
 game:GetService("RunService").Stepped:connect(
     function()
         if getgenv().War then
@@ -379,8 +377,10 @@ game:GetService("RunService").Stepped:connect(
 )
 
 while getgenv().War do
-    wait()pcall(function()   
-        for i, v in pairs(workspace.npc:GetChildren()) do
+    wait()
+    pcall(
+        function()
+            for i, v in pairs(workspace.npc:GetChildren()) do
                 if
                     v.ClassName == "Model" and v:FindFirstChild("npc") and string.find(v.Name, "npc") and
                         v:FindFirstChild("HumanoidRootPart") and
@@ -388,14 +388,13 @@ while getgenv().War do
                         v.Head.CFrame.Y > -1000 and
                         not v:FindFirstChild("megaboss")
                  then
-
-                        game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", true)
-                        game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", false)
+                    game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", true)
+                    game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", false)
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                        v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
-                     if isnetworkowner(v.HumanoidRootPart) and v.Humanoid.Health < v.Humanoid.MaxHealth then
-                                    v.Humanoid.Health = 0
-                                    end 
+                        v.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0)
+                    if isnetworkowner(v.HumanoidRootPart) and v.Humanoid.Health < v.Humanoid.MaxHealth then
+                        v.Humanoid.Health = 0
+                    end
                 elseif
                     v.ClassName == "Model" and v:FindFirstChild("npc") and string.find(v.Name, "npc") and
                         v:FindFirstChild("HumanoidRootPart") and
@@ -404,17 +403,19 @@ while getgenv().War do
                         v:FindFirstChild("megaboss")
                  then
                     wait(6)
-                        game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", true)
-                        game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", false)
+                    game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", true)
+                    game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", false)
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                        v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
-                     if isnetworkowner(v.HumanoidRootPart) and v.Humanoid.Health < v.Humanoid.MaxHealth then
-                                    v.Humanoid.Health = 0
-                                    end 
+                        v.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0)
+                    if isnetworkowner(v.HumanoidRootPart) and v.Humanoid.Health < v.Humanoid.MaxHealth then
+                        v.Humanoid.Health = 0
+                    end
                 end
             end
-end)
+        end
+    )
 end
+
 end)
 
 local Toggle1 = Section1:CreateToggle("ScrollFarm", nil, function(State)
