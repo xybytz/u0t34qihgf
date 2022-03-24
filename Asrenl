@@ -803,6 +803,7 @@ Section3:CreateLabel("Credits DekuDimz#7960")
 Section3:CreateLabel("Credits AlexR32#3232 Ui")
 Section3:CreateLabel("Credits The3Bakers")
 Section3:CreateLabel("Credits snake587")
+Section3:CreateLabel("Credits Bye...")
 
 local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
 	Window:ChangeColor(Color)
