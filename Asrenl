@@ -4,10 +4,6 @@ local Config = {
 	Keybind = Enum.KeyCode.RightControl
 }
 
-function SwitchToKnife()
-game:GetService("VirtualInputManager"):SendKeyEvent(true, 51, false, game)
-game:GetService("VirtualInputManager"):SendKeyEvent(false, 51, false, game)	
-end
 
 function NoGui()
 game.Players.LocalPlayer.PlayerGui.GUI.Enabled = true
@@ -23,27 +19,7 @@ OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
     end
     return OldNameCall(A, B, ...)
 end)
-function GetPart()
-    if getgenv().AimPart == 'Head' then
-        return 'Head'
-    end
-    if getgenv().AimPart == 'HumanoidRootPart' then
-        return 'HumanoidRootPart'
-    end
-    if getgenv().AimPart == 'UpperTorso' then
-        return 'UpperTorso'
-    end
-    if getgenv().AimPart == 'LowerTorso' then
-        return 'LowerTorso'
-    end
-    if getgenv().AimPart == 'Random' then
-        if math.random(1,4) == 1 then
-            return 'Head'
-        else
-            return 'HumanoidRootPart'
-        end
-    end
-end
+
 
 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 23 
 game.Players.LocalPlayer.Character.Humanoid.JumpPower = 15
