@@ -75,7 +75,7 @@ game:GetService("RunService").Stepped:connect(function()
 pcall(function()
 Dungon = {}
 for i=1,15 do 
-table.insert(Dungon,"Dungeon"..i)
+table.insert(Dungon,"dungeon"..i)
 end 
 end)
 local player = game.Players.LocalPlayer
