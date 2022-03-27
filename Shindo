@@ -114,7 +114,6 @@ end)
 
 end
 
-if game.Players.LocalPlayer.Character then
 local Toggle1 = Section1:CreateToggle("AutoFarm Logs", Settings.Logs, function(State)
 Settings.Logs = State
 game:GetService("RunService").Stepped:connect(
@@ -585,7 +584,7 @@ end
 end)
 
 end -- where it stops
-end
+
 if game.PlaceId == 4616652839 then
 
 local Toggle1 = Section1:CreateToggle("Auto Element Slot 1", Settings.Element1, function(State)
