@@ -17,7 +17,7 @@ OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
                  Args[7] = Vector3.new(2, 2, 1)
             end
         end
-    return OldNameCall(self, table.unpack(Args))
+    return OldNameCall(self, unpack(Args))
 end)
 
 local Name = "Assassin.txt"
@@ -96,8 +96,8 @@ local Mouse = LocalPlayer:GetMouse()
 function ClosestPlayerToCurser()
     local MaxDistance, Closest = math.huge
     for i,v in pairs(Players.GetPlayers(Players)) do
-        if v ~= LocalPlayer  and game.Workspace[v.Name]  then
-            local H = game.Workspace[v.Name].FindFirstChild(game.Workspace[v.Name], "Head")
+        if v ~= LocalPlayer then
+            local H = game.Workspace.CurrentCamera.FindFirstChild(game.Workspace[v.Name], "Head")
             if H then 
                 local Pos, Vis = workspace.CurrentCamera.WorldToScreenPoint(workspace.CurrentCamera, H.Position)
                 if Vis then
@@ -120,7 +120,7 @@ OldNameCall = hookmetamethod(game, "__namecall", function(self,...)
     if getnamecallmethod() == "FindPartOnRayWithIgnoreList" and not checkcaller() and  Settings.SilentAim  then
         local GivemeHead = ClosestPlayerToCurser()
         if GivemeHead then 
-            Args[1] = Ray.new(workspace.CurrentCamera.CFrame.Position, (game.Workspace[GivemeHead].Torso.Position - workspace.CurrentCamera.CFrame.Position).Unit * 1000)
+            Args[1] = Ray.new(workspace.CurrentCamera.CFrame.Position, (game.Workspace[GivemeHead].HumanoidRootPart.Position - workspace.CurrentCamera.CFrame.Position).Unit * 1000)
             return OldNameCall(self, unpack(Args))
         end
     end
