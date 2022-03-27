@@ -179,6 +179,31 @@ game:GetService("UserInputService").JumpRequest:connect(
 end)
 
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
+ESP.Overrides.GetColor = function(v) 
+if v ~= game.Players.LocalPlayer then
+if PlayerGui.ScreenGui.UI.Target.TargetText.Text == v.Name then return Color3.fromRGB(255,0,0) end
+end 
+end
+
+ESP:AddObjectListener(game:GetService("Workspace"), {
+    Color =  Color3.new(0,255,0),
+    Type = "Model",
+    PrimaryPart = function(v)
+        local H = v:FindFirstChild("HumanoidRootPart")
+        while not H do
+            wait()
+            H = v:FindFirstChild("HumanoidRootPart")
+        end
+        return H
+    end,
+    Validator = function(v)
+        return not game.Players:GetPlayerFromCharacter(v)
+    end,
+    CustomName = function(v)
+        return  v.Name
+    end,
+    IsEnabled = "Players",
+})
 
 local Toggle1 = Section1:CreateToggle("Enable Esp", Settings.Esp, function(State)
     Settings.Esp = State
