@@ -16,7 +16,9 @@ game:GetService("RunService").Stepped:connect(
 if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Main") then
 repeat wait() until game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("Main") 
 end
-
+if game.Players.LocalPlayer.Character then
+repeat wait() until game.Players.LocalPlayer.Character
+end
 local Name = "Shindo.txt"
 
 Des = {}
