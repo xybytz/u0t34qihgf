@@ -180,9 +180,7 @@ end)
 
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 ESP.Overrides.GetColor = function(v) 
-if v ~= game.Players.LocalPlayer then
 if v.PlayerGui.ScreenGui.UI.Target.TargetText.Text == v.Name then return Color3.fromRGB(255,0,0) end
-end 
 end
 
 ESP:AddObjectListener(game:GetService("Workspace"), {
