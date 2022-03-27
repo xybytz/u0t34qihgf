@@ -13,17 +13,35 @@ game:GetService("RunService").Stepped:connect(
     end
 )
 
-local OldNameCall
-OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
-    if not checkcaller()  and (B == "WalkSpeed" or B == "JumpPower") then
-        return
-    end
-    return OldNameCall(A, B, ...)
-end)
+
 repeat wait() until game:GetService("Players").LocalPlayer.Character
 repeat wait() until game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("Main") wait(2)
-game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50
-game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
+
+
+local Name = "Shindo.txt"
+
+Des = {}
+if makefolder then
+    makefolder("V.G Hub")
+end
+
+local Settings
+
+if
+    not pcall(
+        function()
+            readfile("V.G Hub//" .. Name)
+        end
+    )
+ then
+    writefile("V.G Hub//" .. Name, game:service "HttpService":JSONEncode(Des))
+end
+
+Settings = game:service "HttpService":JSONDecode(readfile("V.G Hub//" .. Name))
+
+local function Save()
+    writefile("V.G Hub//" .. Name, game:service "HttpService":JSONEncode(Settings))
+end
 
 game:GetService("UserInputService").MouseIconEnabled = true
 game:GetService("UserInputService").MouseBehavior = Enum.MouseBehavior.Default
@@ -57,7 +75,7 @@ game:GetService("RunService").Stepped:connect(function()
 
 local player = game.Players.LocalPlayer
 local mission = game.Players.LocalPlayer.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory")
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 local Tab1 = Window:CreateTab("")
 local Tab2 = Window:CreateTab("UI Settings")
@@ -68,22 +86,20 @@ local SectionA = Tab1:CreateSection("")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 
-if game.PlaceId == 7534339269 then
-local Toggle1 = Section1:CreateToggle("AutoFarm event", nil, function(State)
 
-end) end 
 if game.PlaceId ~= 4616652839 then
-local Toggle1 = Section1:CreateToggle("AutoFarm Logs", nil, function(State)
-getgenv().AutoFarm = State
+local Toggle1 = Section1:CreateToggle("AutoFarm Logs", Settings.Logs, function(State)
+Settings.Logs = State
 game:GetService("RunService").Stepped:connect(
     function()
-        if getgenv().AutoFarm then
+        if Settings.Logs then
             game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
         end
     end
 )
 
-while getgenv().AutoFarm do
+spawn(function()
+while Settings.Logs do
     wait()
     pcall(
         function()
@@ -94,7 +110,7 @@ while getgenv().AutoFarm do
         end
     )
 end
-
+end)
 end)
 
 
@@ -136,17 +152,18 @@ while getgenv().AutoCandy do
 end
 end)]]--
 
-local Toggle1 = Section1:CreateToggle("Event Bosses", nil, function(State)
-getgenv().DD = State
+local Toggle1 = Section1:CreateToggle("Event Bosses", Settings.EventBosses, function(State)
+Settings.EventBosses = State
 
 game:GetService("RunService").Stepped:connect(
     function()
-        if getgenv().DD then
+        if Settings.EventBosses then
             game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
         end
     end
 )
-while wait() and getgenv().DD do
+spawn(function()
+while wait() and Settings.EventBosses do
     for i, v in pairs(game:GetService("Workspace").npc:GetChildren()) do
         if v.Name == "npc1" then
             repeat
@@ -159,17 +176,18 @@ while wait() and getgenv().DD do
                         game.Players.LocalPlayer.Character.combat.update:FireServer("mouse1", false)
                         end
                 )
-            until v.Humanoid.Health == 0 or not v or not getgenv().DD
+            until v.Humanoid.Health == 0 or not v or not Settings.EventBosses
         end
     end
 end
 end)
+end)
 
-local Toggle1 = Section1:CreateToggle("AutoFarm Mobs", nil, function(State)
-getgenv().AutoMobs = State
+local Toggle1 = Section1:CreateToggle("AutoFarm Mobs", Settings.AutoMobs, function(State)
+Settings.AutoMobs = State
 game:GetService("RunService").Stepped:connect(
     function()
-        if getgenv().AutoMobs then pcall(function()
+        if Settings.AutoMobs then pcall(function()
             j = string.split(mission.bg.name.Text, "(s)")[1]
 
             game.Players.LocalPlayer.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").bg.name.Text =
@@ -180,7 +198,8 @@ game:GetService("RunService").Stepped:connect(
         end
     end
 )
-while getgenv().AutoMobs do
+spawn(function()
+while Settings.AutoMobs do
     wait()
     pcall(
         function()
@@ -205,7 +224,7 @@ while getgenv().AutoMobs do
                         end
                     end
                 end
-            until getgenv().AutoMobs == false or mission.Visible == true
+            until Settings.AutoMobs == false or mission.Visible == true
             repeat
                 wait()
                 if mission.Visible == true then
@@ -238,24 +257,24 @@ while getgenv().AutoMobs do
                     end
                 end
                
-            until getgenv().AutoMobs == false or mission.Visible == false and v.Humanoid.Health == 0 and v
+            until Settings.AutoMobs == false or mission.Visible == false and v.Humanoid.Health == 0 and v
         end
     )
 end
-
+end)
 end)
 
-local Toggle1 = Section1:CreateToggle("AutoFarm Boss", nil, function(State)
-getgenv().KO = State
+local Toggle1 = Section1:CreateToggle("AutoFarm Boss", Settings.Bosses, function(State)
+Settings.Bosses = State
 game:GetService("RunService").Stepped:connect(
     function()
-        if getgenv().KO then
+        if Settings.Bosses then
             game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
         end
     end
 )
 
-while getgenv().KO do
+while Settings.Bosses do
     pcall(
         function()
             wait()
@@ -275,7 +294,7 @@ while getgenv().KO do
                         end
                     end
                 end
-            until getgenv().KO == false or mission.Visible == true
+            until Settings.Bosses == false or mission.Visible == true
             repeat
                 wait()
                 for i, v in pairs(game:GetService("Workspace").npc:GetChildren()) do
@@ -297,7 +316,7 @@ while getgenv().KO do
                         end
                     end
                 end
-            until getgenv().KO == false or mission.Visible == false and v.Humanoid.Health == 0 and v
+            until Settings.Bosses == false or mission.Visible == false and v.Humanoid.Health == 0 and v
         end
     )
 end
@@ -305,13 +324,13 @@ end
 
 end)
 if setclipboard then
-local Toggle1 = Section1:CreateToggle("Vip Servers", nil, function(State)
+local Button1 = Section1:CreateButton("Copy Vip Server Codes", function()
 setclipboard("-E0BJK 0Skr9C 1Isuub 2tgOb8 2vy3Dn 7rTU-A 7v09lz 8CGAZH BcBuAN CI98Au Do2o8A JFDOST KFXSrq QeR2eN Qratoy RRu4E7 Rjb0rQ SbFkZm TVDDoU WY4chE _5_oXy cJ7LIe cdv9R4 dBNARC dG5Y-3 fLe-Az hnI8qv nWv2xH puv68h sCCXqk tkqyBR v5-9u3 w1wF1v zfU90r")
 end)
 end
-local Toggle1 = Section1:CreateToggle("AutoRank", nil, function(State)
-getgenv().Rank = State
-while wait() and getgenv().Rank do
+local Toggle1 = Section1:CreateToggle("AutoRank", Settings.Rebirth, function(State)
+Settings.Rebirth = State
+while wait() and Settings.Rebirth do
     if game.Players.LocalPlayer.statz.lvl:FindFirstChild("lvl").Value >= 500 then
         if
             game.Players.LocalPlayer.statz.prestige.maxlvlpres.Value >= 1 or
@@ -322,28 +341,28 @@ while wait() and getgenv().Rank do
             repeat
                 wait(0.5)
                 game.Players.LocalPlayer.startevent:FireServer("maxlvlpres")
-            until game.Players.LocalPlayer.statz.lvl:FindFirstChild("lvl").Value == 1 or not getgenv().Rank
+            until game.Players.LocalPlayer.statz.lvl:FindFirstChild("lvl").Value == 1 or not Settings.Rebirth
         else
             repeat
                 wait(0.5)
                 game.Players.LocalPlayer.startevent:FireServer("rankup")
-            until game.Players.LocalPlayer.statz.lvl:FindFirstChild("lvl").Value == 1 or not getgenv().Rank
+            until game.Players.LocalPlayer.statz.lvl:FindFirstChild("lvl").Value == 1 or not Settings.Rebirth
         end
     end
 end
 end)
 
-local Toggle1 = Section1:CreateToggle("jinfarm", nil, function(State)
-getgenv().Jin = State
+local Toggle1 = Section1:CreateToggle("jinfarm", Settings.Jin, function(State)
+Settings.Jin = State
 
 game:GetService("RunService").Stepped:connect(
     function()
-        if getgenv().Jin then
+        if Settings.Jin then
             game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
         end
     end
 )
-while wait() and getgenv().Jin do
+while wait() and Settings.Jin do
     for i, v in pairs(game:GetService("Workspace").npc:GetChildren()) do
         if v.Name == "npc1" then
             repeat
@@ -359,24 +378,24 @@ while wait() and getgenv().Jin do
                         end 
                     end
                 )
-            until v.Humanoid.Health == 0 or not v or not getgenv().Jin
+            until v.Humanoid.Health == 0 or not v or not Settings.Jin
         end
     end
 end
 end)
 
-local Toggle1 = Section1:CreateToggle("AutoWar", nil, function(State)
-getgenv().War = State
+local Toggle1 = Section1:CreateToggle("AutoWar", Settings.War, function(State)
+Settings.War = State
 
 game:GetService("RunService").Stepped:connect(
     function()
-        if getgenv().War then
+        if Settings.War then
             game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
         end
     end
 )
 
-while getgenv().War do
+while Settings.War do
     wait()
     pcall(
         function()
@@ -418,9 +437,9 @@ end
 
 end)
 
-local Toggle1 = Section1:CreateToggle("ScrollFarm", nil, function(State)
-getgenv().Scroll = State
-while getgenv().Scroll do
+local Toggle1 = Section1:CreateToggle("ScrollFarm", Settings.Scroll, function(State)
+Settings.Scroll = State
+while Settings.Scroll do
     wait()
     pcall(
         function()
@@ -447,34 +466,34 @@ while getgenv().Scroll do
 end
 end)
 
-local Toggle1 = Section1:CreateToggle("Auto Upgrade Health", nil, function(State)
-woo3 = State
-while woo3 do
+local Toggle1 = Section1:CreateToggle("Auto Upgrade Health", Settings.Health, function(State)
+Settings.Health = State
+while Settings.Health do
     wait()
     game:GetService("Players").LocalPlayer.startevent:FireServer("addstat", "health", 5)
 end
 end)
 
-local Toggle1 = Section1:CreateToggle("Auto Upgrade Ninjutsu", nil, function(State)
-woo2 = State
-while woo2 do
+local Toggle1 = Section1:CreateToggle("Auto Upgrade Ninjutsu", Settings.Ninjutsu, function(State)
+Settings.Ninjutsu = State
+while Settings.Ninjutsu do
     wait()
     game:GetService("Players").LocalPlayer.startevent:FireServer("addstat", "ninjutsu", 5)
 end
 end)
 
 
-local Toggle1 = Section1:CreateToggle("Auto Upgrade Taijutsu", nil, function(State)
-woo1 = State
-while woo1 do
+local Toggle1 = Section1:CreateToggle("Auto Upgrade Taijutsu", Settings.Taijutsu, function(State)
+Settings.Taijutsu = State
+while Settings.Taijutsu do
     wait()
     game:GetService("Players").LocalPlayer.startevent:FireServer("addstat", "taijutsu", 5)
 end
 end)
 
-local Toggle1 = Section1:CreateToggle("Auto Upgrade Chakra", nil, function(State)
-woo = State
-while woo do
+local Toggle1 = Section1:CreateToggle("Auto Upgrade Chakra", Settings.Chakra, function(State)
+Settings.Chakra = State
+while Settings.Chakra do
     wait()
     game:GetService("Players").LocalPlayer.startevent:FireServer("addstat", "chakra", 5)
 end
@@ -484,9 +503,9 @@ end -- where it stops
 
 if game.PlaceId == 4616652839 then
 
-local Toggle1 = Section1:CreateToggle("Auto Element Slot 1", nil, function(State)
-karma = State
-while karma do
+local Toggle1 = Section1:CreateToggle("Auto Element Slot 1", Settings.Element1, function(State)
+Settings.Element1 = State
+while Settings.Element1 do
     wait()
     game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "element1")
     game.StarterGui:SetCore(
@@ -500,9 +519,9 @@ while karma do
 end
 end)
 
-local Toggle1 = Section1:CreateToggle("Auto Element Slot 2", nil, function(State)
-karma1 = State
-while karma1 do
+local Toggle1 = Section1:CreateToggle("Auto Element Slot 2", Settings.Element11, function(State)
+Settings.Element11 = State
+while Settings.Element11 do
     wait()
     game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "element2")
 
@@ -517,9 +536,9 @@ while karma1 do
 end
 end)
 
-local Toggle1 = Section1:CreateToggle("Auto Element Slot 3", nil, function(State)
-karma2 = State
-while karma2 do
+local Toggle1 = Section1:CreateToggle("Auto Element Slot 3", Settings.Element12, function(State)
+Settings.Element12 = State
+while Settings.Element12 do
     wait()
     game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "element3")
     game.StarterGui:SetCore(
@@ -533,9 +552,9 @@ while karma2 do
 end
 end)
 
-local Toggle1 = Section1:CreateToggle("Auto Element Slot 4", nil, function(State)
-karma4 = State
-while karma4 do
+local Toggle1 = Section1:CreateToggle("Auto Element Slot 4", Settings.Element14, function(State)
+Settings.Element14 = State
+while Settings.Element14 do
     wait()
     game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "element4")
     game.StarterGui:SetCore(
@@ -550,9 +569,9 @@ end
 end)
 
 
-local Toggle1 = Section1:CreateToggle("Auto BloodLine Slot 1", nil, function(State)
-blood = State
-while blood do
+local Toggle1 = Section1:CreateToggle("Auto BloodLine Slot 1", Settings.Blood, function(State)
+Settings.Blood = State
+while Settings.Blood do
     wait()
     game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "kg1")
     game.StarterGui:SetCore(
@@ -566,9 +585,9 @@ while blood do
 end
 end)
 
-local Toggle1 = Section1:CreateToggle("Auto BloodLine Slot 2", nil, function(State)
-blood1 = State
-while blood1 do
+local Toggle1 = Section1:CreateToggle("Auto BloodLine Slot 2", Settings.Blood1, function(State)
+Settings.Blood1 = State
+while Settings.Blood1 do
     wait()
 
     game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "kg2")
@@ -583,9 +602,9 @@ while blood1 do
 end
 end)
 
-local Toggle1 = Section1:CreateToggle("Auto BloodLine Slot 3", nil, function(State)
-blood2 = State
-while blood2 do
+local Toggle1 = Section1:CreateToggle("Auto BloodLine Slot 3", Settings.Blood2, function(State)
+Settings.Blood2 = State
+while Settings.Blood2 do
     wait()
     game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "kg3")
     game.StarterGui:SetCore(
@@ -599,9 +618,9 @@ while blood2 do
 end
 end)
 
-local Toggle1 = Section1:CreateToggle("Auto BloodLine Slot 4", nil, function(State)
-blood3 = State
-while blood3 do
+local Toggle1 = Section1:CreateToggle("Auto BloodLine Slot 4", Settings.Blood3, function(State)
+Settings.Blood3 = State
+while Settings.Blood3 do
     wait()
     game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "kg4")
     game.StarterGui:SetCore(
@@ -616,110 +635,219 @@ end
 end)
 end -- where it stops
 
-local Toggle1 = SectionA:CreateToggle("AutoKeyPress R", nil, function(State)
-getgenv().R = State
-while getgenv().R do
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress R", Settings.R, function(State)
+Settings.R = State
+while Settings.R do
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"R",false,uwu)
 end 
 end)
 
-local Toggle1 = SectionA:CreateToggle("AutoKeyPress T", nil, function(State)
-getgenv().T = State
-while getgenv().T do
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress T", Settings.T, function(State)
+Settings.T = State
+while Settings.T do
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"T",false,uwu)
 end
 end)
 
-local Toggle1 = SectionA:CreateToggle("AutoKeyPress Y", nil, function(State)
-getgenv().Y = State
-while getgenv().Y do
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress Y", Settings.Y, function(State)
+Settings.Y = State
+while Settings.Y do
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"Y",false,uwu)
 end 
 end)
 
-local Toggle1 = SectionA:CreateToggle("AutoKeyPress F", nil, function(State)
-getgenv().F = State
-while getgenv().F do 
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress F", Settings.F, function(State)
+Settings.F = State
+while Settings.F do 
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"F",false,uwu)
 end
 end)
 
-local Toggle1 = SectionA:CreateToggle("AutoKeyPress G", nil, function(State)
-getgenv().G = State
-while getgenv().G do 
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress G", Settings.G, function(State)
+Settings.G = State
+while Settings.G do 
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"G",false,uwu)
 end
 end)
 
-local Toggle1 = SectionA:CreateToggle("AutoKeyPress H", nil, function(State)
-getgenv().H = State
-while getgenv().H do 
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress H", Settings.H, function(State)
+Settings.H = State
+while Settings.H do 
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"H",false,uwu)
 end
 end)
 
-local Toggle1 = SectionA:CreateToggle("AutoKeyPress Q", nil, function(State)
-getgenv().Q = State
-while getgenv().Q do 
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress Q", Settings.Q, function(State)
+Settings.Q = State
+while Settings.Q do 
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"Q",false,uwu)
 end 
 end)
 
-local Toggle1 = SectionA:CreateToggle("AutoKeyPress E", nil, function(State)
-getgenv().E = State
-while getgenv().E do 
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress E", Settings.E, function(State)
+Settings.E = State
+while Settings.E do 
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"E",false,uwu)
 end 
 end)
 
-local Toggle1 = SectionA:CreateToggle("AutoKeyPress V", nil, function(State)
-getgenv().V = State
-while getgenv().V do 
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress V", Settings.V, function(State)
+Settings.V = State
+while Settings.V do 
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"V",false,uwu)
 end 
 end)
 
-local Toggle1 = SectionA:CreateToggle("AutoKeyPress B", nil, function(State)
-getgenv().B = State
-while getgenv().B do 
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress B", Settings.B, function(State)
+Settings.B = State
+while Settings.B do 
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"B",false,uwu)
 end 
 end)
 
-local Toggle1 = SectionA:CreateToggle("AutoKeyPress N", nil, function(State)
-getgenv().N = State
-while getgenv().N do 
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress N", Settings.N, function(State)
+Settings.N = State
+while Settings.N do 
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"N",false,uwu)
 end 
 end)
+local Toggle1 = Section2:CreateToggle("Enable WalkSpeed/JumpPower", Settings.Go, function(State)
+Settings.Go = State
+game:GetService("RunService").Stepped:connect(
+    function()
+        if Settings.Go then
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = Settings.WalkSpeed
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid").JumpPower = Settings.JumpPower
+            if not game:GetService("UserInputService").WindowFocusReleased then
+                setfpscap(Settings.Fps)
+            end
+        end
+    end
+)
+
+end)
+
+local TextBox1 = Section2:CreateTextBox("Fps Cap", "Only numbers", true, function(Value)
+    Settings.Fps = Value
+end)
+
 local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+    Settings.WalkSpeed = Value
 end)
 local TextBox1 = Section2:CreateTextBox("JumpPower", "Only numbers", true, function(Value)
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+    Settings.JumpPower = Value
 end)
-local Toggle1 = Section2:CreateToggle("Infinite Jump", nil, function(State)
-Infinite = State
-game:GetService("UserInputService").JumpRequest:connect(function()
-	if Infinite then
-		game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
-	end
-end) end)
+
+local TextBox1 = Section2:CreateTextBox("Seconds Until ServerHop", "Only numbers", true, function(Value)
+    Settings.Seconds = Value
+end)
 
 
-local Toggle1 = Section2:CreateToggle("G Noclip", nil, function(State)
-sex = State
+
+local Toggle1 = Section2:CreateToggle("Infinite Jump", Settings.InfiniteJump, function(State)
+Settings.InfiniteJump = State
+game:GetService("UserInputService").JumpRequest:connect(
+    function()
+        if Settings.InfiniteJump then
+            game:GetService "Players".LocalPlayer.Character:FindFirstChildOfClass "Humanoid":ChangeState("Jumping")
+        end
+    end
+)
+end)
+
+local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
+local Toggle1 = Section1:CreateToggle("Enable Esp", Settings.Esp, function(State)
+    Settings.Esp = State
+    ESP:Toggle(Settings.Esp)
+end)
+local Toggle1 = Section1:CreateToggle("PLayer Esp", Settings.PlayerEsp, function(State)
+    Settings.PlayerEsp = State
+    ESP.Players = Settings.PlayerEsp
+end)
+local Toggle1 = Section1:CreateToggle("Tracers Esp", Settings.Tracers, function(State)
+    Settings.Tracers = State
+    ESP.Tracers = Settings.Tracers
+end)
+local Toggle1 = Section1:CreateToggle("Name Esp", Settings.EspNames, function(State)
+    ESP.Names = Settings.EspNames
+    Settings.EspNames = State
+end)
+local Toggle1 = Section1:CreateToggle("Boxes Esp", Settings.Boxes, function(State)
+    Settings.Boxes = State
+    ESP.Boxes = Settings.Boxes
+end)
+
+local Toggle1 = Section2:CreateToggle("Invisicam", Settings.Sorry, function(State)
+Settings.Sorry = State
+if Settings.Sorry then
+    game:GetService("Players").LocalPlayer.DevCameraOcclusionMode = "Invisicam"
+else
+    game:GetService("Players").LocalPlayer.DevCameraOcclusionMode = "Zoom"
+end
+end)
+local Toggle1 = Section2:CreateToggle("Be Wired", Settings.Weird, function(State)
+Settings.Weird = State
+spawn(
+    function()
+        while Settings.Weird do
+            wait()
+            pcall(
+                function()
+                    game.Players.LocalPlayer.Character["Left Leg"]:remove()
+                    game.Players.LocalPlayer.Character["Left Arm"]:remove()
+                    game.Players.LocalPlayer.Character["Right Arm"]:remove()
+                    game.Players.LocalPlayer.Character["Right Leg"]:remove()
+                end
+            )
+        end
+    end
+)
+end)
+
+local Toggle1 = Section2:CreateToggle("N Noclip", Settings.Sex1, function(State)
+noclips = false
+Settings.Sex1 = State
+game.Players.LocalPlayer:GetMouse().KeyDown:connect(
+    function(v)
+        if v == "n" then
+            if Settings.Sex1 then
+                noclips = not noclips
+                for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                    if v:IsA("BasePart") then
+                        v.CanCollide = false
+                    end
+                end
+            end
+        end
+    end
+)
+game:GetService("RunService").Stepped:connect(
+    function()
+        if noclips then
+            for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                if v:IsA("BasePart") then
+                    v.CanCollide = false
+                end
+            end
+        end
+    end
+)
+
+end)
+
+local Toggle1 = Section2:CreateToggle("G Noclip", Settings.Sex, function(State)
+Settings.Sex = State
 noclip = false
 game:GetService("RunService").Stepped:connect(
     function()
@@ -728,12 +856,11 @@ game:GetService("RunService").Stepped:connect(
         end
     end
 )
-
 mouse = game.Players.LocalPlayer:GetMouse()
 game.Players.LocalPlayer:GetMouse().KeyDown:connect(
     function(v)
         if v == "g" then
-            if sex then
+            if Settings.Sex then
                 noclip = not noclip
                 game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
             end
@@ -741,117 +868,212 @@ game.Players.LocalPlayer:GetMouse().KeyDown:connect(
     end
 )
 end)
-
-local Toggle1 = Section2:CreateToggle("J Fly", nil, function(State)
-sex2 = State
+local Toggle1 = Section2:CreateToggle("H Fly", Settings.Sex2, function(State)
+Settings.Sex2 = State
 local Max = 0
 local Players = game.Players
 local LP = Players.LocalPlayer
 local Mouse = LP:GetMouse()
-Mouse.KeyDown:connect(function(k)
-if k:lower() == 'j' then
-Max = Max + 1
-getgenv().Fly = false
-if sex2 then
-local T = LP.Character.Torso
-local S = {
-F = 0,
-B = 0,
-L = 0,
-R = 0
-}
-local S2 = {
-F = 0,
-B = 0,
-L = 0,
-R = 0
-}
-local SPEED = 5
-local function FLY()
-getgenv().Fly = true
-local BodyGyro = Instance.new('BodyGyro', T)
-local BodyVelocity = Instance.new('BodyVelocity', T)
-BodyGyro.P = 9e4
-BodyGyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
-BodyGyro.cframe = T.CFrame
-BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
-BodyVelocity.maxForce = Vector3.new(9e9, 9e9, 9e9)
+Mouse.KeyDown:connect(
+    function(k)
+        if k:lower() == "h" then
+            Max = Max + 1
+            getgenv().Fly = false
+            if Settings.Sex2 then
+                local T = LP.Character.Torso
+                local S = {
+                    F = 0,
+                    B = 0,
+                    L = 0,
+                    R = 0
+                }
+                local S2 = {
+                    F = 0,
+                    B = 0,
+                    L = 0,
+                    R = 0
+                }
+                local SPEED = 5
+                local function FLY()
+                    getgenv().Fly = true
+                    local BodyGyro = Instance.new("BodyGyro", T)
+                    local BodyVelocity = Instance.new("BodyVelocity", T)
+                    BodyGyro.P = 9e4
+                    BodyGyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+                    BodyGyro.cframe = T.CFrame
+                    BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+                    BodyVelocity.maxForce = Vector3.new(9e9, 9e9, 9e9)
+                    spawn(
+                        function()
+                            repeat
+                                wait()
+                                LP.Character.Humanoid.PlatformStand = false
+                                if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
+                                    SPEED = 200
+                                elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
+                                    SPEED = 0
+                                end
+                                if (S.L + S.R) ~= 0 or (S.F + S.B) ~= 0 then
+                                    BodyVelocity.velocity =
+                                        ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S.F + S.B)) +
+                                        ((game.Workspace.CurrentCamera.CoordinateFrame *
+                                            CFrame.new(S.L + S.R, (S.F + S.B) * 0.2, 0).p) -
+                                            game.Workspace.CurrentCamera.CoordinateFrame.p)) *
+                                        SPEED
+                                    S2 = {
+                                        F = S.F,
+                                        B = S.B,
+                                        L = S.L,
+                                        R = S.R
+                                    }
+                                elseif (S.L + S.R) == 0 and (S.F + S.B) == 0 and SPEED ~= 0 then
+                                    BodyVelocity.velocity =
+                                        ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S2.F + S2.B)) +
+                                        ((game.Workspace.CurrentCamera.CoordinateFrame *
+                                            CFrame.new(S2.L + S2.R, (S2.F + S2.B) * 0.2, 0).p) -
+                                            game.Workspace.CurrentCamera.CoordinateFrame.p)) *
+                                        SPEED
+                                else
+                                    BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+                                end
+                                BodyGyro.cframe = game.Workspace.CurrentCamera.CoordinateFrame
+                            until not getgenv().Fly
+                            S = {
+                                F = 0,
+                                B = 0,
+                                L = 0,
+                                R = 0
+                            }
+                            S2 = {
+                                F = 0,
+                                B = 0,
+                                L = 0,
+                                R = 0
+                            }
+                            SPEED = 0
+                            BodyGyro:destroy()
+                            BodyVelocity:destroy()
+                            LP.Character.Humanoid.PlatformStand = false
+                        end
+                    )
+                end
+                Mouse.KeyDown:connect(
+                    function(k)
+                        if k:lower() == "w" then
+                            S.F = 1
+                        elseif k:lower() == "s" then
+                            S.B = -1
+                        elseif k:lower() == "a" then
+                            S.L = -1
+                        elseif k:lower() == "d" then
+                            S.R = 1
+                        end
+                    end
+                )
+                Mouse.KeyUp:connect(
+                    function(k)
+                        if k:lower() == "w" then
+                            S.F = 0
+                        elseif k:lower() == "s" then
+                            S.B = 0
+                        elseif k:lower() == "a" then
+                            S.L = 0
+                        elseif k:lower() == "d" then
+                            S.R = 0
+                        end
+                    end
+                )
+                FLY()
+                if Max == 2 then
+                    getgenv().Fly = false
+                    Max = 0
+                end
+            end
+        end
+    end
+)
+end)
+local Toggle1 = Section2:CreateToggle("AutoServerHop", Settings.ServerHop, function(State)
+Settings.ServerHop = State
 spawn(function()
-repeat
-wait()
-LP.Character.Humanoid.PlatformStand = false
-if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
-SPEED = 200
-elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
-SPEED = 0
-end
-if (S.L + S.R) ~= 0 or (S.F + S.B) ~= 0 then
-BodyVelocity.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S.F + S.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(S.L + S.R, (S.F + S.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
-S2 = {
-F = S.F,
-B = S.B,
-L = S.L,
-R = S.R
-}
-elseif (S.L + S.R) == 0 and (S.F + S.B) == 0 and SPEED ~= 0 then
-BodyVelocity.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S2.F + S2.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(S2.L + S2.R, (S2.F + S2.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
-else
-BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
-end
-BodyGyro.cframe = game.Workspace.CurrentCamera.CoordinateFrame
-until not getgenv().Fly
-S = {
-F = 0,
-B = 0,
-L = 0,
-R = 0
-}
-S2 = {
-F = 0,
-B = 0,
-L = 0,
-R = 0
-}
-SPEED = 0
-BodyGyro:destroy()
-BodyVelocity:destroy()
-LP.Character.Humanoid.PlatformStand = false
+while Settings.ServerHop do wait(Settings.Seconds)
+local PlaceID = game.PlaceId
+local AllIDs = {}
+local foundAnything = ""
+local actualHour = os.date("!*t").hour
+local Deleted = false
+local File = pcall(function()
+    AllIDs = game:GetService('HttpService'):JSONDecode(readfile("NotSameServers.json"))
 end)
+if not File then
+    table.insert(AllIDs, actualHour)
+    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
 end
-Mouse.KeyDown:connect(function(k)
-if k:lower() == 'w' then
-S.F = 1
-elseif k:lower() == 's' then
-S.B = -1
-elseif k:lower() == 'a' then
-S.L = -1
-elseif k:lower() == 'd' then
-S.R = 1
+function TPReturner()
+    local Site;
+    if foundAnything == "" then
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
+    else
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
+    end
+    local ID = ""
+    if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+        foundAnything = Site.nextPageCursor
+    end
+    local num = 0;
+    for i,v in pairs(Site.data) do
+        local Possible = true
+        ID = tostring(v.id)
+        if tonumber(v.maxPlayers) > tonumber(v.playing) then
+            for _,Existing in pairs(AllIDs) do
+                if num ~= 0 then
+                    if ID == tostring(Existing) then
+                        Possible = false
+                    end
+                else
+                    if tonumber(actualHour) ~= tonumber(Existing) then
+                        local delFile = pcall(function()
+                            delfile("NotSameServers.json")
+                            AllIDs = {}
+                            table.insert(AllIDs, actualHour)
+                        end)
+                    end
+                end
+                num = num + 1
+            end
+            if Possible == true then
+                table.insert(AllIDs, ID)
+                wait()
+                pcall(function()
+                    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+                    wait()
+                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
+                end)
+                wait(4)
+            end
+        end
+    end
 end
-end)
-Mouse.KeyUp:connect(function(k)
-if k:lower() == 'w' then
-S.F = 0
-elseif k:lower() == 's' then
-S.B = 0
-elseif k:lower() == 'a' then
-S.L = 0
-elseif k:lower() == 'd' then
-S.R = 0
+
+function Teleport()
+    while wait() do
+        pcall(function()
+            TPReturner()
+            if foundAnything ~= "" then
+                TPReturner()
+            end
+        end)
+    end
 end
-end)
-FLY()
-if Max == 2 then
-getgenv().Fly = false
-Max = 0
-end
-end
-end
+
+-- If you'd like to use a script before server hopping (Like a Automatic Chest collector you can put the Teleport() after it collected everything.
+Teleport() 
+end 
 end)
 end)
 local Button1 = Section2:CreateButton("Anti Lag", function()
 for _, v in pairs(game:GetService("Workspace"):GetDescendants()) do
-    if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then --- i stole this from the actual game LOL >-<
+    if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then
         v.Material = Enum.Material.SmoothPlastic
         if v:IsA("Texture") then
             v:Destroy()
@@ -874,17 +1096,17 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
 end)
 local Button1 = Section2:CreateButton("Lag Switch F3", function()
 local ass = false
-local back = settings()
+local bitch = settings()
 
 game:service "UserInputService".InputEnded:connect(
     function(i)
         if i.KeyCode == Enum.KeyCode.F3 then
             ass = not ass
-            back.Network.IncomingReplicationLag = ass and 10 or 0
+            bitch.Network.IncomingReplicationLag = ass and 10 or 0
         end
     end
 )
-end) 
+ end) 
 local Button1 = Section2:CreateButton("ServerHop", function()
 local PlaceID = game.PlaceId
 local AllIDs = {}
@@ -961,6 +1183,10 @@ end)
 local Button1 = Section2:CreateButton("Rejoin", function()
 game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer) end)
 
+
+
+
+
 local Toggle3 = Section3:CreateToggle("UI Toggle", nil, function(State)
 	Window:Toggle(State)
 end)
@@ -975,30 +1201,26 @@ local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
 	Window:ChangeColor(Color)
 end)
 Colorpicker3:UpdateColor(Config.Color)
+
 -- credits to jan for patterns
-local Dropdown3 = Section4:CreateDropdown("Image")
-local Option7 = Dropdown3:AddOption("Default", function(String)
-	Window:SetBackground("2151741365")
+local Dropdown3 = Section4:CreateDropdown("Image", {"Default","Hearts","Abstract","Hexagon","Circles","Lace With Flowers","Floral"}, function(Name)
+	if Name == "Default" then
+		Window:SetBackground("2151741365")
+	elseif Name == "Hearts" then
+		Window:SetBackground("6073763717")
+	elseif Name == "Abstract" then
+		Window:SetBackground("6073743871")
+	elseif Name == "Hexagon" then
+		Window:SetBackground("6073628839")
+	elseif Name == "Circles" then
+		Window:SetBackground("6071579801")
+	elseif Name == "Lace With Flowers" then
+		Window:SetBackground("6071575925")
+	elseif Name == "Floral" then
+		Window:SetBackground("5553946656")
+	end
 end)
-local Option8 = Dropdown3:AddOption("Hearts", function(String)
-	Window:SetBackground("6073763717")
-end)
-local Option9 = Dropdown3:AddOption("Abstract", function(String)
-	Window:SetBackground("6073743871")
-end)
-local Option10 = Dropdown3:AddOption("Hexagon", function(String)
-	Window:SetBackground("6073628839")
-end)
-local Option11 = Dropdown3:AddOption("Circles", function(String)
-	Window:SetBackground("6071579801")
-end)
-local Option12 = Dropdown3:AddOption("Lace With Flowers", function(String)
-	Window:SetBackground("6071575925")
-end)
-local Option13 = Dropdown3:AddOption("Floral", function(String)
-	Window:SetBackground("5553946656")
-end)
-Option7:SetOption()
+Dropdown3:SetOption("Default")
 
 local Colorpicker4 = Section4:CreateColorpicker("Color", function(Color)
 	Window:SetBackgroundColor(Color)
@@ -1014,4 +1236,11 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
+
+spawn(function()
+while wait() do
+Save()
+end end)
+
 
