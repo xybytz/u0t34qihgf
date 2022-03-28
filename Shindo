@@ -357,7 +357,7 @@ game:GetService("RunService").Stepped:connect(
         end
     end
 )
-
+spawn(function()
 while Settings.Bosses do
     pcall(
         function()
@@ -404,7 +404,7 @@ while Settings.Bosses do
         end
     )
 end
-
+end)
 
 end)
 if setclipboard then
