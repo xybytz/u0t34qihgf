@@ -414,6 +414,7 @@ end)
 end
 local Toggle1 = Section1:CreateToggle("AutoRank", Settings.Rebirth, function(State)
 Settings.Rebirth = State
+spawn(function()
 while wait() and Settings.Rebirth do
     if game.Players.LocalPlayer.statz.lvl:FindFirstChild("lvl").Value >= 500 then
         if
@@ -435,7 +436,7 @@ while wait() and Settings.Rebirth do
     end
 end
 end)
-
+end)
 local Toggle1 = Section1:CreateToggle("jinfarm", Settings.Jin, function(State)
 Settings.Jin = State
 
@@ -446,6 +447,7 @@ game:GetService("RunService").Stepped:connect(
         end
     end
 )
+spawn(function()
 while wait() and Settings.Jin do
     for i, v in pairs(game:GetService("Workspace").npc:GetChildren()) do
         if v.Name == "npc1" then
@@ -467,7 +469,7 @@ while wait() and Settings.Jin do
     end
 end
 end)
-
+end)
 local Toggle1 = Section1:CreateToggle("AutoWar", Settings.War, function(State)
 Settings.War = State
 
@@ -479,6 +481,7 @@ game:GetService("RunService").Stepped:connect(
     end
 )
 
+spawn(function()
 while Settings.War do
     wait()
     pcall(
@@ -520,9 +523,11 @@ while Settings.War do
 end
 
 end)
+end)
 
 local Toggle1 = Section1:CreateToggle("ScrollFarm", Settings.Scroll, function(State)
 Settings.Scroll = State
+spawn(function()
 while Settings.Scroll do
     wait()
     pcall(
@@ -549,38 +554,45 @@ while Settings.Scroll do
     )
 end
 end)
+end)
 
 local Toggle1 = Section1:CreateToggle("Auto Upgrade Health", Settings.Health, function(State)
 Settings.Health = State
+spawn(function()
 while Settings.Health do
     wait()
     game:GetService("Players").LocalPlayer.startevent:FireServer("addstat", "health", 5)
 end
 end)
-
+end)
 local Toggle1 = Section1:CreateToggle("Auto Upgrade Ninjutsu", Settings.Ninjutsu, function(State)
 Settings.Ninjutsu = State
+spawn(function()
 while Settings.Ninjutsu do
     wait()
     game:GetService("Players").LocalPlayer.startevent:FireServer("addstat", "ninjutsu", 5)
 end
 end)
+end)
 
 
 local Toggle1 = Section1:CreateToggle("Auto Upgrade Taijutsu", Settings.Taijutsu, function(State)
 Settings.Taijutsu = State
+spawn(function()
 while Settings.Taijutsu do
     wait()
     game:GetService("Players").LocalPlayer.startevent:FireServer("addstat", "taijutsu", 5)
 end
 end)
-
+end)
 local Toggle1 = Section1:CreateToggle("Auto Upgrade Chakra", Settings.Chakra, function(State)
 Settings.Chakra = State
+spawn(function()
 while Settings.Chakra do
     wait()
     game:GetService("Players").LocalPlayer.startevent:FireServer("addstat", "chakra", 5)
 end
+end)
 end)
 
 end -- where it stops
@@ -589,6 +601,7 @@ if game.PlaceId == 4616652839 then
 
 local Toggle1 = Section1:CreateToggle("Auto Element Slot 1", Settings.Element1, function(State)
 Settings.Element1 = State
+spawn(function()
 while Settings.Element1 do
     wait()
     game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "element1")
@@ -602,9 +615,10 @@ while Settings.Element1 do
     wait(5)
 end
 end)
-
+end)
 local Toggle1 = Section1:CreateToggle("Auto Element Slot 2", Settings.Element11, function(State)
 Settings.Element11 = State
+spawn(function()
 while Settings.Element11 do
     wait()
     game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "element2")
@@ -619,9 +633,11 @@ while Settings.Element11 do
     wait(5)
 end
 end)
+end)
 
 local Toggle1 = Section1:CreateToggle("Auto Element Slot 3", Settings.Element12, function(State)
 Settings.Element12 = State
+spawn(function()
 while Settings.Element12 do
     wait()
     game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "element3")
@@ -636,8 +652,10 @@ while Settings.Element12 do
 end
 end)
 
+end)
 local Toggle1 = Section1:CreateToggle("Auto Element Slot 4", Settings.Element14, function(State)
 Settings.Element14 = State
+spawn(function()
 while Settings.Element14 do
     wait()
     game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "element4")
@@ -651,10 +669,11 @@ while Settings.Element14 do
     wait(5)
 end
 end)
-
+end)
 
 local Toggle1 = Section1:CreateToggle("Auto BloodLine Slot 1", Settings.Blood, function(State)
 Settings.Blood = State
+spawn(function()
 while Settings.Blood do
     wait()
     game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "kg1")
@@ -668,9 +687,11 @@ while Settings.Blood do
     wait(5)
 end
 end)
+end)
 
 local Toggle1 = Section1:CreateToggle("Auto BloodLine Slot 2", Settings.Blood1, function(State)
 Settings.Blood1 = State
+spawn(function()
 while Settings.Blood1 do
     wait()
 
@@ -685,9 +706,11 @@ while Settings.Blood1 do
     wait(5)
 end
 end)
+end)
 
 local Toggle1 = Section1:CreateToggle("Auto BloodLine Slot 3", Settings.Blood2, function(State)
 Settings.Blood2 = State
+spawn(function()
 while Settings.Blood2 do
     wait()
     game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "kg3")
@@ -701,9 +724,11 @@ while Settings.Blood2 do
     wait(5)
 end
 end)
+end)
 
 local Toggle1 = Section1:CreateToggle("Auto BloodLine Slot 4", Settings.Blood3, function(State)
 Settings.Blood3 = State
+spawn(function()
 while Settings.Blood3 do
     wait()
     game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "kg4")
@@ -717,94 +742,117 @@ while Settings.Blood3 do
     wait(5)
 end
 end)
+end)
 end -- where it stops
 
 local Toggle1 = SectionA:CreateToggle("AutoKeyPress R", Settings.R, function(State)
 Settings.R = State
+spawn(function()
 while Settings.R do
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"R",false,uwu)
 end 
 end)
+end)
 
 local Toggle1 = SectionA:CreateToggle("AutoKeyPress T", Settings.T, function(State)
 Settings.T = State
+spawn(function()
 while Settings.T do
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"T",false,uwu)
 end
 end)
+end)
 
 local Toggle1 = SectionA:CreateToggle("AutoKeyPress Y", Settings.Y, function(State)
 Settings.Y = State
+spawn(function()
 while Settings.Y do
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"Y",false,uwu)
 end 
 end)
+end)
 
 local Toggle1 = SectionA:CreateToggle("AutoKeyPress F", Settings.F, function(State)
 Settings.F = State
+spawn(function()
 while Settings.F do 
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"F",false,uwu)
 end
 end)
+end)
 
 local Toggle1 = SectionA:CreateToggle("AutoKeyPress G", Settings.G, function(State)
 Settings.G = State
+spawn(function()
 while Settings.G do 
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"G",false,uwu)
 end
 end)
+end)
 
 local Toggle1 = SectionA:CreateToggle("AutoKeyPress H", Settings.H, function(State)
 Settings.H = State
+spawn(function()
 while Settings.H do 
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"H",false,uwu)
 end
 end)
+end)
 
 local Toggle1 = SectionA:CreateToggle("AutoKeyPress Q", Settings.Q, function(State)
 Settings.Q = State
+spawn(function()
 while Settings.Q do 
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"Q",false,uwu)
 end 
 end)
+end)
 
 local Toggle1 = SectionA:CreateToggle("AutoKeyPress E", Settings.E, function(State)
 Settings.E = State
+spawn(function()
 while Settings.E do 
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"E",false,uwu)
 end 
 end)
+end)
 
 local Toggle1 = SectionA:CreateToggle("AutoKeyPress V", Settings.V, function(State)
 Settings.V = State
+spawn(function()
 while Settings.V do 
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"V",false,uwu)
 end 
 end)
+end)
 
 local Toggle1 = SectionA:CreateToggle("AutoKeyPress B", Settings.B, function(State)
 Settings.B = State
+spawn(function()
 while Settings.B do 
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"B",false,uwu)
 end 
 end)
+end)
 
 local Toggle1 = SectionA:CreateToggle("AutoKeyPress N", Settings.N, function(State)
 Settings.N = State
+spawn(function()
 while Settings.N do 
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"N",false,uwu)
 end 
+end)
 end)
 local Toggle1 = Section2:CreateToggle("Enable WalkSpeed/JumpPower", Settings.Go, function(State)
 Settings.Go = State
@@ -1327,5 +1375,3 @@ spawn(function()
 while wait() do
 Save()
 end end)
-
-
