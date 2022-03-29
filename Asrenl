@@ -140,6 +140,8 @@ OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
     return OldNameCall(A, B, ...)
 end)
 
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 23 
+game.Players.LocalPlayer.Character.Humanoid.JumpPower = 15
 
 local Circle = Drawing.new("Circle")
 Circle.Color = Color3.fromRGB(22, 13, 56)
