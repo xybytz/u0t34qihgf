@@ -134,12 +134,11 @@ game.Players.PlayerAdded:Connect(
 
 local OldNameCall
 OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
-    if not checkcaller()  and (B == "WalkSpeed" or B == "JumpPower") then
+    if not checkcaller()  and (B == "WalkSpeed") then
         return
     end
     return OldNameCall(A, B, ...)
 end)
-
 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 23 
 game.Players.LocalPlayer.Character.Humanoid.JumpPower = 15
 
@@ -620,31 +619,22 @@ OldNameCall = hookmetamethod(game,"__namecall",function(A, B, C, ...)
 )
 end)
 end)
-local Toggle1 = Section2:CreateToggle("Enable WalkSpeed/JumpPower", Settings.Go, function(State)
-Settings.Go = State
-game:GetService("RunService").Stepped:connect(
-    function()
-        if Settings.Go then
-            game.Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = Settings.WalkSpeed
-            game.Players.LocalPlayer.Character:WaitForChild("Humanoid").JumpPower = Settings.JumpPower
-            if not game:GetService("UserInputService").WindowFocusReleased then
-                setfpscap(Settings.Fps)
-            end
-        end
-    end
-)
 
-end)
 
 local TextBox1 = Section2:CreateTextBox("Fps Cap", "Only numbers", true, function(Value)
     Settings.Fps = Value
+    if not game:GetService("UserInputService").WindowFocusReleased then
+        setfpscap(Settings.Fps)
+    end
 end)
 
 local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
     Settings.WalkSpeed = Value
+     game.Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = Settings.WalkSpeed
 end)
 local TextBox1 = Section2:CreateTextBox("JumpPower", "Only numbers", true, function(Value)
     Settings.JumpPower = Value
+    game.Players.LocalPlayer.Character:WaitForChild("Humanoid").JumpPower = Settings.JumpPower
 end)
 
 local Toggle1 = Section2:CreateToggle("Infinite Jump", Settings.InfiniteJump, function(State)
@@ -1017,5 +1007,3 @@ spawn(function()
 while wait() do
 Save()
 end end)
-
--- if you see this your gay
