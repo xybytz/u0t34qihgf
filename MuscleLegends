@@ -78,7 +78,46 @@ while workout do
 end
 end)
 
+local Toggle1 = Section1:CreateToggle("AutoFarm", nil, function(State)
+AutoMob = State
+while AutoMob do
+    wait()
+    pcall(
+        function()
+            for i, v in pairs(game:GetService("Workspace").enemyNPCs["Battle Island"]:GetChildren()) do
+                if v:IsA("Folder") and v:FindFirstChildOfClass("Model") then
+                    for i, v in pairs(v:GetChildren()) do
+                        if v:IsA("Model") and v:FindFirstChild("HumanoidRootPart") then
+                            repeat
+                                wait()
+                                pcall(
+                                    function()
+                                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                            v.PrimaryPart.CFrame
+                                        game.Players.LocalPlayer.Character.Humanoid:EquipTool(
+                                            game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Punch")
+                                        )
+                                        game:GetService("Players").LocalPlayer.muscleEvent:FireServer(
+                                            "punch",
+                                            "rightHand"
+                                        )
+                                        game:GetService("Players").LocalPlayer.muscleEvent:FireServer(
+                                            "punch",
+                                            "leftHand"
+                                        )
+                                    end
+                                )
+                            until v.Parent.stats.Health == 0
+                        end
+                    end
+                end
+            end
+        end
+    )
+end
 
+
+end)
 local Toggle1 = Section1:CreateToggle("Auto Durability", nil, function(State)
 workout1 = State
 game:GetService("RunService").Stepped:connect(
