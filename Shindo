@@ -860,14 +860,17 @@ game:GetService("RunService").Stepped:connect(
     function()
         if Settings.Go then
             game.Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = Settings.WalkSpeed
-            game.Players.LocalPlayer.Character:WaitForChild("Humanoid").JumpPower = Settings.JumpPower
+       	    if game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').UseJumpPower then
+			game.Players.LocalPlayer.Character:WaitForChild('Humanoid').JumpPower = Settings.JumpPower
+		    else
+			game.Players.LocalPlayer.Character:WaitForChild('Humanoid').JumpHeight  = Settings.JumpPower
+			end 
             if not game:GetService("UserInputService").WindowFocusReleased then
                 setfpscap(Settings.Fps)
             end
         end
     end
 )
-
 end)
 
 local TextBox1 = Section2:CreateTextBox("Fps Cap", "Only numbers", true, function(Value)
@@ -957,7 +960,9 @@ game.Players.LocalPlayer:GetMouse().KeyDown:connect(
                 noclips = not noclips
                 for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
                     if v:IsA("BasePart") then
+                        pcall(function()
                         v.CanCollide = false
+                        end)
                     end
                 end
             end
@@ -969,7 +974,9 @@ game:GetService("RunService").Stepped:connect(
         if noclips then
             for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
                 if v:IsA("BasePart") then
+                    pcall(function()
                     v.CanCollide = false
+                    end)
                 end
             end
         end
@@ -1375,3 +1382,4 @@ spawn(function()
 while wait() do
 Save()
 end end)
+
