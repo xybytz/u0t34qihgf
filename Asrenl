@@ -132,12 +132,63 @@ game.Players.PlayerAdded:Connect(
     end
 )
 
-local OldNameCall
-OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
-    if not checkcaller()  and (B == "WalkSpeed") then
-        return
+
+local function Nope()
+    game.Players.LocalPlayer.PlayerGui.Menew.Enabled = false
+    game.Players.LocalPlayer.PlayerGui.GUI.Enabled = true
+    game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
+    game.Players.LocalPlayer.PlayerGui.GUI.BottomFrame.Visible = false
+    game.Players.LocalPlayer.PlayerGui.GUI.Interface.Visible = true
+end
+local function Spawn()
+    repeat
+        wait()
+    until not game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true
+    wait(1)
+    game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TBC")
+    game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer()
+    Nope()
+    wait(1)
+    if game.Players.LocalPlayer.Status.Team.Value == "Spectator" then
+        game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TBC")
+        game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer()
+        Nope()
     end
-    return OldNameCall(A, B, ...)
+    wait(1)
+    if game.Players.LocalPlayer.Status.Team.Value == "Spectator" then
+        game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TRC")
+        game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer()
+        Nope()
+    end
+    wait(1)
+    if game.Players.LocalPlayer.Status.Team.Value == "Spectator" then
+        game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TYC")
+        game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer()
+        Nope()
+    end
+    wait(1)
+    if game.Players.LocalPlayer.Status.Team.Value == "Spectator" then
+        game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TGC")
+        game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer()
+        Nope()
+    end
+    wait(1)
+    if game.Players.LocalPlayer.Status.Team.Value == "Spectator" then
+        game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("Random")
+        game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer()
+        Nope()
+    end
+end
+
+
+
+local OldNameCall = nil
+OldNameCall = hookmetamethod(game, "__namecall", function(k, ...)
+    local Args = {...}
+    if not checkcaller() and k == "WalkSpeed" or k == "JumpPower" or k == "JumpHeight" then
+            return 
+    end
+    return OldNameCall(k, ...)
 end)
 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 23 
 game.Players.LocalPlayer.Character.Humanoid.JumpPower = 15
@@ -452,18 +503,14 @@ end)
 
 local Toggle1 = Section1:CreateToggle("RainBow Gun", Settings.RainBowGun, function(State)
 Settings.RainBowGun = State
-local x = 1
-function maths(X)
-    return math.acos(math.cos(X * math.pi)) / math.pi
-end
+
 game:GetService("RunService").RenderStepped:Connect(
     function()
         if Settings.RainBowGun then
             if game.Workspace.Camera:FindFirstChild("Arms") then
                 for i, v in pairs(game.Workspace.Camera.Arms:GetChildren()) do 
                     if v.ClassName == "MeshPart" then
-                        v.Color = Color3.fromHSV(math.acos(math.cos(1 * math.pi)) / math.pi, 1, 1) -- changes Color
-                        x = x + .0001
+                        v.Color = Color3.fromHSV(tick()%5/5,1,1) -- changes Color
                     end
                 end
             end
@@ -471,6 +518,43 @@ game:GetService("RunService").RenderStepped:Connect(
     end
 )
 end)
+local Toggle1 = Section1:CreateToggle("AutoFarm", Settings.AutoFarm, function(State)
+Settings.AutoFarm = State
+game:GetService("RunService").Stepped:connect(
+    function()
+        if Settings.AutoFarm then
+        game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+        for i, v in pairs(game:GetService("Players"):GetPlayers()) do
+            if
+                game.Players.LocalPlayer.Character ~= nil and v ~= game.Players.LocalPlayer and
+                    (v.TeamColor ~= game.Players.LocalPlayer.TeamColor or v.TeamColor == "Bright blue") and
+                    v.Character ~= nil and
+                    v.Character:FindFirstChild("Gun")
+             then
+                if
+                    v ~= game.Players.LocalPlayer and v:FindFirstChild("NRPBS") and v.NRPBS.Health.Value > 0 and
+                        v.Character and
+                        v.Character:FindFirstChild("Head") and
+                        v.Character:FindFirstChild("Hitbox")
+                 then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                        v.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 2)
+                    workspace.CurrentCamera.CFrame =
+                        CFrame.new(workspace.CurrentCamera.CFrame.p, v.Character.UpperTorso.CFrame.p)
+                    game:GetService("VirtualInputManager"):SendMouseButtonEvent(0, 0, 0, true, game, 1)
+                end
+            end
+        end
+        end 
+    end
+)
+spawn(function()
+while wait() and Settings.AutoFarm do
+    Spawn()
+end
+end)
+end)
+
 
 local Toggle1 = Section1:CreateToggle("Auto Heal", Settings.AutoHeal, function(State)
 Settings.AutoHeal = State
@@ -630,11 +714,11 @@ end)
 
 local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
     Settings.WalkSpeed = Value
-     game.Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = Settings.WalkSpeed
+    game.Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = Settings.WalkSpeed
 end)
 local TextBox1 = Section2:CreateTextBox("JumpPower", "Only numbers", true, function(Value)
     Settings.JumpPower = Value
-    game.Players.LocalPlayer.Character:WaitForChild("Humanoid").JumpPower = Settings.JumpPower
+	game.Players.LocalPlayer.Character:WaitForChild('Humanoid').JumpHeight  = Settings.JumpPower
 end)
 
 local Toggle1 = Section2:CreateToggle("Infinite Jump", Settings.InfiniteJump, function(State)
@@ -725,7 +809,7 @@ Mouse.KeyDown:connect(
             Max = Max + 1
             getgenv().Fly = false
             if Settings.Sex2 then
-                local T = LP.Character.Torso
+                local T = LP.Character.UpperTorso
                 local S = {
                     F = 0,
                     B = 0,
