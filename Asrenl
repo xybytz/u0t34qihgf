@@ -520,36 +520,39 @@ Settings.AutoFarm = State
 game:GetService("RunService").Stepped:connect(
     function()
         if Settings.AutoFarm then
-        game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-        for i, v in pairs(game:GetService("Players"):GetPlayers()) do
-            if
-                game.Players.LocalPlayer.Character ~= nil and v ~= game.Players.LocalPlayer and
-                    (v.TeamColor ~= game.Players.LocalPlayer.TeamColor or v.TeamColor == "Bright blue") and
-                    v.Character ~= nil and
-                    v.Character:FindFirstChild("Gun")
-             then
+            game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+            for i, v in pairs(game:GetService("Players"):GetPlayers()) do
                 if
-                    v ~= game.Players.LocalPlayer and v:FindFirstChild("NRPBS") and v.NRPBS.Health.Value > 0 and
-                        v.Character and
-                        v.Character:FindFirstChild("Head") and
-                        v.Character:FindFirstChild("Hitbox")
+                    game.Players.LocalPlayer.Character ~= nil and v ~= game.Players.LocalPlayer and
+                        (v.TeamColor ~= game.Players.LocalPlayer.TeamColor or v.TeamColor == "Bright blue") and
+                        v.Character ~= nil and
+                        v.Character:FindFirstChild("Gun")
                  then
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                        v.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 2)
-                    workspace.CurrentCamera.CFrame =
-                        CFrame.new(workspace.CurrentCamera.CFrame.p, v.Character.UpperTorso.CFrame.p)
-                    game:GetService("VirtualInputManager"):SendMouseButtonEvent(0, 0, 0, true, game, 1)
+                    if
+                        v ~= game.Players.LocalPlayer and v:FindFirstChild("NRPBS") and v.NRPBS.Health.Value > 0 and
+                            v.Character and
+                            v.Character:FindFirstChild("Head") and
+                            v.Character:FindFirstChild("Hitbox")
+                     then
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                            v.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 2)
+                        workspace.CurrentCamera.CFrame =
+                            CFrame.new(workspace.CurrentCamera.CFrame.p, v.Character.UpperTorso.CFrame.p)
+                        game:GetService("VirtualInputManager"):SendMouseButtonEvent(0, 0, 0, true, game, 1)
+                    end
                 end
             end
         end
-        end 
     end
 )
-spawn(function()
-while wait() and Settings.AutoFarm do
-    Spawn()
-end
-end)
+spawn(
+    function()
+        while wait() and Settings.AutoFarm do
+            Spawn()
+        end
+    end
+)
+
 end)
 
 
@@ -648,57 +651,67 @@ end)
 
 local Toggle1 = Section1:CreateToggle("Anti Aim", Settings.AntiAim, function(State)
 Settings.AntiAim = State
-spawn(function()
-while wait(1) and Settings.AntiAim do
-        getsenv(game.Players.LocalPlayer.PlayerGui.GUI.Client).lastlook = 10000
-        if game.Players.LocalPlayer.Character then
-            --remove legs
-            for _, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-                if string.find(string.lower(v.Name), "foot") or string.find(string.lower(v.Name), "leg") then
-                    if v:IsA("BasePart") then
-                        v:Destroy()
+spawn(
+    function()
+        while wait(1) and Settings.AntiAim do
+            getsenv(game.Players.LocalPlayer.PlayerGui.GUI.Client).lastlook = 10000
+            if game.Players.LocalPlayer.Character then
+                --remove legs
+                for _, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                    if string.find(string.lower(v.Name), "foot") or string.find(string.lower(v.Name), "leg") then
+                        if v:IsA("BasePart") then
+                            v:Destroy()
+                        end
                     end
                 end
-            end
 
-            if game.Players.LocalPlayer.Character:FindFirstChild("HeadHB") then
-                game.Players.LocalPlayer.Character:FindFirstChild("HeadHB"):Destroy()
-            end
-            if game.Players.LocalPlayer.Character:FindFirstChild("FakeHead") then
-                game.Players.LocalPlayer.Character:FindFirstChild("FakeHead"):Destroy()
+                if game.Players.LocalPlayer.Character:FindFirstChild("HeadHB") then
+                    game.Players.LocalPlayer.Character:FindFirstChild("HeadHB"):Destroy()
+                end
+                if game.Players.LocalPlayer.Character:FindFirstChild("FakeHead") then
+                    game.Players.LocalPlayer.Character:FindFirstChild("FakeHead"):Destroy()
+                end
             end
         end
-end
 
-local NewAnimation = Instance.new("Animation")
-NewAnimation.AnimationId = "rbxassetid://0"
+        local NewAnimation = Instance.new("Animation")
+        NewAnimation.AnimationId = "rbxassetid://0"
 
-local OldNameCall = nil
-OldNameCall =
-    hookmetamethod(game,"__namecall",function(A, B, C, ...)
-        local Args = {...}
-        local Self = Args[1]
-        if getnamecallmethod() == "FireServer" and tostring(A) == "ControlTurn" then
-            B = math.rad(math.random(-360, 360))
-            C = Vector3.new(math.random(-10, 10), math.random(-10, 10), math.random(-10, 10))
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position) *
-                CFrame.Angles(0, math.rad(math.random(-360, 360)), 0)
-        elseif getnamecallmethod() == "LoadAnimation" and tostring(A) == "Humanoid" then
-            B = NewAnimation
-        end
-        return OldNameCall(A, B, C, ...)
+        local OldNameCall = nil
+        OldNameCall =
+            hookmetamethod(
+            game,
+            "__namecall",
+            function(A, B, C, ...)
+                local Args = {...}
+                local Self = Args[1]
+                if getnamecallmethod() == "FireServer" and tostring(A) == "ControlTurn" then
+                    B = math.rad(math.random(-360, 360))
+                    C = Vector3.new(math.random(-10, 10), math.random(-10, 10), math.random(-10, 10))
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                        CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position) *
+                        CFrame.Angles(0, math.rad(math.random(-360, 360)), 0)
+                elseif getnamecallmethod() == "LoadAnimation" and tostring(A) == "Humanoid" then
+                    B = NewAnimation
+                end
+                return OldNameCall(A, B, C, ...)
+            end
+        )
+        local OldNameCall = nil
+        OldNameCall =
+            hookmetamethod(
+            game,
+            "__namecall",
+            function(A, B, C, ...)
+                if tostring(A) == "Humanoid" and B == "AutoRotate" then
+                    return oldnewIndex(A, B, false)
+                end
+                return oldnewIndex(A, B, C, ...)
+            end
+        )
     end
 )
-local OldNameCall = nil
-OldNameCall = hookmetamethod(game,"__namecall",function(A, B, C, ...)
-        if tostring(A) == "Humanoid" and B == "AutoRotate" then
-            return oldnewIndex(A, B, false)
-        end
-        return oldnewIndex(A, B, C, ...)
-    end
-)
-end)
+
 end)
 
 local Toggle1 = Section2:CreateToggle("Enable WalkSpeed/JumpPower", Settings.Go, function(State)
@@ -712,8 +725,10 @@ game:GetService("RunService").Stepped:connect(
 		    else
 			game.Players.LocalPlayer.Character:WaitForChild('Humanoid').JumpHeight  = Settings.JumpPower
 			end 
-            if game:GetService("UserInputService").WindowFocusReleased then
+            if not  game:GetService("UserInputService").WindowFocusReleased then
+                pcall(function()
                 setfpscap(Settings.Fps)
+                end)
             end
         end
     end
