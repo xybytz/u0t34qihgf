@@ -249,8 +249,89 @@ local Section2 = Tab1:CreateSection("Misc")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 
+if game.PlaceId == 5777228223 then
+
+local Toggle1 = Section1:CreateToggle("Autocollect Easter", Settings.AutoCollects, function(State)
+Settings.AutoCollects = State
+
+game:GetService("RunService").Stepped:connect(
+    function()
+        if Settings.AutoCollects then
+            pcall(
+                function()
+                    game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+                end
+            )
+        end
+    end
+)
+spawn(function()
+while Settings.AutoCollects do
+    wait()
+    pcall(
+        function()
+            for i, v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest.Easter.ActiveNodes:GetChildren()) do
+                if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                        v:FindFirstChildOfClass("MeshPart").CFrame * CFrame.new(40, -3, 0)
+                    wait(1)
+                    game.Players.LocalPlayer.Character.Humanoid:MoveTo(
+                        v:FindFirstChildOfClass("MeshPart").CFrame.Position
+                    )
+                    wait(3)
+                    if not Settings.AutoCollects then
+                        break
+                    end
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+                    wait(20)
+                end
+            end
+        end
+    )
+end
+end)
+end)
+
+local Toggle1 = Section1:CreateToggle("Auto Egg Easter", Settings.AutoEggs, function(State) 
+Settings.AutoEggs = State
+game:GetService("RunService").Stepped:connect(
+    function()
+        if Settings.AutoEggs then
+            pcall(
+                function()
+                    game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+                end
+            )
+        end
+    end
+)
+spawn(function()
+while Settings.AutoEggs do
+    wait(1)
+    pcall(
+        function()
+            for i, v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest.EasterEggs.ActiveNodes:GetChildren()) do
+                if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v:FindFirstChildOfClass("MeshPart").CFrame * CFrame.new(40, 0, 0)
+                    wait(1)
+                    game.Players.LocalPlayer.Character.Humanoid:MoveTo(v:FindFirstChildOfClass("MeshPart").CFrame.Position)
+                    wait(3)
+                    if not Settings.AutoEggs then
+                        break
+                    end
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+                end
+            end
+        end
+    )
+     wait(30)
+end
+end)
+
+end)
 
 
+end
 
 if game.PlaceId == 3475397644 then
 
@@ -700,7 +781,7 @@ local Toggle1 = Section2:CreateToggle("Enable Esp", Settings.Esp, function(State
     Settings.Esp = State
     ESP:Toggle(Settings.Esp)
 end)
-
+if game.PlaceId ~= 5777228223 then
 local Toggle1 = Section2:CreateToggle("Egg Esp", Settings.EggEsp, function(State) 
 ESP:AddObjectListener(game:GetService("Workspace").Interactions.Nodes.Harvest.Eggs.ActiveNodes, {
     Color =  Color3.new(255,0,0),
@@ -724,7 +805,7 @@ ESP:AddObjectListener(game:GetService("Workspace").Interactions.Nodes.Harvest.Eg
 Settings.EggEsp = State
 ESP.Egg = Settings.EggEsp
 end)
-
+end 
 
 local Toggle1 = Section2:CreateToggle("PLayer Esp", Settings.PlayerEsp, function(State)
     Settings.PlayerEsp = State
