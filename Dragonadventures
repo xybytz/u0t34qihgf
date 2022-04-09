@@ -389,9 +389,9 @@ spawn(
                     for i, v in pairs(
                         game:GetService("Workspace").Interactions.Nodes.Harvest.DailyEggs.ActiveNodes:GetChildren()
                     ) do
-                        if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
+                        if v:IsA("Model") and v:FindFirstChild("Egg") then
                             game.Players.LocalPlayer.Character.HuamnoidRootPart.CFrame =
-                                v:FindFirstChildOfClass("MeshPart").CFrame
+                                v:FindFirstChild("Egg").CFrame
                                 game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
                         end
                     end
