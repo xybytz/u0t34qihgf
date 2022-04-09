@@ -333,6 +333,32 @@ end)
 
 end
 
+
+
+local Toggle1 = Section1:CreateToggle("Auto 14 easter egg", Settings.EggCollect, function(State) 
+Settings.EggCollect = State
+spawn(
+    function()
+        while wait() and Settings.EggCollect do
+            wait()
+            pcall(
+                function()
+                    for i, v in pairs(
+                        game:GetService("Workspace").Interactions.Nodes.Harvest.DailyEggs.ActiveNodes:GetChildren()
+                    ) do
+                        if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
+                            game.Players.LocalPlayer.Character.HuamnoidRootPart.CFrame =
+                                v:FindFirstChildOfClass("MeshPart").CFrame
+                        end
+                    end
+                end
+            )
+        end
+    end
+)
+end)
+
+
 if game.PlaceId == 3475397644 then
 
 for i, v in pairs(game:GetService("Workspace").Interactions:GetDescendants()) do
@@ -366,6 +392,9 @@ for i, v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Eggs:
         end
     end
 end
+
+
+
 
 
 local Toggle1 = Section1:CreateToggle("Auto Incubate Eggs", Settings.Incubate, function(State) 
