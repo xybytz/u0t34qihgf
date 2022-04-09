@@ -43,6 +43,19 @@ game:GetService("Players").LocalPlayer.PlayerGui.NodeGui.BoostFrame.ChildAdded:C
         end
     end
 )
+if game.PlaceId == 5777228223 then
+game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.RewardFrame.RewardsFrame.ChildAdded:connect(
+    function(v)
+        if v.Name == "Default" and v:FindFirstChild("ClaimButton") and v.ClaimButton:FindFirstChild("UpperLabel") then
+            firesignal(v.MouseButton1Click)
+            firesignal(v.ClaimButton.MouseButton1Click)
+            firesignal(v.ClaimButton.UpperLabel.MouseButton1Click)
+            wait(0.5)
+            v:Destroy()
+        end
+    end
+)
+end 
 
 local function GetDragons()
   local Target
@@ -334,28 +347,31 @@ end)
 local Toggle1 = Section1:CreateToggle("Auto Chick Minigame", Settings.Chicks, function(State) 
 Settings.Chicks = State
 spawn(function()
-while wait() and Settings.Chicks do pcall(function()
-    for i, v in pairs(game:GetService("Workspace").Interactions.EasterEvent.ScavengerHunt:GetChildren()) do
-        if
-            v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") and
-                game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.ScavengerHunt.PresentsLabel.Visible ==
-                    true
-         then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v:FindFirstChildOfClass("MeshPart").CFrame
-            game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
-            wait(0.2)
-        elseif game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.ScavengerHunt.PresentsLabel.Visible ~= true then
-            wait(2)
-            if game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.RewardFrame.Visible == true then
-                game:GetService("ReplicatedStorage").Remotes.GetMinigameRewardRemote:InvokeServer(1)
+while wait() and Settings.Chicks do
+    pcall(
+        function()
+            for i, v in pairs(game:GetService("Workspace").Interactions.EasterEvent.ScavengerHunt:GetChildren()) do
+                if
+                    v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") and
+                        game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.ScavengerHunt.PresentsLabel.Visible ==
+                            true
+                 then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                        v:FindFirstChildOfClass("MeshPart").CFrame
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+                elseif
+                    game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.ScavengerHunt.PresentsLabel.Visible ~=
+                        true
+                 then
+                    wait(2)
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                        game:GetService("Workspace").Interactions.EasterEvent.ScavengerHunt.StartZone.CountdownPart.CFrame
+                end
             end
-
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                game:GetService("Workspace").Interactions.EasterEvent.ScavengerHunt.StartZone.CountdownPart.CFrame
         end
-    end
-    end)
+    )
 end
+
 end)
 end)
 end
