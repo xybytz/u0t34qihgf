@@ -409,11 +409,10 @@ spawn(
             pcall(
                 function()
                     for i, v in pairs(
-                        game:GetService("Workspace").Interactions.Nodes.Harvest.DailyEggs.ActiveNodes:GetChildren()
-                    ) do
-                        if v:IsA("Model") and v:FindFirstChild("Egg") then
-                            game.Players.LocalPlayer.Character.HuamnoidRootPart.CFrame =
-                                v:FindFirstChild("Egg").CFrame
+                        game:GetService("Workspace").Interactions.Nodes.Harvest.DailyEggs.ActiveNodes:GetChildren()) do
+                        if v:IsA("Model")  then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                v:FindFirstChildOfClass("MeshPart").CFrame
                                 game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
                         end
                     end
