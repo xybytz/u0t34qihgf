@@ -56,7 +56,7 @@ spawn(
                     ) do
                         if v.Name == "Default" and v.Visible == true then
                             v.ClaimButton.Size = UDim2.new(9e9, 9e9, 9e9, 9e9)
-                            game:GetService("VirtualUser"):ClickButton1(Vector2.new())
+                            game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9,9e9))
                         end
                     end
                     if
@@ -65,7 +65,7 @@ spawn(
                      then
                         game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.RewardFrame.CloseButton.Size =
                             UDim2.new(9e9, 9e9, 9e9, 9e9)
-                        game:GetService("VirtualUser"):ClickButton1(Vector2.new())
+                        game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9,9e9))
                     end
                 end
             )
@@ -379,11 +379,13 @@ while wait() and Settings.Chicks do
                         v:FindFirstChildOfClass("MeshPart").CFrame
                         wait(0.2)
                     game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+                    game.Players.LocalPlayer.Character.Humanoid.Jump = true
                 elseif
                     game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.ScavengerHunt.PresentsLabel.Visible ~=
                         true
                  then
                     wait(2)
+                    game.Players.LocalPlayer.Character.Humanoid.Jump = true
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                         game:GetService("Workspace").Interactions.EasterEvent.ScavengerHunt.StartZone.CountdownPart.CFrame
                 end
