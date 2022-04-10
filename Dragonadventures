@@ -44,24 +44,35 @@ game:GetService("Players").LocalPlayer.PlayerGui.NodeGui.BoostFrame.ChildAdded:C
     end
 )
 if game.PlaceId == 5777228223 then
-spawn(function()
-while wait() do
-    pcall(
-        function()
-            for i, v in pairs(
-                game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.RewardFrame.RewardsFrame:GetChildren()
-            ) do
-                if v.Name == "Default" then
-                    v.ClaimButton.Size = UDim2.new(9e9, 9e9, 9e9, 9e9)
-                    game:GetService("VirtualUser"):ClickButton1(Vector2.new())
-                    game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.RewardFrame.CloseButton.Size =
-                        UDim2.new(9e9, 9e9, 9e9, 9e9)
+spawn(
+    function()
+        while wait() do
+            pcall(
+                function()
+                    for i, v in pairs(
+                        game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.RewardFrame.RewardsFrame:GetChildren(
+
+                        )
+                    ) do
+                        if v.Name == "Default" and v.Visible == true then
+                            v.ClaimButton.Size = UDim2.new(9e9, 9e9, 9e9, 9e9)
+                            game:GetService("VirtualUser"):ClickButton1(Vector2.new())
+                        end
+                    end
+                    if
+                        game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.RewardFrame.CloseButton.Visible ==
+                            true
+                     then
+                        game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.RewardFrame.CloseButton.Size =
+                            UDim2.new(9e9, 9e9, 9e9, 9e9)
+                        game:GetService("VirtualUser"):ClickButton1(Vector2.new())
+                    end
                 end
-            end
+            )
         end
-    )
-end
-end)
+    end
+)
+
 end 
 
 local function GetDragons()
@@ -363,8 +374,10 @@ while wait() and Settings.Chicks do
                         game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.ScavengerHunt.PresentsLabel.Visible ==
                             true
                  then
+                     
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                         v:FindFirstChildOfClass("MeshPart").CFrame
+                        wait(0.2)
                     game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
                 elseif
                     game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.ScavengerHunt.PresentsLabel.Visible ~=
