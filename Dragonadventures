@@ -44,17 +44,24 @@ game:GetService("Players").LocalPlayer.PlayerGui.NodeGui.BoostFrame.ChildAdded:C
     end
 )
 if game.PlaceId == 5777228223 then
-game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.RewardFrame.RewardsFrame.ChildAdded:connect(
-    function(v)
-        if v.Name == "Default" and v:FindFirstChild("ClaimButton") and v.ClaimButton:FindFirstChild("UpperLabel") then
-            firesignal(v.MouseButton1Click)
-            firesignal(v.ClaimButton.MouseButton1Click)
-            firesignal(v.ClaimButton.UpperLabel.MouseButton1Click)
-            wait(0.5)
-            v:Destroy()
+spawn(function()
+while wait() do
+    pcall(
+        function()
+            for i, v in pairs(
+                game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.RewardFrame.RewardsFrame:GetChildren()
+            ) do
+                if v.Name == "Default" then
+                    v.ClaimButton.Size = UDim2.new(9e9, 9e9, 9e9, 9e9)
+                    game:GetService("VirtualUser"):ClickButton1(Vector2.new())
+                    game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.RewardFrame.CloseButton.Size =
+                        UDim2.new(9e9, 9e9, 9e9, 9e9)
+                end
+            end
         end
-    end
-)
+    )
+end
+end)
 end 
 
 local function GetDragons()
