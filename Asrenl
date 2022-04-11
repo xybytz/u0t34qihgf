@@ -725,7 +725,10 @@ spawn(
 )
 
 end)
-
+if Settings.WalkSpeed == nil or Settings.JumpPower == nil then
+Settings.WalkSpeed = 23 
+Settings.JumpPower = 5
+end 
 local Toggle1 = Section2:CreateToggle("Enable WalkSpeed/JumpPower", Settings.Go, function(State)
 Settings.Go = State
 game:GetService("RunService").Stepped:connect(
