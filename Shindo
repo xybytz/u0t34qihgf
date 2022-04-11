@@ -19,6 +19,7 @@ end
 if game.Players.LocalPlayer.Character then
 repeat wait() until game.Players.LocalPlayer.Character
 end
+
 local Name = "Shindo.txt"
 
 Des = {}
@@ -43,6 +44,7 @@ Settings = game:service "HttpService":JSONDecode(readfile("V.G Hub//" .. Name))
 local function Save()
     writefile("V.G Hub//" .. Name, game:service "HttpService":JSONEncode(Settings))
 end
+
 
 game:GetService("UserInputService").MouseIconEnabled = true
 game:GetService("UserInputService").MouseBehavior = Enum.MouseBehavior.Default
@@ -1372,8 +1374,7 @@ Slider4:SetValue(0.5)
 
 
 spawn(function()
-while wait() do
+while wait() do pcall(function()
 Save()
+end)
 end end)
-
-
