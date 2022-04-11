@@ -276,7 +276,7 @@ while Settings.AutoMobs do
                                     end
                                     game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", true)
                                     game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", false)
-                                    if isnetworkowner(v.HumanoidRootPart) and v.Humanoid.Health < v.Humanoid.MaxHealth then
+                                    if v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health < v.Humanoid.MaxHealth then
                                     v.Humanoid.Health = 0
                                     end 
                                 end
@@ -332,7 +332,7 @@ while Settings.Hope do
                                     end
                                     game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", true)
                                     game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", false)
-                                    if isnetworkowner(v.HumanoidRootPart) and v.Humanoid.Health < v.Humanoid.MaxHealth then
+                                    if v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health < v.Humanoid.MaxHealth then
                                     v.Humanoid.Health = 0
                                     end 
                                 end
@@ -394,7 +394,7 @@ while Settings.Bosses do
                             end
                             game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", true)
                             game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", false)
-                            if v.Humanoid.Health < v.Humanoid.MaxHealth and isnetworkowner(v.HumanoidRootPart) then
+                            if v.Humanoid.Health < v.Humanoid.MaxHealth and v:FindFirstChild("HumanoidRootPart") then
                                 v.Humanoid.Health = 0
                             end
                         end
@@ -459,7 +459,7 @@ while wait() and Settings.Jin do
                             v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 0)
                             game.Players.LocalPlayer.Character.combat.update:FireServer("mouse1", true)
                             game.Players.LocalPlayer.Character.combat.update:FireServer("mouse1", false)
-                         if isnetworkowner(v.HumanoidRootPart) and v.Humanoid.Health < v.Humanoid.MaxHealth then
+                         if v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health < v.Humanoid.MaxHealth then
                             v.Humanoid.Health = 0
                         end 
                     end
@@ -498,7 +498,7 @@ while Settings.War do
                     game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", false)
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                         v.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0)
-                    if isnetworkowner(v.HumanoidRootPart) and v.Humanoid.Health < v.Humanoid.MaxHealth then
+                    if v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health < v.Humanoid.MaxHealth then
                         v.Humanoid.Health = 0
                     end
                 elseif
@@ -513,7 +513,7 @@ while Settings.War do
                     game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", false)
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                         v.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0)
-                    if isnetworkowner(v.HumanoidRootPart) and v.Humanoid.Health < v.Humanoid.MaxHealth then
+                    if v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health < v.Humanoid.MaxHealth then
                         v.Humanoid.Health = 0
                     end
                 end
@@ -860,17 +860,14 @@ game:GetService("RunService").Stepped:connect(
     function()
         if Settings.Go then
             game.Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = Settings.WalkSpeed
-       	    if game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').UseJumpPower then
-			game.Players.LocalPlayer.Character:WaitForChild('Humanoid').JumpPower = Settings.JumpPower
-		    else
-			game.Players.LocalPlayer.Character:WaitForChild('Humanoid').JumpHeight  = Settings.JumpPower
-			end 
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid").JumpPower = Settings.JumpPower
             if not game:GetService("UserInputService").WindowFocusReleased then
                 setfpscap(Settings.Fps)
             end
         end
     end
 )
+
 end)
 
 local TextBox1 = Section2:CreateTextBox("Fps Cap", "Only numbers", true, function(Value)
@@ -960,9 +957,7 @@ game.Players.LocalPlayer:GetMouse().KeyDown:connect(
                 noclips = not noclips
                 for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
                     if v:IsA("BasePart") then
-                        pcall(function()
                         v.CanCollide = false
-                        end)
                     end
                 end
             end
@@ -974,9 +969,7 @@ game:GetService("RunService").Stepped:connect(
         if noclips then
             for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
                 if v:IsA("BasePart") then
-                    pcall(function()
                     v.CanCollide = false
-                    end)
                 end
             end
         end
@@ -1382,4 +1375,5 @@ spawn(function()
 while wait() do
 Save()
 end end)
+
 
