@@ -46,7 +46,7 @@ game:GetService("Players").LocalPlayer.PlayerGui.NodeGui.BoostFrame.ChildAdded:C
 if game.PlaceId == 5777228223 then
 spawn(
     function()
-        while wait() do
+        while wait(3) do
             pcall(
                 function()
                     for i, v in pairs(
@@ -376,9 +376,14 @@ while wait() and Settings.Chicks do
                  then
                      
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                        v:FindFirstChildOfClass("MeshPart").CFrame
-                        wait(0.2)
+                        v:FindFirstChildOfClass("MeshPart").CFrame* CFrame.new(40, -3, 0)
+                        wait(1) 
+                    game.Players.LocalPlayer.Character:MoveTo(
+                        v:FindFirstChildOfClass("MeshPart").CFrame.Position
+                    )
+                    wait(1)
                     game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+                    wait(1)
                     game.Players.LocalPlayer.Character.Humanoid.Jump = true
                 elseif
                     game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.ScavengerHunt.PresentsLabel.Visible ~=
