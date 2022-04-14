@@ -50,14 +50,6 @@ game:GetService("UserInputService").MouseIconEnabled = true
 game:GetService("UserInputService").MouseBehavior = Enum.MouseBehavior.Default
 game:GetService("RunService").Stepped:connect(function()
         pcall(function()
-                for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-                    if v:IsA("BillboardGui") then
-                        v:remove()
-                    end
-                end
-            end
-        )
-        pcall(function()
         if game:GetService("Workspace"):FindFirstChild("CCoff") then
             game:GetService("Workspace").CCoff:Destroy()
         end
