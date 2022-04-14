@@ -577,7 +577,7 @@ while Settings.AutoCollect do
     wait()
     pcall(
         function()
-            for i, v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest[deku]:GetDescendants()) do
+            for i, v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest[Settings.CollectionItem]:GetDescendants()) do
                 if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                         v:FindFirstChildOfClass("MeshPart").CFrame * CFrame.new(40, -3, 0)
