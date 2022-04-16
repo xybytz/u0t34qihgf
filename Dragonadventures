@@ -827,9 +827,6 @@ game.Players.LocalPlayer.CharacterAdded:Connect(function()
 if Settings.AutoInvis then
 repeat wait() until game.Players.LocalPlayer.Character wait(3)
 Invis() end end)
-if not Settings.AutoInvis then
-game:GetService('Players').LocalPlayer.Character.UpperTorso:Destroy()
-end
 end)
 
 
