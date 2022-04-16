@@ -577,20 +577,25 @@ while Settings.AutoCollect do
     wait()
     pcall(
         function()
-            for i, v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest[Settings.CollectionItem]:GetDescendants()) do
+            for i, v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest[Settings.CollectionItem].ActiveNodes:GetChildren()) do
                 if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                         v:FindFirstChildOfClass("MeshPart").CFrame * CFrame.new(40, -3, 0)
-                    wait(1)
-                    game.Players.LocalPlayer.Character.Humanoid:MoveTo(
-                        v:FindFirstChildOfClass("MeshPart").CFrame.Position
-                    )
-                    wait(3)
-                    if not Settings.AutoCollect then
+                    if Settings.AutoCollect == false then
                         break
                     end
+                    wait(1)
+                    repeat wait()
+                    game.Players.LocalPlayer.Character:MoveTo(
+                        v:FindFirstChildOfClass("MeshPart").CFrame.Position + Vector3.new(0,-7,0)
+                    )
+                    wait(1)
+                    
                     game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
-                    wait(20)
+                    wait(6)
+                    until v == nil or Settings.AutoCollect == false or v.Harvested == true
+                    
+                    
                 end
             end
         end
