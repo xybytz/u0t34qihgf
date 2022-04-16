@@ -586,8 +586,8 @@ while Settings.AutoCollect do
                     end
                     wait(1)
                     repeat wait()
-                    game.Players.LocalPlayer.Character:MoveTo(
-                        v:FindFirstChildOfClass("MeshPart").CFrame.Position + Vector3.new(0,-7,0)
+                    game.Players.LocalPlayer.Character.Humanoid:MoveTo(
+                        v:FindFirstChildOfClass("MeshPart").CFrame.Position
                     )
                     wait(1)
                     
