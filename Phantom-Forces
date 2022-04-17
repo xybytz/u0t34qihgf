@@ -33,7 +33,7 @@ end
 local Circle = Drawing.new("Circle")
 Circle.Color = Color3.fromRGB(22, 13, 56)
 Circle.Thickness = 1
-Circle.Radius = Settings.FOV
+Circle.Radius = 250
 Circle.Visible = false 
 Circle.NumSides = 1000
 Circle.Filled = false
