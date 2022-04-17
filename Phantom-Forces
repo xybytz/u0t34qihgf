@@ -33,7 +33,7 @@ end
 local Circle = Drawing.new("Circle")
 Circle.Color = Color3.fromRGB(22, 13, 56)
 Circle.Thickness = 1
-Circle.Radius = 250
+Circle.Radius = Settings.Aimbot.FOV
 Circle.Visible = false 
 Circle.NumSides = 1000
 Circle.Filled = false
@@ -102,7 +102,11 @@ function GetClosestToCuror()
                  then
                     Point, OnScreen = workspace.CurrentCamera:WorldToViewportPoint(v.Torso.Position)
                     if
-                        OnScreen 
+                        OnScreen and
+                        NotObstructing(
+                            v.Torso.Position,
+                            {game.Players.LocalPlayer.Character, v}
+                        )
                      then
                         Distance =
                             (Vector2.new(Point.X, Point.Y) -
@@ -175,8 +179,8 @@ local Toggle1 = Section1:CreateToggle("WallCheck",Settings.Aimbot.WallCheck, fun
 end)
 
 local Slider2 = Section1:CreateSlider("Aimbot Radius", 0,1000,Settings.Aimbot.FOV,false, function(Value)
-    Settings.Aimbot.FOV = Circle.Radius 
     Settings.Aimbot.FOV = Value
+    
 end)
 
 local Toggle1 = Section1:CreateToggle("Circle Visible", Settings.Visible, function(State)
@@ -187,20 +191,13 @@ local Colorpicker3 = Section1:CreateColorpicker("Circle Color", function(Color)
     Circle.Color = Color
     Circle.Color = Settings.Color
 end)
-
-
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
-
-
-
-
 
 local Toggle1 = Section1:CreateToggle("Enable Esp", Settings.Esp, function(State)
     Settings.Esp = State
     ESP:Toggle(Settings.Esp)
     
 end)
-
 
 local Toggle1 = Section1:CreateToggle("Esp Player", Settings.Players, function(State)
     Settings.Players = State
@@ -242,6 +239,23 @@ local Toggle1 = Section1:CreateToggle("Boxes Esp", Settings.Boxes, function(Stat
 end)
 
 
+local Toggle1 = Section2:CreateToggle("RainBow Gun", Settings.RainBow, function(State)
+game:GetService("RunService").RenderStepped:Connect(
+    function()
+        if game:GetService("Workspace").Camera:FindFirstChild("Right Arm") and Settings.RainBow then
+            for i, v in pairs(game:GetService("Workspace").Camera:GetChildren()) do
+                if v.Name ~= "Right Arm" or v.Name ~= "Left Arm" and v:IsA("Model") then
+                    for i, v in pairs(v:GetChildren()) do
+                        if v:IsA("BasePart") then
+                            v.Color = Color3.fromHSV(tick() % 5 / 5, 1, 1) -- changes Color
+                        end
+                    end
+                end
+            end
+        end
+    end
+)
+end)
 
 
 local Button1 = Section2:CreateButton("Anti Lag", function()
