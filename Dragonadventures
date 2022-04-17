@@ -700,7 +700,7 @@ spawn(
                         elseif Player.Backpack:FindFirstChild("FishingRod") then
                             game:GetService("VirtualInputManager"):SendKeyEvent(true, "G", false, uwu)
                         end
-                        mouse1click()
+                        game:GetService("VirtualInputManager"):SendMouseButtonEvent(600,600,0, true, game, 1)
                         wait(3)
                         Player.PlayerGui.FishingGui.ContainerFrame.ButtonsFrame.ReelButton.Size =
                             UDim2.new(9e9, 9e9, 9e9, 9e9)
@@ -709,11 +709,11 @@ spawn(
                         until Player.Character.FishingRod.Bait.SplashWater.Playing and
                             game:GetService("Players").LocalPlayer.Settings.CurrentFish.Value ~= ""
                         wait()
-                        mouse1click()
+                        game:GetService("VirtualInputManager"):SendMouseButtonEvent(600,600,0, true, game, 1)
                         Player.PlayerGui.FishingGui.ContainerFrame.ButtonsFrame.ReelButton.Size = UDim2.new(1, 0, 1, 0)
                         repeat
                             if Pointer.Position.X.Scale <= SafeBar.Position.X.Scale + .01 then
-                                mouse1click()
+                                game:GetService("VirtualInputManager"):SendMouseButtonEvent(600,600,0, true, game, 1)
                             end
                             wait()
                         until not Player.PlayerGui.FishingGui.ContainerFrame.ReelingFrame.Visible
@@ -734,10 +734,11 @@ local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V
 
 local Button1 = Section1:CreateButton("Equip Selected Dragon", function()
 for i,v in pairs(game:GetService("Players").LocalPlayer.Data.Dragons:GetDescendants()) do
-if  v.ClassName == 'StringValue' and  v.Value == Dragon and v:FindFirstChild("Stats") then 
+if  v.ClassName == 'StringValue' and  v.Value == Settings.Dragon and v:FindFirstChild("Stats") then 
 game:GetService("ReplicatedStorage").Remotes.EquipDragonRemote:InvokeServer(v.Name)
 end end 
 end) 
+
 
 
 
@@ -745,6 +746,19 @@ local Dropdown1 = Section1:CreateDropdown("Dragons", Dragon, function(String)
     Settings.Dragon = String
 end)
 
+
+local Button1 = Section1:CreateButton("Delete Selected Dragon Speice", function()
+for i,v in pairs(game:GetService("Players").LocalPlayer.Data.Dragons:GetDescendants()) do
+if  v.ClassName == 'StringValue' and  v.Value == Settings.DeleteDragon and v:FindFirstChild("Stats") then 
+game:GetService("ReplicatedStorage").Remotes.DeleteDragonRemote:InvokeServer(v.Name)
+end end 
+end) 
+
+
+
+local Dropdown1 = Section1:CreateDropdown("Delete Dragons", Dragon, function(String)
+    Settings.DeleteDragon = String
+end)
 
 local Button1 = Section1:CreateButton("UnEquip All Dragons", function()
 for i, v in pairs(game:GetService("Players").LocalPlayer.Character.Dragons:GetDescendants()) do
