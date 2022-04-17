@@ -33,7 +33,7 @@ end
 local Circle = Drawing.new("Circle")
 Circle.Color = Color3.fromRGB(22, 13, 56)
 Circle.Thickness = 1
-Circle.Radius = Settings.Aimbot.FOV
+Circle.Radius = Settings.FOV
 Circle.Visible = false 
 Circle.NumSides = 1000
 Circle.Filled = false
@@ -55,7 +55,7 @@ end end return Null
 
 end 
 
-Settings.Aimbot = {
+Settings = {
     FreeForAll = false,
     WallCheck = false,
     Enabled = false,
@@ -64,7 +64,7 @@ Settings.Aimbot = {
 local Shoot = false
 
 function NotObstructing(i, v)
-    if Settings.Aimbot.WallCheck then
+    if Settings.WallCheck then
         c = workspace.CurrentCamera.CFrame.p
         a = Ray.new(c, i - c)
         f = workspace:FindPartOnRayWithIgnoreList(a, v)
@@ -94,28 +94,16 @@ game:GetService("UserInputService").InputEnded:Connect(
 function GetClosestToCuror()
     Closest = math.huge
     Target = nil
-    for i, v in pairs(game:GetService("Workspace").Players:GetChildren()) do
-        if v.Name ~= game.Players.LocalPlayer.TeamColor then
-            for i, v in pairs(v:GetChildren()) do
-                if
-                    v ~= game.Players.LocalPlayer and v and v:FindFirstChild("Torso") 
-                 then
-                    Point, OnScreen = workspace.CurrentCamera:WorldToViewportPoint(v.Torso.Position)
-                    if
-                        OnScreen and
-                        NotObstructing(
-                            v.Torso.Position,
-                            {game.Players.LocalPlayer.Character, v}
-                        )
-                     then
-                        Distance =
-                            (Vector2.new(Point.X, Point.Y) -
-                            Vector2.new(game.Players.LocalPlayer:GetMouse().X, game.Players.LocalPlayer:GetMouse().Y)).magnitude
-                        if Distance <= Settings.Aimbot.FOV then
-                            Closest = Distance
-                            Target = v
-                        end
-                    end
+    for i, v in pairs(game:GetService("Workspace").Players[tostring(GetTeam())]:GetChildren()) do
+        if v ~= game.Players.LocalPlayer and v and v:FindFirstChild("Torso") then
+            Point, OnScreen = workspace.CurrentCamera:WorldToViewportPoint(v.Torso.Position)
+            if OnScreen and NotObstructing(v.Torso.Position, {game.Players.LocalPlayer.Character, v}) then
+                Distance =
+                    (Vector2.new(Point.X, Point.Y) -
+                    Vector2.new(game.Players.LocalPlayer:GetMouse().X, game.Players.LocalPlayer:GetMouse().Y)).magnitude
+                if Distance <= Settings.FOV then
+                    Closest = Distance
+                    Target = v
                 end
             end
         end
@@ -125,7 +113,7 @@ end
 
 game:GetService("RunService").RenderStepped:Connect(
     function()
-        if Settings.Aimbot.Enabled == false or Shoot == false then
+        if Settings.Enabled == false or Shoot == false then
             return
         end
         ClosestPlayer = GetClosestToCuror()
@@ -141,6 +129,42 @@ game:GetService("RunService").RenderStepped:Connect(
 )
 
 
+Settings.T = {
+    Delay = 0.01,
+    Enabled = false
+}
+
+local Aim = false
+game:GetService("UserInputService").InputBegan:connect(
+    function(v)
+        if v.UserInputType == Enum.UserInputType.MouseButton2 and Settings.T.Enabled then
+            Aim = true
+            while Aim do
+                wait()
+                if
+                    game:GetService("Players").LocalPlayer:GetMouse().Target and
+                        game:GetService("Players"):FindFirstChild(
+                            game:GetService("Players").LocalPlayer:GetMouse().Target.Parent.Name
+                        )
+                 then
+                    local Person =
+                        game.Players:FindFirstChild(
+                        game:GetService("Players").LocalPlayer:GetMouse().Target.Parent.Name
+                    )
+                        if Settings.T.Delay > 0 then
+                            wait(0.01)
+                        end
+                        mouse1press()
+                        wait()
+                        mouse1release()
+                end
+                if not Settings.T.Enabled then
+                    break
+                end
+            end
+        end
+    end
+)
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
@@ -156,8 +180,8 @@ local Section4 = Tab2:CreateSection("Background")
 
 
 
-local Toggle1 = Section1:CreateToggle("Aimbot", Settings.Aimbot.Enabled, function(State)
-    Settings.Aimbot.Enabled = State
+local Toggle1 = Section1:CreateToggle("Aimbot", Settings.Enabled, function(State)
+    Settings.Enabled = State
 end)
 
 local Dropdown1 = Section1:CreateDropdown("HitPart", {"Torso","Head"}, function(String)
@@ -174,12 +198,12 @@ local Slider2 = Section1:CreateSlider("Aimbot Smoothness", 0,10,Settings.Smoothn
     Settings.Smoothness = Value
 end)
 
-local Toggle1 = Section1:CreateToggle("WallCheck",Settings.Aimbot.WallCheck, function(State)
-    Settings.Aimbot.WallCheck = State
+local Toggle1 = Section1:CreateToggle("WallCheck",Settings.WallCheck, function(State)
+    Settings.WallCheck = State
 end)
 
-local Slider2 = Section1:CreateSlider("Aimbot Radius", 0,1000,Settings.Aimbot.FOV,false, function(Value)
-    Settings.Aimbot.FOV = Value
+local Slider2 = Section1:CreateSlider("Aimbot Radius", 0,1000,Settings.FOV,false, function(Value)
+    Settings.FOV = Value
     
 end)
 
