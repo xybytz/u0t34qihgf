@@ -1,3 +1,4 @@
+-- if your seeing this that means your a idiot look theres nothing good here so your wasting your time my scripting sucks but you can look at it don't blame me if your discusted
 local Config = {
     WindowName = "V.G Hub",
 	Color = Color3.fromRGB(255,128,64),
@@ -204,7 +205,7 @@ end)
 
 local Slider2 = Section1:CreateSlider("Aimbot Radius", 0,1000,Settings.FOV,false, function(Value)
     Settings.FOV = Value
-    
+    Circle.Radius = Settings.FOV
 end)
 
 local Toggle1 = Section1:CreateToggle("Circle Visible", Settings.Visible, function(State)
@@ -226,6 +227,8 @@ end)
 local Toggle1 = Section1:CreateToggle("Esp Player", Settings.Players, function(State)
     Settings.Players = State
     ESP.Player = Settings.Players
+spawn(function()
+while wait(5) do
 ESP:AddObjectListener(game:GetService("Workspace").Players[tostring(GetTeam())], {
     Color =  Color3.new(255,0,0),
     Type = "Model",
@@ -245,7 +248,7 @@ ESP:AddObjectListener(game:GetService("Workspace").Players[tostring(GetTeam())],
     end,
     IsEnabled = "Player",
 })
-
+end end)
 
 end)
 
