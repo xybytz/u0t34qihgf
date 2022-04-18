@@ -5,7 +5,7 @@ local Config = {
 	Keybind = Enum.KeyCode.RightControl
 }
 
-local Name = "PhantomForces.txt"
+local Name = "Pf.txt"
 
 Des = {}
 if makefolder then
@@ -29,7 +29,6 @@ Settings = game:service "HttpService":JSONDecode(readfile("V.G Hub//" .. Name))
 local function Save()
     writefile("V.G Hub//" .. Name, game:service "HttpService":JSONEncode(Settings))
 end
-
 
 local Circle = Drawing.new("Circle")
 Circle.Color = Color3.fromRGB(22, 13, 56)
@@ -166,7 +165,13 @@ game:GetService("UserInputService").InputBegan:connect(
     end
 )
 
+if Settings.AimPart == nil then
+Settings.AimPart = "Torso"
+end
 
+if Settings.Smoothness == nil then
+Settings.Smoothness = 0.04
+end
 
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
@@ -190,13 +195,7 @@ end)
 local Dropdown1 = Section1:CreateDropdown("HitPart", {"Torso","Head"}, function(String)
 	Settings.AimPart = String
 end)
-if Settings.AimPart == nil then
-Settings.AimPart = "Torso"
-end
 
-if Settings.Smoothness == nil then
-Settings.Smoothness = 0.04
-end 
 local Slider2 = Section1:CreateSlider("Aimbot Smoothness", 0,10,Settings.Smoothness,false, function(Value)
     Settings.Smoothness = Value
 end)
@@ -262,7 +261,7 @@ local Toggle1 = Section1:CreateToggle("Bright orange Team Esp", Settings.Orange,
     ESP.Orange = Settings.Orange
 
 ESP:AddObjectListener(game:GetService("Workspace").Players["Bright orange"], {
-    Color =  Color3.new(255, 181, 33),
+    Color =  Color3.new(255, 154, 38),
     Type = "Model",
     PrimaryPart = function(v)
         local H = v:FindFirstChild("Torso")
