@@ -130,15 +130,14 @@ game:GetService("RunService").RenderStepped:Connect(
 )
 
 
-Settings.T = {
+Settings = {
     Delay = 0.01,
-    Enabled = false
 }
 
 local Aim = false
 game:GetService("UserInputService").InputBegan:connect(
     function(v)
-        if v.UserInputType == Enum.UserInputType.MouseButton2 and Settings.T.Enabled then
+        if v.UserInputType == Enum.UserInputType.MouseButton2 and Settings.Tigger then
             Aim = true
             while Aim do
                 wait()
@@ -149,23 +148,26 @@ game:GetService("UserInputService").InputBegan:connect(
                         )
                  then
                     local Person =
-                        game.Players:FindFirstChild(
+                        game:GetService("Workspace").Players[tostring(GetTeam())]:FindFirstChild(
                         game:GetService("Players").LocalPlayer:GetMouse().Target.Parent.Name
                     )
-                        if Settings.T.Delay > 0 then
+                        if Settings.Delay > 0 then
                             wait(0.01)
                         end
                         mouse1press()
                         wait()
                         mouse1release()
                 end
-                if not Settings.T.Enabled then
+                if not Settings.Tigger then
                     break
                 end
             end
         end
     end
 )
+
+
+
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
@@ -193,7 +195,7 @@ Settings.AimPart = "Torso"
 end
 
 if Settings.Smoothness == nil then
-Settings.Smoothness = 0.2
+Settings.Smoothness = 0.04
 end 
 local Slider2 = Section1:CreateSlider("Aimbot Smoothness", 0,10,Settings.Smoothness,false, function(Value)
     Settings.Smoothness = Value
@@ -203,7 +205,12 @@ local Toggle1 = Section1:CreateToggle("WallCheck",Settings.WallCheck, function(S
     Settings.WallCheck = State
 end)
 
-local Slider2 = Section1:CreateSlider("Aimbot Radius", 0,1000,Settings.FOV,false, function(Value)
+
+local Toggle1 = Section1:CreateToggle("TriggerBot", Settings.Tigger, function(State)
+    Settings.Tigger = State
+end)
+
+local Slider2 = Section1:CreateSlider("Aimbot Radius", 0,1000, Settings.FOV, false, function(Value)
     Settings.FOV = Value
     Circle.Radius = Settings.FOV
 end)
@@ -214,7 +221,6 @@ end)
 
 local Colorpicker3 = Section1:CreateColorpicker("Circle Color", function(Color)
     Circle.Color = Color
-    Circle.Color = Settings.Color
 end)
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 
@@ -224,13 +230,12 @@ local Toggle1 = Section1:CreateToggle("Enable Esp", Settings.Esp, function(State
     
 end)
 
-local Toggle1 = Section1:CreateToggle("Esp Player", Settings.Players, function(State)
-    Settings.Players = State
-    ESP.Player = Settings.Players
-spawn(function()
-while wait(5) do
-ESP:AddObjectListener(game:GetService("Workspace").Players[tostring(GetTeam())], {
-    Color =  Color3.new(255,0,0),
+local Toggle1 = Section1:CreateToggle("Bright blue Team Esp", Settings.Blue, function(State)
+    Settings.Blue = State
+    ESP.Blue = Settings.Blue
+
+ESP:AddObjectListener(game:GetService("Workspace").Players["Bright blue"], {
+    Color = Color3.new(20, 255, 228),
     Type = "Model",
     PrimaryPart = function(v)
         local H = v:FindFirstChild("Torso")
@@ -244,11 +249,37 @@ ESP:AddObjectListener(game:GetService("Workspace").Players[tostring(GetTeam())],
         return not game.Players:GetPlayerFromCharacter(v)
     end,
     CustomName = function(v)
-        return "Enemy"
+        return "Bright Blue"
     end,
-    IsEnabled = "Player",
+    IsEnabled = "Blue",
 })
-end end)
+
+end)
+
+
+local Toggle1 = Section1:CreateToggle("Bright orange Team Esp", Settings.Orange, function(State)
+    Settings.Orange = State
+    ESP.Orange = Settings.Orange
+
+ESP:AddObjectListener(game:GetService("Workspace").Players["Bright orange"], {
+    Color =  Color3.new(255, 181, 33),
+    Type = "Model",
+    PrimaryPart = function(v)
+        local H = v:FindFirstChild("Torso")
+        while not H do
+            wait()
+            H = v:FindFirstChild("Torso")
+        end
+        return H
+    end,
+    Validator = function(v)
+        return not game.Players:GetPlayerFromCharacter(v)
+    end,
+    CustomName = function(v)
+        return "Bright Orange"
+    end,
+    IsEnabled = "Orange",
+})
 
 end)
 
