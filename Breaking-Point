@@ -8,6 +8,35 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 
+spawn(function()
+while wait(1) do
+game:GetService("Players").LocalPlayer.PlayerGui.Chat.Frame.ChatChannelParentFrame.Visible = true
+game:GetService("Players").LocalPlayer.PlayerGui.Chat.Frame.ChatBarParentFrame.Position =
+    game:GetService("Players").LocalPlayer.PlayerGui.Chat.Frame.ChatChannelParentFrame.Position +
+    UDim2.new(UDim.new(), game:GetService("Players").LocalPlayer.PlayerGui.Chat.Frame.ChatChannelParentFrame.Size.Y)
+end 
+end)
+
+local OldNameCall = nil
+OldNameCall =
+    hookmetamethod(
+    game,
+    "__namecall",
+    function(self, ...)
+        local Args = {...}
+        if Args[2] == "toknife" then
+            return wait(math.huge)
+        end
+        if getnamecallmethod() == "Destroy" and self:IsDescendantOf(game.Players.LocalPlayer.Character) then 
+            return nil
+        end 
+        if getnamecallmethod() == "Kick" or getnamecallmethod() == "Kick" and self == game.Players.LocalPlayer then 
+            return nil
+        end 
+        return OldNameCall(self, unpack(Args))
+    end
+)
+
 local Circle = Drawing.new("Circle")
 Circle.Color =  Color3.fromRGB(22, 13, 56)
 Circle.Thickness = 1
@@ -26,7 +55,7 @@ FreeForAll= false,
 WallCheck = false,
 Enabled = false,
 FOV = 250,
-Smoothness = 0.25
+Smoothness = 0.04
 }
 
 
@@ -70,7 +99,7 @@ function GetClosestToCuror()
     Closest = math.huge
     Target = nil
     for _,v in pairs(game:GetService("Players"):GetPlayers()) do
-        if FreeForAll(v) then
+        --if FreeForAll(v) then
             if v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("HumanoidRootPart") and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health ~= 0 and v.Character.Humanoid.Sit ~= true then
                 Point,OnScreen = workspace.CurrentCamera:WorldToViewportPoint(v.Character.HumanoidRootPart.Position)
                 if OnScreen and NotObstructing(v.Character.HumanoidRootPart.Position,{game.Players.LocalPlayer.Character,v.Character}) then
@@ -82,7 +111,7 @@ function GetClosestToCuror()
                   end
                end
             end
-         end
+         --end
     return Target
 end 
 
@@ -144,9 +173,9 @@ local Toggle1 = Section1:CreateToggle("Aimbot", nil, function(State)
     getgenv().AimBot.Enabled = State
 end)
 
-local Toggle1 = Section1:CreateToggle("FreeForAll", nil, function(State)
+--[[local Toggle1 = Section1:CreateToggle("FreeForAll", nil, function(State)
     getgenv().AimBot.FreeForAll = State
-end)
+end)]]--
 
 local Toggle1 = Section1:CreateToggle("WallCheck", nil, function(State)
     getgenv().AimBot.WallCheck = State
@@ -574,4 +603,3 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
