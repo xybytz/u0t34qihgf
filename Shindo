@@ -20,7 +20,7 @@ if game.Players.LocalPlayer.Character then
 repeat wait() until game.Players.LocalPlayer.Character
 end
 
-local Name = "Shindo.txt"
+local Name = "Shindo.json"
 
 Des = {}
 if makefolder then
@@ -38,9 +38,9 @@ if
  then
     writefile("V.G Hub//" .. Name, game:service "HttpService":JSONEncode(Des))
 end
-
-Settings = game:service "HttpService":JSONDecode(readfile("V.G Hub//" .. Name))
-
+if readfile("V.G Hub//" .. Name) then
+Settings = game:GetService("HttpService"):JSONDecode(readfile("V.G Hub//" .. Name))
+end
 local function Save()
     writefile("V.G Hub//" .. Name, game:service "HttpService":JSONEncode(Settings))
 end
@@ -1370,3 +1370,5 @@ while wait() do pcall(function()
 Save()
 end)
 end end)
+
+
