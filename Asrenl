@@ -529,10 +529,14 @@ game:GetService("RunService").RenderStepped:Connect(
 end)
 local Toggle1 = Section1:CreateToggle("AutoFarm", Settings.AutoFarm, function(State)
 Settings.AutoFarm = State
+
+
 game:GetService("RunService").Stepped:connect(
     function()
         if Settings.AutoFarm then
-            game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+    if setfflag then 
+        game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+        end 
             for i, v in pairs(game:GetService("Players"):GetPlayers()) do
                 if
                     game.Players.LocalPlayer.Character ~= nil and v ~= game.Players.LocalPlayer and
