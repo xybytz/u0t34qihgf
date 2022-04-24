@@ -527,7 +527,7 @@ game:GetService("RunService").RenderStepped:Connect(
     end
 )
 end)
-local Toggle1 = Section1:CreateToggle("AutoFarm", Settings.AutoFarm, function(State)
+local Toggle1 = Section1:CreateToggle("AutoFarm", nil, function(State)
 Settings.AutoFarm = State
 
 
