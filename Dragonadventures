@@ -499,17 +499,7 @@ local Button1 = Section1:CreateButton("Clear Base", function()
 game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].DeleteAllRemote:FireServer()
 end)
 
-local Toggle1 = Section1:CreateToggle("Merchant Auto Sell", Settings.AutoSell1, function(State)
-Settings.AutoSell1 = State
-while Settings.AutoSell1 do wait()
-
-end end) 
-Button1:AddToolTip("Sells Items needed for Merchant")
-local Toggle1 = Section1:CreateToggle("Auto Sell", Settings.AutoSell, function(State) 
-Settings.AutoSell = State
-spawn(function()
-while Settings.AutoSell do
-    wait()
+local Button1 = Section1:CreateButton("Sell All Foods", function()
     for i, v in pairs(game:GetService("Players").LocalPlayer.Data.Resources:GetChildren()) do
         if table.find(foods,v.Name) and v.Value ~= 0 then wait(0.5)
             game:GetService("ReplicatedStorage").Remotes.SellItemRemote:FireServer(
@@ -517,8 +507,6 @@ while Settings.AutoSell do
             )
         end
     end
-end
-end)
 end)
 
 
