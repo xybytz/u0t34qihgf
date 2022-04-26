@@ -532,7 +532,7 @@ while Settings.Scroll do
                         v.sh.Position.Y < 2000
                  then
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.sh.CFrame
-                    fireclickdetector(v.sh.ClickDetector)
+                    fireclickdetector(v.sh:FindFirstChildWhichIsA("ClickDetector"))
                 end
             end
             for i, v in pairs(game.workspace:GetChildren()) do
@@ -541,7 +541,7 @@ while Settings.Scroll do
                         v.sh.Position.Y < 2000
                  then
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.sh.CFrame
-                    fireclickdetector(v.sh.ClickDetector)
+                    fireclickdetector(v.sh:FindFirstChildWhichIsA("ClickDetector"))
                 end
             end
         end
