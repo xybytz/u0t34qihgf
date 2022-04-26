@@ -405,28 +405,6 @@ end
 
 
 
-local Toggle1 = Section1:CreateToggle("Auto 14 easter egg", Settings.EggCollect, function(State) 
-Settings.EggCollect = State
-spawn(
-    function()
-        while wait() and Settings.EggCollect do
-            wait()
-            pcall(
-                function()
-                    for i, v in pairs(
-                        game:GetService("Workspace").Interactions.Nodes.Harvest.DailyEggs.ActiveNodes:GetChildren()) do
-                        if v:IsA("Model")  then
-                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                                v:FindFirstChildOfClass("MeshPart").CFrame
-                                game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
-                        end
-                    end
-                end
-            )
-        end
-    end
-)
-end)
 
 
 if game.PlaceId == 3475397644 then
@@ -569,21 +547,18 @@ while Settings.AutoCollect do
                 if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                         v:FindFirstChildOfClass("MeshPart").CFrame * CFrame.new(40, -3, 0)
-                    if Settings.AutoCollect == false then
-                        break
-                    end
                     wait(1)
                     repeat wait()
                     game.Players.LocalPlayer.Character.Humanoid:MoveTo(
-                        v:FindFirstChildOfClass("MeshPart").CFrame.Position
+                        v:FindFirstChildOfClass("MeshPart").Position
                     )
                     wait(1)
-                    
+                    if Settings.AutoCollect == false then
+                        break
+                    end
                     game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
                     wait(6)
                     until v == nil or Settings.AutoCollect == false or v.Harvested == true
-                    
-                    
                 end
             end
         end
@@ -615,19 +590,25 @@ game:GetService("RunService").Stepped:connect(
 )
 spawn(function()
 while Settings.AutoEgg do
-    wait(1)
+    wait()
     pcall(
         function()
-            for i, v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest.Eggs.ActiveNodes:GetDescendants()) do
+            for i, v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest.Eggs.ActiveNodes:GetChildren()) do
                 if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v:FindFirstChildOfClass("MeshPart").CFrame * CFrame.new(40, 0, 0)
+                         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                        v:FindFirstChildOfClass("MeshPart").CFrame * CFrame.new(40, -3, 0)
                     wait(1)
-                    game.Players.LocalPlayer.Character.Humanoid:MoveTo(v:FindFirstChildOfClass("MeshPart").CFrame.Position)
-                    wait(3)
-                    if not Settings.AutoEgg then
+                    repeat wait()
+                    game.Players.LocalPlayer.Character.Humanoid:MoveTo(
+                        v:FindFirstChildOfClass("MeshPart").Position
+                    )
+                    wait(1)
+                    if Settings.AutoEgg == false then
                         break
                     end
                     game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+                    wait(6)
+                    until v == nil or Settings.AutoEgg == false or v.Harvested == true
                 end
             end
         end
