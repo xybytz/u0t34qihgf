@@ -179,6 +179,7 @@ local function Spawn()
         Nope()
     end
 end
+if hookmetamethod then
 
 local OldNameCall
 OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
@@ -187,7 +188,7 @@ OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
     end
     return OldNameCall(A, B, ...)
 end)
-
+end
 game.Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = 23
 game.Players.LocalPlayer.Character:WaitForChild("Humanoid").JumpPower = 16
 game.Players.LocalPlayer.CharacterAdded:Connect(
@@ -665,7 +666,7 @@ for i, v in pairs(game:GetService("ReplicatedStorage").Weapons:GetDescendants())
 end
 end)
 
-local Toggle1 = Section1:CreateToggle("Anti Aim", Settings.AntiAim, function(State)
+local Toggle1 = Section1:CreateToggle("Anti Aim", nil, function(State)
 Settings.AntiAim = State
 spawn(
     function()
@@ -1117,6 +1118,10 @@ local Dropdown3 = Section4:CreateDropdown("Image", {"Default","Hearts","Abstract
 end)
 Dropdown3:SetOption("Default")
 
+local Button1 = Section4:CreateButton("Save Settings", function()
+Save()
+end)
+
 local Colorpicker4 = Section4:CreateColorpicker("Color", function(Color)
 	Window:SetBackgroundColor(Color)
 end)
@@ -1133,7 +1138,3 @@ end)
 Slider4:SetValue(0.5)
 
 
-spawn(function()
-while wait() do
-Save()
-end end)
