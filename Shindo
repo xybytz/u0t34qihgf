@@ -36,13 +36,13 @@ if
         end
     )
  then
-    writefile("V.G Hub//" .. Name, game:service "HttpService":JSONEncode(Des))
+    writefile("V.G Hub//" .. Name, game:GetService("HttpService"):JSONEncode(Des))
 end
 if readfile("V.G Hub//" .. Name) then
 Settings = game:GetService("HttpService"):JSONDecode(readfile("V.G Hub//" .. Name))
 end
 local function Save()
-    writefile("V.G Hub//" .. Name, game:service "HttpService":JSONEncode(Settings))
+    writefile("V.G Hub//" .. Name, game:GetService("HttpService"):JSONEncode(Settings))
 end
 
 
@@ -1311,9 +1311,9 @@ local Button1 = Section2:CreateButton("Rejoin", function()
 game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer) end)
 
 
-
-
-
+local Button1 = Section2:CreateButton("Save Settings", function()
+Save()
+end)
 local Toggle3 = Section3:CreateToggle("UI Toggle", nil, function(State)
 	Window:Toggle(State)
 end)
@@ -1365,10 +1365,5 @@ end)
 Slider4:SetValue(0.5)
 
 
-spawn(function()
-while wait() do pcall(function()
-Save()
-end)
-end end)
 
 
