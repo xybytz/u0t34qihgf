@@ -187,7 +187,7 @@ game:GetService("RunService").Stepped:connect(
 spawn(function()
 while wait() and Settings.EventBosses do
     for i, v in pairs(game:GetService("Workspace").npc:GetChildren()) do
-        if v.Name == "npc1" then
+        if v.Name ~= "logtraining" then
             repeat
                 wait()
                 pcall(
@@ -196,8 +196,12 @@ while wait() and Settings.EventBosses do
                         v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
                         game.Players.LocalPlayer.Character.combat.update:FireServer("mouse1", true)
                         game.Players.LocalPlayer.Character.combat.update:FireServer("mouse1", false)
-                        end
-                )
+                    end)
+                    if isnetworkowner(v.HumanoidRootPart) and v.Humanoid.Health < v.Humanoid.MaxHealth then
+                        pcall(function()
+                        v.Humanoid.Health = 0
+                        end)
+                    end 
             until v.Humanoid.Health == 0 or not v or not Settings.EventBosses
         end
     end
@@ -1363,6 +1367,11 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
+
+
+
+
 
 
 
