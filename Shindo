@@ -187,7 +187,8 @@ game:GetService("RunService").Stepped:connect(
 spawn(function()
 while wait() and Settings.EventBosses do
     for i, v in pairs(game:GetService("Workspace").npc:GetChildren()) do
-        if v.Name ~= "logtraining" then
+        if v.Name ~= "logtraining" and v:FindFirstChild("Head") and
+                                v.Head.CFrame.Y > -1000 then
             repeat
                 wait()
                 pcall(
@@ -1367,11 +1368,6 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
-
-
-
-
 
 
 
