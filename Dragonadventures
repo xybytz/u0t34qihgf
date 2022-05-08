@@ -43,6 +43,26 @@ game:GetService("Players").LocalPlayer.PlayerGui.NodeGui.BoostFrame.ChildAdded:C
         end
     end
 )
+
+
+
+local OldNameCall = nil
+OldNameCall =
+    hookmetamethod(
+    game,
+    "__namecall",
+    function(self, ...)
+        local Args = {...}
+    
+        if getnamecallmethod() == "BreakJoints" then
+            return true
+        end
+        if getnamecallmethod() == "Destroy" and self == game.Players.LocalPlayer.Character then 
+            return nil
+        end 
+        return OldNameCall(self, unpack(Args))
+    end
+)
 if game.PlaceId == 5777228223 then
 spawn(
     function()
@@ -619,7 +639,7 @@ end)
 
 end)
 Toggle1:AddToolTip("Teleports to Eggs")
-
+--[[
 local Player = game.Players.LocalPlayer
 local Pointer = Player.PlayerGui.FishingGui.ContainerFrame.ReelingFrame.BarLabel.InnerLabel.PointerLabel
 local SafeBar = Player.PlayerGui.FishingGui.ContainerFrame.ReelingFrame.BarLabel.InnerLabel.SafeBarLabel
@@ -695,7 +715,7 @@ spawn(
 )
 end) 
 Toggle1:CreateKeybind("F", function(Key)
-end)
+end)]]--
 
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 
@@ -960,7 +980,7 @@ game:GetService("RunService").Stepped:connect(
 
 end)
 
-local Toggle1 = Section2:CreateToggle("G Noclip", Settings.Sex, function(State)
+local Toggle1 = Section2:CreateToggle("J Noclip", Settings.Sex, function(State)
 Settings.Sex = State
 noclip = false
 game:GetService("RunService").Stepped:connect(
@@ -973,7 +993,7 @@ game:GetService("RunService").Stepped:connect(
 mouse = game.Players.LocalPlayer:GetMouse()
 game.Players.LocalPlayer:GetMouse().KeyDown:connect(
     function(v)
-        if v == "g" then
+        if v == "j" then
             if Settings.Sex then
                 noclip = not noclip
                 game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
