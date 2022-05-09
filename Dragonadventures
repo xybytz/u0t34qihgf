@@ -302,130 +302,6 @@ local Section2 = Tab1:CreateSection("Misc")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 
-if game.PlaceId == 5777228223 then
-
-local Toggle1 = Section1:CreateToggle("Autocollect Easter", Settings.AutoCollects, function(State)
-Settings.AutoCollects = State
-
-game:GetService("RunService").Stepped:connect(
-    function()
-        if Settings.AutoCollects then
-            pcall(
-                function()
-                    game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
-                end
-            )
-        end
-    end
-)
-spawn(function()
-while Settings.AutoCollects do
-    wait()
-    pcall(
-        function()
-            for i, v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest.Easter.ActiveNodes:GetChildren()) do
-                if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                        v:FindFirstChildOfClass("MeshPart").CFrame * CFrame.new(40, -3, 0)
-                    wait(1)
-                    game.Players.LocalPlayer.Character.Humanoid:MoveTo(
-                        v:FindFirstChildOfClass("MeshPart").CFrame.Position
-                    )
-                    wait(3)
-                    if not Settings.AutoCollects then
-                        break
-                    end
-                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
-                    wait(20)
-                end
-            end
-        end
-    )
-end
-end)
-end)
-
-local Toggle1 = Section1:CreateToggle("Auto Egg Easter", Settings.AutoEggs, function(State) 
-Settings.AutoEggs = State
-game:GetService("RunService").Stepped:connect(
-    function()
-        if Settings.AutoEggs then
-            pcall(
-                function()
-                    game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
-                end
-            )
-        end
-    end
-)
-spawn(function()
-while Settings.AutoEggs do
-    wait(1)
-    pcall(
-        function()
-            for i, v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest.EasterEggs.ActiveNodes:GetChildren()) do
-                if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v:FindFirstChildOfClass("MeshPart").CFrame * CFrame.new(40, 0, 0)
-                    wait(1)
-                    game.Players.LocalPlayer.Character.Humanoid:MoveTo(v:FindFirstChildOfClass("MeshPart").CFrame.Position)
-                    wait(3)
-                    if not Settings.AutoEggs then
-                        break
-                    end
-                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
-                end
-            end
-        end
-    )
-     wait(30)
-end
-end)
-
-end)
-local Toggle1 = Section1:CreateToggle("Auto Chick Minigame", Settings.Chicks, function(State) 
-Settings.Chicks = State
-spawn(function()
-while wait() and Settings.Chicks do
-    pcall(
-        function()
-            for i, v in pairs(game:GetService("Workspace").Interactions.EasterEvent.ScavengerHunt:GetChildren()) do
-                if
-                    v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") and
-                        game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.ScavengerHunt.PresentsLabel.Visible ==
-                            true
-                 then
-                     
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                        v:FindFirstChildOfClass("MeshPart").CFrame* CFrame.new(40, -3, 0)
-                        wait(1) 
-                    game.Players.LocalPlayer.Character:MoveTo(
-                        v:FindFirstChildOfClass("MeshPart").CFrame.Position
-                    )
-                    wait(1)
-                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
-                    wait(1)
-                    game.Players.LocalPlayer.Character.Humanoid.Jump = true
-                elseif
-                    game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.ScavengerHunt.PresentsLabel.Visible ~=
-                        true
-                 then
-                    wait(2)
-                    game.Players.LocalPlayer.Character.Humanoid.Jump = true
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                        game:GetService("Workspace").Interactions.EasterEvent.ScavengerHunt.StartZone.CountdownPart.CFrame
-                end
-            end
-        end
-    )
-end
-
-end)
-end)
-end
-
-
-
-
 
 if game.PlaceId == 3475397644 then
 
@@ -564,21 +440,18 @@ while Settings.AutoCollect do
     pcall(
         function()
             for i, v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest[Settings.CollectionItem].ActiveNodes:GetChildren()) do
-                if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
+                if v:IsA("Model") and v:FindFirstChildWhichIsA("BasePart") and Settings.AutoCollect then
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                        v:FindFirstChildOfClass("MeshPart").CFrame * CFrame.new(40, -3, 0)
+                        v:FindFirstChildWhichIsA("BasePart").CFrame * CFrame.new(40, -3, 0)
                     wait(1)
                     repeat wait()
                     game.Players.LocalPlayer.Character.Humanoid:MoveTo(
-                        v:FindFirstChildOfClass("MeshPart").Position
+                        v:FindFirstChildWhichIsA("BasePart").Position
                     )
-                    wait(1)
-                    if Settings.AutoCollect == false then
-                        break
-                    end
-                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+                    wait(2)
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
                     wait(6)
-                    until v == nil or Settings.AutoCollect == false or v.Harvested == true
+                    until v == nil or Settings.AutoCollect == false or v:FindFirstChild("Harvested").Value == true
                 end
             end
         end
@@ -614,21 +487,21 @@ while Settings.AutoEgg do
     pcall(
         function()
             for i, v in pairs(game:GetService("Workspace").Interactions.Nodes.Harvest.Eggs.ActiveNodes:GetChildren()) do
-                if v:IsA("Model") and v:FindFirstChildOfClass("MeshPart") then
+                if v:IsA("Model") and v:FindFirstChildWhichIsA("BasePart") then
                          game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                        v:FindFirstChildOfClass("MeshPart").CFrame * CFrame.new(40, -3, 0)
+                        v:FindFirstChildWhichIsA("BasePart").CFrame * CFrame.new(40, -3, 0)
                     wait(1)
                     repeat wait()
                     game.Players.LocalPlayer.Character.Humanoid:MoveTo(
-                        v:FindFirstChildOfClass("MeshPart").Position
+                        v:FindFirstChildWhichIsA("BasePart").Position
                     )
                     wait(1)
                     if Settings.AutoEgg == false then
                         break
                     end
-                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
                     wait(6)
-                    until v == nil or Settings.AutoEgg == false or v.Harvested == true
+                    until v == nil or Settings.AutoEgg == false or v.Harvested.Value == true
                 end
             end
         end
@@ -649,9 +522,9 @@ Settings.AutoFish = State
 if Player.PlayerGui.FishingGui.ContainerFrame.Visible then
     if not Player.Character:FindFirstChild("FishingRod") and not Player.Backpack:FindFirstChild("FishingRod") then
         wait(.1)
-        game:GetService("VirtualInputManager"):SendKeyEvent(true, "G", false, uwu)
+        game:GetService("VirtualInputManager"):SendKeyEvent(true, "G", false, game)
     elseif Player.Backpack:FindFirstChild("FishingRod") then
-        game:GetService("VirtualInputManager"):SendKeyEvent(true, "G", false, uwu)
+        game:GetService("VirtualInputManager"):SendKeyEvent(true, "G", false, game)
         game.StarterGui:SetCore(
             "SendNotification",
             {
@@ -685,9 +558,9 @@ spawn(
                                 not Player.Backpack:FindFirstChild("FishingRod")
                          then
                             wait(.1)
-                            game:GetService("VirtualInputManager"):SendKeyEvent(true, "G", false, uwu)
+                            game:GetService("VirtualInputManager"):SendKeyEvent(true, "G", false, game)
                         elseif Player.Backpack:FindFirstChild("FishingRod") then
-                            game:GetService("VirtualInputManager"):SendKeyEvent(true, "G", false, uwu)
+                            game:GetService("VirtualInputManager"):SendKeyEvent(true, "G", false, game)
                         end
                         game:GetService("VirtualInputManager"):SendMouseButtonEvent(600,600,0, true, game, 1)
                         wait(3)
@@ -891,10 +764,10 @@ ESP:AddObjectListener(game:GetService("Workspace").Interactions.Nodes.Harvest.Eg
     Color =  Color3.new(255,0,0),
     Type = "Model",
     PrimaryPart = function(v)
-        local H = v:FindFirstChildOfClass("MeshPart")
+        local H = v:FindFirstChildWhichIsA("BasePart")
         while not H do
             wait()
-            H = v:FindFirstChildOfClass("MeshPart")
+            H = v:FindFirstChildWhichIsA("BasePart")
         end
         return H
     end,
@@ -933,7 +806,7 @@ Settings.InfiniteJump = State
 game:GetService("UserInputService").JumpRequest:connect(
     function()
         if Settings.InfiniteJump then
-            game:GetService "Players".LocalPlayer.Character:FindFirstChildOfClass "Humanoid":ChangeState("Jumping")
+            game:GetService "Players".LocalPlayer.Character:FindFirstChildWhichIsA "Humanoid":ChangeState("Jumping")
         end
     end
 )
