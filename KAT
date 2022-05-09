@@ -35,7 +35,7 @@ getgenv().AimBot = {
 WallCheck = false,
 Enabled = false,
 FOV = 250,
-Smoothness = 0.5
+Smoothness = 0.05
 }
 
 
@@ -93,14 +93,22 @@ game:GetService("RunService").RenderStepped:Connect(
             return
         end
         ClosestPlayer = GetClosestToCuror()
-        if ClosestPlayer then
+        if ClosestPlayer and getgenv().Method == "FirstPerson" then
            workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.p,ClosestPlayer.Character.HumanoidRootPart.CFrame.p)
+        end
+        if ClosestPlayer and getgenv().Method == "ThridPerson" then
+            local Mouse = game.Players.LocalPlayer:GetMouse()
+            local TargetPos = game.workspace.Camera:WorldToViewportPoint(ClosestPlayer.Character.HumanoidRootPart.Position)
+            mousemoverel(
+                (TargetPos.X - Mouse.X) * getgenv().AimBot.Smoothness,
+                (TargetPos.Y - Mouse.Y) * getgenv().AimBot.Smoothness
+            )
         end
     end
 )
 
 
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
 local Tab1 = Window:CreateTab("Kat")
@@ -114,13 +122,10 @@ local Section4 = Tab2:CreateSection("Background")
 
 local Toggle1 = Section1:CreateToggle("Auto Sprint", nil, function(State)
 sex = State
-game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = save
 game:GetService("RunService").Stepped:Connect(
     function()
         if sex then
             game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 25
-        else
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = save
         end
     end
 )
@@ -155,6 +160,12 @@ end)
 local Toggle1 = Section1:CreateToggle("Aimbot", nil, function(State)
     getgenv().AimBot.Enabled = State
 end)
+
+local Dropdown1 = Section1:CreateDropdown("AimBot Modes", {"FirstPerson","ThridPerson"}, function(String)
+	getgenv().Method = String
+end)
+Dropdown1:SetOption("ThridPerson")
+
 
 
 local Toggle1 = Section1:CreateToggle("WallCheck", nil, function(State)
@@ -563,3 +574,4 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
