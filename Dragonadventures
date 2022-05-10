@@ -512,7 +512,7 @@ end)
 
 end)
 Toggle1:AddToolTip("Teleports to Eggs")
---[[
+
 local Player = game.Players.LocalPlayer
 local Pointer = Player.PlayerGui.FishingGui.ContainerFrame.ReelingFrame.BarLabel.InnerLabel.PointerLabel
 local SafeBar = Player.PlayerGui.FishingGui.ContainerFrame.ReelingFrame.BarLabel.InnerLabel.SafeBarLabel
@@ -557,12 +557,12 @@ spawn(
                             not Player.Character:FindFirstChild("FishingRod") and
                                 not Player.Backpack:FindFirstChild("FishingRod")
                          then
-                            wait(.1)
+                            wait(2)
                             game:GetService("VirtualInputManager"):SendKeyEvent(true, "G", false, game)
                         elseif Player.Backpack:FindFirstChild("FishingRod") then
                             game:GetService("VirtualInputManager"):SendKeyEvent(true, "G", false, game)
                         end
-                        game:GetService("VirtualInputManager"):SendMouseButtonEvent(600,600,0, true, game, 1)
+                        mouse1click()
                         wait(3)
                         Player.PlayerGui.FishingGui.ContainerFrame.ButtonsFrame.ReelButton.Size =
                             UDim2.new(9e9, 9e9, 9e9, 9e9)
@@ -570,16 +570,15 @@ spawn(
                             wait()
                         until Player.Character.FishingRod.Bait.SplashWater.Playing and
                             game:GetService("Players").LocalPlayer.Settings.CurrentFish.Value ~= ""
-                        wait()
-                        game:GetService("VirtualInputManager"):SendMouseButtonEvent(600,600,0, true, game, 1)
+                        mouse1click()
                         Player.PlayerGui.FishingGui.ContainerFrame.ButtonsFrame.ReelButton.Size = UDim2.new(1, 0, 1, 0)
                         repeat
-                            if Pointer.Position.X.Scale <= SafeBar.Position.X.Scale + .01 then
-                                game:GetService("VirtualInputManager"):SendMouseButtonEvent(600,600,0, true, game, 1)
+                            if Pointer.Position.X.Scale <= SafeBar.Position.X.Scale + .02 then
+                                mouse1click()
                             end
                             wait()
                         until not Player.PlayerGui.FishingGui.ContainerFrame.ReelingFrame.Visible
-                        wait(1)
+                        wait()
                     end
                 )
             end
@@ -588,7 +587,7 @@ spawn(
 )
 end) 
 Toggle1:CreateKeybind("F", function(Key)
-end)]]--
+end)
 
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 
