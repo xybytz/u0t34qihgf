@@ -372,22 +372,7 @@ game:GetService("RunService").Stepped:connect(
         end
     end
 )
-if getgenv().Farm then
-    local Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
-    game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
-    Clone.Parent = game:GetService("Players").LocalPlayer.Character.LowerTorso
-end
 
-game.Players.LocalPlayer.CharacterAdded:Connect(
-    function()
-        if getgenv().Farm then
-            wait(3)
-            local Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
-            game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
-            Clone.Parent = game:GetService("Players").LocalPlayer.Character.LowerTorso
-        end
-    end
-)
 spawn(
     function()
         while getgenv().Farm do
