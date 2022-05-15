@@ -455,22 +455,7 @@ game:GetService("RunService").Stepped:connect(
         end
     end
 )
-if getgenv().Qu then
-    local Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
-    game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
-    Clone.Parent = game:GetService("Players").LocalPlayer.Character.LowerTorso
-end
 
-game.Players.LocalPlayer.CharacterAdded:Connect(
-    function()
-        if getgenv().Qu then
-            wait(3)
-            local Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
-            game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
-            Clone.Parent = game:GetService("Players").LocalPlayer.Character.LowerTorso
-        end
-    end
-)
 
 
 
