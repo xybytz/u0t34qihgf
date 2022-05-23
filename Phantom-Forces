@@ -174,6 +174,11 @@ Settings.Smoothness = 0.04
 end
 
 
+if Settings.FOV == nil then
+Settings.FOV = 250
+end
+
+
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -234,7 +239,7 @@ local Toggle1 = Section1:CreateToggle("Bright blue Team Esp", Settings.Blue, fun
     ESP.Blue = Settings.Blue
 
 ESP:AddObjectListener(game:GetService("Workspace").Players["Bright blue"], {
-    Color = Color3.new(20, 255, 228),
+    Color = Color3.new(0,0,255),
     Type = "Model",
     PrimaryPart = function(v)
         local H = v:FindFirstChild("Torso")
@@ -261,7 +266,7 @@ local Toggle1 = Section1:CreateToggle("Bright orange Team Esp", Settings.Orange,
     ESP.Orange = Settings.Orange
 
 ESP:AddObjectListener(game:GetService("Workspace").Players["Bright orange"], {
-    Color =  Color3.new(255, 154, 38),
+    Color =  Color3.new(255, 154, 0),
     Type = "Model",
     PrimaryPart = function(v)
         local H = v:FindFirstChild("Torso")
