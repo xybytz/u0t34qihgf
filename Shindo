@@ -89,6 +89,24 @@ local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 
 
+local Toggle1 = Section1:CreateToggle("Anti Grip/Godmode", Settings.AntiGrip, function(State)
+Settings.AntiGrip = State
+if Settings.AntiGrip then
+game.StarterGui:SetCore("SendNotification", {
+Title = "lol";
+Text = "you need to die once then it will work";
+})
+end
+while wait() and Settings.AntiGrip do
+    pcall(
+        function()
+            if game.Players.LocalPlayer.Character.fakehealth.Value == 0 then
+                game.Players.LocalPlayer.Character.fakehealth:Destroy()
+            end
+        end
+    )
+end
+end)
 if game.PlaceId == 7524809704 then
 local Toggle1 = Section1:CreateToggle("AutoStart Dungeon", Settings.Dungeon1, function(State)
 Settings.Dungeon1 = State
@@ -384,9 +402,7 @@ while Settings.Bosses2 do
                 wait()
                 for i, v in pairs(game:GetService("Workspace").npc:GetChildren()) do
                     if
-                        v.ClassName == "Model" and v:FindFirstChild("npctype") and
-                            string.find(game.Players.LocalPlayer.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").bg.name.Text, v.Head.mob.fram.name.info.Text)
-                     then
+                        v.ClassName == "Model" and v:FindFirstChild("npctype") then
                         if game.Players.LocalPlayer.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible == true then 
                             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                                 v.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0)
@@ -395,7 +411,7 @@ while Settings.Bosses2 do
                             end
                             game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", true)
                             game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", false)
-                            if v.Humanoid.Health < v.Humanoid.MaxHealth and v:FindFirstChild("HumanoidRootPart") then
+                            if isnetworkowner(v.HumanoidRootPart) and v.Humanoid.Health < v.Humanoid.MaxHealth and v:FindFirstChild("HumanoidRootPart") then
                                 v.Humanoid.Health = 0
                             end
                         end
@@ -444,9 +460,7 @@ while Settings.Bosses3 do
                 wait()
                 for i, v in pairs(game:GetService("Workspace").npc:GetChildren()) do
                     if
-                        v.ClassName == "Model" and v:FindFirstChild("npctype") and
-                            string.find(game.Players.LocalPlayer.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").bg.name.Text, v.Head.mob.fram.name.info.Text)
-                     then
+                        v.ClassName == "Model" and v:FindFirstChild("npctype") then
                         if game.Players.LocalPlayer.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible == true then 
                             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                                 v.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0)
@@ -455,7 +469,7 @@ while Settings.Bosses3 do
                             end
                             game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", true)
                             game:GetService("Players").LocalPlayer.Character.combat.update:FireServer("mouse1", false)
-                            if v.Humanoid.Health < v.Humanoid.MaxHealth and v:FindFirstChild("HumanoidRootPart") then
+                            if isnetworkowner(v.HumanoidRootPart) and v.Humanoid.Health < v.Humanoid.MaxHealth and v:FindFirstChild("HumanoidRootPart") then
                                 v.Humanoid.Health = 0
                             end
                         end
