@@ -97,6 +97,7 @@ Title = "lol";
 Text = "you need to die once then it will work";
 })
 end
+spawn(function()
 while wait() and Settings.AntiGrip do
     pcall(
         function()
@@ -106,6 +107,7 @@ while wait() and Settings.AntiGrip do
         end
     )
 end
+end)
 end)
 if game.PlaceId == 7524809704 then
 local Toggle1 = Section1:CreateToggle("AutoStart Dungeon", Settings.Dungeon1, function(State)
