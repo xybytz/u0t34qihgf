@@ -216,11 +216,6 @@ while wait() and Settings.EventBosses do
                         game.Players.LocalPlayer.Character.combat.update:FireServer("mouse1", true)
                         game.Players.LocalPlayer.Character.combat.update:FireServer("mouse1", false)
                     end)
-                    if isnetworkowner(v.HumanoidRootPart) and v.Humanoid.Health < v.Humanoid.MaxHealth then
-                        pcall(function()
-                        v.Humanoid.Health = 0
-                        end)
-                    end 
             until v.Humanoid.Health == 0 or not v or not Settings.EventBosses
         end
     end
