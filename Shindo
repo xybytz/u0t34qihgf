@@ -717,151 +717,111 @@ end)
 end -- where it stops
 
 if game.PlaceId == 4616652839 then
+local Bloods = {}
+for i,v in pairs(game:GetService("ReplicatedStorage").alljutsu:GetChildren()) do
+    if v:IsA("Folder") and v:FindFirstChild("KG") then
+        table.insert(Bloods,v.Name)
+    end
+end 
+local ELEMENT = {}
+for i,v in pairs(game:GetService("ReplicatedStorage").alljutsu:GetChildren()) do
+    if v:IsA("Folder") and v:FindFirstChild("ELEMENT") then
+        table.insert(ELEMENT,v.Name)
+    end
+end 
 
-local Toggle1 = Section1:CreateToggle("Auto Element Slot 1", Settings.Element1, function(State)
+local Er = {}
+for i,v in pairs(game:GetService("Players").LocalPlayer.statz.main:GetChildren()) do
+    if v.Name:find("element") then
+        table.insert(Er,v.Name)
+    end
+end
+local Er1 = {}
+for i,v in pairs(game:GetService("Players").LocalPlayer.statz.main:GetChildren()) do
+    if v.Name:find("kg") then
+        table.insert(Er1,v.Name)
+    end
+end
+if Settings.elementslot == nil then
+    Settings.elementslot = "element1"
+end
+if Settings.bloodslots == nil then
+    Settings.bloodslots = "kg1"
+end
+local Toggle1 = Section1:CreateToggle("Auto Element", Settings.Element1, function(State)
 Settings.Element1 = State
 spawn(function()
 while Settings.Element1 do
     wait()
-    game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "element1")
+    if not string.find(Settings.Element,
+        game:GetService("Players").LocalPlayer.statz.main[Settings.elementslot].Value) and not game:GetService("Players").LocalPlayer.statz.main[Settings.elementslot]:FindFirstChild("dontspin") then
+    game:GetService("Players").LocalPlayer.startevent:FireServer("spin", Settings.elementslot)
+    wait(1)
     game.StarterGui:SetCore(
         "SendNotification",
         {
-            Title = "Element1",
-            Text = "Current Element1 is " .. game:GetService("Players").LocalPlayer.statz.main.element1.Value
+            Title = "sex",
+            Text = "Current sex is " .. game:GetService("Players").LocalPlayer.statz.main[Settings.elementslot].Value
         }
     )
-    wait(5)
+    
+end
+if not Settings.Element1 or game:GetService("Players").LocalPlayer.statz.spins.Value == 0 then
+        game.Players.keypressE.startevent:FireServer(unpack({
+        [1] = 'rpgteleport',
+        [2] = game.PlaceId
+}))
+end
 end
 end)
 end)
-local Toggle1 = Section1:CreateToggle("Auto Element Slot 2", Settings.Element11, function(State)
-Settings.Element11 = State
+local Dropdown1 = Section1:CreateDropdown("Elementslot", Er, function(String)
+	Settings.elementslot = String
+end)
+
+
+local Dropdown1 = Section1:CreateDropdown("Elements", ELEMENT, function(String)
+	Settings.Element = String
+end)
+
+
+
+local Toggle1 = Section1:CreateToggle("Auto BloodLine", Settings.Element2, function(State)
+Settings.Element2 = State
 spawn(function()
-while Settings.Element11 do
+while Settings.Element2 do
     wait()
-    game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "element2")
-
+    if not string.find(Settings.BloodLine,game:GetService("Players").LocalPlayer.statz.main[Settings.bloodslots].Value) and not game:GetService("Players").LocalPlayer.statz.main[Settings.bloodslots]:FindFirstChild("dontspin") then 
+    game:GetService("Players").LocalPlayer.startevent:FireServer("spin", Settings.bloodslots)
+    wait(1)
     game.StarterGui:SetCore(
         "SendNotification",
         {
-            Title = "Element2",
-            Text = "Current Element2 is " .. game:GetService("Players").LocalPlayer.statz.main.element2.Value
+            Title = "sex",
+            Text = "Current sex is " .. game:GetService("Players").LocalPlayer.statz.main[Settings.bloodslots].Value
         }
     )
-    wait(5)
+    
+end 
+if not Settings.Element2 or game:GetService("Players").LocalPlayer.statz.spins.Value == 0 then
+            game.Players.keypressE.startevent:FireServer(unpack({
+        [1] = 'rpgteleport',
+        [2] = game.PlaceId
+}))
+end
 end
 end)
 end)
-
-local Toggle1 = Section1:CreateToggle("Auto Element Slot 3", Settings.Element12, function(State)
-Settings.Element12 = State
-spawn(function()
-while Settings.Element12 do
-    wait()
-    game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "element3")
-    game.StarterGui:SetCore(
-        "SendNotification",
-        {
-            Title = "Element3",
-            Text = "Current Element3 is " .. game:GetService("Players").LocalPlayer.statz.main.element3.Value
-        }
-    )
-    wait(5)
-end
+local Dropdown1 = Section1:CreateDropdown("BloodLines Slots", Er1, function(String)
+	Settings.bloodslots = String
 end)
 
-end)
-local Toggle1 = Section1:CreateToggle("Auto Element Slot 4", Settings.Element14, function(State)
-Settings.Element14 = State
-spawn(function()
-while Settings.Element14 do
-    wait()
-    game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "element4")
-    game.StarterGui:SetCore(
-        "SendNotification",
-        {
-            Title = "Element4",
-            Text = "Current Element4 is " .. game:GetService("Players").LocalPlayer.statz.main.element4.Value
-        }
-    )
-    wait(5)
-end
-end)
+
+
+local Dropdown1 = Section1:CreateDropdown("BloodLines", Bloods, function(String)
+	Settings.BloodLine = String
 end)
 
-local Toggle1 = Section1:CreateToggle("Auto BloodLine Slot 1", Settings.Blood, function(State)
-Settings.Blood = State
-spawn(function()
-while Settings.Blood do
-    wait()
-    game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "kg1")
-    game.StarterGui:SetCore(
-        "SendNotification",
-        {
-            Title = "BloodLine1",
-            Text = "Current BloodLine1 is " .. game:GetService("Players").LocalPlayer.statz.main.kg1.Value
-        }
-    )
-    wait(5)
-end
-end)
-end)
-
-local Toggle1 = Section1:CreateToggle("Auto BloodLine Slot 2", Settings.Blood1, function(State)
-Settings.Blood1 = State
-spawn(function()
-while Settings.Blood1 do
-    wait()
-
-    game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "kg2")
-    game.StarterGui:SetCore(
-        "SendNotification",
-        {
-            Title = "BloodLine2",
-            Text = "Current BloodLine2 is " .. game:GetService("Players").LocalPlayer.statz.main.kg2.Value
-        }
-    )
-    wait(5)
-end
-end)
-end)
-
-local Toggle1 = Section1:CreateToggle("Auto BloodLine Slot 3", Settings.Blood2, function(State)
-Settings.Blood2 = State
-spawn(function()
-while Settings.Blood2 do
-    wait()
-    game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "kg3")
-    game.StarterGui:SetCore(
-        "SendNotification",
-        {
-            Title = "BloodLine3",
-            Text = "Current BloodLine3 is " .. game:GetService("Players").LocalPlayer.statz.main.kg3.Value
-        }
-    )
-    wait(5)
-end
-end)
-end)
-
-local Toggle1 = Section1:CreateToggle("Auto BloodLine Slot 4", Settings.Blood3, function(State)
-Settings.Blood3 = State
-spawn(function()
-while Settings.Blood3 do
-    wait()
-    game:GetService("Players").LocalPlayer.startevent:FireServer("spin", "kg4")
-    game.StarterGui:SetCore(
-        "SendNotification",
-        {
-            Title = "BloodLine4",
-            Text = "Current BloodLine4 is " .. game:GetService("Players").LocalPlayer.statz.main.kg4.Value
-        }
-    )
-    wait(5)
-end
-end)
-end)
 end -- where it stops
 
 local Toggle1 = SectionA:CreateToggle("AutoKeyPress R", Settings.R, function(State)
