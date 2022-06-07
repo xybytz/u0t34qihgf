@@ -353,7 +353,7 @@ while Settings.Incubate do
     ) do
         if v.Name == "Incubator" then
             if not v:FindFirstChild("Egg") then
-                v.IncubateRemote:InvokeServer(ss1)
+                v.IncubateRemote:InvokeServer(Settings.Egg)
             end
             if v:FindFirstChild("Egg") then
                 v.ClaimRemote:InvokeServer()
@@ -373,6 +373,41 @@ local Button1 = Section1:CreateButton("Clear Base", function()
 game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name.."_Plot"].DeleteAllRemote:FireServer()
 end)
 
+
+local Button1 = Section1:CreateButton("GoTo Base", function()
+for i, v in pairs(game:GetService("Workspace").Interactions:GetDescendants()) do
+    if v:IsA("TextLabel") and v.Name:match("Player")  then
+        if
+            v.Text ==
+                game:GetService("Players").LocalPlayer.PlayerGui.WorkspaceGui[
+                    game.Players.LocalPlayer.Name .. "_DisplayGui"
+                ].ContainerFrame.NameLabel.Text 
+         then
+             firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent.Parent.Parent.TeleportPart, 0)
+
+        end
+    end
+end
+end)
+
+local Toggle1 = Section1:CreateToggle("Auto Heavest", Settings.AutoHeavest, function(State) 
+Settings.AutoHeavest = State
+spawn(function()
+while Settings.AutoHeavest do wait(3)
+    pcall(function()
+    for i, v in pairs(
+        game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name .. "_Plot"].Base.Buildings:GetDescendants(
+
+        )
+    ) do wait(0)
+        if v.ClassName == "Model" and v:FindFirstChild("HarvestRemote") then
+            v.HarvestRemote:InvokeServer()
+        end
+    end
+    end)
+end 
+end)
+end)
 local Button1 = Section1:CreateButton("Sell All Foods", function()
     for i, v in pairs(game:GetService("Players").LocalPlayer.Data.Resources:GetChildren()) do
         if table.find(foods,v.Name) and v.Value ~= 0 then wait(0.5)
@@ -400,8 +435,8 @@ while wait() and Settings.Alchemy do
         end
     end
     for i, v in pairs(game:GetService("Players").LocalPlayer.Data.Resources:GetChildren()) do
-        if v.Name == foods and v.Value ~= 0 then
-    game:GetService("ReplicatedStorage").Remotes.RecycleResourceRemote:InvokeServer({[foods] = Settings.AlchemyFoodsamount})
+        if v.Name == Settings.AlchemyFoods and v.Value ~= 0 then
+    game:GetService("ReplicatedStorage").Remotes.RecycleResourceRemote:InvokeServer({[Settings.AlchemyFoods] = Settings.AlchemyFoodsamount})
     end end 
 end
 end)
@@ -506,7 +541,6 @@ while Settings.AutoEgg do
             end
         end
     )
-     wait(30)
 end
 end)
 
