@@ -247,6 +247,16 @@ OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
     return OldNameCall(A, B, ...)
 end)
 
+
+function lookAt(A, B)
+    local Straight = (B - A).Unit
+    local Up = Vector3.new(0, 1, 0)
+    local Right = Straight:Cross(Up)
+    local Up2 = Right:Cross(Straight)
+
+    return CFrame.fromMatrix(B, Right, Up2)
+end
+
 healing = {}
 for i, v in pairs(game:GetService("ReplicatedStorage").Storage.Items.Items.Healing:GetChildren()) do
      if v.ClassName == "ModuleScript" then
@@ -302,6 +312,72 @@ local Section2 = Tab1:CreateSection("Misc")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 
+if game.PlaceId == 5777228223 then
+    
+local function getNearestOre()
+    local TargetDistance = math.huge
+    local Target
+    for x, d in pairs(game:GetService("Workspace").Interactions.GalaxyEvent.OreMining.Sections:GetChildren()) do
+        if d:IsA("Folder") then
+            for x, d in pairs(d:GetChildren()) do
+                if d:IsA("Model") and d:FindFirstChildWhichIsA("BasePart") then
+                    local Mag =
+                        (game.Players.LocalPlayer.Character.HumanoidRootPart.Position -
+                        d:FindFirstChildWhichIsA("BasePart").Position).Magnitude
+                    if Mag < TargetDistance then
+                        TargetDistance = Mag
+                        Target = d
+                    end
+                end
+            end
+        end
+    end
+    return Target
+end
+local Toggle1 = Section1:CreateToggle("Ore AutoFarm", Settings.Start, function(State) 
+Settings.Start = State
+game:GetService("RunService").Stepped:connect(
+    function()
+        if Settings.Start then
+            for i, v in pairs(game.Players.LocalPlayer.Character.Dragons:GetChildren()) do
+                if v:IsA("Model") then
+                    for i, v in pairs(v:GetChildren()) do
+                        if v:IsA("BasePart") then
+                            v.CanCollide = false
+                        end
+                    end
+                end
+            end
+            for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                if v:IsA("BasePart") then
+                    v.CanCollide = false
+                end
+            end
+        end
+    end
+)
+while wait(1) and Settings.Start do
+    pcall(
+        function()
+            for i, v in pairs(game.Players.LocalPlayer.Character.Dragons:GetChildren()) do
+                if v:IsA("Model") then
+                    v.HumanoidRootPart.CFrame =
+                        CFrame.new(getNearestOre():FindFirstChildWhichIsA("BasePart").Position + Vector3.new(0, 10, 0))
+                    game.Workspace.CurrentCamera.CFrame =
+                        lookAt(
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.Position,
+                        getNearestOre():FindFirstChildWhichIsA("BasePart").Position
+                    )
+                    v.Parent:FindFirstChild(v.Name).Remotes.BreathFireRemote:FireServer(true)
+                end
+            end
+        end
+    )
+end
+end)
+
+Toggle1:AddToolTip("get on dragon and fly small dragons recommened")
+end 
 
 if game.PlaceId == 3475397644 then
 
@@ -501,8 +577,22 @@ local Dropdown1 = Section1:CreateDropdown("Collection Item", deku, function(Stri
     Settings.CollectionItem = String
 end)
 
-
-
+local Toggle1 = Section1:CreateToggle("FixShip", nil, function(State) 
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Interactions.GalaxyEvent.ShipCrash.NPC.HumanoidRootPart.CFrame
+    wait(1)
+    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
+for i,v in pairs(game:GetService("Workspace").Interactions.GalaxyEvent.ShipCrash.ShipFragments:GetChildren()) do
+  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                        v:FindFirstChildWhichIsA("BasePart").CFrame * CFrame.new(40, -3, 0)
+                             game.Players.LocalPlayer.Character.Humanoid:MoveTo(
+                        v:FindFirstChildWhichIsA("BasePart").Position
+                    )
+                    wait(4)
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
+end 
+            
+           
+end)
 local Toggle1 = Section1:CreateToggle("Auto Egg", Settings.AutoEgg, function(State) 
 Settings.AutoEgg = State
 game:GetService("RunService").Stepped:connect(
