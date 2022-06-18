@@ -368,7 +368,7 @@ while wait(1) and Settings.Start do
                         game.Players.LocalPlayer.Character.HumanoidRootPart.Position,
                         getNearestOre():FindFirstChildWhichIsA("BasePart").Position
                     )
-                    v.Parent:FindFirstChild(v.Name).Remotes.BreathFireRemote:FireServer(true)
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "F", false, game)
                 end
             end
         end
@@ -710,7 +710,7 @@ spawn(
     end
 )
 end) 
-Toggle1:CreateKeybind("F", function(Key)
+Toggle1:CreateKeybind("T", function(Key)
 end)
 
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
