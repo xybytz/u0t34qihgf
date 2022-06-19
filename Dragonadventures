@@ -354,7 +354,7 @@ game:GetService("RunService").Stepped:connect(
         end
     end
 )
-
+spawn(function()
 while wait(1) and Settings.Start do
     pcall(
         function()
@@ -368,32 +368,73 @@ while wait(1) and Settings.Start do
                         getNearestOre():FindFirstChildWhichIsA("BasePart").Position
                     )
                     game:GetService("VirtualInputManager"):SendKeyEvent(true, "F", false, game)
-                    if game:GetService("Players").LocalPlayer.Data.GalaxyEvent2022.CrystalOre.Value >= 300 then
-                        wait()
 
-                        for i = 1, 2 do
-                            game:GetService("ReplicatedStorage").Remotes.RepairProcessorRemote:FireServer(tostring(i))
-                        end
-                        v.HumanoidRootPart.CFrame =
-                            game:GetService("Workspace").Interactions.GalaxyEvent.LocalStreamingModel.OreProcessor.Conveyor.ProcessPart.CFrame
-                        wait(2)
-                        game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
-
-                        wait(15)
-                        v.HumanoidRootPart.CFrame =
-                            game:GetService("Workspace").Interactions.GalaxyEvent.LocalStreamingModel.OreProcessor.Conveyor.CollectPart.CFrame
-                        wait(1)
-                        game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
-                    end
                 end
             end
         end
     )
 end
-
+end)
 end)
 
 Toggle1:AddToolTip("get on dragon and fly small dragons recommened")
+if Settings.OreAmount == nil then 
+    Settings.OreAmount = 300
+end 
+
+local Toggle1 = Section1:CreateToggle("Auto Smelt", Settings.Start2, function(State) 
+Settings.Start2 = State
+spawn(
+    function()
+        while wait(1) and Settings.Start2 do
+            pcall(
+                function()
+                    for i, v in pairs(game.Players.LocalPlayer.Character.Dragons:GetChildren()) do
+                        if v:IsA("Model") then
+                            if
+                                game:GetService("Players").LocalPlayer.Data.GalaxyEvent2022.CrystalOre.Value >=
+                                    Settings.OreAmount
+                             then
+                                wait()
+                                v.HumanoidRootPart.CFrame =
+                                    game:GetService("Workspace").Interactions.GalaxyEvent.LocalStreamingModel.OreProcessor.Conveyor.ProcessPart.CFrame
+                                wait(2)
+                                game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
+
+                                wait(15)
+                                v.HumanoidRootPart.CFrame =
+                                    game:GetService("Workspace").Interactions.GalaxyEvent.LocalStreamingModel.OreProcessor.Conveyor.CollectPart.CFrame
+                                wait(1)
+                                game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
+                            end
+                        end
+                    end
+                end
+            )
+        end
+    end
+)
+end)
+local Toggle1 = Section1:CreateToggle("Auto Repair", Settings.GOTOTO, function(State) 
+Settings.GOTOTO = State
+spawn(
+    function()
+        while wait(1) and Settings.GOTOTO do
+            pcall(
+                function()
+                    wait()
+                    for i = 1, 2 do
+                        game:GetService("ReplicatedStorage").Remotes.RepairProcessorRemote:FireServer(tostring(i))
+                    end
+                end
+            )
+        end
+    end
+)
+end)
+local Slider3 = Section1:CreateSlider("Ore Amount",0,1000,Settings.OreAmount,false, function(Value)
+	Settings.OreAmount = Value
+end)
 end 
 
 if game.PlaceId == 3475397644 then
