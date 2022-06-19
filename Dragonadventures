@@ -293,9 +293,7 @@ for i, v in pairs(game:GetService("Players").LocalPlayer.Data.Dragons:GetChildre
         table.insert(Dragon, v.Value)
     end
 end
-
-
-
+ 
 game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 30
 local deku1 = {"SolsticeFlares", "SolsticeBoxes"}
@@ -356,6 +354,7 @@ game:GetService("RunService").Stepped:connect(
         end
     end
 )
+
 while wait(1) and Settings.Start do
     pcall(
         function()
@@ -369,11 +368,29 @@ while wait(1) and Settings.Start do
                         getNearestOre():FindFirstChildWhichIsA("BasePart").Position
                     )
                     game:GetService("VirtualInputManager"):SendKeyEvent(true, "F", false, game)
+                    if game:GetService("Players").LocalPlayer.Data.GalaxyEvent2022.CrystalOre.Value >= 300 then
+                        wait()
+
+                        for i = 1, 2 do
+                            game:GetService("ReplicatedStorage").Remotes.RepairProcessorRemote:FireServer(tostring(i))
+                        end
+                        v.HumanoidRootPart.CFrame =
+                            game:GetService("Workspace").Interactions.GalaxyEvent.LocalStreamingModel.OreProcessor.Conveyor.ProcessPart.CFrame
+                        wait(2)
+                        game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
+
+                        wait(15)
+                        v.HumanoidRootPart.CFrame =
+                            game:GetService("Workspace").Interactions.GalaxyEvent.LocalStreamingModel.OreProcessor.Conveyor.CollectPart.CFrame
+                        wait(1)
+                        game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
+                    end
                 end
             end
         end
     )
 end
+
 end)
 
 Toggle1:AddToolTip("get on dragon and fly small dragons recommened")
@@ -577,19 +594,24 @@ local Dropdown1 = Section1:CreateDropdown("Collection Item", deku, function(Stri
     Settings.CollectionItem = String
 end)
 
-local Toggle1 = Section1:CreateToggle("FixShip", nil, function(State) 
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Interactions.GalaxyEvent.ShipCrash.NPC.HumanoidRootPart.CFrame
+local Button1 = Section1:CreateButton("FixShip", function()
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Interactions.GalaxyEvent.ShipCrash.NPC.HumanoidRootPart.CFrame
+
+wait(1)
+game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
+wait(2)
+for i=1,10 do wait(1)
+    game:GetService("VirtualUser"):ClickButton1(Vector2.new())
+end 
+for i,v in pairs(game:GetService("Workspace").Interactions.GalaxyEvent.ShipCrash.ShipFragments:GetChildren()) do
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
     wait(1)
     game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
-for i,v in pairs(game:GetService("Workspace").Interactions.GalaxyEvent.ShipCrash.ShipFragments:GetChildren()) do
-  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                        v:FindFirstChildWhichIsA("BasePart").CFrame * CFrame.new(40, -3, 0)
-                             game.Players.LocalPlayer.Character.Humanoid:MoveTo(
-                        v:FindFirstChildWhichIsA("BasePart").Position
-                    )
-                    wait(4)
-                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
 end 
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Interactions.GalaxyEvent.ShipCrash.NPC.HumanoidRootPart.CFrame
+
+wait(1)
+game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
             
            
 end)
