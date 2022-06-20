@@ -10,7 +10,7 @@ end)
 local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
     local Args = {...}
-    if getnamecallmethod()=="FireServer" and tostring(self)=="SendData" then
+    if  self.Name =="SendData" then
             return nil
     end
     if getnamecallmethod()=="BreakJoints" then
@@ -25,29 +25,70 @@ game.Players.LocalPlayer.Character:FindFirstChild("Move")
 game.Players.LocalPlayer.Character.Move:remove()
 end) end) 
 
-local accessories = {}
+local L = {}
 function GodMode()
     if game.Players.LocalPlayer.Character then
-        if game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
-            for _, accessory in pairs(game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):GetAccessories()) do
-                table.insert(accessories, accessory:Clone())
+        if game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
+            for _, accessory in pairs(game.Players.LocalPlayer.Character.Humanoid:GetAccessories()) do
+                table.insert(L, accessory:Clone())
             end
-            game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").Name = "deku"
+            game.Players.LocalPlayer.Character.Humanoid.Name = "1"
         end
-        local v = game.Players.LocalPlayer.Character["deku"]:Clone()
-        v.Parent = game.Players.LocalPlayer.Character
-        v.Name = "Humanoid"
+        local l = game.Players.LocalPlayer.Character["1"]:Clone()
+        l.Parent = game.Players.LocalPlayer.Character
+        l.Name = "Humanoid"
         wait(0.1)
-        game.Players.LocalPlayer.Character["deku"]:Destroy()
-        workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
-        for _, accessory in pairs(accessories) do
-            game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):AddAccessory(accessory)
+        game.Players.LocalPlayer.Character["1"]:Destroy()
+        workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character.Humanoid
+        for _, accessory in pairs(L) do
+            game.Players.LocalPlayer.Character.Humanoid:AddAccessory(accessory)
         end
         game.Players.LocalPlayer.Character.Animate.Disabled = true
         wait(0.1)
         game.Players.LocalPlayer.Character.Animate.Disabled = false
+        --Tag:
+        local Tag = Instance.new("BoolValue", game.Players.LocalPlayer.Character)
+        Tag.Name = "GodMode"
+        Tag.Value = true
+        spawn(
+            function()
+                local Jumping = false
+                local Died = false
+                game.Players.LocalPlayer.Character.Humanoid.Died:connect(
+                    function()
+                        Died = true
+                    end
+                )
+                game:GetService("UserInputService").InputBegan:connect(
+                    function(i, v)
+                        if not v and not Died then
+                            Jumping = false
+                            spawn(
+                                function()
+                                    repeat
+                                        game:GetService("RunService").RenderStepped:Wait()
+                                    until not Jumping or Died
+                                end
+                            )
+                        else
+                            repeat
+                                game:GetService("RunService").RenderStepped:Wait()
+                            until not Jumping
+                        end
+                    end
+                )
+                game:GetService("UserInputService").InputEnded:connect(
+                    function(i, v)
+                        if not v and not Died then
+                            Jumping = false
+                        end
+                    end
+                )
+            end
+        )
     end
 end
+
 
 local LP = game:GetService("Players").LocalPlayer
 local ts = game:GetService("TweenService")
@@ -76,6 +117,9 @@ autofarm = State
 game:GetService('RunService').Stepped:connect(function()
 pcall(function()
 if autofarm then
+if game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid") and not game.Players.LocalPlayer.Character:FindFirstChild("GodMode") then
+GodMode()
+end
 game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(11)
 end
 end) end)
@@ -138,9 +182,10 @@ end
 end)
 local Toggle1 = Section1:CreateToggle("GodMode", nil, function(State)
 ttt = State
-while wait(5) and ttt do
+while wait() and ttt do
+if game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid") and not game.Players.LocalPlayer.Character:FindFirstChild("GodMode") then
 GodMode()
-end end)
+end end  end)
 
 
 local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
