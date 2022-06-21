@@ -44,6 +44,8 @@ game:GetService("Players").LocalPlayer.PlayerGui.NodeGui.BoostFrame.ChildAdded:C
     end
 )
 
+wait = task.wait
+
 
 
 local OldNameCall = nil
@@ -378,22 +380,22 @@ end)
 end)
 
 Toggle1:AddToolTip("get on dragon and fly small dragons recommened")
-if Settings.Time == nil then 
-    Settings.Time = 1
+if Settings.Amount == nil then 
+    Settings.Amount = 300
 end 
 
 local Toggle1 = Section1:CreateToggle("Auto Smelt", Settings.Start2, function(State) 
 Settings.Start2 = State
 spawn(
     function()
-        while wait(Settings.Time) and Settings.Start2 do
+        while wait() and Settings.Start2 do
             pcall(
                 function()
                     for i, v in pairs(game.Players.LocalPlayer.Character.Dragons:GetChildren()) do
                         if v:IsA("Model") then
                             if
                                 game:GetService("Players").LocalPlayer.Data.GalaxyEvent2022.CrystalOre.Value >=
-                                    300
+                                    Settings.Amount
                              then
                                 wait()
                                 v.HumanoidRootPart.CFrame =
@@ -432,8 +434,8 @@ spawn(
     end
 )
 end)
-local Slider3 = Section1:CreateSlider("Ore Amount",0,1000,Settings.Time,false, function(Value)
-	Settings.Time = Value
+local Slider3 = Section1:CreateSlider("Ore Amount",0,1000,Settings.Amount,false, function(Value)
+	Settings.Amount = Value
 end)
 end 
 
