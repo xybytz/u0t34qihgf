@@ -8,13 +8,15 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 
-game.ReplicatedFirst.LocalScript.Disabled = true
-hookfunction(
-    game:GetService("ContentProvider").PreloadAsync,
-    function()
-            return 
+
+local OldNameCall = nil
+OldNameCall = hookmetamethod(game, "__namecall", function(self,...)
+    local Args = {...}
+    if getnamecallmethod() == "PreloadAsync"  then
+            return wait(math.huge)
     end
-)
+    return OldNameCall(self,...)
+end)
 
 local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(...)
