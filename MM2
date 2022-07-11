@@ -38,7 +38,6 @@ repeat
     wait()
 until game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
 
-game:GetService("ReplicatedStorage").IsXbox:FireServer()
 for i, v in pairs(Workspace:GetChildren()) do
     if v:IsA("BasePart") and v.Name ~= "Part" then
         v.CanCollide = false
@@ -47,13 +46,13 @@ end
 
 game:GetService("RunService").Stepped:connect(
     function()
-        for i, v in pairs(game:GetService("ReplicatedStorage").GetPlayerData:InvokeServer()) do
+        for i, v in pairs(game:GetService("ReplicatedStorage").Remotes.Extras.GetPlayerData:InvokeServer()) do
             if v.Role == "Murderer" then
                 Settings.Murderer = i
             end
         end
 
-        for i, v in pairs(game:GetService("ReplicatedStorage").GetPlayerData:InvokeServer()) do
+        for i, v in pairs(game:GetService("ReplicatedStorage").Remotes.Extras.GetPlayerData:InvokeServer()) do
             if v.Role == "Sheriff" then
                 Settings.Sheriff = i
             end
@@ -339,8 +338,8 @@ Settings.Hi = State
 spawn(
     function()
         while wait() and Settings.Hi do
-            game:GetService("ReplicatedStorage").Equip:FireServer("DefaultKnife", "Weapons")
-            game:GetService("ReplicatedStorage").Equip:FireServer("Xbox", "Weapons")
+            game:GetService("ReplicatedStorage").Remotes.Inventory.Equip:FireServer("DefaultKnife", "Weapons")
+            game:GetService("ReplicatedStorage").Remotes.Inventory.Equip:FireServer("Xbox", "Weapons")
         end
     end
 )
@@ -350,19 +349,19 @@ GodModeFunc()
 end)
 
 local Button1 = Section2:CreateButton("Floss", function()
-game:GetService("ReplicatedStorage").PlayEmote:Fire("floss")
+game:GetService("ReplicatedStorage").Remotes.Misc.PlayEmote:Fire("floss")
 end)
 
 local Button1 = Section2:CreateButton("Zen", function()
-game:GetService("ReplicatedStorage").PlayEmote:Fire("zen")
+game:GetService("ReplicatedStorage").Remotes.Misc.PlayEmote:Fire("zen")
 end)
 
 local Button1 = Section2:CreateButton("Sit", function()
-game:GetService("ReplicatedStorage").PlayEmote:Fire("sit")
+game:GetService("ReplicatedStorage").Remotes.Misc.PlayEmote:Fire("sit")
 end)
 
 local Button1 = Section2:CreateButton("Dab", function()
-game:GetService("ReplicatedStorage").PlayEmote:Fire("dab")
+game:GetService("ReplicatedStorage").Remotes.Misc.PlayEmote:Fire("dab")
 end)
 
 local Toggle1 = Section2:CreateToggle("Enable WalkSpeed/JumpPower", Settings.Go, function(State)
