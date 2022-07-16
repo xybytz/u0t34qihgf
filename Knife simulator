@@ -59,8 +59,9 @@ game:GetService("RunService").Stepped:connect(
                 )
             )
             for i,v in pairs(game:GetService("Workspace").bags:GetChildren()) do
-                v.CFrame = game.Players.LocalPlayer.Character.Head.CFrame
+                firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v, 0)
             end
+            
         end
     end
 )
