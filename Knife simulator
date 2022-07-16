@@ -58,6 +58,9 @@ game:GetService("RunService").Stepped:connect(
                     Vector3.new(0,0,0)
                 )
             )
+            for i,v in pairs(game:GetService("Workspace").bags:GetChildren()) do
+                v.CFrame = game.Players.LocalPlayer.Character.Head.CFrame
+            end
         end
     end
 )
