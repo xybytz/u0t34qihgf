@@ -494,9 +494,9 @@ while Settings.Bosses do
                 wait()
                 for i, v in pairs(Workspace.bossdropmission.missions:GetChildren()) do
                     for i, v in pairs(v:GetChildren()) do
-                        if v:IsA("Model") and v:FindFirstChild("Head") then
+                        if v:IsA("Model") and v:FindFirstChild("Head")  then
                             if Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible == false then
-                                Player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -5, 3))
+                                Player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(v.Head.Position + Vector3.new(0, -5, 3))
                                 wait(0.3)
                                 v:FindFirstChild("CLIENTTALK"):FireServer()
                                 v:FindFirstChild("CLIENTTALK"):FireServer("accept")
@@ -510,11 +510,11 @@ while Settings.Bosses do
                 wait()
                 for i, v in pairs(Workspace.npc:GetChildren()) do
                     if
-                        v.ClassName == "Model" and v:FindFirstChild("npctype") and
+                        v.ClassName == "Model" and v:FindFirstChild("npctype") and v.Head:FindFirstChild("mob") and not v.Head.mob.fram.name.info.Text:find("Spirit") and
                             string.find(Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").bg.name.Text, v.Head.mob.fram.name.info.Text)
                      then
                         if Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible == true then 
-                            Player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -5, 3))
+                            Player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(v.Head.Position + Vector3.new(0, -5, 3))
                             if v:FindFirstChild("antiexploit") then
                             v.antiexploit:remove()
                             end
