@@ -79,8 +79,12 @@ for i=1,15 do
 table.insert(Dungon,"dungeon"..i)
 end 
 end)
-
-
+if Settings.WaitTime == nil then
+    Settings.WaitTime = 0.1
+end 
+if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Main") then
+    repeat wait() until game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Main").Enabled
+end 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
 local Window = Library:CreateWindow(Config, CoreGui)
 local Tab1 = Window:CreateTab("")
@@ -92,6 +96,10 @@ local SectionA = Tab1:CreateSection("")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 
+
+local Slider1 = Section2:CreateSlider("AutoFarm Wait Time",0,5,Settings.WaitTime,false, function(Value)
+	Settings.WaitTime = Value
+end)
 
 local Toggle1 = Section1:CreateToggle("Anti Grip/Godmode", Settings.AntiGrip, function(State)
 Settings.AntiGrip = State
@@ -233,6 +241,7 @@ Settings.AutoMobs = State
 RunService.Stepped:connect(
     function()
         if Settings.AutoMobs then pcall(function()
+         Player.Character:FindFirstChildWhichIsA("Humanoid").WalkSpeed = 25
             j = string.split(Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").bg.name.Text, "(s)")[1]
 
             Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").bg.name.Text =
@@ -260,24 +269,23 @@ while Settings.AutoMobs do
                             pcall(
                                 function()
                                     Player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -5, 3))
-                                        wait(0.3)
                                     v:FindFirstChild("CLIENTTALK"):FireServer()
-                                    v:FindFirstChild("CLIENTTALK"):FireServer("accept") wait(0.5)
+                                    v:FindFirstChild("CLIENTTALK"):FireServer("accept") 
                                 end
                             )
                         end
                     end
                 end
-            until Settings.AutoMobs == false or Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible == true
+            until Settings.AutoMobs == false or Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible
             repeat
                 wait()
-                if Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible == true then
+                if Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible then
                     for i, v in pairs(Workspace.npc:GetChildren()) do
                         if v:FindFirstChild("npctype") then
                           print("Hi")
                         end
                         if 
-                            v.ClassName == "Model" and v:FindFirstChild("npctype") and
+                            v:IsA("Model") and v:FindFirstChild("npctype") and
                                 string.find(Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").bg.name.Text, v.Head.mob.fram.name.info.Text) and
                                 v:FindFirstChild("HumanoidRootPart") and
                                 v:FindFirstChild("Humanoid") and
@@ -315,6 +323,7 @@ Settings.Hope = State
 RunService.Stepped:connect(
     function()
         if Settings.Hope then pcall(function()
+            Player.Character:FindFirstChildWhichIsA("Humanoid").WalkSpeed = 25
             Player.Character:WaitForChild("Humanoid"):ChangeState(11)
             end)
         end
@@ -333,7 +342,7 @@ while Settings.Hope do
                           print("Hi")
                         end
                         if 
-                            v.ClassName == "Model" and v:FindFirstChild("npctype")  and
+                            v:IsA("Model") and v:FindFirstChild("npctype")  and
                                 v:FindFirstChild("HumanoidRootPart") and
                                 v:FindFirstChild("Humanoid") and
                                 v.Head.CFrame.Y > -1000
@@ -369,6 +378,7 @@ Settings.Bosses2 = State
 RunService.Stepped:connect(
     function()
         if Settings.Bosses2 then
+            Player.Character:FindFirstChildWhichIsA("Humanoid").WalkSpeed = 25
             Player.Character:WaitForChild("Humanoid"):ChangeState(11)
         end
     end
@@ -385,21 +395,19 @@ while Settings.Bosses2 do
                         if v:IsA("Model") and v:FindFirstChild("Head") then
                             if Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible == false then
                                 Player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -5, 3))
-                                wait(0.3)
                                 v:FindFirstChild("CLIENTTALK"):FireServer()
                                 v:FindFirstChild("CLIENTTALK"):FireServer("accept")
-                                wait(0.5)
                             end
                         end
                     end
                 end
-            until Settings.Bosses2 == false or Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible == true
+            until Settings.Bosses2 == false or Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible
             repeat
                 wait()
                 for i, v in pairs(Workspace.npc:GetChildren()) do
                     if
-                        v.ClassName == "Model" and v:FindFirstChild("npctype") then
-                        if Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible == true then 
+                        v:IsA("Model") and v:FindFirstChild("npctype") then
+                        if Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible then 
                             Player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -5, 3))
                             if v:FindFirstChild("antiexploit") then
                             v.antiexploit:remove()
@@ -425,6 +433,7 @@ Settings.Bosses3 = State
 RunService.Stepped:connect(
     function()
         if Settings.Bosses3 then
+            Player.Character:FindFirstChildWhichIsA("Humanoid").WalkSpeed = 25
             Player.Character:WaitForChild("Humanoid"):ChangeState(11)
         end
     end
@@ -441,21 +450,19 @@ while Settings.Bosses3 do
                         if v:IsA("Model") and v:FindFirstChild("Head") then
                             if Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible == false then
                                Player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -5, 3))
-                                wait(0.3)
                                 v:FindFirstChild("CLIENTTALK"):FireServer()
                                 v:FindFirstChild("CLIENTTALK"):FireServer("accept")
-                                wait(0.5)
                             end
                         end
                     end
                 end
-            until Settings.Bosses3 == false or Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible == true
+            until Settings.Bosses3 == false or Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible
             repeat
                 wait()
                 for i, v in pairs(Workspace.npc:GetChildren()) do
                     if
-                        v.ClassName == "Model" and v:FindFirstChild("npctype") then
-                        if Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible == true then 
+                        v:IsA("Model") and v:FindFirstChild("npctype") then
+                        if Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible then 
                             Player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -5, 3))
                             if v:FindFirstChild("antiexploit") then
                             v.antiexploit:remove()
@@ -481,6 +488,7 @@ Settings.Bosses = State
 RunService.Stepped:connect(
     function()
         if Settings.Bosses then
+            Player.Character:FindFirstChildWhichIsA("Humanoid").WalkSpeed = 25
             Player.Character:WaitForChild("Humanoid"):ChangeState(11)
         end
     end
@@ -494,27 +502,25 @@ while Settings.Bosses do
                 wait()
                 for i, v in pairs(Workspace.bossdropmission.missions:GetChildren()) do
                     for i, v in pairs(v:GetChildren()) do
-                        if v:IsA("Model") and v:FindFirstChild("Head")  then
+                        if v:IsA("Model") and v:FindFirstChild("Head") then
                             if Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible == false then
-                                Player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(v.Head.Position + Vector3.new(0, -5, 3))
-                                wait(0.3)
+                                Player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -5, 3))
                                 v:FindFirstChild("CLIENTTALK"):FireServer()
                                 v:FindFirstChild("CLIENTTALK"):FireServer("accept")
-                                wait(0.5)
                             end
                         end
                     end
                 end
-            until Settings.Bosses == false or Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible == true
+            until Settings.Bosses == false or Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible
             repeat
                 wait()
                 for i, v in pairs(Workspace.npc:GetChildren()) do
                     if
-                        v.ClassName == "Model" and v:FindFirstChild("npctype") and v.Head:FindFirstChild("mob") and not v.Head.mob.fram.name.info.Text:find("Spirit") and
+                        v:IsA("Model") and v:FindFirstChild("npctype") and
                             string.find(Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").bg.name.Text, v.Head.mob.fram.name.info.Text)
                      then
-                        if Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible == true then 
-                            Player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(v.Head.Position + Vector3.new(0, -5, 3))
+                        if Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible then 
+                            Player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -5, 3))
                             if v:FindFirstChild("antiexploit") then
                             v.antiexploit:remove()
                             end
@@ -550,12 +556,12 @@ while wait() and Settings.Rebirth do
                     Player.statz.prestige.number.Value == "3"
          then
             repeat
-                wait(0.5)
+                wait(Settings.WaitTime)
                 Player.startevent:FireServer("maxlvlpres")
             until Player.statz.lvl:FindFirstChild("lvl").Value == 1 or not Settings.Rebirth
         else
             repeat
-                wait(0.5)
+                wait(Settings.WaitTime)
                 Player.startevent:FireServer("rankup")
             until Player.statz.lvl:FindFirstChild("lvl").Value == 1 or not Settings.Rebirth
         end
@@ -569,6 +575,7 @@ Settings.Jin = State
 RunService.Stepped:connect(
     function()
         if Settings.Jin then
+            Player.Character:FindFirstChildWhichIsA("Humanoid").WalkSpeed = 25
             Player.Character:WaitForChild("Humanoid"):ChangeState(11)
         end
     end
@@ -601,6 +608,7 @@ Settings.War = State
 RunService.Stepped:connect(
     function()
         if Settings.War then
+            Player.Character:FindFirstChildWhichIsA("Humanoid").WalkSpeed = 25
             Player.Character:WaitForChild("Humanoid"):ChangeState(11)
         end
     end
@@ -613,7 +621,7 @@ while Settings.War do
         function()
             for i, v in pairs(workspace.npc:GetChildren()) do
                 if
-                    v.ClassName == "Model" and v:FindFirstChild("npc") and string.find(v.Name, "npc") and
+                    v:IsA("Model") and v:FindFirstChild("npc") and string.find(v.Name, "npc") and
                         v:FindFirstChild("HumanoidRootPart") and
                         v:FindFirstChild("Humanoid") and
                         v.Head.CFrame.Y > -1000 and
@@ -626,7 +634,7 @@ while Settings.War do
                         v.Humanoid.Health = 0
                     end
                 elseif
-                    v.ClassName == "Model" and v:FindFirstChild("npc") and string.find(v.Name, "npc") and
+                    v:IsA("Model") and v:FindFirstChild("npc") and string.find(v.Name, "npc") and
                         v:FindFirstChild("HumanoidRootPart") and
                         v:FindFirstChild("Humanoid") and
                         v.Head.CFrame.Y > -1000 and
@@ -657,7 +665,7 @@ while Settings.Scroll do
         function()
             for i, v in pairs(game.workspace.GLOBALTIME:GetChildren()) do
                 if
-                    v.ClassName == "Model" and v:FindFirstChild("sh") and v.sh.Position.Y > -1000 and
+                    v:IsA("Model") and v:FindFirstChild("sh") and v.sh.Position.Y > -1000 and
                         v.sh.Position.Y < 2000
                  then
                     Player.Character.HumanoidRootPart.CFrame = v.sh.CFrame
@@ -666,7 +674,7 @@ while Settings.Scroll do
             end
             for i, v in pairs(game.workspace:GetChildren()) do
                 if
-                    v.ClassName == "Model" and v:FindFirstChild("sh") and v.sh.Position.Y > -1000 and
+                    v:IsA("Model") and v:FindFirstChild("sh") and v.sh.Position.Y > -1000 and
                         v.sh.Position.Y < 2000
                  then
                     Player.Character.HumanoidRootPart.CFrame = v.sh.CFrame
