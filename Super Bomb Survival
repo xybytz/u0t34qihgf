@@ -92,11 +92,11 @@ end
 
 local LP = game:GetService("Players").LocalPlayer
 local ts = game:GetService("TweenService")
-local function Tween(part, endpos, speed)
-    if part and endpos then
-        local Time = (endpos - part.Position).magnitude/speed
+local function Tween(A, B, C)
+    if A and B then
+        local Time = (B - A.Position).magnitude/C
         local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
-        local Tween = ts:Create(part,Info,{CFrame = CFrame.new(endpos.X,endpos.Y,endpos.Z)})
+        local Tween = ts:Create(A,Info,{CFrame = CFrame.new(B.X,B.Y,B.Z)})
         Tween:Play()
         wait(Time)
     end
@@ -125,6 +125,10 @@ end
 end) end)
 while autofarm do wait()
 pcall(function()
+
+game:GetService("ReplicatedStorage").Remotes.chooseOption:FireServer("afk",false)
+
+    if game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-38, 300, 29)
 
 tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(5, Enum.EasingStyle.Linear)
@@ -138,7 +142,7 @@ tween:Play() wait(5)
 tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(5, Enum.EasingStyle.Linear)
 tween = tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(-38, 300, 29)})
 tween:Play() wait(5)
-
+end 
 end)
 end end)
 
