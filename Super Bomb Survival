@@ -165,7 +165,11 @@ RunService.Stepped:connect(
         pcall(
             function()
                 if autofarm then
-                    Player.Character:FindFirstChildOfClass("Humanoid"):ChangeState(11)
+                    for i,v in pairs(Player.Character:GetChildren()) do
+                        if v:IsA("BasePart") then
+                            v.CanCollide = false
+                        end 
+                    end 
                 end
             end
         )
@@ -176,7 +180,7 @@ while autofarm do
     pcall(
         function()
             Remotes.chooseOption:FireServer("afk", false)
-
+            game.Workspace.Gravity = 0
             if Player.Character:FindFirstChildOfClass("Humanoid") then
                 Player.Character.HumanoidRootPart.CFrame = CFrame.new(121, 302, 181)
 
@@ -209,6 +213,7 @@ while autofarm do
                 )
                 tween:Play()
                 wait(5)
+                game.Workspace.Gravity = 196.2
             end
         end
     )
