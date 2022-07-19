@@ -518,7 +518,7 @@ while Settings.Bosses do
                 wait()
                 for i, v in pairs(Workspace.npc:GetChildren()) do
                     if
-                        v:IsA("Model") and v:FindFirstChild("npctype") and
+                        v:IsA("Model") and v:FindFirstChild("npctype") and not v.Head.mob.fram.name.info.Text:find("Spirit") and
                             string.find(Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").bg.name.Text, v.Head.mob.fram.name.info.Text)
                      then
                         if Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible == true then 
