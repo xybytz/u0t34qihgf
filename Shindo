@@ -268,9 +268,9 @@ while Settings.AutoMobs do
                             pcall(
                                 function()
                                     Player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -5, 3))
-                                        wait(Settings.WaitTime)
+                                        
                                     v:FindFirstChild("CLIENTTALK"):FireServer()
-                                    v:FindFirstChild("CLIENTTALK"):FireServer("accept") wait(Settings.WaitTime)
+                                    v:FindFirstChild("CLIENTTALK"):FireServer("accept") 
                                 end
                             )
                         end
@@ -297,6 +297,7 @@ while Settings.AutoMobs do
                                     if v:FindFirstChild("antiexploit") then
                                         v.antiexploit:remove()
                                     end
+                                    wait(0.2)
                                     Player.Character.combat.update:FireServer("mouse1", true)
                                     Player.Character.combat.update:FireServer("mouse1", false)
                                     if v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health < v.Humanoid.MaxHealth then
@@ -393,10 +394,8 @@ while Settings.Bosses2 do
                         if v:IsA("Model") and v:FindFirstChild("Head") then
                             if Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible == false then
                                 Player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -5, 3))
-                                wait(Settings.WaitTime)
                                 v:FindFirstChild("CLIENTTALK"):FireServer()
                                 v:FindFirstChild("CLIENTTALK"):FireServer("accept")
-                                wait(Settings.WaitTime)
                             end
                         end
                     end
@@ -449,10 +448,10 @@ while Settings.Bosses3 do
                         if v:IsA("Model") and v:FindFirstChild("Head") then
                             if Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible == false then
                                Player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -5, 3))
-                                wait(Settings.WaitTime)
+        
                                 v:FindFirstChild("CLIENTTALK"):FireServer()
                                 v:FindFirstChild("CLIENTTALK"):FireServer("accept")
-                                wait(Settings.WaitTime)
+                                
                             end
                         end
                     end
@@ -505,10 +504,10 @@ while Settings.Bosses do
                         if v:IsA("Model") and v:FindFirstChild("Head") then
                             if Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible == false then
                                 Player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -5, 3))
-                                wait(Settings.WaitTime)
+                                wait(0.5)
                                 v:FindFirstChild("CLIENTTALK"):FireServer()
                                 v:FindFirstChild("CLIENTTALK"):FireServer("accept")
-                                wait(Settings.WaitTime)
+                                
                             end
                         end
                     end
@@ -558,12 +557,12 @@ while wait() and Settings.Rebirth do
                     Player.statz.prestige.number.Value == "3"
          then
             repeat
-                wait(Settings.WaitTime)
+                
                 Player.startevent:FireServer("maxlvlpres")
             until Player.statz.lvl:FindFirstChild("lvl").Value == 1 or not Settings.Rebirth
         else
             repeat
-                wait(Settings.WaitTime)
+                
                 Player.startevent:FireServer("rankup")
             until Player.statz.lvl:FindFirstChild("lvl").Value == 1 or not Settings.Rebirth
         end
