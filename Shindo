@@ -557,12 +557,12 @@ while wait() and Settings.Rebirth do
                     Player.statz.prestige.number.Value == "3"
          then
             repeat
-                
+                wait()
                 Player.startevent:FireServer("maxlvlpres")
             until Player.statz.lvl:FindFirstChild("lvl").Value == 1 or not Settings.Rebirth
         else
             repeat
-                
+                wait()
                 Player.startevent:FireServer("rankup")
             until Player.statz.lvl:FindFirstChild("lvl").Value == 1 or not Settings.Rebirth
         end
