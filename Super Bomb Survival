@@ -156,7 +156,6 @@ while autofarm do
                 )
                 tween:Play()
                 wait(5)
-Invis()
                 tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(5, Enum.EasingStyle.Linear)
                 tween =
                     tweenService:Create(
