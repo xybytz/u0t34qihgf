@@ -222,7 +222,7 @@ end
 end)
 local Toggle1 = Section1:CreateToggle("GodMode", nil, function(State)
 ttt = State
-while wait() and ttt do pcall(function()
+while wait(5) and ttt do pcall(function()
 if Player.Character:FindFirstChildWhichIsA("Humanoid") and not Player.Character:FindFirstChild("GodMode") then
 
 local L = {}
