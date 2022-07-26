@@ -145,14 +145,14 @@ while autofarm do
             Remotes.chooseOption:FireServer("afk", false)
             game.Workspace.Gravity = 0
             if Player.Character:FindFirstChildOfClass("Humanoid") then
-                Player.Character.HumanoidRootPart.CFrame = CFrame.new(121, 302, 181)
+                Player.Character.HumanoidRootPart.CFrame = CFrame.new(121, 272, 181)
 
                 tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(5, Enum.EasingStyle.Linear)
                 tween =
                     tweenService:Create(
                     game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart,
                     tweenInfo,
-                    {CFrame = CFrame.new(120, 304, 28)}
+                    {CFrame = CFrame.new(120, 272, 28)}
                 )
                 tween:Play()
                 wait(5)
@@ -161,7 +161,7 @@ while autofarm do
                     tweenService:Create(
                     game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart,
                     tweenInfo,
-                    {CFrame = CFrame.new(-34, 302, 29)}
+                    {CFrame = CFrame.new(-34, 272, 29)}
                 )
                 tween:Play()
                 wait(5)
@@ -171,7 +171,7 @@ while autofarm do
                     tweenService:Create(
                     game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart,
                     tweenInfo,
-                    {CFrame = CFrame.new(-34, 304, 183)}
+                    {CFrame = CFrame.new(-34, 272, 183)}
                 )
                 tween:Play()
                 wait(5)
