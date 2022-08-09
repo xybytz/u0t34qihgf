@@ -619,10 +619,9 @@ while Settings.AutoCollect do
                     game.Players.LocalPlayer.Character.Humanoid:MoveTo(
                         v:FindFirstChildWhichIsA("BasePart").Position
                     )
-                    wait(2)
+                    wait(3)
                     game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
-                    wait(6)
-                    until v == nil or Settings.AutoCollect == false or v:FindFirstChild("Harvested").Value == true
+                    until v == nil or Settings.AutoCollect == false or v:FindFirstChild("Harvested").Value == true and wait(6)
                 end
             end
         end
@@ -685,13 +684,12 @@ while Settings.AutoEgg do
                     game.Players.LocalPlayer.Character.Humanoid:MoveTo(
                         v:FindFirstChildWhichIsA("BasePart").Position
                     )
-                    wait(1)
+                    wait(3)
                     if Settings.AutoEgg == false then
                         break
                     end
                     game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
-                    wait(6)
-                    until v == nil or Settings.AutoEgg == false or v.Harvested.Value == true
+                    until v == nil or Settings.AutoEgg == false or v.Harvested.Value == true and wait(6)
                 end
             end
         end
