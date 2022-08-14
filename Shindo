@@ -84,7 +84,7 @@ local Shindo = {
 }
 
 if not table.find(Shindo, game.PlaceId) then
-    return nil
+    return 
 end
 print("Finished")
 
