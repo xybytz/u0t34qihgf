@@ -85,9 +85,9 @@ local LP = game:GetService("Players").LocalPlayer
 local ts = game:GetService("TweenService")
 local function Tween(A, B, C)
     if A and B then
-        local Time = (B - A.Position).magnitude/C
+        local Time = (B.Position - A.Position).magnitude/C
         local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
-        local Tween = ts:Create(A,Info,{CFrame = CFrame.new(B.X,B.Y,B.Z)})
+        local Tween = ts:Create(A,Info,{CFrame = B})
         Tween:Play()
         wait(Time)
     end
@@ -111,17 +111,17 @@ local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 
 if isnetworkowner then
-local Toggle1 = Section1:CreateToggle("Push Away Bombs", nil, function(State)
-Autofarm = State
+local Toggle1 = Section1:CreateToggle("Push Away Bombs", Settings.AutoFarm2, function(State)
+Settings.AutoFarm2 = State
 RunService.Stepped:connect(
     function()
         for i, v in pairs(game:GetService("Workspace").Bombs:GetChildren()) do
-            if not v:FindFirstChild("itemarrow") and v:IsA("BasePart") and isnetworkowner(v) and Autofarm then
+            if not v:FindFirstChild("itemarrow") and v:IsA("BasePart") and isnetworkowner(v) and Settings.AutoFarm2 then
                 v.CFrame = CFrame.new(9e9, 9e9, 9e9)
             elseif
                 v:IsA("Model") and v:FindFirstChildWhichIsA("BasePart") and
                     isnetworkowner(v:FindFirstChildWhichIsA("BasePart")) and
-                    Autofarm
+                    Settings.AutoFarm2
              then
                 v:MoveTo(Vector3.new(9e9, 9e9, 9e9))
             end
@@ -130,60 +130,29 @@ RunService.Stepped:connect(
 )
 end)
 end 
-local Toggle1 = Section1:CreateToggle("AutoFarm", nil, function(State)
-autofarm = State
+local Toggle1 = Section1:CreateToggle("AutoFarm", Settings.AutoFarm, function(State)
+Settings.AutoFarm = State
 RunService.Stepped:connect(
     function()
         pcall(
             function()
-                if autofarm then
-                    for i,v in pairs(Player.Character:GetChildren()) do
-                        if v:IsA("BasePart") then
-                            v.CanCollide = false
-                            Float(v)
-                        end 
-                    end 
+                if Settings.AutoFarm then
+                    Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState(11)
                 end
             end
         )
     end
 )
-while autofarm do
+while Settings.AutoFarm do
     wait()
     pcall(
         function()
             Remotes.chooseOption:FireServer("afk", false)
-            if Player.Character:FindFirstChildOfClass("Humanoid") then
+            if Player.Character:FindFirstChild("Humanoid") then
                 Player.Character.HumanoidRootPart.CFrame = CFrame.new(121, 272, 181)
-
-                tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(5, Enum.EasingStyle.Linear)
-                tween =
-                    tweenService:Create(
-                    game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart,
-                    tweenInfo,
-                    {CFrame = CFrame.new(120, 272, 28)}
-                )
-                tween:Play()
-                wait(5)
-                tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(5, Enum.EasingStyle.Linear)
-                tween =
-                    tweenService:Create(
-                    game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart,
-                    tweenInfo,
-                    {CFrame = CFrame.new(-34, 272, 29)}
-                )
-                tween:Play()
-                wait(5)
-
-                tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(5, Enum.EasingStyle.Linear)
-                tween =
-                    tweenService:Create(
-                    game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart,
-                    tweenInfo,
-                    {CFrame = CFrame.new(-34, 272, 183)}
-                )
-                tween:Play()
-                wait(5)
+                Tween(Player.Character.HumanoidRootPart,CFrame.new(120, 272, 28),100)
+                Tween(Player.Character.HumanoidRootPart,CFrame.new(-34, 272, 29),100)
+                Tween(Player.Character.HumanoidRootPart,CFrame.new(-34, 272, 183),100)
             end
         end
     )
@@ -192,17 +161,23 @@ end
 end)
 
 
-local Toggle1 = Section1:CreateToggle("Anti RagDoll", nil, function(State)
-Ragdoll = State
+local Toggle1 = Section1:CreateToggle("Anti RagDoll", Settings.Rag, function(State)
+Settings.Rag = State
 local OldNameCall = nil
-OldNameCall = hookmetamethod(game, "__namecall", function(...)
-    local Args = {...}
-    local Self = Args[1]
-    if getnamecallmethod()=="FireServer" and tostring(Self)=="Ragdoll" and Args[2] == "on" and Ragdoll then
-            return nil
+OldNameCall =
+    hookmetamethod(
+    game,
+    "__namecall",
+    function(...)
+        local Args = {...}
+        local Self = Args[1]
+        if getnamecallmethod() == "FireServer" and tostring(Self) == "Ragdoll" and Args[2] == "on" and Settings.Rag then
+            return Args[2] == "off"
+        end
+        return OldNameCall(...)
     end
-    return OldNameCall(...)
-end)
+)
+
 end)
 local Button1 = Section1:CreateButton("Bring All Balls to you", function()
 for i,v in pairs(game:GetService("Workspace").lobby2:GetChildren()) do
