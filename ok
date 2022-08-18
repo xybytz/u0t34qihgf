@@ -24,9 +24,11 @@ local Table = {
     "FindService",
     "collectgarbage",
     "GetPropertyChangedSignal",
-    "getfenv"
+    "getfenv",
+    "Kick",
+    "kick"
 }
-local Table2 = {Char, game:GetService("CoreGui"), Player}
+local Table2 = {Char, game:GetService("CoreGui"), Player,Player.Kick,}
 local OldNameCall = nil
 OldNameCall =
     hookmetamethod(
