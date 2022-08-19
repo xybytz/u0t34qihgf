@@ -313,102 +313,36 @@ local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 
 if game.PlaceId == 5777228223 then
-    
-local function getNearestOre()
-    local TargetDistance = math.huge
-    local Target
-    for x, d in pairs(game:GetService("Workspace").Interactions.GalaxyEvent.OreMining.Sections:GetChildren()) do
-        if d:IsA("Folder") then
-            for x, d in pairs(d:GetChildren()) do
-                if d:IsA("Model") and d:FindFirstChildWhichIsA("BasePart") then
-                    local Mag =
-                        (game.Players.LocalPlayer.Character.HumanoidRootPart.Position -
-                        d:FindFirstChildWhichIsA("BasePart").Position).Magnitude
-                    if Mag < TargetDistance then
-                        TargetDistance = Mag
-                        Target = d
-                    end
-                end
-            end
-        end
-    end
-    return Target
-end
-local Toggle1 = Section1:CreateToggle("Ore AutoFarm", Settings.Start, function(State) 
+  
+local Toggle1 = Section1:CreateToggle("Egg Box AutoFarm", Settings.Start, function(State) 
 Settings.Start = State
 game:GetService("RunService").Stepped:connect(
     function()
         if Settings.Start then
-            for i, v in pairs(game.Players.LocalPlayer.Character.Dragons:GetChildren()) do
-                if v:IsA("Model") then
-                    for i, v in pairs(v:GetChildren()) do
-                        if v:IsA("BasePart") then
-                            v.CanCollide = false
-                        end
-                    end
-                end
-            end
-            for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-                if v:IsA("BasePart") then
-                    v.CanCollide = false
-                end
-            end
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid")
         end
     end
 )
-spawn(function()
-while wait(1) and Settings.Start do
-    pcall(
-        function()
-            for i, v in pairs(game.Players.LocalPlayer.Character.Dragons:GetChildren()) do
-                if v:IsA("Model") then
-                    v.HumanoidRootPart.CFrame =
-                        CFrame.new(getNearestOre():FindFirstChildWhichIsA("BasePart").Position + Vector3.new(0, 10, 0))
-                    game.Workspace.CurrentCamera.CFrame =
-                        lookAt(
-                        game.Players.LocalPlayer.Character.HumanoidRootPart.Position,
-                        getNearestOre():FindFirstChildWhichIsA("BasePart").Position
-                    )
-                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "F", false, game)
-
-                end
-            end
-        end
-    )
-end
-end)
-end)
-
-Toggle1:AddToolTip("get on dragon and fly small dragons recommened")
-if Settings.Amount == nil then 
-    Settings.Amount = 300
-end 
-
-local Toggle1 = Section1:CreateToggle("Auto Smelt", Settings.Start2, function(State) 
-Settings.Start2 = State
 spawn(
     function()
-        while wait() and Settings.Start2 do
+        while Settings.Start do
+            wait()
             pcall(
                 function()
-                    for i, v in pairs(game.Players.LocalPlayer.Character.Dragons:GetChildren()) do
+                    for i, v in pairs(
+                        game:GetService("Workspace").Interactions.Nodes.Harvest.Solstice.ActiveNodes:GetChildren()
+                    ) do
                         if v:IsA("Model") then
-                            if
-                                game:GetService("Players").LocalPlayer.Data.GalaxyEvent2022.CrystalOre.Value >=
-                                    Settings.Amount
-                             then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                v:GetModelCFrame() * CFrame.new(0, 10, 50)
+                            wait(1)
+                            repeat
                                 wait()
-                                v.HumanoidRootPart.CFrame =
-                                    game:GetService("Workspace").Interactions.GalaxyEvent.LocalStreamingModel.OreProcessor.Conveyor.ProcessPart.CFrame
-                                wait(2)
+                                game.Players.LocalPlayer.Character.Humanoid:MoveTo(v:GetModelCFrame().Position)
+                                wait(4)
                                 game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
-
-                                wait(15)
-                                v.HumanoidRootPart.CFrame =
-                                    game:GetService("Workspace").Interactions.GalaxyEvent.LocalStreamingModel.OreProcessor.Conveyor.CollectPart.CFrame
-                                wait(1)
-                                game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
-                            end
+                            until v == nil or Settings.Start == false or
+                                v:FindFirstChild("Harvested").Value == true and wait(6)
                         end
                     end
                 end
@@ -416,27 +350,11 @@ spawn(
         end
     end
 )
+
 end)
-local Toggle1 = Section1:CreateToggle("Auto Repair", Settings.GOTOTO, function(State) 
-Settings.GOTOTO = State
-spawn(
-    function()
-        while wait(1) and Settings.GOTOTO do
-            pcall(
-                function()
-                    wait()
-                    for i = 1, 2 do
-                        game:GetService("ReplicatedStorage").Remotes.RepairProcessorRemote:FireServer(tostring(i))
-                    end
-                end
-            )
-        end
-    end
-)
-end)
-local Slider3 = Section1:CreateSlider("Ore Amount",0,1000,Settings.Amount,false, function(Value)
-	Settings.Amount = Value
-end)
+
+Toggle1:AddToolTip("FUCK YOU")
+
 end 
 
 if game.PlaceId == 3475397644 then
