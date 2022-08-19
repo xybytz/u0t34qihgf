@@ -334,11 +334,11 @@ spawn(
                     ) do
                         if v:IsA("Model") then
                             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                                v:GetModelCFrame() * CFrame.new(0, 10, 50)
+                                v:FindFirstChildWhichIsA("BasePart").CFrame * CFrame.new(0, 10, 50)
                             wait(1)
                             repeat
                                 wait()
-                                game.Players.LocalPlayer.Character.Humanoid:MoveTo(v:GetModelCFrame().Position)
+                                game.Players.LocalPlayer.Character.Humanoid:MoveTo(v:FindFirstChildWhichIsA("BasePart").Position)
                                 wait(4)
                                 game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
                             until v == nil or Settings.Start == false or
