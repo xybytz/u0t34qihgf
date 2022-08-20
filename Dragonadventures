@@ -313,7 +313,21 @@ local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 
 if game.PlaceId == 5777228223 then
-  
+local function GetClosestBalls()
+    local TargetDistance = math.huge
+    local Target
+    for _, v in pairs(game:GetService("Workspace").Interactions.SolsticeEvent.CatchObject:GetChildren()) do
+        if v:IsA("Model") then
+            local Mag =
+                (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v:GetModelCFrame().Position).magnitude
+            if Mag < TargetDistance then
+                TargetDistance = Mag
+                Target = v
+            end
+        end
+    end
+    return Target
+end
 local Toggle1 = Section1:CreateToggle("Egg Box AutoFarm", Settings.Start, function(State) 
 Settings.Start = State
 game:GetService("RunService").Stepped:connect(
@@ -355,6 +369,60 @@ end)
 
 Toggle1:AddToolTip("FUCK YOU")
 
+local Toggle1 = Section1:CreateToggle("Sun Tokens AutoFarm", Settings.Start, function(State) 
+Settings.Toggle = State
+game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.RewardFrame.RewardsFrame.ChildAdded:Connect(
+    function(v)
+        if v:IsA("ImageButton") and Settings.Toggle then
+            local r = require(game:GetService("ReplicatedStorage")["_replicationFolder"].MinigameRewardClient)
+
+            firesignal(v.ClaimButton.UpperLabel.MouseButton1Click)
+            firesignal(v.ClaimButton.MouseButton1Click)
+            wait(3)
+            local E = r.End
+
+            E(r, r.End)
+        end
+    end
+)
+
+spawn(
+    function()
+        while wait() and Settings.Toggle do
+            pcall(
+                function()
+                    if game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.CatchObject.PresentsLabel.Visible then
+                        game.Workspace.Gravity = 0
+                        speed = 300
+                        local Time =
+                            (GetClosestBalls():GetModelCFrame().Position -
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / speed
+                        local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
+                        local Tween =
+                            game:GetService("TweenService"):Create(
+                            game.Players.LocalPlayer.Character.HumanoidRootPart,
+                            Info,
+                            {CFrame = CFrame.new(GetClosestBalls():GetModelCFrame().Position)}
+                        )
+                        Tween:Play()
+                        wait(1)
+                        game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
+                    end
+                    if
+                        not game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.CatchObject.PresentsLabel.Visible
+                     then
+                        game.Workspace.Gravity = 196.2
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                            game:GetService("Workspace").Interactions.SolsticeEvent.CatchObject.StartZone.NoticeBeams:GetModelCFrame(
+
+                        ) * CFrame.new(0, 0, 0)
+                    end
+                end
+            )
+        end
+    end
+)
+end)
 end 
 
 if game.PlaceId == 3475397644 then
