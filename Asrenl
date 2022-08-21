@@ -170,6 +170,21 @@ local function Spawn()
 end
 
 
+
+if hookmetamethod then
+local OldNameCall
+OldNameCall = hookmetamethod(game, "__newindex", function(A, B, self, ...)
+    if not checkcaller()  and (B == "WalkSpeed" or B == "walkspeed")  then
+        return 20
+    end
+    if not checkcaller()  and (B == "JumpPower" or B == "jumppower")  then
+        return 15
+    end
+    return OldNameCall(A, B, self, ...)
+end)
+end 
+Player.Character.Humanoid.WalkSpeed = 20 
+Player.Character.Humanoid.JumpPower = 15
 local Circle = Drawing.new("Circle")
 Circle.Color = Color3.fromRGB(22, 13, 56)
 Circle.Thickness = 1
@@ -1084,5 +1099,4 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
 
