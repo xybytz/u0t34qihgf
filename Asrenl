@@ -607,26 +607,6 @@ game:GetService("RunService").Stepped:connect(
 )
 end)
 
-getgenv().Message = "V.G Hub Winning"
-local Toggle1 = Section1:CreateToggle("Spam Chat", Settings.Chat, function(State)
-Settings.Chat = State
-game:GetService("RunService").RenderStepped:Connect(
-    function()
-        if Settings.Chat then
-            local args = {
-                [1] = "Trolling42",
-                [2] = getgenv().Message,
-                [3] = false,
-                [4] = true,
-                [5] = true
-            }
-
-            game:GetService("ReplicatedStorage").Events.PlayerChatted:FireServer(unpack(args))
-        end
-    end
-)
-end)
-
 local Toggle1 = Section2:CreateToggle("Always Auto", Settings.Automtatic, function(State)
 Settings.Automtatic = State
 for _, v in pairs(game.ReplicatedStorage.Weapons:GetDescendants()) do
