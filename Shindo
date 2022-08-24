@@ -87,7 +87,12 @@ if not table.find(Shindo, game.PlaceId) then
     return 
 end
 print("Finished")
-
+local Config = {
+    WindowName = "V.G Hub",
+	Color = Color3.fromRGB(255,128,64),
+	Keybind = Enum.KeyCode.RightControl
+}
+repeat task.wait() until game:IsLoaded() 
 local wait = task.wait
 local spawn = task.spawn
 local Player = game:GetService("Players").LocalPlayer
@@ -108,6 +113,7 @@ RunService.Stepped:connect(
         sethiddenproperty(Player, "SimulationRadius", 1000)
     end
 )
+
 
 local Name = "Shindo.json"
 
@@ -304,7 +310,7 @@ spawn(function()
 while wait() and Settings.EventBosses do
     for i, v in pairs(Workspace.npc:GetChildren()) do
         if v.Name ~= "logtraining" and v:FindFirstChild("Head") and
-                                v.Head.CFrame.Y > -1000 then
+                                v.Head.CFrame.Y > -1000 and v.Name == "npc1" then
             repeat
                 wait()
                 pcall(
