@@ -1,10 +1,4 @@
 
-
-local Config = {
-    WindowName = "V.G Hub",
-	Color = Color3.fromRGB(255,128,64),
-	Keybind = Enum.KeyCode.RightControl
-}
 repeat task.wait() until game:IsLoaded() 
 
 local Shindo = {
@@ -293,35 +287,7 @@ end)]]--
 
 
 if game.PlaceId ~= 7524809704 then
-local Toggle1 = Section1:CreateToggle("Event Bosses", Settings.EventBosses, function(State)
-Settings.EventBosses = State
 
-RunService.Stepped:connect(
-    function()
-        if Settings.EventBosses then
-            Player.Character:WaitForChild("Humanoid"):ChangeState(11)
-        end
-    end
-)
-spawn(function()
-while wait() and Settings.EventBosses do
-    for i, v in pairs(Workspace.npc:GetChildren()) do
-        if v.Name ~= "logtraining" and v:FindFirstChild("Head") and
-                                v.Head.CFrame.Y > -1000 and v.Name == "npc1" then
-            repeat
-                wait()
-                pcall(
-                    function()
-                        Player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -5, 3)
-                        Player.Character.combat.update:FireServer("mouse1", true)
-                        Player.Character.combat.update:FireServer("mouse1", false)
-                    end)
-            until v.Humanoid.Health == 0 or not v or not Settings.EventBosses
-        end
-    end
-end
-end)
-end)
 
 local Toggle1 = Section1:CreateToggle("AutoFarm Mobs", Settings.AutoMobs, function(State)
 Settings.AutoMobs = State
@@ -627,7 +593,7 @@ spawn(
 
 end)
 end 
-local Toggle1 = Section1:CreateToggle("AutoFarm Boss", Settings.Bosses, function(State)
+local Toggle1 = Section1:CreateToggle("AutoFarm Boss/Event Bosses", Settings.Bosses, function(State)
 Settings.Bosses = State
 RunService.Stepped:connect(
     function()
@@ -645,22 +611,20 @@ spawn(
                     if
                         not Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible
                      then
-                        for i, v in pairs(Workspace.bossdropmission.missions:GetChildren()) do
-                            for i, v in pairs(v:GetChildren()) do
-                                if v:IsA("Model") and v:FindFirstChild("Head") and not v:FindFirstChild("rpaw") then
-                                    if
+                        for i, v in pairs(Workspace:GetDescendants()) do
+                                if v:IsA("Model") and v:FindFirstChild("Head") and not v:FindFirstChild("rpaw") and v:FindFirstChild("HumanoidRootPart") and v.HumanoidRootPart:FindFirstChild("fakerp")and wait(1) then
+                                    if not
                                         Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild(
                                             "Missionstory"
-                                        ).Visible == false
+                                        ).Visible 
                                      then
                                         Player.Character:WaitForChild("HumanoidRootPart").CFrame =
-                                            CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -5, 3)
+                                            CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -10, 3)
                                         wait(0.5)
                                         v:FindFirstChild("CLIENTTALK"):FireServer()
                                         v:FindFirstChild("CLIENTTALK"):FireServer("accept")
                                     end
                                 end
-                            end
                         end
                     end
 
@@ -668,13 +632,14 @@ spawn(
                         for i, v in pairs(Workspace.npc:GetChildren()) do
                             if
                                 v:IsA("Model") and v:FindFirstChild("npctype") and
-                                    not v.Head.mob.fram.name.info.Text:find("Spirit") and not v:FindFirstChild("rpaw") and
+                                    not v.Head.mob.fram.name.info.Text:find("Spirit") and not v:FindFirstChild("rpaw") and 
                                     string.find(
                                         Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild(
                                             "Missionstory"
                                         ).bg.name.Text,
                                         v.Head.mob.fram.name.info.Text
-                                    )
+                                    ) and
+                                    v.Head.CFrame.Y > -1000
                              then
                                 if
                                     Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild(
