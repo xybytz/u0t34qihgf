@@ -194,17 +194,14 @@ end)
 local Toggle1 = Section1:CreateToggle("Anti Grip/Godmode", Settings.AntiGrip, function(State)
 Settings.AntiGrip = State
 if Settings.AntiGrip then
-game.StarterGui:SetCore("SendNotification", {
-Title = "lol";
-Text = "you need to die once then it will work";
-})
+
 end
 spawn(function()
 while wait() and Settings.AntiGrip do
     pcall(
         function()
             if Player.Character.fakehealth.Value == 0 then
-                Player.Character.fakehealth:Destroy()
+                Player.Character.fakehealth.Parent = nil
             end
         end
     )
