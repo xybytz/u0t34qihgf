@@ -65,37 +65,7 @@ OldNameCall =
         return OldNameCall(self, unpack(Args))
     end
 )
-if game.PlaceId == 5777228223 then
-spawn(
-    function()
-        while wait(3) do
-            pcall(
-                function()
-                    for i, v in pairs(
-                        game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.RewardFrame.RewardsFrame:GetChildren(
 
-                        )
-                    ) do
-                        if v.Name == "Default" and v.Visible == true then
-                            v.ClaimButton.Size = UDim2.new(9e9, 9e9, 9e9, 9e9)
-                            game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9,9e9))
-                        end
-                    end
-                    if
-                        game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.RewardFrame.CloseButton.Visible ==
-                            true
-                     then
-                        game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.RewardFrame.CloseButton.Size =
-                            UDim2.new(9e9, 9e9, 9e9, 9e9)
-                        game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9,9e9))
-                    end
-                end
-            )
-        end
-    end
-)
-
-end 
 
 local function GetDragons()
   local Target
@@ -435,7 +405,7 @@ for i, v in pairs(game:GetService("Workspace").Interactions:GetDescendants()) do
                     game.Players.LocalPlayer.Name .. "_DisplayGui"
                 ].ContainerFrame.NameLabel.Text 
          then
-             firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent.Parent.Parent.TeleportPart, 0)
+             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Parent.Parent.Parent.TeleportPart.CFrame
 
         end
     end
