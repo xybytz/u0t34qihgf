@@ -482,7 +482,8 @@ spawn(
                             Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible
                          then
                             for i, v in pairs(Workspace.npc:GetChildren()) do
-                                if v:IsA("Model") and v:FindFirstChild("npctype") then
+                                if v:IsA("Model") and v:FindFirstChild("npctype") and
+                                v.Head.CFrame.Y > -1000 then
                                     if
                                         Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild(
                                             "Missionstory"
@@ -533,7 +534,8 @@ spawn(
                      then
                         for i, v in pairs(Workspace.tailbeastbossmission.missions:GetChildren()) do
                             for i, v in pairs(v:GetChildren()) do
-                                if v:IsA("Model") and v:FindFirstChild("Head") then
+                                if v:IsA("Model") and v:FindFirstChild("Head") and
+                                v.Head.CFrame.Y > -1000 then
                                     if
                                         Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild(
                                             "Missionstory"
@@ -626,7 +628,8 @@ spawn(
                                             "Missionstory"
                                         ).bg.name.Text,
                                         v.Head.mob.fram.name.info.Text
-                                    )
+                                    ) and
+                                v.Head.CFrame.Y > -1000
                              then
                                 if
                                     Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild(
