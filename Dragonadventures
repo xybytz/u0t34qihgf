@@ -482,24 +482,6 @@ for i, v in pairs(game:GetService("Workspace").Interactions:GetDescendants()) do
 end
 end)
 
-local Toggle1 = Section1:CreateToggle("Auto Heavest", Settings.AutoHeavest, function(State) 
-Settings.AutoHeavest = State
-spawn(function()
-while Settings.AutoHeavest do wait(3)
-    pcall(function()
-    for i, v in pairs(
-        game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name .. "_Plot"].Base.Buildings:GetDescendants(
-
-        )
-    ) do wait(0)
-        if v.ClassName == "Model" and v:FindFirstChild("HarvestRemote") then
-            v.HarvestRemote:InvokeServer()
-        end
-    end
-    end)
-end 
-end)
-end)
 local Button1 = Section1:CreateButton("Sell All Foods", function()
     for i, v in pairs(game:GetService("Players").LocalPlayer.Data.Resources:GetChildren()) do
         if table.find(foods,v.Name) and v.Value ~= 0 then wait(0.5)
