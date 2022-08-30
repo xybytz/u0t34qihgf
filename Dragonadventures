@@ -339,7 +339,7 @@ end)
 
 Toggle1:AddToolTip("FUCK YOU")
 
-local Toggle1 = Section1:CreateToggle("Sun Tokens AutoFarm", Settings.Start, function(State) 
+local Toggle1 = Section1:CreateToggle("Sun Tokens AutoFarm", nil, function(State) 
 Settings.Toggle = State
 game:GetService("Players").LocalPlayer.PlayerGui.MinigamesGui.RewardFrame.RewardsFrame.ChildAdded:Connect(
     function(v)
@@ -547,7 +547,7 @@ end
 
 
 
-local Toggle1 = Section1:CreateToggle("Autocollect", Settings.AutoCollect, function(State)
+local Toggle1 = Section1:CreateToggle("Autocollect", nil, function(State)
 Settings.AutoCollect = State
 
 game:GetService("RunService").Stepped:connect(
