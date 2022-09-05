@@ -125,6 +125,8 @@ end
 local function Save()
     writefile("V.G Hub//" .. Name, HttpService:JSONEncode(Settings))
 end
+
+
 UserInputService.MouseIconEnabled = true
 UserInputService.MouseBehavior = Enum.MouseBehavior.Default
 RunService.Stepped:connect(function()
@@ -276,24 +278,28 @@ RunService.Stepped:connect(
         end
     end
 )
-spawn(function()
-while wait() and Settings.EventBosses do
-    for i, v in pairs(Workspace.npc:GetChildren()) do
-        if v.Name ~= "logtraining" and v:FindFirstChild("Head") and
-                                v.Head.CFrame.Y > -1000 then
-            repeat
-                wait()
-                pcall(
-                    function()
-                        Player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -5, 3)
-                        Player.Character.combat.update:FireServer("mouse1", true)
-                        Player.Character.combat.update:FireServer("mouse1", false)
-                    end)
-            until v.Humanoid.Health == 0 or not v or not Settings.EventBosses
+spawn(
+    function()
+        while wait() and Settings.EventBosses do
+            for i, v in pairs(Workspace.npc:GetChildren()) do
+                if v.Name ~= "logtraining" and v:FindFirstChild("Head") and v.Head.CFrame.Y > -1000 then
+                    repeat
+                        wait()
+                        pcall(
+                            function()
+                                Player.Character:WaitForChild("HumanoidRootPart").CFrame =
+                                    CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -5, 3)
+                                Player.Character.combat.update:FireServer("mouse1", true)
+                                Player.Character.combat.update:FireServer("mouse1", false)
+                            end
+                        )
+                    until v.Humanoid.Health == 0 or not v or not Settings.EventBosses
+                end
+            end
         end
     end
-end
-end)
+)
+
 end)
 local Toggle1 = Section1:CreateToggle("AutoFarm Mobs", Settings.AutoMobs, function(State)
 Settings.AutoMobs = State
@@ -302,13 +308,6 @@ RunService.Stepped:connect(
         if Settings.AutoMobs then
             pcall(
                 function()
-                    j =
-                        string.split(
-                        Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").bg.name.Text,
-                        "(s)"
-                    )[1]
-                    Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").bg.name.Text =
-                        string.gsub(j, tostring((s)), "")
                     Player.Character:WaitForChild("Humanoid"):ChangeState(11)
                 end
             )
@@ -350,9 +349,6 @@ spawn(
                     end
                     if Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible then
                         for i, v in pairs(Workspace.npc:GetChildren()) do
-                            if v:FindFirstChild("npctype") then
-                                print("Hi")
-                            end
                             if
                                 v:IsA("Model") and v:FindFirstChild("npctype") and
                                     string.find(
@@ -360,8 +356,7 @@ spawn(
                                             "Missionstory"
                                         ).bg.name.Text,
                                         v.Head.mob.fram.name.info.Text
-                                    ) and  not v.Head.mob.fram.name.info.Text:find("Spirit") and not v:FindFirstChild("rpaw") and  
-                                    v:FindFirstChild("HumanoidRootPart") and
+                                    ) and v:FindFirstChild("HumanoidRootPart") and
                                     v:FindFirstChild("Humanoid") and
                                     v.Head.CFrame.Y > -1000
                              then
@@ -662,7 +657,7 @@ local Toggle1 = Section1:CreateToggle("AutoRank", Settings.Rebirth, function(Sta
 Settings.Rebirth = State
 spawn(function()
 while wait() and Settings.Rebirth do
-    if Player.statz.lvl:FindFirstChild("lvl").Value >= 500 then
+    if Player.statz.lvl:FindFirstChild("lvl").Value == 1000 then
         if
             Player.statz.prestige.maxlvlpres.Value >= 1 or
                 Player.statz.prestige.maxlvlpres.Value == 0 and
@@ -683,7 +678,7 @@ while wait() and Settings.Rebirth do
 end
 end)
 end)
-local Toggle1 = Section1:CreateToggle("jinfarm", Settings.Jin, function(State)
+local Toggle1 = Section1:CreateToggle("Event boss auto hit", Settings.Jin, function(State)
 Settings.Jin = State
 RunService.Stepped:connect(
     function()
