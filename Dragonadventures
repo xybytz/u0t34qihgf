@@ -47,6 +47,20 @@ game:GetService("Players").LocalPlayer.PlayerGui.NodeGui.BoostFrame.ChildAdded:C
 wait = task.wait
 
 
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
+if Player.PlayerGui.IntroGui:FindFirstChild("IntroFrame") then
+    local Eh = Player.PlayerGui.IntroGui.IntroFrame.PlayButton
+    local VirtualUser = game:GetService("VirtualUser")
+    Eh.Size = UDim2.new(9e9, 9e9, 9e9, 9e9)
+    wait(1)
+    VirtualUser:ClickButton1(Vector2.new(9e9, 9e9))
+    wait(1)
+    Eh.Size = UDim2.new(0, 0, 0, 0)
+end
+local D = {"🕹️Player", "Guest"}
+
+
 
 local OldNameCall = nil
 OldNameCall =
@@ -134,17 +148,6 @@ end end)
 
 
 
-function getUserRole(user, group)
-return user:GetRoleInGroup(group)
-end
-game.Players.PlayerAdded:Connect(function(player)
-if getUserRole(player, 2919215) == "📝Tester" or getUserRole(player, 2919215) == "❤️Contributor"  
-or  getUserRole(player, 2919215) == "📣Staff" or getUserRole(player, 2919215) == "💎Administrator" or getUserRole(player, 2919215) == "🔧Other Developer" or
-getUserRole(player, 2919215) == "🛠️Developer" or getUserRole(player, 2919215) == "👑Co-Owner" or  getUserRole(player, 2919215) == "👑Owner" 
-then
-fuckyou() 
-end
-end)
 function fuckyou()
 local PlaceID = game.PlaceId
 local AllIDs = {}
@@ -211,6 +214,20 @@ end
 -- If you'd like to use a script before server hopping (Like a Automatic Chest collector you can put the Teleport() after it collected everything.
 Teleport()
 end
+
+for i, v in pairs(Players:GetPlayers()) do
+    if not table.find(D, tostring(v:GetRoleInGroup(2919215))) then
+        fuckyou()
+    end
+end
+Players.PlayerAdded:Connect(
+    function(v)
+        if not table.find(D, tostring(v:GetRoleInGroup(2919215))) then
+            fuckyou()
+        end
+    end
+)
+
 local OldNameCall
 OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
     if not checkcaller()  and (B == "WalkSpeed" or B == "JumpPower") then
