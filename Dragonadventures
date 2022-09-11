@@ -49,7 +49,7 @@ wait = task.wait
 
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
-if Player.PlayerGui.IntroGui:FindFirstChild("IntroFrame") then
+if Player.PlayerGui:FindFirstChild("IntroFrame") then
     local Eh = Player.PlayerGui.IntroGui.IntroFrame.PlayButton
     local VirtualUser = game:GetService("VirtualUser")
     Eh.Size = UDim2.new(9e9, 9e9, 9e9, 9e9)
@@ -509,38 +509,6 @@ local Button1 = Section1:CreateButton("Sell All Foods", function()
     end
 end)
 
-
-
-
-local Toggle1 = Section1:CreateToggle("Alchemy AutoFarm", Settings.Alchemy, function(State) 
-Settings.Alchemy = State
-spawn(function()
-while wait() and Settings.Alchemy do
-    for i, v in pairs(
-        game:GetService("Workspace").Interactions.Plots.Plots[game.Players.LocalPlayer.Name .. "_Plot"].Base.Buildings:GetDescendants(
-
-        )
-    ) do
-        if v.ClassName == "Model" and v:FindFirstChild("HarvestRemote") then
-            v.HarvestRemote:InvokeServer()
-        end
-    end
-    for i, v in pairs(game:GetService("Players").LocalPlayer.Data.Resources:GetChildren()) do
-        if v.Name == Settings.AlchemyFoods and v.Value ~= 0 then
-    game:GetService("ReplicatedStorage").Remotes.RecycleResourceRemote:InvokeServer({[Settings.AlchemyFoods] = Settings.AlchemyFoodsamount})
-    end end 
-end
-end)
-end)
-
-local Dropdown1 = Section1:CreateDropdown("Alchemy Foods",foods, function(String)
-    Settings.AlchemyFoods = String
-end)
-
-local Dropdown1 = Section1:CreateDropdown("Alchemy Foods Amount",{1,5,10,15,20,25,50,75,100}, function(String)
-    Settings.AlchemyFoodsamount = String
-end)
-Dropdown1:SetOption(tostring(1))
 
 end
 
