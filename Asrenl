@@ -170,21 +170,6 @@ local function Spawn()
 end
 
 
-
-if hookmetamethod then
-local OldNameCall
-OldNameCall = hookmetamethod(game, "__newindex", function(A, B, self, ...)
-    if not checkcaller()  and (B == "WalkSpeed" or B == "walkspeed")  then
-        return 20
-    end
-    if not checkcaller()  and (B == "JumpPower" or B == "jumppower")  then
-        return 15
-    end
-    return OldNameCall(A, B, self, ...)
-end)
-end 
-Player.Character.Humanoid.WalkSpeed = 20 
-Player.Character.Humanoid.JumpPower = 15
 local Circle = Drawing.new("Circle")
 Circle.Color = Color3.fromRGB(22, 13, 56)
 Circle.Thickness = 1
@@ -511,51 +496,6 @@ RunService.RenderStepped:Connect(
     end
 )
 end)
-local Toggle1 = Section1:CreateToggle("AutoFarm", nil, function(State)
-Settings.AutoFarm = State
-
-
-RunService.Stepped:connect(
-    function()
-        if Settings.AutoFarm then
-    if setfflag then 
-        Player.Character.Humanoid:ChangeState(11)
-        end 
-            for i, v in pairs(Players:GetPlayers()) do
-                if
-                    Player.Character ~= nil and v ~= Player and
-                        (v.TeamColor ~= Player.TeamColor or v.TeamColor == "Bright blue") and
-                        v.Character ~= nil and
-                        v.Character:FindFirstChild("Gun")
-                 then
-                    if
-                        v ~= Player and v:FindFirstChild("NRPBS") and v.NRPBS.Health.Value > 0 and
-                            v.Character and
-                            v.Character:FindFirstChild("Head") and
-                            v.Character:FindFirstChild("Hitbox")
-                     then
-                        Player.Character.HumanoidRootPart.CFrame =
-                            v.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 2)
-                        Workspace.CurrentCamera.CFrame =
-                            CFrame.new(Workspace.CurrentCamera.CFrame.p, v.Character.UpperTorso.CFrame.p)
-                        VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, game, 1)
-                    end
-                end
-            end
-        end
-    end
-)
-spawn(
-    function()
-        while wait() and Settings.AutoFarm do
-            Spawn()
-        end
-    end
-)
-
-end)
-
-
 local Toggle1 = Section1:CreateToggle("Auto Heal", Settings.AutoHeal, function(State)
 Settings.AutoHeal = State
 spawn(function()
@@ -1099,4 +1039,5 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
 
