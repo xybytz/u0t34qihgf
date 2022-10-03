@@ -459,25 +459,6 @@ end
 end)
 end)
 
-local Toggle1 = Section1:CreateToggle("InstantRespawn", Settings.InstantKill, function(State)
-Settings.InstantKill = State
-spawn(function()
-while Settings.InstantKill do
-    pcall(function()
-    wait()
-    if
-        not Player.Character:FindFirstChild("Spawned") and
-            Player.Character:FindFirstChild("Cam")
-     then
-        if Player.PlayerGui.Menew.Enabled == false then
-            ReplicatedStorage.Events.LoadCharacter:FireServer()
-            wait(0.5)
-        end
-     end
-end)
-end
-end)
-end)
 
 local Toggle1 = Section1:CreateToggle("RainBow Gun", Settings.RainBowGun, function(State)
 Settings.RainBowGun = State
