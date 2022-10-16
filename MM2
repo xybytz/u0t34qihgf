@@ -1,15 +1,30 @@
 local Config = {
     WindowName = "V.G Hub",
-	Color = Color3.fromRGB(255,128,64),
-	Keybind = Enum.KeyCode.RightControl
+    Color = Color3.fromRGB(255, 128, 64),
+    Keybind = Enum.KeyCode.RightControl
 }
 
-repeat wait() until game:IsLoaded() wait()
-game:GetService("Players").LocalPlayer.Idled:connect(function()
-game:GetService("VirtualUser"):ClickButton2(Vector2.new())
-end)
+local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local VirtualUser = game:GetService("VirtualUser")
+local UserInputService = game:GetService("UserInputService")
+local HttpService = game:GetService("HttpService")
+local RunService = game:GetService("RunService")
 
-local Name = "SoulWar.json"
+local Player = Players.LocalPlayer
+Player.PlayerGui:WaitForChild("MainGUI")
+repeat
+    wait()
+until game:IsLoaded()
+wait()
+Player.Idled:connect(
+    function()
+        VirtualUser:ClickButton2(Vector2.new())
+    end
+)
+
+local Name = "mm2.json"
 
 Des = {}
 if makefolder then
@@ -25,18 +40,18 @@ if
         end
     )
  then
-    writefile("V.G Hub//" .. Name, game:GetService("HttpService"):JSONEncode(Des))
+    writefile("V.G Hub//" .. Name, HttpService:JSONEncode(Des))
 end
 
-Settings = game:GetService("HttpService"):JSONDecode(readfile("V.G Hub//" .. Name))
+Settings = HttpService:JSONDecode(readfile("V.G Hub//" .. Name))
 
 local function Save()
-    writefile("V.G Hub//" .. Name, game:GetService("HttpService"):JSONEncode(Settings))
+    writefile("V.G Hub//" .. Name, HttpService:JSONEncode(Settings))
 end
 
 repeat
     wait()
-until game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+until Player.Character:FindFirstChild("HumanoidRootPart")
 
 for i, v in pairs(Workspace:GetChildren()) do
     if v:IsA("BasePart") and v.Name ~= "Part" then
@@ -44,15 +59,15 @@ for i, v in pairs(Workspace:GetChildren()) do
     end
 end
 
-game:GetService("RunService").Stepped:connect(
+RunService.Stepped:connect(
     function()
-        for i, v in pairs(game:GetService("ReplicatedStorage").Remotes.Extras.GetPlayerData:InvokeServer()) do
+        for i, v in pairs(ReplicatedStorage.Remotes.Extras.GetPlayerData:InvokeServer()) do
             if v.Role == "Murderer" then
                 Settings.Murderer = i
             end
         end
 
-        for i, v in pairs(game:GetService("ReplicatedStorage").Remotes.Extras.GetPlayerData:InvokeServer()) do
+        for i, v in pairs(ReplicatedStorage.Remotes.Extras.GetPlayerData:InvokeServer()) do
             if v.Role == "Sheriff" then
                 Settings.Sheriff = i
             end
@@ -60,59 +75,74 @@ game:GetService("RunService").Stepped:connect(
     end
 )
 
+local KillAll = function(v)
+    if Player.Character:FindFirstChild("Knife") then
+        Player.Character.Knife.Throw:FireServer(
+            CFrame.new(v.Character:GetModelCFrame().Position),
+            v.Character:GetModelCFrame().Position - Vector3.new(0, 1, 0)
+        )
+    end
+    if Player.Backpack:FindFirstChild("Knife") then
+        Player.Backpack.Knife.Throw:FireServer(
+            CFrame.new(v.Character:GetModelCFrame().Position),
+            v.Character:GetModelCFrame().Position - Vector3.new(0, 1, 0)
+        )
+    end
+end
+
 local L = {}
 function GodModeFunc()
-    if game.Players.LocalPlayer.Character then
-        if game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
-            for _, accessory in pairs(game.Players.LocalPlayer.Character.Humanoid:GetAccessories()) do
+    if Player.Character then
+        if Player.Character:FindFirstChild("Humanoid") then
+            for _, accessory in pairs(Player.Character.Humanoid:GetAccessories()) do
                 table.insert(L, accessory:Clone())
             end
-            game.Players.LocalPlayer.Character.Humanoid.Name = "1"
+            Player.Character.Humanoid.Name = "1"
         end
-        local l = game.Players.LocalPlayer.Character["1"]:Clone()
-        l.Parent = game.Players.LocalPlayer.Character
+        local l = Player.Character["1"]:Clone()
+        l.Parent = Player.Character
         l.Name = "Humanoid"
         wait(0.1)
-        game.Players.LocalPlayer.Character["1"]:Destroy()
-        workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character.Humanoid
+        Player.Character["1"]:Destroy()
+        Workspace.CurrentCamera.CameraSubject = Player.Character.Humanoid
         for _, accessory in pairs(L) do
-            game.Players.LocalPlayer.Character.Humanoid:AddAccessory(accessory)
+            Player.Character.Humanoid:AddAccessory(accessory)
         end
-        game.Players.LocalPlayer.Character.Animate.Disabled = true
+        Player.Character.Animate.Disabled = true
         wait(0.1)
-        game.Players.LocalPlayer.Character.Animate.Disabled = false
+        Player.Character.Animate.Disabled = false
         --Tag:
-        local Tag = Instance.new("BoolValue", game.Players.LocalPlayer.Character)
+        local Tag = Instance.new("BoolValue", Player.Character)
         Tag.Name = "GodMode"
         Tag.Value = true
         spawn(
             function()
                 local Jumping = false
                 local Died = false
-                game.Players.LocalPlayer.Character.Humanoid.Died:connect(
+                Player.Character.Humanoid.Died:connect(
                     function()
                         Died = true
                     end
                 )
-                game:GetService("UserInputService").InputBegan:connect(
+                UserInputService.InputBegan:connect(
                     function(i, v)
                         if not v and not Died then
                             Jumping = false
                             spawn(
                                 function()
                                     repeat
-                                        game:GetService("RunService").RenderStepped:Wait()
+                                        RunService.RenderStepped:Wait()
                                     until not Jumping or Died
                                 end
                             )
                         else
                             repeat
-                                game:GetService("RunService").RenderStepped:Wait()
+                                RunService.RenderStepped:Wait()
                             until not Jumping
                         end
                     end
                 )
-                game:GetService("UserInputService").InputEnded:connect(
+                UserInputService.InputEnded:connect(
                     function(i, v)
                         if not v and not Died then
                             Jumping = false
@@ -127,11 +157,11 @@ end
 function GetClosestCoin()
     local TargetDistance = 100
     local Target
-    for i, v in pairs(workspace:GetChildren()) do
+    for i, v in pairs(Workspace:GetChildren()) do
         if v:IsA("Model") and v:FindFirstChild("CoinContainer") then
             for i, v in pairs(v.CoinContainer:GetChildren()) do
                 if v.Name == "Coin_Server" and v.Name ~= "CollectedCoin" then
-                    local mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).magnitude
+                    local mag = (Player.Character.HumanoidRootPart.Position - v.Position).magnitude
                     if mag < TargetDistance then
                         TargetDistance = mag
                         CoinTarget = v
@@ -141,45 +171,43 @@ function GetClosestCoin()
         end
     end
 end
-
 spawn(
     function()
         while wait() do
             pcall(
                 function()
                     if
-                        Settings.Coin and game.Players.LocalPlayer.PlayerGui.MainGUI.Game.CashBag.Visible and
-                            not game.Players.LocalPlayer.PlayerGui.MainGUI.Game.CashBag.Full.Visible and
-                            game.Players.LocalPlayer.Character and
-                            game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+                        Settings.Coin and Player.PlayerGui:WaitForChild("MainGUI").Game.CashBag.Visible and
+                            not Player.PlayerGui:WaitForChild("MainGUI").Game.CashBag.Full.Visible and
+                            Player.Character and
+                            Player.Character:FindFirstChild("HumanoidRootPart")
                      then
                         AutoFarming = true
-                        if Settings.GodMode and not game.Players.LocalPlayer.Character:FindFirstChild("GodMode") then
+                        if Settings.GodMode and not Player.Character:FindFirstChild("GodMode") then
                             GodModeFunc()
                         end
                         GetClosestCoin()
                         if CoinTarget ~= nil then
                             spawn(
                                 function()
-                                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                    Player.Character.HumanoidRootPart.CFrame =
                                         CFrame.new(
                                         CoinTarget.Position.X,
                                         CoinTarget.Position.Y + 1.5,
                                         CoinTarget.Position.Z
                                     )
                                     wait()
-                                    firetouchinterest(
-                                        game.Players.LocalPlayer.Character.HumanoidRootPart,
-                                        CoinTarget,
-                                        0
-                                    )
-                                    firetouchinterest(
-                                        game.Players.LocalPlayer.Character.HumanoidRootPart,
-                                        CoinTarget,
-                                        1
-                                    )
+                                    firetouchinterest(Player.Character.HumanoidRootPart, CoinTarget, 0)
+                                    firetouchinterest(Player.Character.HumanoidRootPart, CoinTarget, 1)
                                 end
                             )
+                        end
+                        if Player.Character:FindFirstChild("Knife") or Player.Backpack:FindFirstChild("Knife") then
+                            for i, v in pairs(Players:GetPlayers()) do
+                                if v ~= Player then
+                                    KillAll(v)
+                                end
+                            end
                         end
                         wait(2)
                         CoinTarget = nil
@@ -191,12 +219,13 @@ spawn(
     end
 )
 
-game:GetService("RunService").Stepped:connect(
+
+RunService.Stepped:connect(
     function()
         if Settings.Coin then
             pcall(
                 function()
-                    game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+                    Player.Character.Humanoid:ChangeState(11)
                 end
             )
         end
@@ -227,7 +256,7 @@ function ClosestPlayerToCurser()
         if v ~= LocalPlayer and v.Character then
             local H = v.Character.FindFirstChild(v.Character, "Head")
             if H then 
-                local Pos, Vis = workspace.CurrentCamera.WorldToScreenPoint(workspace.CurrentCamera, H.Position)
+                local Pos, Vis = Workspace.CurrentCamera.WorldToScreenPoint(Workspace.CurrentCamera, H.Position)
                 if Vis then
                     local A1, A2 = Vector2.new(Mouse.X, Mouse.Y), Vector2.new(Pos.X, Pos.Y)
                     local Dist = (A2 - A1).Magnitude
@@ -247,7 +276,7 @@ OldNameCall = hookmetamethod(game, "__namecall", function(self,...)
     if getnamecallmethod() == "FindPartOnRayWithIgnoreList" and not checkcaller() and  Settings.SilentAim then
         local GivemeHead = ClosestPlayerToCurser()
         if GivemeHead and GivemeHead.Character and GivemeHead.Character.FindFirstChild(GivemeHead.Character, "UpperTorso") then
-            Args[1] = Ray.new(workspace.CurrentCamera.CFrame.Position, (GivemeHead.Character.UpperTorso.Position - workspace.CurrentCamera.CFrame.Position).Unit * 1000)
+            Args[1] = Ray.new(Workspace.CurrentCamera.CFrame.Position, (GivemeHead.Character.UpperTorso.Position - Workspace.CurrentCamera.CFrame.Position).Unit * 1000)
             return OldNameCall(self, unpack(Args))
         end
     end
@@ -265,7 +294,7 @@ function ClosestPlayerToCurser()
         if v ~= LocalPlayer and v.Name == getgenv().Murder and v.Character then
             local H = v.Character.FindFirstChild(v.Character, "Head")
             if H then 
-                local Pos, Vis = workspace.CurrentCamera.WorldToScreenPoint(workspace.CurrentCamera, H.Position)
+                local Pos, Vis = Workspace.CurrentCamera.WorldToScreenPoint(Workspace.CurrentCamera, H.Position)
                 if Vis then
                     local A1, A2 = Vector2.new(Mouse.X, Mouse.Y), Vector2.new(Pos.X, Pos.Y)
                     local Dist = (A2 - A1).Magnitude
@@ -285,7 +314,7 @@ OldNameCall = hookmetamethod(game, "__namecall", function(self,...)
     if getnamecallmethod() == "FindPartOnRayWithIgnoreList" and not checkcaller() and  Settings.SilentAim1  then
         local GivemeHead = ClosestPlayerToCurser()
         if GivemeHead and GivemeHead.Character and GivemeHead.Character.FindFirstChild(GivemeHead.Character, "UpperTorso") then
-            Args[1] = Ray.new(workspace.CurrentCamera.CFrame.Position, (GivemeHead.Character.UpperTorso.Position - workspace.CurrentCamera.CFrame.Position).Unit * 1000)
+            Args[1] = Ray.new(Workspace.CurrentCamera.CFrame.Position, (GivemeHead.Character.UpperTorso.Position - Workspace.CurrentCamera.CFrame.Position).Unit * 1000)
             return OldNameCall(self, unpack(Args))
         end
     end
@@ -301,32 +330,58 @@ local Toggle1 = Section1:CreateToggle("GodMode AutoFarm", Settings.GodMode, func
 Settings.GodMode = State
 Settings.Coin = Settings.GodMode
 end)
+
+
+local Toggle1 = Section1:CreateToggle("KillAll", Settings.KillAll, function(State)
+Settings.KillAll = State
+spawn(
+    function()
+        while wait() and Settings.KillAll do
+            pcall(
+                function()
+                    if Player.Character:FindFirstChild("Knife") or Player.Backpack:FindFirstChild("Knife") then
+                        for i, v in pairs(Players:GetPlayers()) do
+                            if v ~= Player then
+                                KillAll(v)
+                            end
+                        end
+                    end
+                end
+            )
+        end
+    end
+)
+
+end)
+
+
+
 local Toggle1 = Section1:CreateToggle("Auto Invis", Settings.Hentai, function(State)
 Settings.Hentai = State
-local savepos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+local savepos = Player.Character.HumanoidRootPart.CFrame
 
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-85.1800766, 137.657455, -58.091156)
+Player.Character.HumanoidRootPart.CFrame = CFrame.new(-85.1800766, 137.657455, -58.091156)
 wait(0.5)
-local Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
-game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
-Clone.Parent = game:GetService("Players").LocalPlayer.Character.LowerTorso
+local Clone = Player.Character.LowerTorso.Root:Clone()
+Player.Character.LowerTorso.Root:Destroy()
+Clone.Parent = Player.Character.LowerTorso
 wait(0.5)
 
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = savepos
-game.Players.LocalPlayer.CharacterAdded:Connect(
+Player.Character.HumanoidRootPart.CFrame = savepos
+Player.CharacterAdded:Connect(
     function()
         wait(3)
-        local savepos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        local savepos = Player.Character.HumanoidRootPart.CFrame
         
         if Settings.Hentai then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-85.1800766, 137.657455, -58.091156)
+            Player.Character.HumanoidRootPart.CFrame = CFrame.new(-85.1800766, 137.657455, -58.091156)
             wait(0.5)
-            local Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
-            game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
-            Clone.Parent = game:GetService("Players").LocalPlayer.Character.LowerTorso
+            local Clone = Player.Character.LowerTorso.Root:Clone()
+            Player.Character.LowerTorso.Root:Destroy()
+            Clone.Parent = Player.Character.LowerTorso
             wait(0.5)
 
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = savepos
+            Player.Character.HumanoidRootPart.CFrame = savepos
         end
     end
 )
@@ -338,8 +393,8 @@ Settings.Hi = State
 spawn(
     function()
         while wait() and Settings.Hi do
-            game:GetService("ReplicatedStorage").Remotes.Inventory.Equip:FireServer("DefaultKnife", "Weapons")
-            game:GetService("ReplicatedStorage").Remotes.Inventory.Equip:FireServer("Xbox", "Weapons")
+            ReplicatedStorage.Remotes.Inventory.Equip:FireServer("DefaultKnife", "Weapons")
+            ReplicatedStorage.Remotes.Inventory.Equip:FireServer("Xbox", "Weapons")
         end
     end
 )
@@ -349,33 +404,33 @@ GodModeFunc()
 end)
 
 local Button1 = Section2:CreateButton("Floss", function()
-game:GetService("ReplicatedStorage").Remotes.Misc.PlayEmote:Fire("floss")
+ReplicatedStorage.Remotes.Misc.PlayEmote:Fire("floss")
 end)
 
 local Button1 = Section2:CreateButton("Zen", function()
-game:GetService("ReplicatedStorage").Remotes.Misc.PlayEmote:Fire("zen")
+ReplicatedStorage.Remotes.Misc.PlayEmote:Fire("zen")
 end)
 
 local Button1 = Section2:CreateButton("Sit", function()
-game:GetService("ReplicatedStorage").Remotes.Misc.PlayEmote:Fire("sit")
+ReplicatedStorage.Remotes.Misc.PlayEmote:Fire("sit")
 end)
 
 local Button1 = Section2:CreateButton("Dab", function()
-game:GetService("ReplicatedStorage").Remotes.Misc.PlayEmote:Fire("dab")
+ReplicatedStorage.Remotes.Misc.PlayEmote:Fire("dab")
 end)
 
 local Toggle1 = Section2:CreateToggle("Enable WalkSpeed/JumpPower", Settings.Go, function(State)
 Settings.Go = State
-game:GetService("RunService").Stepped:connect(
+RunService.Stepped:connect(
     function()
         if Settings.Go then
-            game.Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = Settings.WalkSpeed
-       	    if game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').UseJumpPower then
-			game.Players.LocalPlayer.Character:WaitForChild('Humanoid').JumpPower = Settings.JumpPower
+            Player.Character:WaitForChild("Humanoid").WalkSpeed = Settings.WalkSpeed
+       	    if Player.Character:FindFirstChildOfClass('Humanoid').UseJumpPower then
+			Player.Character:WaitForChild('Humanoid').JumpPower = Settings.JumpPower
 		    else
-			game.Players.LocalPlayer.Character:WaitForChild('Humanoid').JumpHeight  = Settings.JumpPower
+			Player.Character:WaitForChild('Humanoid').JumpHeight  = Settings.JumpPower
 			end 
-            if not game:GetService("UserInputService").WindowFocusReleased then
+            if not UserInputService.WindowFocusReleased then
                 setfpscap(Settings.Fps)
             end
         end
@@ -399,10 +454,10 @@ end)
 
 local Toggle1 = Section2:CreateToggle("Infinite Jump", Settings.InfiniteJump, function(State)
 Settings.InfiniteJump = State
-game:GetService("UserInputService").JumpRequest:connect(
+UserInputService.JumpRequest:connect(
     function()
         if Settings.InfiniteJump then
-            game:GetService "Players".LocalPlayer.Character:FindFirstChildOfClass "Humanoid":ChangeState("Jumping")
+            Player.Character:FindFirstChildOfClass "Humanoid":ChangeState("Jumping")
         end
     end
 )
@@ -410,8 +465,8 @@ end)
 
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 ESP.Overrides.GetColor = function(v)
-    if v == game.Workspace[Settings.Murderer] then return Color3.fromRGB(255,0,0) end 
-    if v ==  game.Workspace[Settings.Sheriff] then return Color3.fromRGB(0,0,255) end
+    if v == Workspace[Settings.Murderer] then return Color3.fromRGB(255,0,0) end 
+    if v ==  Workspace[Settings.Sheriff] then return Color3.fromRGB(0,0,255) end
     return Color3.fromRGB(0, 255, 0)
 end
 
@@ -441,21 +496,21 @@ end)
 local Toggle1 = Section2:CreateToggle("Invisicam", Settings.Sorry, function(State)
 Settings.Sorry = State
 if Settings.Sorry then
-    game:GetService("Players").LocalPlayer.DevCameraOcclusionMode = "Invisicam"
+    Player.DevCameraOcclusionMode = "Invisicam"
 else
-    game:GetService("Players").LocalPlayer.DevCameraOcclusionMode = "Zoom"
+    Player.DevCameraOcclusionMode = "Zoom"
 end
 end)
 
 local Toggle1 = Section2:CreateToggle("N Noclip", Settings.Sex1, function(State)
 noclips = false
 Settings.Sex1 = State
-game.Players.LocalPlayer:GetMouse().KeyDown:connect(
+Player:GetMouse().KeyDown:connect(
     function(v)
         if v == "n" then
             if Settings.Sex1 then
                 noclips = not noclips
-                for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                for i, v in pairs(Player.Character:GetChildren()) do
                     if v:IsA("BasePart") then
                         pcall(function()
                         v.CanCollide = false
@@ -466,10 +521,10 @@ game.Players.LocalPlayer:GetMouse().KeyDown:connect(
         end
     end
 )
-game:GetService("RunService").Stepped:connect(
+RunService.Stepped:connect(
     function()
         if noclips then
-            for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+            for i, v in pairs(Player.Character:GetChildren()) do
                 if v:IsA("BasePart") then
                     pcall(function()
                     v.CanCollide = false
@@ -485,20 +540,20 @@ end)
 local Toggle1 = Section2:CreateToggle("G Noclip", Settings.Sex, function(State)
 Settings.Sex = State
 noclip = false
-game:GetService("RunService").Stepped:connect(
+RunService.Stepped:connect(
     function()
         if noclip then
-            game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+            Player.Character.Humanoid:ChangeState(11)
         end
     end
 )
-mouse = game.Players.LocalPlayer:GetMouse()
-game.Players.LocalPlayer:GetMouse().KeyDown:connect(
+mouse = Player:GetMouse()
+Player:GetMouse().KeyDown:connect(
     function(v)
         if v == "g" then
             if Settings.Sex then
                 noclip = not noclip
-                game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+                Player.Character.Humanoid:ChangeState(11)
             end
         end
     end
@@ -543,7 +598,7 @@ Mouse.KeyDown:connect(
                         function()
                             repeat
                                 wait()
-                                LP.Character.Humanoid.PlatformStand = false
+                                LP.Character.Humanoid.PlatformStand = true
                                 if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
                                     SPEED = 50
                                 elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
@@ -551,10 +606,10 @@ Mouse.KeyDown:connect(
                                 end
                                 if (S.L + S.R) ~= 0 or (S.F + S.B) ~= 0 then
                                     BodyVelocity.velocity =
-                                        ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S.F + S.B)) +
-                                        ((game.Workspace.CurrentCamera.CoordinateFrame *
+                                        ((Workspace.CurrentCamera.CoordinateFrame.lookVector * (S.F + S.B)) +
+                                        ((Workspace.CurrentCamera.CoordinateFrame *
                                             CFrame.new(S.L + S.R, (S.F + S.B) * 0.2, 0).p) -
-                                            game.Workspace.CurrentCamera.CoordinateFrame.p)) *
+                                            Workspace.CurrentCamera.CoordinateFrame.p)) *
                                         SPEED
                                     S2 = {
                                         F = S.F,
@@ -564,15 +619,15 @@ Mouse.KeyDown:connect(
                                     }
                                 elseif (S.L + S.R) == 0 and (S.F + S.B) == 0 and SPEED ~= 0 then
                                     BodyVelocity.velocity =
-                                        ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S2.F + S2.B)) +
-                                        ((game.Workspace.CurrentCamera.CoordinateFrame *
+                                        ((Workspace.CurrentCamera.CoordinateFrame.lookVector * (S2.F + S2.B)) +
+                                        ((Workspace.CurrentCamera.CoordinateFrame *
                                             CFrame.new(S2.L + S2.R, (S2.F + S2.B) * 0.2, 0).p) -
-                                            game.Workspace.CurrentCamera.CoordinateFrame.p)) *
+                                            Workspace.CurrentCamera.CoordinateFrame.p)) *
                                         SPEED
                                 else
                                     BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
                                 end
-                                BodyGyro.cframe = game.Workspace.CurrentCamera.CoordinateFrame
+                                BodyGyro.cframe = Workspace.CurrentCamera.CoordinateFrame
                             until not getgenv().Fly
                             S = {
                                 F = 0,
@@ -630,7 +685,7 @@ Mouse.KeyDown:connect(
 )
 end)
 local Button1 = Section2:CreateButton("Anti Lag", function()
-for _, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+for _, v in pairs(Workspace:GetDescendants()) do
     if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then
         v.Material = Enum.Material.SmoothPlastic
         if v:IsA("Texture") then
@@ -643,7 +698,7 @@ end)
 local Button1 = Section2:CreateButton("Teleport to RandomPlayer", function()
 local randomPlayer = game.Players:GetPlayers()[math.random(1, #game.Players:GetPlayers())]
 
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+Player.Character.HumanoidRootPart.CFrame =
     CFrame.new(
     Vector3.new(
         randomPlayer.Character.Head.Position.X,
@@ -716,7 +771,7 @@ function TPReturner()
                 pcall(function()
                     writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
                     wait()
-                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
+                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, Player)
                 end)
                 wait(4)
             end
@@ -739,7 +794,7 @@ end
 Teleport() 
 end)
 local Button1 = Section2:CreateButton("Rejoin", function()
-game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer) end)
+game:GetService("TeleportService"):Teleport(game.PlaceId, Player) end)
 
 local Toggle3 = Section3:CreateToggle("UI Toggle", nil, function(State)
 	Window:Toggle(State)
