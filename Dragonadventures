@@ -357,14 +357,14 @@ spawn(
                     for i, v in pairs(
                         Workspace.Interactions.HalloweenEvent.TrickOrTreatDoors:GetChildren()
                     ) do
-                        if v:IsA("Model") then
+                        if v:IsA("Model") and Settings.Start then
                             Player.Character.HumanoidRootPart.CFrame =
                                 v:GetModelCFrame() * CFrame.new(0, 0, 50)
 
                             repeat
                                 wait()
                                 Player.Character.Humanoid:MoveTo(v:GetModelCFrame().Position)
-                            until wait(6)
+                            until wait(6) and Settings.Start
                             VirtualInputManager:SendKeyEvent(true, "E", false, game)
                             wait(4)
                             ReplicatedStorage.Remotes.TrickOrTreatDoorRemote:InvokeServer(v.Name)
