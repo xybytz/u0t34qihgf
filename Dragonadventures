@@ -357,16 +357,17 @@ spawn(
                     for i, v in pairs(
                         Workspace.Interactions.HalloweenEvent.TrickOrTreatDoors:GetChildren()
                     ) do
-                        if v:IsA("Model") and Settings.Start then
+                        if v:IsA("Model") then
                             Player.Character.HumanoidRootPart.CFrame =
                                 v:GetModelCFrame() * CFrame.new(0, 0, 50)
 
                             repeat
                                 wait()
                                 Player.Character.Humanoid:MoveTo(v:GetModelCFrame().Position)
-                            until wait(6) and Settings.Start
+                            until wait(6)
                             VirtualInputManager:SendKeyEvent(true, "E", false, game)
                             wait(4)
+                            game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState("Jumping")
                             ReplicatedStorage.Remotes.TrickOrTreatDoorRemote:InvokeServer(v.Name)
                         end
                     end
@@ -911,7 +912,7 @@ Settings.InfiniteJump = State
 game:GetService("UserInputService").JumpRequest:connect(
     function()
         if Settings.InfiniteJump then
-            game:GetService "Players".LocalPlayer.Character:FindFirstChildWhichIsA "Humanoid":ChangeState("Jumping")
+            game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState("Jumping")
         end
     end
 )
