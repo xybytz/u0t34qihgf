@@ -1,9 +1,15 @@
--- if your seeing this that means your a idiot look theres nothing good here so your wasting your time my scripting sucks but you can look at it don't blame me if your discusted
 local Config = {
     WindowName = "V.G Hub",
-	Color = Color3.fromRGB(255,128,64),
-	Keybind = Enum.KeyCode.RightControl
+    Color = Color3.fromRGB(255, 128, 64),
+    Keybind = Enum.KeyCode.RightControl
 }
+
+local HttpService = Get.HttpService
+local RunService = Get.RunService
+local Players = Get.Players
+local UserInputService = Get.UserInputService
+local Workspace = Get.Workspace
+local Player = Players.LocalPlayer
 
 local Name = "Pf.txt"
 
@@ -21,59 +27,60 @@ if
         end
     )
  then
-    writefile("V.G Hub//" .. Name, game:service "HttpService":JSONEncode(Des))
+    writefile("V.G Hub//" .. Name, HttpService:JSONEncode(Des))
 end
 
-Settings = game:service "HttpService":JSONDecode(readfile("V.G Hub//" .. Name))
+Settings = HttpService:JSONDecode(readfile("V.G Hub//" .. Name))
 
 local function Save()
-    writefile("V.G Hub//" .. Name, game:service "HttpService":JSONEncode(Settings))
+    writefile("V.G Hub//" .. Name, HttpService:JSONEncode(Settings))
 end
 
-local Circle = Drawing.new("Circle")
+getgenv().Circle = Drawing.new("Circle")
 Circle.Color = Color3.fromRGB(22, 13, 56)
 Circle.Thickness = 1
 Circle.Radius = 250
-Circle.Visible = false 
+Circle.Visible = false
 Circle.NumSides = 1000
 Circle.Filled = false
 Circle.Transparency = 1
 
-game:GetService("RunService").RenderStepped:Connect(
+RunService.RenderStepped:Connect(
     function()
-        local Mouse = game:GetService("UserInputService"):GetMouseLocation()
+        local Mouse = UserInputService:GetMouseLocation()
         Circle.Position = Vector2.new(Mouse.X, Mouse.Y)
     end
 )
 
 local function GetTeam()
-local Null = nil
-for i,v in pairs(game.Players:GetPlayers()) do
-if v ~= game.Players.LocalPlayer and v.TeamColor ~= game.Players.LocalPlayer.TeamColor then
-Null = v.TeamColor.Name
-end end return Null
-
-end 
+    local Null = nil
+    for i, v in pairs(game.Players:GetPlayers()) do
+        if v ~= Player and v.TeamColor ~= Player.TeamColor then
+            Null = v.TeamColor.Name
+        end
+    end
+    return Null
+end
 
 Settings = {
     FreeForAll = false,
     WallCheck = false,
     Enabled = false,
-    FOV = 250,
+    FOV = 250
 }
 local Shoot = false
 
 function NotObstructing(i, v)
     if Settings.WallCheck then
-        c = workspace.CurrentCamera.CFrame.p
+        c = Workspace.CurrentCamera.CFrame.p
         a = Ray.new(c, i - c)
-        f = workspace:FindPartOnRayWithIgnoreList(a, v)
+        f = Workspace:FindPartOnRayWithIgnoreList(a, v)
         return f == nil
     else
         return true
     end
 end
-game:GetService("UserInputService").InputBegan:Connect(
+UserInputService.InputBegan:Connect(
     function(v)
         if v.UserInputType == Enum.UserInputType.MouseButton2 then
             Shoot = true
@@ -81,7 +88,7 @@ game:GetService("UserInputService").InputBegan:Connect(
     end
 )
 
-game:GetService("UserInputService").InputEnded:Connect(
+UserInputService.InputEnded:Connect(
     function(v)
         if v.UserInputType == Enum.UserInputType.MouseButton2 then
             Shoot = false
@@ -89,18 +96,15 @@ game:GetService("UserInputService").InputEnded:Connect(
     end
 )
 
-
-
 function GetClosestToCuror()
     Closest = math.huge
     Target = nil
-    for i, v in pairs(game:GetService("Workspace").Players[tostring(GetTeam())]:GetChildren()) do
-        if v ~= game.Players.LocalPlayer and v and v:FindFirstChild("Torso") then
-            Point, OnScreen = workspace.CurrentCamera:WorldToViewportPoint(v.Torso.Position)
-            if OnScreen and NotObstructing(v.Torso.Position, {game.Players.LocalPlayer.Character, v}) then
+    for i, v in pairs(Workspace.Players[tostring(GetTeam())]:GetChildren()) do
+        if v ~= Player and v and v:FindFirstChild("Torso") then
+            Point, OnScreen = Workspace.CurrentCamera:WorldToViewportPoint(v.Torso.Position)
+            if OnScreen and NotObstructing(v.Torso.Position, {Player.Character, v}) then
                 Distance =
-                    (Vector2.new(Point.X, Point.Y) -
-                    Vector2.new(game.Players.LocalPlayer:GetMouse().X, game.Players.LocalPlayer:GetMouse().Y)).magnitude
+                    (Vector2.new(Point.X, Point.Y) - Vector2.new(Player:GetMouse().X, Player:GetMouse().Y)).magnitude
                 if Distance <= Settings.FOV then
                     Closest = Distance
                     Target = v
@@ -111,30 +115,29 @@ function GetClosestToCuror()
     return Target
 end
 
-game:GetService("RunService").RenderStepped:Connect(
+RunService.RenderStepped:Connect(
     function()
         if Settings.Enabled == false or Shoot == false then
             return
         end
         ClosestPlayer = GetClosestToCuror()
         if ClosestPlayer then
-            local Mouse = game:GetService("UserInputService"):GetMouseLocation()
-            local TargetPos = game.workspace.Camera:WorldToViewportPoint(ClosestPlayer[Settings.AimPart].Position)
+            local Mouse = UserInputService:GetMouseLocation()
+            local TargetPos = Workspace.Camera:WorldToViewportPoint(ClosestPlayer[Settings.AimPart].Position)
             mousemoverel(
-                (TargetPos.X - Mouse.X) * Settings.Smoothness,
-                (TargetPos.Y - Mouse.Y) * Settings.Smoothness
+                (TargetPos.X - Mouse.X) * (Settings.Smoothness or 0.2),
+                (TargetPos.Y - Mouse.Y) * (Settings.Smoothness or 0.2)
             )
         end
     end
 )
 
-
 Settings = {
-    Delay = 0.01,
+    Delay = 0.01
 }
 
 local Aim = false
-game:GetService("UserInputService").InputBegan:connect(
+UserInputService.InputBegan:connect(
     function(v)
         if v.UserInputType == Enum.UserInputType.MouseButton2 and Settings.Tigger then
             Aim = true
@@ -147,15 +150,15 @@ game:GetService("UserInputService").InputBegan:connect(
                         )
                  then
                     local Person =
-                        game:GetService("Workspace").Players[tostring(GetTeam())]:FindFirstChild(
+                        Workspace.Players[tostring(GetTeam())]:FindFirstChild(
                         game:GetService("Players").LocalPlayer:GetMouse().Target.Parent.Name
                     )
-                        if Settings.Delay > 0 then
-                            wait(0.01)
-                        end
-                        mouse1press()
-                        wait()
-                        mouse1release()
+                    if Settings.Delay > 0 then
+                        wait(0.01)
+                    end
+                    mouse1press()
+                    wait()
+                    mouse1release()
                 end
                 if not Settings.Tigger then
                     break
@@ -166,16 +169,11 @@ game:GetService("UserInputService").InputBegan:connect(
 )
 
 if Settings.AimPart == nil then
-Settings.AimPart = "Torso"
+    Settings.AimPart = "Torso"
 end
-
-if Settings.Smoothness == nil then
-Settings.Smoothness = 0.04
-end
-
 
 if Settings.FOV == nil then
-Settings.FOV = 250
+    Settings.FOV = 250
 end
 
 
@@ -226,7 +224,7 @@ end)
 local Colorpicker3 = Section1:CreateColorpicker("Circle Color", function(Color)
     Circle.Color = Color
 end)
-local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
+local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/dragonadventures/main/Esp-Test"))()
 
 local Toggle1 = Section1:CreateToggle("Enable Esp", Settings.Esp, function(State)
     Settings.Esp = State
@@ -238,7 +236,7 @@ local Toggle1 = Section1:CreateToggle("Bright blue Team Esp", Settings.Blue, fun
     Settings.Blue = State
     ESP.Blue = Settings.Blue
 
-ESP:AddObjectListener(game:GetService("Workspace").Players["Bright blue"], {
+ESP:AddObjectListener(Workspace.Players["Bright blue"], {
     Color = Color3.new(0,0,255),
     Type = "Model",
     PrimaryPart = function(v)
@@ -265,7 +263,7 @@ local Toggle1 = Section1:CreateToggle("Bright orange Team Esp", Settings.Orange,
     Settings.Orange = State
     ESP.Orange = Settings.Orange
 
-ESP:AddObjectListener(game:GetService("Workspace").Players["Bright orange"], {
+ESP:AddObjectListener(Workspace.Players["Bright orange"], {
     Color =  Color3.new(255, 154, 0),
     Type = "Model",
     PrimaryPart = function(v)
@@ -302,10 +300,10 @@ end)
 
 
 local Toggle1 = Section2:CreateToggle("RainBow Gun", Settings.RainBow, function(State)
-game:GetService("RunService").RenderStepped:Connect(
+RunService.RenderStepped:Connect(
     function()
-        if game:GetService("Workspace").Camera:FindFirstChild("Right Arm") and Settings.RainBow then
-            for i, v in pairs(game:GetService("Workspace").Camera:GetChildren()) do
+        if Workspace.Camera:FindFirstChild("Right Arm") and Settings.RainBow then
+            for i, v in pairs(Workspace.Camera:GetChildren()) do
                 if v.Name ~= "Right Arm" or v.Name ~= "Left Arm" and v:IsA("Model") then
                     for i, v in pairs(v:GetChildren()) do
                         if v:IsA("BasePart") then
@@ -321,7 +319,7 @@ end)
 
 
 local Button1 = Section2:CreateButton("Anti Lag", function()
-for _, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+for _, v in pairs(Workspace:GetDescendants()) do
     if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then
         v.Material = Enum.Material.SmoothPlastic
         if v:IsA("Texture") then
@@ -335,7 +333,7 @@ local Button1 = Section2:CreateButton("Lag Switch F3", function()
 local ass = false
 local bitch = settings()
 
-game:service "UserInputService".InputEnded:connect(
+UserInputService.InputEnded:connect(
     function(i)
         if i.KeyCode == Enum.KeyCode.F3 then
             ass = not ass
@@ -351,11 +349,11 @@ local foundAnything = ""
 local actualHour = os.date("!*t").hour
 local Deleted = false
 local File = pcall(function()
-    AllIDs = game:GetService('HttpService'):JSONDecode(readfile("NotSameServers.json"))
+    AllIDs = HttpService:JSONDecode(readfile("NotSameServers.json"))
 end)
 if not File then
     table.insert(AllIDs, actualHour)
-    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+    writefile("NotSameServers.json", HttpService:JSONEncode(AllIDs))
 end
 function TPReturner()
     local Site;
@@ -393,9 +391,9 @@ function TPReturner()
                 table.insert(AllIDs, ID)
                 wait()
                 pcall(function()
-                    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+                    writefile("NotSameServers.json", HttpService:JSONEncode(AllIDs))
                     wait()
-                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
+                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, Player)
                 end)
                 wait(4)
             end
