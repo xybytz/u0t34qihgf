@@ -346,7 +346,7 @@ local function CharAdded(char)
             if c.Name == "HumanoidRootPart" then
                 ev:Disconnect()
                 ESP:Add(char, {
-                    Name = p.Name .. " " ..p.Character:FindFirstChildWhichIsA("Humanoid").Health .. " Health",
+                    Name = p.Name,
                     Player = p,
                     PrimaryPart = c
                 })
