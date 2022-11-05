@@ -10,7 +10,7 @@ local Players = Get.Players
 local UserInputService = Get.UserInputService
 local Workspace = Get.Workspace
 local Player = Players.LocalPlayer
-
+getgenv().Null = nil
 local Name = "Pf.txt"
 
 Des = {}
@@ -53,7 +53,6 @@ RunService.RenderStepped:Connect(
 )
 
 local function GetTeam()
-    local Null = nil
     for i, v in pairs(game.Players:GetPlayers()) do
         if v ~= Player and v.TeamColor ~= Player.TeamColor then
             Null = v.TeamColor.Name
@@ -125,8 +124,8 @@ RunService.RenderStepped:Connect(
             local Mouse = UserInputService:GetMouseLocation()
             local TargetPos = Workspace.Camera:WorldToViewportPoint(ClosestPlayer[Settings.AimPart].Position)
             mousemoverel(
-                (TargetPos.X - Mouse.X) * (Settings.Smoothness or 0.2),
-                (TargetPos.Y - Mouse.Y) * (Settings.Smoothness or 0.2)
+                (TargetPos.X - Mouse.X) * 0.09,
+                (TargetPos.Y - Mouse.Y) * 0.09
             )
         end
     end
@@ -145,16 +144,16 @@ UserInputService.InputBegan:connect(
                 wait()
                 if
                     game:GetService("Players").LocalPlayer:GetMouse().Target and
-                        game:GetService("Players"):FindFirstChild(
+                        Workspace.Players[tostring(GetTeam(Null))]:FindFirstChild(
                             game:GetService("Players").LocalPlayer:GetMouse().Target.Parent.Name
                         )
                  then
                     local Person =
-                        Workspace.Players[tostring(GetTeam())]:FindFirstChild(
+                        Workspace.Players[tostring(GetTeam(Null))]:FindFirstChild(
                         game:GetService("Players").LocalPlayer:GetMouse().Target.Parent.Name
                     )
                     if Settings.Delay > 0 then
-                        wait(0.01)
+                        wait()
                     end
                     mouse1press()
                     wait()
@@ -175,7 +174,9 @@ end
 if Settings.FOV == nil then
     Settings.FOV = 250
 end
-
+if Settings.Smoothness == nil then
+   Settings.Smoothness = 00.3
+end 
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
