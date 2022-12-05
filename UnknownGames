@@ -1,4 +1,4 @@
-local Unknown = {
+getgenv().Unknown = {
     "https://raw.githubusercontent.com/1201for/V.G-Hub-Part-3/main/War",
     "https://raw.githubusercontent.com/1201for/V.G-Hub-Part-3/main/DBFR-Worlds",
     "https://raw.githubusercontent.com/1201for/V.G-Hub-Part-3/main/Loomian_Legcy-Worlds",
