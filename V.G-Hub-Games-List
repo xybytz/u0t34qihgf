@@ -121,7 +121,8 @@ getgenv().Games = {
     [10859465529] = "https://raw.githubusercontent.com/1201for/V.G-Hub-Part-3/main/Pls-CapTure",
     [8908228901] = "https://raw.githubusercontent.com/1201for/V.G-Hub-Part-3/main/Shark-2",
     [11187148979] = "https://raw.githubusercontent.com/1201for/V.G-Hub-Part-3/main/Ultra-Unfair",
-    [9224601490] = "https://raw.githubusercontent.com/1201for/V.G-Hub-Part-3/main/FruitBattles"
+    [9224601490] = "https://raw.githubusercontent.com/1201for/V.G-Hub-Part-3/main/FruitBattles",
+    [6679968919] = "https://raw.githubusercontent.com/1201for/V.G-Hub-Part-3/main/Fly-Race"
 }
 
 getgenv().Unknown = {
