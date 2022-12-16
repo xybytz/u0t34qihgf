@@ -1,6 +1,4 @@
-if game:GetService("CoreGui"):FindFirstChild("VGHUB") then
-    game:GetService("CoreGui"):FindFirstChild("VGHUB"):Destroy()
-end 
+
 
 local Library = {Toggle = true,FirstTab = nil,TabCount = 0,ColorTable = {}}
 
