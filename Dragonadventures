@@ -11,7 +11,7 @@ local Workspace = game:GetService("Workspace")
 local VirtualInputManager = game:GetService("VirtualInputManager")
 local StarterGui = game:GetService("StarterGui")
 
-local Player = Players.LocalPlayer
+local Player = Player
 local wait = task.wait 
 local spawn = task.spawn
 
@@ -307,6 +307,30 @@ for i, v in pairs(Player.Data.Dragons:GetChildren()) do
     end
 end
 
+spawn(
+    function()
+        local a = ReplicatedStorage["_replicationFolder"].BakeryClassClient
+
+        require(a)._getNextOrder = function()
+        end
+        while wait(1) and Settings.Bake do
+            local walt = ReplicatedStorage.Remotes.GetBakeryOrderRemote:InvokeServer()
+            if walt then
+                ReplicatedStorage.Remotes.SubmitBakeryOrderRemote:InvokeServer(walt)
+            end
+            Player.Character.HumanoidRootPart.CFrame =
+                Workspace.Interactions.ChristmasEvent.Bakery.BillboardPart.CFrame
+            if
+                Player.PlayerGui.MinigamesGui:FindFirstChild("RewardFrame") and
+                    Player.PlayerGui.MinigamesGui:FindFirstChild("RewardFrame").Visible == true
+             then
+                ReplicatedStorage.Remotes.GetMinigameRewardRemote:InvokeServer(1)
+                ReplicatedStorage.Remotes.EndMinigameRewardsRemote:FireServer("Bakery")
+            end
+        end
+    end
+)
+
 Player.Character.Humanoid.JumpPower = 50
 Player.Character.Humanoid.WalkSpeed = 30
 local deku1 = {"SolsticeFlares", "SolsticeBoxes"}
@@ -339,49 +363,12 @@ local function GetClosestBalls()
     end
     return Target
 end
-local Toggle1 = Section1:CreateToggle("Trick or Treat Farm", Settings.Start, function(State) 
-Settings.Start = State
-game:GetService("RunService").Stepped:connect(
-    function()
-        if Settings.Start then
-            Player.Character:WaitForChild("Humanoid"):ChangeState(11)
-        end
-    end
-)
-spawn(
-    function()
-        while Settings.Start do
-            wait()
-            pcall(
-                function()
-                    for i, v in pairs(
-                        Workspace.Interactions.HalloweenEvent.TrickOrTreatDoors:GetChildren()
-                    ) do
-                        if v:IsA("Model") then
-                            Player.Character.HumanoidRootPart.CFrame =
-                                v:GetModelCFrame() * CFrame.new(0, 0, 50)
-
-                            repeat
-                                wait()
-                                Player.Character.Humanoid:MoveTo(v:GetModelCFrame().Position)
-                            until wait(6)
-                            VirtualInputManager:SendKeyEvent(true, "E", false, game)
-                            wait(4)
-                            game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState("Jumping")
-                            ReplicatedStorage.Remotes.TrickOrTreatDoorRemote:InvokeServer(v.Name)
-                        end
-                    end
-                end
-            )
-        end
-    end
-)
-
-
+local Toggle1 = Section1:CreateToggle("Auto Bakery Might ban use alt until tested", Settings.Bake, function(State) 
+    Settings.Bake = State
 end)
 
 Toggle1:AddToolTip("FUCK YOU")
-local Toggle1 = Section1:CreateToggle("Auto Holwween egg farm", Settings.AutoEgg, function(State) 
+local Toggle1 = Section1:CreateToggle("Auto Chirstmas egg farm", Settings.AutoEgg, function(State) 
 Settings.AutoEgg = State
 game:GetService("RunService").Stepped:connect(
     function()
@@ -399,7 +386,7 @@ while Settings.AutoEgg do
     wait()
     pcall(
         function()
-            for i, v in pairs(Workspace.Interactions.Nodes.Harvest.Eggs.ActiveNodes:GetChildren()) do
+            for i, v in pairs(Workspace.Interactions.Nodes.Harvest.EventEggs.ActiveNodes:GetChildren()) do
                 if v:IsA("Model") and v:FindFirstChildWhichIsA("BasePart") then
                          Player.Character.HumanoidRootPart.CFrame =
                         v:GetModelCFrame() * CFrame.new(40, -3, 0)
