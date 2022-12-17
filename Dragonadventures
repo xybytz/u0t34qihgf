@@ -68,10 +68,7 @@ Player.PlayerGui.NodeGui.BoostFrame.ChildAdded:Connect(
     end
 )
 
-wait = task.wait
 
-local Players = Players
-local Player = Player
 if Player.PlayerGui:FindFirstChild("IntroFrame") then
     local Eh = Player.PlayerGui.IntroGui.IntroFrame.PlayButton
     local VirtualUser = VirtualUser
@@ -82,24 +79,6 @@ if Player.PlayerGui:FindFirstChild("IntroFrame") then
     Eh.Size = UDim2.new(0, 0, 0, 0)
 end
 local D = {"🕹️Player", "Guest"}
-
-local OldNameCall = nil
-OldNameCall =
-    hookmetamethod(
-    game,
-    "__namecall",
-    function(self, ...)
-        local Args = {...}
-
-        if getnamecallmethod() == "BreakJoints" then
-            return true
-        end
-        if getnamecallmethod() == "Destroy" and self == Player.Character then
-            return nil
-        end
-        return OldNameCall(self, unpack(Args))
-    end
-)
 
 local function GetDragons()
     local Target
@@ -307,30 +286,6 @@ for i, v in pairs(Player.Data.Dragons:GetChildren()) do
     end
 end
 
-spawn(
-    function()
-        local a = ReplicatedStorage["_replicationFolder"].BakeryClassClient
-
-        require(a)._getNextOrder = function()
-        end
-        while wait(1) and Settings.Bake do
-            local walt = ReplicatedStorage.Remotes.GetBakeryOrderRemote:InvokeServer()
-            if walt then
-                ReplicatedStorage.Remotes.SubmitBakeryOrderRemote:InvokeServer(walt)
-            end
-            Player.Character.HumanoidRootPart.CFrame =
-                Workspace.Interactions.ChristmasEvent.Bakery.BillboardPart.CFrame
-            if
-                Player.PlayerGui.MinigamesGui:FindFirstChild("RewardFrame") and
-                    Player.PlayerGui.MinigamesGui:FindFirstChild("RewardFrame").Visible == true
-             then
-                ReplicatedStorage.Remotes.GetMinigameRewardRemote:InvokeServer(1)
-                ReplicatedStorage.Remotes.EndMinigameRewardsRemote:FireServer("Bakery")
-            end
-        end
-    end
-)
-
 Player.Character.Humanoid.JumpPower = 50
 Player.Character.Humanoid.WalkSpeed = 30
 local deku1 = {"SolsticeFlares", "SolsticeBoxes"}
@@ -348,23 +303,32 @@ local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 
 if game.PlaceId == 5777228223 then
-local function GetClosestBalls()
-    local TargetDistance = math.huge
-    local Target
-    for _, v in pairs(Workspace.Interactions.SolsticeEvent.CatchObject:GetChildren()) do
-        if v:IsA("Model") then
-            local Mag =
-                (Player.Character.HumanoidRootPart.Position - v:GetModelCFrame().Position).magnitude
-            if Mag < TargetDistance then
-                TargetDistance = Mag
-                Target = v
+
+local Toggle1 = Section1:CreateToggle("Auto Bakery", Settings.Bake, function(State) 
+    Settings.Bake = State
+local a = ReplicatedStorage["_replicationFolder"].BakeryClassClient
+require(a)._getNextOrder = function() end 
+spawn(
+    function()
+        while wait(1) and Settings.Bake do
+            pcall(function()
+            local walt = ReplicatedStorage.Remotes.GetBakeryOrderRemote:InvokeServer()
+            if walt then
+                ReplicatedStorage.Remotes.SubmitBakeryOrderRemote:InvokeServer(walt)
             end
+            Player.Character.HumanoidRootPart.CFrame =
+                Workspace.Interactions.ChristmasEvent.Bakery.BillboardPart.CFrame
+            if
+                Player.PlayerGui.MinigamesGui:FindFirstChild("RewardFrame") and
+                    Player.PlayerGui.MinigamesGui:FindFirstChild("RewardFrame").Visible == true
+             then
+                ReplicatedStorage.Remotes.GetMinigameRewardRemote:InvokeServer(1)
+                ReplicatedStorage.Remotes.EndMinigameRewardsRemote:FireServer("Bakery")
+             end
+        end)
         end
     end
-    return Target
-end
-local Toggle1 = Section1:CreateToggle("Auto Bakery Might ban use alt until tested", Settings.Bake, function(State) 
-    Settings.Bake = State
+)
 end)
 
 Toggle1:AddToolTip("FUCK YOU")
