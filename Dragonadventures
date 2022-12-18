@@ -322,7 +322,7 @@ spawn(
                 Player.PlayerGui.MinigamesGui:FindFirstChild("RewardFrame") and
                     Player.PlayerGui.MinigamesGui:FindFirstChild("RewardFrame").Visible == true
              then
-	     ReplicatedStorage.Remotes.GetMinigameRewardRemote:InvokeServer(2)
+
                 ReplicatedStorage.Remotes.GetMinigameRewardRemote:InvokeServer(1)
                 ReplicatedStorage.Remotes.EndMinigameRewardsRemote:FireServer("Bakery")
              end
