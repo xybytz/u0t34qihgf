@@ -288,6 +288,14 @@ end
 
 Player.Character.Humanoid.JumpPower = 50
 Player.Character.Humanoid.WalkSpeed = 30
+
+local Noclip = function()
+    for i,v in pairs(Player.Character:GetChildren()) do
+        if v:IsA("BasePart") then
+            v.CanCollide = false
+        end 
+    end  
+end 
 local deku1 = {"SolsticeFlares", "SolsticeBoxes"}
 local deku = {"Food", "Magic", "Resources"}
 
@@ -322,7 +330,7 @@ spawn(
                 Player.PlayerGui.MinigamesGui:FindFirstChild("RewardFrame") and
                     Player.PlayerGui.MinigamesGui:FindFirstChild("RewardFrame").Visible == true
              then
-
+	     ReplicatedStorage.Remotes.GetMinigameRewardRemote:InvokeServer(2)
                 ReplicatedStorage.Remotes.GetMinigameRewardRemote:InvokeServer(1)
                 ReplicatedStorage.Remotes.EndMinigameRewardsRemote:FireServer("Bakery")
              end
@@ -340,7 +348,7 @@ game:GetService("RunService").Stepped:connect(
         if Settings.AutoEgg then
             pcall(
                 function()
-                    Player.Character:WaitForChild("Humanoid"):ChangeState(11)
+                    Noclip()
                 end
             )
         end
@@ -514,7 +522,7 @@ game:GetService("RunService").Stepped:connect(
         if Settings.AutoCollect then
             pcall(
                 function()
-                    Player.Character:WaitForChild("Humanoid"):ChangeState(11)
+                    Noclip()
                 end
             )
         end
@@ -579,7 +587,7 @@ game:GetService("RunService").Stepped:connect(
         if Settings.AutoEgg then
             pcall(
                 function()
-                    Player.Character:WaitForChild("Humanoid"):ChangeState(11)
+                    Noclip()
                 end
             )
         end
