@@ -359,7 +359,7 @@ spawn(
                                         v:FindFirstChild("CLIENTTALK"):FireServer("accept")
                                     until Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild(
                                         "Missionstory"
-                                    ).Visible and wait(1)
+                                    ).Visible 
                                 end
                             end
                         end
