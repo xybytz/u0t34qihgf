@@ -82,9 +82,8 @@ local Shindo = {
 }
 
 if not table.find(Shindo, game.PlaceId) then
-    return nil
+    return
 end
-print("Finished")
 
 local wait = task.wait
 local spawn = task.spawn
@@ -96,14 +95,17 @@ local Workspace = game:GetService("Workspace")
 local CoreGui = game:GetService("CoreGui")
 local VirtualInputManager = game:GetService('VirtualInputManager')
 local TeleportService = game:GetService("TeleportService")
+
 for i,v in pairs(getconnections(Player.Idled)) do
     v:Disable()
 end 
+
 RunService.Stepped:connect(
     function()
         sethiddenproperty(Player, "SimulationRadius", 1000)
     end
 )
+
 local Name = "Shindo.json"
 Des = {}
 if makefolder then
@@ -155,6 +157,20 @@ for i=1,15 do
 table.insert(Dungon,"dungeon"..i)
 end 
 end)
+
+local function NoClip()
+    if identifyexecutor and identifyexecutor() ~= "Krnl" then
+        Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState(11)
+    elseif identifyexecutor and identifyexecutor() == "Krnl" then
+        for i,v in pairs(Player.Character:GetChildren()) do
+            if v:IsA("BasePart") then 
+                v.CanCollide = false
+                v.Velocity = Vector3.new(0,0,0)
+            end 
+        end 
+    end 
+end 
+
 if Settings.WaitTime == nil then
     Settings.WaitTime = 0.1
 end 
@@ -214,7 +230,7 @@ Settings.Logs = State
 RunService.Stepped:connect(
     function()
         if Settings.Logs then
-            Player.Character:WaitForChild("Humanoid"):ChangeState(11)
+            NoClip()
         end
     end
 )
@@ -238,7 +254,7 @@ getgenv().AutoCandy = State
 RunService.Stepped:connect(
     function()
         if getgenv().AutoCandy then
-            Player.Character:WaitForChild("Humanoid"):ChangeState(11)
+            NoClip()
         end
     end
 )
@@ -274,28 +290,28 @@ Settings.EventBosses = State
 RunService.Stepped:connect(
     function()
         if Settings.EventBosses then
-            Player.Character:WaitForChild("Humanoid"):ChangeState(11)
+            NoClip()
         end
     end
 )
 spawn(
     function()
         while wait() and Settings.EventBosses do
+            pcall(function()
             for i, v in pairs(Workspace.npc:GetChildren()) do
                 if v.Name ~= "logtraining" and v:FindFirstChild("Head") and v.Head.CFrame.Y > -1000 then
                     repeat
                         wait()
-                        pcall(
-                            function()
+                     
                                 Player.Character:WaitForChild("HumanoidRootPart").CFrame =
                                     CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -5, 3)
                                 Player.Character.combat.update:FireServer("mouse1", true)
                                 Player.Character.combat.update:FireServer("mouse1", false)
-                            end
-                        )
+                        
                     until v.Humanoid.Health == 0 or not v or not Settings.EventBosses
                 end
             end
+            end)
         end
     end
 )
@@ -308,7 +324,7 @@ RunService.Stepped:connect(
         if Settings.AutoMobs then
             pcall(
                 function()
-                    Player.Character:WaitForChild("Humanoid"):ChangeState(11)
+                    NoClip()
                 end
             )
         end
@@ -322,27 +338,28 @@ spawn(
                 function()
                     if
                         not Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory").Visible
-                     then
+                    then
                         for i, v in pairs(Workspace.missiongivers:GetChildren()) do
                             if
                                 v:FindFirstChild("Head") and v.Head:FindFirstChild("givemission") and
-                                    v.Head.givemission.Enabled and
-                                    v.Head.givemission:FindFirstChild("color").Image ==
-                                        "http://www.roblox.com/asset/?id=5459241648"
-                             then
+                                v.Head.givemission.Enabled and
+                                v.Head.givemission:FindFirstChild("color").Image ==
+                                "http://www.roblox.com/asset/?id=5459241648"
+                            then
                                 if
                                     Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild(
                                         "Missionstory"
                                     ).Visible == false
-                                 then
-                                    pcall(
-                                        function()
-                                            Player.Character:WaitForChild("HumanoidRootPart").CFrame =
-                                                CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -5, 3)
-                                            v:FindFirstChild("CLIENTTALK"):FireServer()
-                                            v:FindFirstChild("CLIENTTALK"):FireServer("accept")
-                                        end
-                                    )
+                                then
+                                    repeat
+                                        wait()
+                                        Player.Character:WaitForChild("HumanoidRootPart").CFrame =
+                                            CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -5, 3)
+                                        v:FindFirstChild("CLIENTTALK"):FireServer()
+                                        v:FindFirstChild("CLIENTTALK"):FireServer("accept")
+                                    until Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild(
+                                        "Missionstory"
+                                    ).Visible and wait(1)
                                 end
                             end
                         end
@@ -351,30 +368,31 @@ spawn(
                         for i, v in pairs(Workspace.npc:GetChildren()) do
                             if
                                 v:IsA("Model") and v:FindFirstChild("npctype") and
-                                    string.find(
-                                        Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild(
-                                            "Missionstory"
-                                        ).bg.name.Text,
-                                        v.Head.mob.fram.name.info.Text
-                                    ) and v:FindFirstChild("HumanoidRootPart") and
-                                    v:FindFirstChild("Humanoid") and
-                                    v.Head.CFrame.Y > -1000
-                             then
+                                string.find(Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild(
+                                        "Missionstory"
+                                    ).bg.name.Text,
+                                    v.Head.mob.fram.name.info.Text
+                                    
+                                ) and
+                                v:FindFirstChild("HumanoidRootPart") and
+                                v:FindFirstChild("Humanoid") and
+                                v.Head.CFrame.Y > -1000
+                            then
                                 pcall(
                                     function()
                                         wait(0.2)
                                         Player.Character:WaitForChild("HumanoidRootPart").CFrame =
                                             CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -5, 3)
-                                        if v:FindFirstChild("antiexploit") then
-                                            v.antiexploit:remove()
-                                        end
+                                        
+                                            
+                                      
                                         wait(0.2)
                                         Player.Character.combat.update:FireServer("mouse1", true)
                                         Player.Character.combat.update:FireServer("mouse1", false)
                                         if
                                             v:FindFirstChild("HumanoidRootPart") and
-                                                v.Humanoid.Health < v.Humanoid.MaxHealth
-                                         then
+                                            v.Humanoid.Health < v.Humanoid.MaxHealth
+                                        then
                                             v.Humanoid.Health = 0
                                         end
                                     end
@@ -387,6 +405,7 @@ spawn(
         end
     end
 )
+
 end)
 local Toggle1 = Section1:CreateToggle("AutoFarm Dungeon", Settings.Hope, function(State)
 Settings.Hope = State
@@ -395,7 +414,7 @@ RunService.Stepped:connect(
         if Settings.Hope then
             pcall(
                 function()
-                    Player.Character:WaitForChild("Humanoid"):ChangeState(11)
+                    NoClip()
                 end
             )
         end
@@ -420,9 +439,9 @@ spawn(
                                 function()
                                     Player.Character:WaitForChild("HumanoidRootPart").CFrame =
                                         CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -5, 3)
-                                    if v:FindFirstChild("antiexploit") then
-                                        v.antiexploit:remove()
-                                    end
+                                    
+                                        
+                                    
                                     Player.Character.combat.update:FireServer("mouse1", true)
                                     Player.Character.combat.update:FireServer("mouse1", false)
                                     if v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health < v.Humanoid.MaxHealth then
@@ -444,7 +463,7 @@ Settings.Bosses2 = State
 RunService.Stepped:connect(
     function()
         if Settings.Bosses2 then
-            Player.Character:WaitForChild("Humanoid"):ChangeState(11)
+            NoClip()
         end
     end
 )
@@ -486,9 +505,8 @@ spawn(
                                      then
                                         Player.Character:WaitForChild("HumanoidRootPart").CFrame =
                                             CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -5, 3)
-                                        if v:FindFirstChild("antiexploit") then
-                                            v.antiexploit:remove()
-                                        end
+                                        
+                                       
                                         Player.Character.combat.update:FireServer("mouse1", true)
                                         Player.Character.combat.update:FireServer("mouse1", false)
                                         if
@@ -514,7 +532,7 @@ Settings.Bosses3 = State
 RunService.Stepped:connect(
     function()
         if Settings.Bosses3 then
-            Player.Character:WaitForChild("Humanoid"):ChangeState(11)
+            NoClip()
         end
     end
 )
@@ -555,9 +573,9 @@ spawn(
                                  then
                                     Player.Character:WaitForChild("HumanoidRootPart").CFrame =
                                         CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -5, 3)
-                                    if v:FindFirstChild("antiexploit") then
-                                        v.antiexploit:remove()
-                                    end
+                                    
+                                        
+                                  
                                     Player.Character.combat.update:FireServer("mouse1", true)
                                     Player.Character.combat.update:FireServer("mouse1", false)
                                     if
@@ -582,7 +600,7 @@ Settings.Bosses = State
 RunService.Stepped:connect(
     function()
         if Settings.Bosses then
-            Player.Character:WaitForChild("Humanoid"):ChangeState(11)
+            NoClip()
         end
     end
 )
@@ -655,108 +673,116 @@ end)
 end
 local Toggle1 = Section1:CreateToggle("AutoRank", Settings.Rebirth, function(State)
 Settings.Rebirth = State
-spawn(function()
-while wait() and Settings.Rebirth do
-    if Player.statz.lvl:FindFirstChild("lvl").Value == 1000 then
-        if
-            Player.statz.prestige.maxlvlpres.Value >= 1 or
-                Player.statz.prestige.maxlvlpres.Value == 0 and
-                    Player.statz.prestige.rank.Value == "Z" and
-                    Player.statz.prestige.number.Value == "3"
-         then
-            repeat
-                wait()
-                Player.startevent:FireServer("maxlvlpres")
-            until Player.statz.lvl:FindFirstChild("lvl").Value == 1 or not Settings.Rebirth
-        else
-            repeat
-                wait()
-                Player.startevent:FireServer("rankup")
-            until Player.statz.lvl:FindFirstChild("lvl").Value == 1 or not Settings.Rebirth
+spawn(
+    function()
+        while wait() and Settings.Rebirth do
+            if Player.statz.lvl:FindFirstChild("lvl").Value == 1000 then
+                if Player.statz.prestige.maxlvlpres.Value >= 1 then
+                    repeat
+                        wait()
+                        Player.startevent:FireServer("maxlvlpres")
+                    until Player.statz.lvl:FindFirstChild("lvl").Value == 1 or not Settings.Rebirth
+                else
+                    repeat
+                        wait()
+                        Player.startevent:FireServer("rankup")
+                    until Player.statz.lvl:FindFirstChild("lvl").Value == 1 or not Settings.Rebirth
+                end
+            end
         end
     end
-end
-end)
+)
+
 end)
 local Toggle1 = Section1:CreateToggle("Event boss auto hit", Settings.Jin, function(State)
 Settings.Jin = State
 RunService.Stepped:connect(
     function()
         if Settings.Jin then
-            Player.Character:WaitForChild("Humanoid"):ChangeState(11)
+            NoClip()
         end
     end
 )
-spawn(function()
-while wait() and Settings.Jin do
-    for i, v in pairs(Workspace.npc:GetChildren()) do
-        if v.Name == "npc1" then
-            repeat
-                wait()
-                pcall(
-                    function()
-                        Player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -5, 3)
-                            Player.Character.combat.update:FireServer("mouse1", true)
-                            Player.Character.combat.update:FireServer("mouse1", false)
-                         if v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health < v.Humanoid.MaxHealth then
-                            v.Humanoid.Health = 0
-                        end 
-                    end
-                )
-            until v.Humanoid.Health == 0 or not v or not Settings.Jin
+spawn(
+    function()
+        while wait() and Settings.Jin do
+            for i, v in pairs(Workspace.npc:GetChildren()) do
+                if v.Name == "npc1" then
+                    repeat
+                        wait()
+                        pcall(
+                            function()
+                                Player.Character:WaitForChild("HumanoidRootPart").CFrame =
+                                    CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -5, 3)
+                                Player.Character.combat.update:FireServer("mouse1", true)
+                                Player.Character.combat.update:FireServer("mouse1", false)
+                                if v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health < v.Humanoid.MaxHealth then
+                                    v.Humanoid.Health = 0
+                                end
+                            end
+                        )
+                    until v.Humanoid.Health == 0 or not v or not Settings.Jin
+                end
+            end
         end
     end
-end
+)
+
 end)
-end)
+
 local Toggle1 = Section1:CreateToggle("AutoWar", Settings.War, function(State)
 Settings.War = State
 RunService.Stepped:connect(
     function()
         if Settings.War then
-            Player.Character:WaitForChild("Humanoid"):ChangeState(11)
+            NoClip()
         end
     end
 )
-spawn(function()
-while Settings.War do
-    wait()
-    pcall(
-        function()
-            for i, v in pairs(workspace.npc:GetChildren()) do
-                if
-                    v:IsA("Model") and v:FindFirstChild("npc") and string.find(v.Name, "npc") and
-                        v:FindFirstChild("HumanoidRootPart") and
-                        v:FindFirstChild("Humanoid") and
-                        v.Head.CFrame.Y > -1000 and
-                        not v:FindFirstChild("megaboss")
-                 then
-                    Player.Character.combat.update:FireServer("mouse1", true)
-                    Player.Character.combat.update:FireServer("mouse1", false)
-                    Player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -5, 3)
-                    if v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health < v.Humanoid.MaxHealth then
-                        v.Humanoid.Health = 0
-                    end
-                elseif
-                    v:IsA("Model") and v:FindFirstChild("npc") and string.find(v.Name, "npc") and
-                        v:FindFirstChild("HumanoidRootPart") and
-                        v:FindFirstChild("Humanoid") and
-                        v.Head.CFrame.Y > -1000 and
-                        v:FindFirstChild("megaboss")
-                 then
-                    wait(6)
-                    Player.Character.combat.update:FireServer("mouse1", true)
-                    Player.Character.combat.update:FireServer("mouse1", false)
-                    Player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -5, 3)
-                    if v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health < v.Humanoid.MaxHealth then
-                        v.Humanoid.Health = 0
+spawn(
+    function()
+        while Settings.War do
+            wait()
+            pcall(
+                function()
+                    for i, v in pairs(workspace.npc:GetChildren()) do
+                        if
+                            v:IsA("Model") and v:FindFirstChild("npc") and string.find(v.Name, "npc") and
+                                v:FindFirstChild("HumanoidRootPart") and
+                                v:FindFirstChild("Humanoid") and
+                                v.Head.CFrame.Y > -1000 and
+                                not v:FindFirstChild("megaboss")
+                         then
+                            Player.Character.combat.update:FireServer("mouse1", true)
+                            Player.Character.combat.update:FireServer("mouse1", false)
+                            Player.Character:WaitForChild("HumanoidRootPart").CFrame =
+                                CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -5, 3)
+                            if v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health < v.Humanoid.MaxHealth then
+                                v.Humanoid.Health = 0
+                            end
+                        elseif
+                            v:IsA("Model") and v:FindFirstChild("npc") and string.find(v.Name, "npc") and
+                                v:FindFirstChild("HumanoidRootPart") and
+                                v:FindFirstChild("Humanoid") and
+                                v.Head.CFrame.Y > -1000 and
+                                v:FindFirstChild("megaboss")
+                         then
+                            wait(6)
+                            Player.Character.combat.update:FireServer("mouse1", true)
+                            Player.Character.combat.update:FireServer("mouse1", false)
+                            Player.Character:WaitForChild("HumanoidRootPart").CFrame =
+                                CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -5, 3)
+                            if v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health < v.Humanoid.MaxHealth then
+                                v.Humanoid.Health = 0
+                            end
+                        end
                     end
                 end
-            end
+            )
         end
-    )
-end
-end)
+    end
+)
+
 end)
 local Toggle1 = Section1:CreateToggle("ScrollFarm", Settings.Scroll, function(State)
 Settings.Scroll = State
