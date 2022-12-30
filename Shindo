@@ -100,11 +100,19 @@ for i,v in pairs(getconnections(Player.Idled)) do
     v:Disable()
 end 
 
+local Go = function()
+    if Player and Player.PlayerGui:FindFirstChild("Main") and Player.Character then return end 
+    Player.Character:FindFirstChildWhichIsA("Humanoid").Health = 0 
+end 
+
 RunService.Stepped:connect(
     function()
         sethiddenproperty(Player, "SimulationRadius", 1000)
+        Go()
     end
 )
+
+
 
 local Name = "Shindo.json"
 Des = {}
