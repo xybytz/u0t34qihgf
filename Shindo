@@ -101,7 +101,7 @@ for i,v in pairs(getconnections(Player.Idled)) do
 end 
 
 local Go = function()
-    if Player and Player.PlayerGui:FindFirstChild("Main") and Player.Character then return end 
+    if Player and Player.PlayerGui:FindFirstChild("Main") and Player.Character then return end wait(10)
     Player.Character:FindFirstChildWhichIsA("Humanoid").Health = 0 
 end 
 
