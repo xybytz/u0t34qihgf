@@ -271,6 +271,8 @@ spawn(function()
             for i,v in pairs(Chests:GetChildren()) do
                 if v:IsA("BasePart") and v.Transparency == 0 then
                     firetouchinterest(Player.Character.HumanoidRootPart, v, 0)
+                    Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame = v.CFrame
+                    fireclickdetector(v:FindFirstChildWhichIsA("ClickDetector"))
                 end 
             end 
         end)
