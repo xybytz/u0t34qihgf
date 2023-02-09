@@ -25,9 +25,11 @@ local Live = Workspace.Live
 local Protest = ReplicatedStorage.Quests
 local Markers = Workspace.QuestMarkers
 local PlayerValues = Player.PlayerValues
+local Chests = Workspace.Chests
 local wait = task.wait 
 local spawn = task.spawn
 
+        
 Players.LocalPlayer.Idled:connect(
     function()
         game:GetService("VirtualUser"):ClickButton2(Vector2.new())
@@ -261,6 +263,33 @@ spawn(
 )
 end)
 
+local Toggle1 = Section1:CreateToggle("Auto Chests", Settings.Auw, function(State)
+Settings.Auw = State
+spawn(function()
+    while wait() and Settings.Auw do
+        pcall(function()
+            for i,v in pairs(Chests:GetChildren()) do
+                if v:IsA("BasePart") and v.Transparency == 0 then
+                    firetouchinterest(Player.Character.HumanoidRootPart, v, 0)
+                end 
+            end 
+        end)
+    end 
+end)
+end)
+
+local Toggle1 = Section1:CreateToggle("Auto Fruits", Settings.Auw, function(State)
+Settings.Aud = State
+spawn(function()
+    while wait() and Settings.Aud do 
+        pcall(function()
+            if Workspace:FindFirstChildWhichIsA("Tool", true) then
+                firetouchinterest(Player.Character.HumanoidRootPart, Workspace:FindFirstChildWhichIsA("Tool", true).Handle, 0)
+            end 
+        end)
+    end 
+end)
+end)
 local Toggle1 = Section1:CreateToggle("Dont HideName", Settings.HideName, function(State)
     Settings.HideName = State
 end)
