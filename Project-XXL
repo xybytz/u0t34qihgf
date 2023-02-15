@@ -86,40 +86,17 @@ local Teleport = function(A, B, C)
     end
 end
 local Rough = function()
-    Player:FindFirstChild("Menu",true)
-    Player:WaitForChild("Backpack"):FindFirstChildWhichIsA("Tool",true)
+    repeat wait() until Player:FindFirstChild("Menu",true) and Player:WaitForChild("Backpack"):FindFirstChildWhichIsA("Tool",true)
 end
-
-local Jail = function()
-    if not Workspace:FindFirstChild("Cage",true) then
-        local A = game:GetObjects("rbxassetid://780597936")[1]
-        A.Parent = game.Workspace
-        A:MoveTo(Vector3.new(0, -500, 0))
-
-        game:GetService("RunService").Stepped:connect(
-            function()
-                pcall(
-                    function()
-                        game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                            Workspace.Cage.Part.CFrame * CFrame.new(Vector3.new(0, -7, 0))
-                    end
-                )
-            end
-        )
-    end
-end
-
-spawn(
-    function()
-        RunService.Stepped:connect(
-            function()
-                Workspace.FallenPartsDestroyHeight = 0 / 0
-                sethiddenproperty(Player, "SimulationRadius", 1000)
-            end
-        )
-    end
-)
+RunService.Stepped:connect(function()
+    pcall(function()
+        if Player.Character.Head:FindFirstChild("Overhead",true) and not Settings.HideName then
+            Player.Character.Head.Overhead:destroy()
+        end
+        Workspace.FallenPartsDestroyHeight = 0 / 0
+        sethiddenproperty(Player, "SimulationRadius", 1000)
+    end)
+end)
 
 local function Float(v)
     if v:FindFirstChild("BodyForce",true) then
@@ -134,8 +111,8 @@ RunService.Stepped:connect(
     function()
         pcall(
             function()
-                if Player.Character.Head:FindFirstChild("Overhead") and not Settings.HideName then
-                    Player.Character.Head.Overhead:remove()
+                if Player.Character.Head:FindFirstChild("Overhead",true) and not Settings.HideName then
+                    Player.Character.Head.Overhead:destroy()
                 end
             end
         )
@@ -153,7 +130,7 @@ for i, v in pairs(Protest:GetChildren()) do
     table.insert(Quests, v.Name)
 end
 local code = {}
-for i, v in pairs(Player.Codes:GetDescendants()) do
+for i, v in pairs(Player.Codes:GetChildren()) do
     table.insert(code, v.Name)
 end
 local Shop = {}
@@ -270,9 +247,7 @@ spawn(function()
         pcall(function()
             for i,v in pairs(Chests:GetChildren()) do
                 if v:IsA("BasePart") and v.Transparency == 0 then
-                    firetouchinterest(Player.Character.HumanoidRootPart, v, 0)
                     Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame = v.CFrame
-                    fireclickdetector(v:FindFirstChildWhichIsA("ClickDetector"))
                 end 
             end 
         end)
@@ -1030,17 +1005,19 @@ local Toggle1 = Section2:CreateToggle("Enable WalkSpeed/JumpPower", Settings.Go,
 Settings.Go = State
 RunService.Stepped:connect(
     function()
-        if Settings.Go then
-            Player.Character:WaitForChild("Humanoid").WalkSpeed = Settings.WalkSpeed
-       	    if Player.Character:FindFirstChildOfClass('Humanoid').UseJumpPower then
-			Player.Character:WaitForChild('Humanoid').JumpPower = Settings.JumpPower
-		    else
-			Player.Character:WaitForChild('Humanoid').JumpHeight  = Settings.JumpPower
-			end 
-            if not game:GetService("UserInputService").WindowFocusReleased then
-                setfpscap(Settings.Fps)
+        pcall(function()
+            if Settings.Go then
+                Player.Character:WaitForChild("Humanoid").WalkSpeed = Settings.WalkSpeed
+       	        if Player.Character:FindFirstChildOfClass('Humanoid').UseJumpPower then
+			        Player.Character:WaitForChild('Humanoid').JumpPower = Settings.JumpPower
+		        else
+			        Player.Character:WaitForChild('Humanoid').JumpHeight  = Settings.JumpPower
+			    end 
+                if not game:GetService("UserInputService").WindowFocusReleased then
+                    setfpscap(Settings.Fps)
+                end
             end
-        end
+        end)
     end
 )
 
