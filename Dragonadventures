@@ -58,12 +58,17 @@ local function Save()
     writefile("V.G Hub//" .. Name, HttpService:JSONEncode(Settings))
 end
 
+local GetConnections = function(A, B)
+    for i,v in pairs(getconnections(A[tostring(B)])) do
+        v:Fire()
+    end 
+end 
+
 Player.PlayerGui.NodeGui.BoostFrame.ChildAdded:Connect(
     function(v)
-        if v.ClassName == "Frame" and v:FindFirstChild("ClickButton") then
+        if v:IsA("Frame") and v:FindFirstChild("ClickButton") then
             wait(0.5)
-            firesignal(v.ClickShadowButton.MouseButton1Down)
-            firesignal(v.ClickButton.MouseButton1Down)
+            GetConnections(v.ClickShadowButton,"MouseButton1Down") 
         end
     end
 )
@@ -371,7 +376,7 @@ while Settings.AutoEgg do
             for i, v in pairs(Workspace.Interactions.Nodes.Harvest.EventEggs.ActiveNodes:GetChildren()) do
                 if v:IsA("Model") and v:FindFirstChildWhichIsA("BasePart") then
                          Player.Character.HumanoidRootPart.CFrame =
-                        v:GetModelCFrame() * CFrame.new(40, -3, 0)
+                        v:GetModelCFrame() * CFrame.new(40, 5, 0)
                     wait(1)
                     repeat wait()
                     Player.Character.Humanoid:MoveTo(
@@ -545,7 +550,7 @@ while Settings.AutoCollect do
             for i, v in pairs(Workspace.Interactions.Nodes.Harvest[Settings.CollectionItem].ActiveNodes:GetChildren()) do
                 if v:IsA("Model") and v:FindFirstChildWhichIsA("BasePart") and Settings.AutoCollect then
                     Player.Character.HumanoidRootPart.CFrame =
-                        v:FindFirstChildWhichIsA("BasePart").CFrame * CFrame.new(40, -3, 0)
+                        v:FindFirstChildWhichIsA("BasePart").CFrame * CFrame.new(40, 5, 0)
                     wait(1)
                     repeat wait()
                     Player.Character.Humanoid:MoveTo(
