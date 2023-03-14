@@ -1,9 +1,4 @@
-local Config = {
-    WindowName = "V.G Hub",
-	Color = Color3.fromRGB(255,128,64),
-	Keybind = Enum.KeyCode.RightControl
-}
-repeat task.wait() until game:IsLoaded() 
+
 
 local Shindo = {
     4616652839,
@@ -84,92 +79,50 @@ local Shindo = {
 if not table.find(Shindo, game.PlaceId) then
     return
 end
-
-local wait = task.wait
-local spawn = task.spawn
-local Player = game:GetService("Players").LocalPlayer
-local RunService = game:GetService("RunService")
-local UserInputService = game:GetService("UserInputService")
-local HttpService = game:GetService("HttpService")
-local Workspace = game:GetService("Workspace")
-local CoreGui = game:GetService("CoreGui")
-local VirtualInputManager = game:GetService('VirtualInputManager')
-local TeleportService = game:GetService("TeleportService")
-
-for i,v in pairs(getconnections(Player.Idled)) do
-    v:Disable()
-end 
-
-RunService.Stepped:connect(
-    function()
-        sethiddenproperty(Player, "SimulationRadius", 1000)
-    end
-)
-
-local Name = "Shindo.json"
-Des = {}
-if makefolder then
-    makefolder("V.G Hub")
-end
-local Settings
-if
-    not pcall(
-        function()
-            readfile("V.G Hub//" .. Name)
-        end
-    )
- then
-    writefile("V.G Hub//" .. Name, HttpService:JSONEncode(Des))
-end
-if readfile("V.G Hub//" .. Name) then
-Settings = HttpService:JSONDecode(readfile("V.G Hub//" .. Name))
-end
-local function Save()
-    writefile("V.G Hub//" .. Name, HttpService:JSONEncode(Settings))
-end
-
-local Connections = {
-    Workspace:FindFirstChild("CCoff"),
-    Workspace:FindFirstChild("custo"),
-    Workspace:FindFirstChild("conquer"),
-    Workspace.GLOBALTIME:FindFirstChild("narutoshadowclone"),
+repeat task.wait() until game:IsLoaded() 
+repeat wait() until Player:FindFirstChild("statz",true) and (Player.Character or Player.CharacterAdded:Wait())
+local Stat = Player.statz
+local Keys = {}
+local Delete = {
+    "CCoff",
+    "custo",
+    "conquer",
+    "narutoshadowclone"
 }
-for i,v in pairs(Connections) do
-    v:Destroy()
+for i,v in pairs(Delete) do
+    pcall(Workspace:FindFirstChild(v,true):Destroy())
+end 
+local For = function(E)
+    return Stat.main[tostring(E)]
 end 
 
-pcall(function()
-    Dungon = {}
+local Key = function(Key)
+    return VirtualInputManager:SendKeyEvent(true,tostring(Key),true) and VirtualInputManager:SendKeyEvent(false,tostring(Key),false)
+end 
+
+local NoClip = function()
+    return Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState(11)
+end 
+
+for i,v in pairs(Stat.presetkeys:GetChildren()) do
+    if not table.find(Keys,v.Name) then
+        table.insert(Keys,v.Name)
+    end 
+end 
+
+local Old = pcall(function()
+    local Dungon = {}
     for i=1,15 do 
-        table.insert(Dungon,"dungeon"..i)
-    end
-end)
-
-local Kill = function()
-    if not Player.PlayerGui:FindFirstChild("Main") and wait(2) then
-        Player.Character:FindFirstChildWhichIsA("Humanoid").Health = 0 
-    end 
-end 
-
-spawn(function()
-    while wait() do
-        pcall(function()
-            Kill()
-        end)
+        table.insert(Dungon,"dungeon" .. i)
     end 
 end)
-local function NoClip()
-    if identifyexecutor then
-        Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState(11)
-    end 
-end 
 
-if Settings.WaitTime == nil then
-    Settings.WaitTime = 0
-end 
-if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Main") then
-    repeat wait() until game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Main")
-end 
+local Config = {
+    WindowName = "V.G Hub",
+	Color = Color3.fromRGB(255,128,64),
+	Keybind = Enum.KeyCode.RightControl
+}
+
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
 local Window = Library:CreateWindow(Config, CoreGui)
 local Tab1 = Window:CreateTab("")
@@ -179,45 +132,42 @@ local Section2 = Tab1:CreateSection("")
 local SectionA = Tab1:CreateSection("")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
+
+local Toggle1 = Section1:CreateToggle("Anti Grip/Godmode", Settings.AntiGrip, function(State)
+    Settings.AntiGrip = State
+    if Settings.AntiGrip then
+        StarterGui:SetCore("SendNotification", {Title = "lol";Text = "you need to die once then it will work";})
+    end
+    spawn(function()
+        while wait() and Settings.AntiGrip do
+            pcall(function()
+                if Player.Character:FindFirstChild("fakehealth") then
+                    Player.Character.fakehealth:Destroy()
+                end
+            end)
+        end
+    end)
+end)
 local Slider1 = Section2:CreateSlider("AutoFarm Wait Time",0,5,Settings.WaitTime,false, function(Value)
 	Settings.WaitTime = Value
 end)
-local Toggle1 = Section1:CreateToggle("Anti Grip/Godmode", Settings.AntiGrip, function(State)
-Settings.AntiGrip = State
-if Settings.AntiGrip then
-game.StarterGui:SetCore("SendNotification", {
-Title = "lol";
-Text = "you need to die once then it will work";
-})
-end
-spawn(function()
-while wait() and Settings.AntiGrip do
-    pcall(
-        function()
-            if Player.Character:FindFirstChild("fakehealth") then
-                Player.Character.fakehealth:Destroy()
-            end
-        end
-    )
-end
-end)
-end)
+
 if game.PlaceId == 7524809704 then
-local Toggle1 = Section1:CreateToggle("AutoStart Dungeon", Settings.Dungeon1, function(State)
-Settings.Dungeon1 = State
-spawn(
-    function()
-        while wait() and Settings.Dungeon1 do
-            Player.pressplay:FireServer(Dungon)
-        end
-    end
-)
-end)
-local Dropdown1 = Section1:CreateDropdown("Dungeons", Dungon, function(String)
-	Settings.Dungeon = String
-	Dungon = Settings.Dungeon
-end)
+    local Toggle1 = Section1:CreateToggle("AutoStart Dungeon", Settings.Dungeon1, function(State)
+        Settings.Dungeon1 = State
+        spawn(function()
+            while wait() and Settings.Dungeon1 do
+                Player.pressplay:FireServer(Dungon)
+            end
+        end)
+    end)
+    local Dropdown1 = Section1:CreateDropdown("Dungeons", Dungon, function(String)
+	    Settings.Dungeon = String
+	    Dungon = Settings.Dungeon
+    end)
 end
+
+
 local Toggle1 = Section1:CreateToggle("AutoFarm Logs", Settings.Logs, function(State)
 Settings.Logs = State
 RunService.Stepped:connect(
