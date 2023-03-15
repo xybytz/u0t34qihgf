@@ -80,7 +80,7 @@ if not table.find(Shindo, game.PlaceId) then
     return
 end
 repeat task.wait() until game:IsLoaded() 
-repeat wait() until Player:FindFirstChild("statz",true) and (Player.Character or Player.CharacterAdded:Wait())
+repeat wait() until Player:FindFirstChild("statz",true)
 local Stat = Player.statz
 local Keys = {}
 local Delete = {
@@ -89,9 +89,11 @@ local Delete = {
     "conquer",
     "narutoshadowclone"
 }
-for i,v in pairs(Delete) do
-    pcall(Workspace:FindFirstChild(v,true):Destroy())
-end 
+local Pcall = pcall(function()
+    for i,v in pairs(Delete) do
+        Workspace:FindFirstChild(v,true):Destroy()
+    end 
+end)
 local For = function(E)
     return Stat.main[tostring(E)]
 end 
