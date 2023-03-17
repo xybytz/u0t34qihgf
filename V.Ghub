@@ -1,27 +1,9 @@
---[[
-██╗░░░██╗░░░░██████╗░  ██╗░░██╗██╗░░░██╗██████╗░  ███╗░░░███╗░█████╗░██╗░░██╗██╗███╗░░██╗░██████╗░
-██║░░░██║░░░██╔════╝░  ██║░░██║██║░░░██║██╔══██╗  ████╗░████║██╔══██╗██║░██╔╝██║████╗░██║██╔════╝░
-╚██╗░██╔╝░░░██║░░██╗░  ███████║██║░░░██║██████╦╝  ██╔████╔██║███████║█████═╝░██║██╔██╗██║██║░░██╗░
-░╚████╔╝░░░░██║░░╚██╗  ██╔══██║██║░░░██║██╔══██╗  ██║╚██╔╝██║██╔══██║██╔═██╗░██║██║╚████║██║░░╚██╗
-░░╚██╔╝░░██╗╚██████╔╝  ██║░░██║╚██████╔╝██████╦╝  ██║░╚═╝░██║██║░░██║██║░╚██╗██║██║░╚███║╚██████╔╝
-░░░╚═╝░░░╚═╝░╚═════╝░  ╚═╝░░╚═╝░╚═════╝░╚═════╝░  ╚═╝░░░░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝╚═╝╚═╝░░╚══╝░╚═════╝░
-██████╗░░█████╗░██████╗░██╗░░░░░░█████╗░██╗░░██╗  ░██████╗░██████╗░███████╗░█████╗░████████╗
-██╔══██╗██╔══██╗██╔══██╗██║░░░░░██╔══██╗╚██╗██╔╝  ██╔════╝░██╔══██╗██╔════╝██╔══██╗╚══██╔══╝
-██████╔╝██║░░██║██████╦╝██║░░░░░██║░░██║░╚███╔╝░  ██║░░██╗░██████╔╝█████╗░░███████║░░░██║░░░
-██╔══██╗██║░░██║██╔══██╗██║░░░░░██║░░██║░██╔██╗░  ██║░░╚██╗██╔══██╗██╔══╝░░██╔══██║░░░██║░░░
-██║░░██║╚█████╔╝██████╦╝███████╗╚█████╔╝██╔╝╚██╗  ╚██████╔╝██║░░██║███████╗██║░░██║░░░██║░░░
-╚═╝░░╚═╝░╚════╝░╚═════╝░╚══════╝░╚════╝░╚═╝░░╚═╝  ░╚═════╝░╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝░░░╚═╝░░░
-░█████╗░░██████╗░░█████╗░██╗███╗░░██╗
-██╔══██╗██╔════╝░██╔══██╗██║████╗░██║
-███████║██║░░██╗░███████║██║██╔██╗██║
-██╔══██║██║░░╚██╗██╔══██║██║██║╚████║
-██║░░██║╚██████╔╝██║░░██║██║██║░╚███║
-╚═╝░░╚═╝░╚═════╝░╚═╝░░╚═╝╚═╝╚═╝░░╚══╝]]--
+
 repeat
     wait()
 until game:IsLoaded()
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G_Hub_Extras/main/Universal_Client_Bypass"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Anti-Cheat"))()
 
 local A = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.G-Hub-Games-List"))()
 getgenv().Get =
@@ -95,21 +77,8 @@ for i, v in pairs(Unknown) do
     loadstring(game:HttpGet(v))()
 end
 
-StarterGui:SetCore(
-    "SendNotification",
-    {
-        Title = "Warning",
-        Text = "RightControl to toggle if the gui does not show up then the game is not supported please try again later or never if the game is supported the gui will pop up reguardless GOOD DAY!",
-        Duration = 15
-    }
-)
-StarterGui:SetCore(
-    "SendNotification",
-    {
-        Title = "Credis",
-        Text = "CharWar Serverhops Toxic Mods screen thingy And Kiriot22 esp,IY for fly script inspiration,Staylin Save Settings,Felix for being sexy, E621 Anticheat bypasses"
-    }
-)
+SendNotification("Warning", "RightControl to toggle if the gui does not show up then the game is not supported please try again later or never if the game is supported the gui will pop up reguardless GOOD DAY!", "rbxassetid://8429081004", 5)
+SendNotification("Credits", "CharWar Serverhops Toxic Mods screen thingy And Kiriot22 esp,IY for fly script inspiration,Staylin Save Settings,Felix for being sexy, E621 Anticheat bypasses", "rbxassetid://8429081004", 5)
 wait(5)
 
 local function Copy()
@@ -117,13 +86,10 @@ local function Copy()
 end
 local Gang = Instance.new("BindableFunction")
 
-local function Hoe(i, v)
-    StarterGui:SetCore("SendNotification", {Title = i, Text = v, Icon = "", Duration = 5})
-end
 function Gang.OnInvoke(v)
     if v == "Yes" then
         Copy()
-        Hoe("Discord Copied")
+        SendNotification("Discord", "Discord Link Copying Sucessful", "rbxassetid://8429081004", 15)
     end
 end
 StarterGui:SetCore(
