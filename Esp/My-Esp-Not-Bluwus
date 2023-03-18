@@ -1,6 +1,6 @@
 --Made By DekuDimz 100% real not skided at all
 local ESP = {
-    Enabled = true,
+    Enabled = false,
     Settings = {
         RemoveOnDeath = true,
         MaxDistance = 300, -- Max Distance for esp to render (IN METERS).
