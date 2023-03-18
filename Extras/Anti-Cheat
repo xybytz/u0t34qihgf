@@ -41,29 +41,35 @@ end
 
 local Nos = {
     "PreloadAsync",
-    "Kick",
-     "kick",
     "xpcall",
     "gcinfo",
     "collectgarbage",
     "FindService",
 }
+
+local Yes = {
+    "Kick",
+    "kick",
+}
+
 local Disables = {
     Error,
     MessageOut
 }
 
+
 local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(...)
     local Args = {...}
     local A, B, C = ...
-    if table.find(Nos, A.Name) then
+
+    if table.find(Yes, getnamecallmethod()) and A == Player then
         return 
     end 
     if table.find(Nos, getnamecallmethod()) then
         return  
     end 
-    if type(A) == "Instance" then
+        if type(A) ~= "Instance" then
         return OldNameCall(...)
     end 
     return OldNameCall(...)
