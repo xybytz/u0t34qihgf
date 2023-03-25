@@ -111,7 +111,7 @@ a = {
             wait()
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
-    ['hot_spring'] = function(c)
+    ['pool_party'] = function(c)
         GoToMainMap()
         Player.Character.HumanoidRootPart.CFrame = CFrame.new(workspace:WaitForChild("StaticMap"):WaitForChild("HotSpring"):WaitForChild("HotSpringOrigin").Position + Vector3.new(0, 5, 0))
         repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
