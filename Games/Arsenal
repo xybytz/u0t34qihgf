@@ -1,5 +1,5 @@
 function getUserRole(i, v)
-    return i:GetRoleInGroup(v)
+    return i:GetRoleInGroup(v) -- t
 end
 local GroupRoles = {"Game Moderators","Interns","Contractors","Contributors","Beloved","Main Developers","Founder/Main Developer"}
 
