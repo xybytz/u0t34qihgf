@@ -62,43 +62,22 @@ local OldNameCall
     end
 )
 
-local startedTime = tick();
-for i,v in pairs(getgc(true)) do 
-    if not Kick and type(v) == 'function' and getfenv(v).script and getfenv(v).script == game:GetService('Players').LocalPlayer.PlayerScripts:FindFirstChild("LocalScript") then
+for i,v in pairs(getgc()) do 
+    if type(v) == 'function' and getfenv(v).script and getfenv(v).script == game:GetService('Players').LocalPlayer.PlayerScripts:FindFirstChild("LocalScript") then
         if debug.getconstants(v) and table.find(debug.getconstants(v),'FailedPcall') then
             Kick = v
         end
     end
 end
-
-
-
-x = debug.getupvalues(Kick)[1]
-OldFire = getupvalue(x,1)
-local FireServerHook = newcclosure(function(TEvent, Key, ...)
-    if Key then
-        Args = {...}
-        if tostring(Key) == 'JumpPower' then
-            return
-        end
-        if string.match(tostring(Key),'NoClip') then
-            return
-        end
-        if string.match(tostring(Key),'Flying') then
-            return
-        end
-        if tostring(Key) == 'Getupvalues' then
-            return
-        end
-    end
-    return OldFire(TEvent, Key, ...)
+local Table = {
+    "JumpPower"
+}
+local Hook = hookfunction(Kick, function(A)
+    if table.find(Table, A) and Player.Character then
+        return 
+    end 
+    return Hook(A)
 end)
-setupvalue(x,1,FireServerHook)
-
-if not Kick then
-    return nil 
-end
-
 
 UserInputService.InputBegan:Connect(
     function(v)
@@ -134,7 +113,7 @@ spawn(
     function()
         while wait() and Settings.Ants do
             for i, v in pairs(UI.CircleAction.Specs) do
-                v.Duration = 0
+                v.Duration = 1
                 v.Timed = true
             end
         end
@@ -169,9 +148,10 @@ for i, v in next, getgc(true) do
         A1 = v
     end
 end
+hookfunction()
 local oldRagdoll = AlexRagdoll
 A1.Ragdoll = function(...)
-    if Settings.Anti and _G.Nigger then
+    if Settings.Anti then
         return wait(math.huge)
     else
         return oldRagdoll(...)
@@ -640,5 +620,4 @@ spawn(
     end
 )
 
-    
     
