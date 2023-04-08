@@ -1,12 +1,28 @@
-repeat task.wait() until game:IsLoaded()
+repeat wait() until game:IsLoaded()
+wait(3)
+
 local G = getgenv and getgenv() or _G or shared
-if game.PlaceId == 185655149 then
-    wait(50)
+local Table = {
+    185655149,
+    606849621
+}
+if table.find(Table, game.PlaceId) then
+    wait(3)
 end
+
+G.Get =
+    setmetatable(
+    {},
+    {
+        __index = function(A, B)
+            return game:GetService(B)
+        end
+    }
+)
 for i,v in pairs(game.GetChildren(game)) do
-    G[v.ClassName] = v 
-    print(v)
+    G[v.ClassName] = v
 end 
+
 G.Player = Players.LocalPlayer
 G.wait = task.wait 
 G.spawn = task.spawn
@@ -16,8 +32,7 @@ G.RenderStepped = RunService.RenderStepped
 G.Error = ScriptContext.Error
 G.MessageOut = LogService.MessageOut
 G.Kick = Player.Kick
-G.Idled = Player.Idled
-
+G.Idled = Player.Idled 
 
 local Name = game.PlaceId .. ".json"
 local Des = {}
@@ -54,7 +69,8 @@ local Yes = {
 
 local Disables = {
     Error,
-    MessageOut
+    MessageOut,
+    Idled
 }
 
 
@@ -69,21 +85,13 @@ OldNameCall = hookmetamethod(game, "__namecall", function(...)
     if table.find(Nos, getnamecallmethod()) then
         return  
     end 
-        if type(A) ~= "Instance" then
+    if type(A) ~= "Instance" then
         return OldNameCall(...)
     end 
     return OldNameCall(...)
 end)
 
-for i,v in pairs(Disables) do 
-    for i,v in pairs(getconnections(v)) do
-        if v.Disable then
-            v:Disable()
-        elseif v.Disconnect then
-            v:Disconnect()
-        end 
-    end 
-end
+
 if setfflag then
     setfflag("HumanoidParallelRemoveNoPhysics", "False")
     setfflag("HumanoidParallelRemoveNoPhysicsNoSimulate2", "False")
@@ -103,15 +111,24 @@ G.GetFunction = function(A)
     return A 
 end 
 
+G.ScriptFunction = function(A, B) 
+    for i,v in pairs(getgc()) do
+        if type(v) == "function" and getinfo(v).name == tostring(A) and getcallingscript() == B then 
+            A = v 
+        end 
+    end 
+    return A, B 
+end 
+
 G.Teleport = function(A, B, Toggle)
     if Toggle and A and B then
-        A.CFrame = B.CFrame 
+        A.CFrame = B
     end 
     return A, B, Toggle
 end 
 
-G.DisableConnection = function(A, B)
-    for i,v in pairs(getconnections(A[tostring(B)])) do 
+G.DisableConnection = function(A)
+    for i,v in pairs(getconnections(A)) do 
         v:Disable()
     end 
     return A, B 
@@ -121,7 +138,7 @@ G.Tween = function(A, B, C)
     if A and B then
         local Time = (B.Position - A.Position).Magnitude / C 
         local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
-        local Tween = TweenService(A, Info, {CFrame = CFrame.new(B.Position)})
+        local Tween = TweenService:Create(A, Info, {CFrame = CFrame.new(B.Position)})
         Tween:Play()
         wait(Time)
     end 
@@ -168,3 +185,11 @@ end
 G.SendNotification = function(Title, Text, Icon, Duration)
     return StarterGui:SetCore("SendNotification", {Title = Title, Text = Text, Icon = Icon, Duration = Duration})
 end 
+
+G.Mag = function(A, B)
+    return (A.Position - B.Position).Magnitude 
+end
+
+for i,v in pairs(Disables) do 
+    DisableConnection(v)
+end
