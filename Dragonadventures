@@ -33,30 +33,8 @@ repeat
     wait()
 until Player.Character
 
-local Name = "Dragon-Adventures.txt"
 
-Des = {}
-if makefolder then
-    makefolder("V.G Hub")
-end
-
-local Settings
-
-if
-    not pcall(
-        function()
-            readfile("V.G Hub//" .. Name)
-        end
-    )
- then
-    writefile("V.G Hub//" .. Name, HttpService:JSONEncode(Des))
-end
-
-Settings = HttpService:JSONDecode(readfile("V.G Hub//" .. Name))
-
-local function Save()
-    writefile("V.G Hub//" .. Name, HttpService:JSONEncode(Settings))
-end
+local Settings = {}
 
 local GetConnections = function(A, B)
     for i,v in pairs(getconnections(A[tostring(B)])) do
