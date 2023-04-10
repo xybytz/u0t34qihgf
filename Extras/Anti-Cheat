@@ -40,7 +40,7 @@ if makefolder and not isfile("V.G Hub") then
     makefolder("V.G Hub")
 end 
 
-getgenv().Settings = {}
+G.Settings = {}
 local Pcall = pcall(function()
     if isfile("V.G Hub//" .. Name) then
         readfile("V.G Hub//" .. Name)
