@@ -2,7 +2,7 @@
 repeat
     wait()
 until game:IsLoaded()
-
+local StarTime = tick()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Anti-Cheat"))()
 
 local A = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.G-Hub-Games-List"))()
@@ -103,3 +103,5 @@ StarterGui:SetCore(
         Button2 = "No"
     }
 )
+local EndTime = tick()
+print("V.G Hub Took ", StarTime - EndTime, " To Load")
