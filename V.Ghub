@@ -79,7 +79,7 @@ end
 
 SendNotification("Warning", "RightControl to toggle if the gui does not show up then the game is not supported please try again later or never if the game is supported the gui will pop up reguardless GOOD DAY!", "rbxassetid://8429081004", 5)
 SendNotification("Credits", "Applebees, CharWar Serverhops Toxic Mods screen thingy And Kiriot22 esp,IY for fly script inspiration,Staylin Save Settings,Felix for being sexy, E621 Anticheat bypasses", "rbxassetid://8429081004", 5)
-wait(5)
+
 
 local function Copy()
     setclipboard("https://discord.gg/HUBfmJUA2H")
