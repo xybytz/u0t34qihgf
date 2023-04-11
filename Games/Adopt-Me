@@ -563,11 +563,24 @@ Invis = Toggles.AutoInvis.Value
     end)
 end)
 
+    RightGroupBox:AddToggle('S3FDH', {Text = 'Auto Egg hunt', Default = false,Tooltip = ''})
+Toggles.S3FDH:OnChanged(function(State)
+    Test = Toggles.S3FDH.Value
+    spawn(function()
+       while wait() and Test do
+           pcall(function()
+               for i,v in pairs(game:GetService("Workspace").EggHuntEggs:GetChildren()) do
+                   if v:IsA("Model") then
+                       game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart", true).CFrame = v:GetModelCFrame()
+                   end
+               end
+           end)
+       end
+    end)
+end)
+
 RightGroupBox:AddToggle('SFDH', {Text = 'Auto Spring Fest', Default = false,Tooltip = ''})
 Toggles.SFDH:OnChanged(function(State)
-    
-    local FashionMinigameInterior = require(game:GetService("ReplicatedStorage").ClientModules.Game.InteriorHelpers.FashionMinigameInterior)
-    local FurnitureMinigameInterior = require(game:GetService("ReplicatedStorage").ClientModules.Game.InteriorHelpers.FurnitureMinigameInterior)
     Hoe = Toggles.SFDH.Value
     RenderStepped:Connect(function()
         if Hoe then
@@ -579,14 +592,15 @@ Toggles.SFDH:OnChanged(function(State)
     spawn(function()
         while wait() and Hoe do
             pcall(function()
-                
+                local FashionMinigameInterior = require(game:GetService("ReplicatedStorage").ClientModules.Game.InteriorHelpers.FashionMinigameInterior)
+                local FurnitureMinigameInterior = require(game:GetService("ReplicatedStorage").ClientModules.Game.InteriorHelpers.FurnitureMinigameInterior)
                 local String = string.gsub(FashionMinigameInterior.get_join_timer_display_string_now(), "%D","")
                 local String2 = string.gsub(FurnitureMinigameInterior.get_join_timer_display_string_now(), "%D","")
-                if String2 < String and wait(10) then
+                if String2 < String  then
                     GoToStore("FurnitureMinigame")
                     Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame = Workspace.Interiors.FurnitureMinigame.Minigame.JoinZone.Collider.CFrame
                 end 
-                if String < String2 and wait(10) then
+                if String < String2 then
                     GoToStore("FashionMinigame")
                     Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame = Workspace.Interiors.FashionMinigame.Minigame.JoinZone.Collider.CFrame     
                 end     
