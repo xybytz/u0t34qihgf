@@ -103,6 +103,12 @@ function G:Collect(v)
         end 
     end 
 end
+local Deku = {}
+for i,v in pairs(Workspace.Interactions.Nodes.Harvest:GetChildren()) do
+    if not table.find(Deku, v.Name) and not v.Name:find("Fish") and not v.Name:find("Egg") then
+        table.insert(Deku, v.Name)
+    end 
+end 
 
 function G:SellAll()
     for i, v in pairs(Player.Data.Resources:GetChildren()) do
@@ -140,11 +146,6 @@ for i,v in next,G.Eggs do
     table.sort(Eggs)
 end 
 
-local deku ={
-    "Food",
-    "Magic",
-    "Resources"
-}
 local GUI = 'https://raw.githubusercontent.com/1201for/V.G-Hub/main/GUI/'
 local Library = loadstring(game:HttpGet(GUI .. 'PlayerLIB'))()
 local ThemeManager = loadstring(game:HttpGet(GUI .. 'Theme'))()
@@ -202,11 +203,30 @@ Toggles.NIGGxER:OnChanged(function(State)
         end 
     end)
 end)
-
 LeftGroupBox:AddDropdown('N', {Values= Eggs, Default = 1, Multi = false, Text = 'Eggs', Tooltip = ''})
 Options.N:OnChanged(function()
     Strings = Options.N.Value
 end)
+LeftGroupBox:AddToggle("NIGdGxER", {Text = 'Auto Incubate', Default = false,Tooltip = ''})
+Toggles.NIGdGxER:OnChanged(function(State)
+    AutoFish = Toggles.NIGdGxER.Value
+    spawn(function()
+        while task.wait() do
+            pcall(function()
+                if AutoFish then
+                    Fish:StartCasting()
+                    if Fish.Snagged then
+                        Fish.ReelSignal:Fire()
+                        if Player.PlayerGui.FishingGui.ContainerFrame.ReelingFrame.BarLabel.InnerLabel.PointerLabel.Position.X.Scale <= Player.PlayerGui.FishingGui.ContainerFrame.ReelingFrame.BarLabel.InnerLabel.SafeBarLabel.Position.X.Scale + .02 then
+                            Fish:Click()
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+end)
+
 
 LeftGroupBox:AddToggle('NIGGER', {Text = 'Auto Collect', Default = false,Tooltip = ''})
 Toggles.NIGGER:OnChanged(function(State)
@@ -215,46 +235,6 @@ Toggles.NIGGER:OnChanged(function(State)
         while wait() and FR do 
             pcall(function()
                 G:Collect(String)
-                wait(10)
-            end)
-        end 
-    end)
-end)
-
-LeftGroupBox:AddToggle('NIGGERw', {Text = 'Auto Collect Eggs', Default = false,Tooltip = ''})
-Toggles.NIGGERw:OnChanged(function(State)
-    FR2 = Toggles.NIGGERw.Value
-    spawn(function()
-        while wait() and FR2 do 
-            pcall(function()
-                G:Collect("Eggs")
-                wait(15)
-            end)
-        end 
-    end)
-end)
-
-LeftGroupBox:AddToggle('NIGGERw2', {Text = 'Auto Collect EventResources', Default = false,Tooltip = ''})
-Toggles.NIGGERw2:OnChanged(function(State)
-    FR2 = Toggles.NIGGERw2.Value
-    spawn(function()
-        while wait() and FR2 do 
-            pcall(function()
-                G:Collect("EventResources")
-                wait(15)
-            end)
-        end 
-    end)
-end)
-
-
-LeftGroupBox:AddToggle('NIGGERw23', {Text = 'Auto Collect EventEggs', Default = false,Tooltip = ''})
-Toggles.NIGGERw23:OnChanged(function(State)
-    FR2 = Toggles.NIGGERw23.Value
-    spawn(function()
-        while wait() and FR2 do 
-            pcall(function()
-                G:Collect("EventEggs")
                 wait(20)
             end)
         end 
@@ -262,8 +242,7 @@ Toggles.NIGGERw23:OnChanged(function(State)
 end)
 
 
-
-LeftGroupBox:AddDropdown('Nodes', {Values = deku, Default = 1, Multi = false, Text = 'Nodes', Tooltip = ''})
+LeftGroupBox:AddDropdown('Nodes', {Values = Deku, Default = 1, Multi = false, Text = 'Nodes', Tooltip = ''})
 Options.Nodes:OnChanged(function()
     String = Options.Nodes.Value
 end)
