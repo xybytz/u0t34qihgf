@@ -207,7 +207,7 @@ LeftGroupBox:AddDropdown('N', {Values= Eggs, Default = 1, Multi = false, Text = 
 Options.N:OnChanged(function()
     Strings = Options.N.Value
 end)
-LeftGroupBox:AddToggle("NIGdGxER", {Text = 'Auto Incubate', Default = false,Tooltip = ''})
+LeftGroupBox:AddToggle("NIGdGxER", {Text = 'Auto Fish', Default = false,Tooltip = ''})
 Toggles.NIGdGxER:OnChanged(function(State)
     AutoFish = Toggles.NIGdGxER.Value
     spawn(function()
