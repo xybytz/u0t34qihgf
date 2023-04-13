@@ -1,0 +1,521 @@
+
+
+getgenv().G = {}
+G.Fruits = {}
+G.Postions = {}
+G.Plants = {}
+G.Eggs = {}
+for i,v in pairs(getgc(true)) do
+    if type(v) == "table" then
+        if rawget(v, "Apple") and rawget(v, "Lime") then
+            G.Fruits = v 
+        elseif rawget(v, "PrimaryPotion") and rawget(v, "SecondaryPotion") then
+            G.Postions = v 
+        elseif rawget(v, "Plant_Carrot") and rawget(v, "Plant_Apple") then
+            G.Plants = v 
+        elseif rawget(v, "RedEggBoy") and rawget(v, "Jungle") then
+            G.Eggs = v
+        elseif rawget(v, "EggValue") then
+            Nut = v
+        end 
+    elseif type(v) == "function" then
+        if getinfo(v).name == "GetRemoteFunction" then
+            G.GetRemoteFunction = v 
+        elseif getinfo(v).name == "GetRemoteEvent" then
+            G.GetRemoteEvent = v 
+        elseif getinfo(v).name == "_incubateEgg" then
+            G._incubateEgg = v 
+        elseif getinfo(v).name == "_hasEggInIncubator" then
+            G._hasEggInIncubator = v 
+        elseif getinfo(v).name == "_startHarvest" then
+            G._startHarvest = v
+        end 
+    end 
+end
+
+G.Calls = {
+    'MouseButton1Down',
+    "MouseButton1Click",
+    "Activated",
+}
+
+local get_thread_context = get_thread_context or getthreadcontext or getidentity or syn.get_thread_identity
+local set_thread_context = set_thread_context or setthreadcontext or setidentity or syn.set_thread_identity
+
+function G:Punch()
+    local k = get_thread_context()
+    wait(3)
+    local Play = Player.PlayerGui.IntroGui.IntroFrame.PlayButton
+    set_thread_context(2)
+    for i,v in pairs(G.Calls) do
+        pcall(function()
+            for i,v in pairs(getconnections(Play.UpperLabel[tostring(v)])) do
+                v:Function()
+            end 
+        end)
+    end 
+    set_thread_context(k)
+end     
+
+function G:Push()
+    local Portals = Workspace:FindFirstChild("Portals", true)
+    for i,v in pairs(Portals:GetChildren()) do
+        if v.Name ~= "InactivePortalModel" then
+            local PlayerLabel = v:FindFirstChild("PlayerLabel", true)
+            if PlayerLabel.Text == Player.Name then
+                Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame = v:GetModelCFrame()
+            end 
+        end 
+    end 
+end
+
+function G:GetConnections(A, B)
+    for i,v in pairs(getconnections(A[tostring(B)])) do
+        v:Fire()
+    end 
+end 
+
+Player.PlayerGui.NodeGui.BoostFrame.ChildAdded:Connect(
+    function(v)
+        if v:IsA("Frame") and v:FindFirstChild("ClickButton") then
+            wait(0.5)
+            G:GetConnections(v.ClickShadowButton,"MouseButton1Down") 
+        end
+    end
+)
+
+
+getgenv().GF = true
+function G:Collect(v)
+    local Old = game:GetService("Workspace").Interactions.Nodes.Harvest:FindFirstChild(v, true)
+    if Old then
+        for i,v in pairs(Old.ActiveNodes:GetChildren()) do
+            if not v:FindFirstChild("Harvested",true).Value then
+                Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame = v:GetModelCFrame() * CFrame.new(0,100,50)
+                Tween(Player.Character:FindFirstChild("HumanoidRootPart", true), v:GetModelCFrame(), 200)
+                if Mag(v:GetModelCFrame(), Player.Character:GetModelCFrame()) < 15 and wait(3) then
+                    G._startHarvest(v)
+                end 
+                break
+            end 
+        end 
+    end 
+end
+
+function G:SellAll()
+    for i, v in pairs(Player.Data.Resources:GetChildren()) do
+        if v.Value > 0 then
+            G.GetRemoteEvent("SellItemRemote"):FireServer({["Amount"] = v.Value, ["ItemName"] = v.Name})
+        end
+    end
+end 
+
+
+function G:Alchemy(Name, Amount)
+    G.GetRemoteFunction("RecycleResourceRemote"):InvokeServer({[Name] = Amount})
+end 
+
+Player.PlayerGui.NodeGui.BoostFrame.ChildAdded:Connect(function(v)
+    if v:IsA("Frame") then
+    local K = v:FindFirstChild("ClickShadowButton", true)
+        for i,v in pairs(getconnections(K.MouseButton1Down)) do
+            v.Fire()
+        end 
+    end
+end)
+
+local LickMyBalls = pcall(function()
+    if Workspace:FindFirstChild("LOOP INVASION HH V2", true) then
+        Workspace:FindFirstChild("LOOP INVASION HH V2", true):Destroy()
+    end 
+    if Player.PlayerGui:FindFirstChild("IntroGui",true):FindFirstChild("IntroFrame",true) then
+        G:Punch()
+    end 
+end)
+local Eggs = {}
+for i,v in next,G.Eggs do
+    table.insert(Eggs, i)
+    table.sort(Eggs)
+end 
+
+local deku ={
+    "Food",
+    "Magic",
+    "Resources"
+}
+local GUI = 'https://raw.githubusercontent.com/1201for/V.G-Hub/main/GUI/'
+local Library = loadstring(game:HttpGet(GUI .. 'PlayerLIB'))()
+local ThemeManager = loadstring(game:HttpGet(GUI .. 'Theme'))()
+local SaveManager = loadstring(game:HttpGet(GUI .. 'Save'))()
+local Window = Library:CreateWindow({
+    Title = MarketplaceService:GetProductInfo(game.PlaceId).Name,
+    Center = true, 
+    AutoShow = true,
+})
+
+local Tabs = {
+    Main = Window:AddTab('Main'), 
+    ['UI Settings'] = Window:AddTab('UI Settings'),
+}
+local LeftGroupBox = Tabs.Main:AddLeftGroupbox('AutoFarms')
+local LeftGroupBox2 = Tabs.Main:AddLeftGroupbox("Quick Helper")
+local RightGroupBox = Tabs.Main:AddRightGroupbox('Quick Misc')
+local RightGroupBox2 = Tabs.Main:AddRightGroupbox("Teleports")
+local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
+--[[
+LeftGroupBox:AddToggle('DragonSpeed', {Text = 'DragonSpeed Toggle', Default = false,Tooltip = ''})
+Toggles.DragonSpeed:OnChanged(function(State)
+    For = Toggles.DragonSpeed.Value
+    spawn(function()
+        while wait() and For do
+            pcall(function()
+                G:DragonSpee(Go)
+            end)
+        end 
+    end)
+end)
+
+
+LeftGroupBox:AddSlider('Ni', {Text = 'Dragon Speed Value',Default = 0,Min = 30,Max = 10000,Rounding = 1,Compact = false,Callback = function(Value)
+    Go = Value
+end})
+
+Options.Ni:OnChanged(function()
+    Go = Options.Ni.Value
+end)
+]]--
+
+LeftGroupBox:AddToggle("NIGGxER", {Text = 'Auto Incubate', Default = false,Tooltip = ''})
+Toggles.NIGGxER:OnChanged(function(State)
+    F4R = Toggles.NIGGxER.Value
+    spawn(function()
+        while wait() and F4R do 
+            pcall(function()
+                for i,v in pairs(game:GetService("Workspace").Interactions.Plots.Plots[Player.Name .. "_Plot"].Base.Buildings:GetChildren()) do
+                    if v.Name == "Incubator" then
+                        G:_incubateEgg(v, Strings)
+                    end 
+                end 
+            end)
+        end 
+    end)
+end)
+
+LeftGroupBox:AddDropdown('N', {Values= Eggs, Default = 1, Multi = false, Text = 'Eggs', Tooltip = ''})
+Options.N:OnChanged(function()
+    Strings = Options.N.Value
+end)
+
+LeftGroupBox:AddToggle('NIGGER', {Text = 'Auto Collect', Default = false,Tooltip = ''})
+Toggles.NIGGER:OnChanged(function(State)
+    FR = Toggles.NIGGER.Value
+    spawn(function()
+        while wait() and FR do 
+            pcall(function()
+                G:Collect(String)
+                wait(10)
+            end)
+        end 
+    end)
+end)
+
+LeftGroupBox:AddToggle('NIGGERw', {Text = 'Auto Collect Eggs', Default = false,Tooltip = ''})
+Toggles.NIGGERw:OnChanged(function(State)
+    FR2 = Toggles.NIGGERw.Value
+    spawn(function()
+        while wait() and FR2 do 
+            pcall(function()
+                G:Collect("Eggs")
+                wait(15)
+            end)
+        end 
+    end)
+end)
+
+LeftGroupBox:AddToggle('NIGGERw2', {Text = 'Auto Collect EventResources', Default = false,Tooltip = ''})
+Toggles.NIGGERw2:OnChanged(function(State)
+    FR2 = Toggles.NIGGERw2.Value
+    spawn(function()
+        while wait() and FR2 do 
+            pcall(function()
+                G:Collect("EventResources")
+                wait(15)
+            end)
+        end 
+    end)
+end)
+
+
+LeftGroupBox:AddToggle('NIGGERw23', {Text = 'Auto Collect EventEggs', Default = false,Tooltip = ''})
+Toggles.NIGGERw23:OnChanged(function(State)
+    FR2 = Toggles.NIGGERw23.Value
+    spawn(function()
+        while wait() and FR2 do 
+            pcall(function()
+                G:Collect("EventEggs")
+                wait(20)
+            end)
+        end 
+    end)
+end)
+
+
+
+LeftGroupBox:AddDropdown('Nodes', {Values = deku, Default = 1, Multi = false, Text = 'Nodes', Tooltip = ''})
+Options.Nodes:OnChanged(function()
+    String = Options.Nodes.Value
+end)
+
+LeftGroupBox:AddButton('SellAll', function() G:SellAll() end)
+RightGroupBox:AddButton('Teleport To Plot', function() G:Push() end)
+LeftGroupBox:AddButton('Fill Alchemy With Foods', function()
+    for i, v in pairs(Player.Data.Resources:GetChildren()) do
+        if table.find(G.Foods,v.Name) and v.Value ~= 0 then
+            G:Alchemy(v.Name, v.Value)
+        end 
+    end 
+end)
+local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
+RightGroupBox:AddToggle('ESP1', {Text = 'Esp Toggle', Default = false,Tooltip = ''})
+Toggles.ESP1:OnChanged(function(State)
+ESP:Toggle(Toggles.ESP1.Value)
+end)
+
+RightGroupBox:AddToggle('ESP2', {Text = 'Esp Players', Default = false,Tooltip = ''})
+Toggles.ESP2:OnChanged(function(State)
+ESP.Players = Toggles.ESP2.Value
+end)
+
+RightGroupBox:AddToggle('ESP3', {Text = 'Esp Tracers', Default = false,Tooltip = ''})
+Toggles.ESP3:OnChanged(function(State)
+ESP.Tracers = Toggles.ESP3.Value
+end)
+
+RightGroupBox:AddToggle('ESP4', {Text = 'Esp Names', Default = false,Tooltip = ''})
+Toggles.ESP4:OnChanged(function(State)
+ESP.EspNames = Toggles.ESP4.Value
+end)
+
+RightGroupBox:AddToggle('ESP5', {Text = 'Esp Boxes', Default = false,Tooltip = ''})
+Toggles.ESP5:OnChanged(function(State)
+ESP.Boxes = Toggles.ESP5.Value
+end)
+
+
+RightGroupBox:AddToggle('SSS1', {Text = 'Player Loop WalkSpeed/JumpPower', Default =  Toggle,Tooltip = 'This is a tooltip'})
+Toggles.SSS1:OnChanged(function(State)
+    Toggle = State 
+    Toggles.SSS1.Value = Toggle
+    Stepped:Connect(function()
+        pcall(function()
+            if Toggle then
+                Player.Character:FindFirstChildWhichIsA("Humanoid").WalkSpeed = WalkSpeed
+                Player.Character:FindFirstChildWhichIsA("Humanoid").JumpPower = JumpPower
+            end 
+        end)
+    end)
+end)
+
+RightGroupBox:AddInput('SSF2', {Default = 'WalkSpeed',Numeric = true,Finished = false,Text = 'WalkSpeed',Tooltip = 'Numbers Only',Placeholder = 'WalkSpeed',})
+Options.SSF2:OnChanged(function(State)
+    WalkSpeed = State
+    Options.SSF2.Value = WalkSpeed
+end)
+
+RightGroupBox:AddInput('SSF3', {Default = 'JumpPower',Numeric = true,Finished = false,Text = 'JumpPower',Tooltip = 'Numbers Only',Placeholder = 'JumpPower',})
+
+Options.SSF3:OnChanged(function(State)
+    JumpPower = State
+    Options.SSF3.Value = JumpPower
+end)
+
+RightGroupBox:AddToggle('SSS4', {Text = 'Infinite Jump',Default =  InfiniteJump,Tooltip = 'This is a tooltip', 
+})
+
+Toggles.SSS4:OnChanged(function(State)
+InfiniteJump = State
+Toggles.SSS4.Value = InfiniteJump
+UserInputService.JumpRequest:connect(
+    function()
+        if InfiniteJump then
+            Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState("Jumping")
+        end
+    end
+)
+end)
+
+RightGroupBox:AddToggle('SSS5', {Text = 'N NoClip',Default =  Sex2,Tooltip = 'This is a tooltip'})
+Toggles.SSS5:OnChanged(function(State)
+    Sex2 = State
+    Toggles.SSS5.Value = Sex2
+    RunService.Stepped:connect(function(v)
+        if noclips then
+            pcall(function()
+                NoClip2(Player.Character)
+            end)
+        end
+    end)
+end)
+
+RightGroupBox:AddToggle('SSS6', {Text = 'H Fly',Default =  Sex,Tooltip = 'Fly By Pressing H'})
+Toggles.SSS6:OnChanged(function(State)
+Sex = State
+Toggles.SSS6.Value = Sex
+local Max = 0
+local LP = Players.LocalPlayer
+local Mouse = LP:GetMouse()
+Mouse.KeyDown:connect(
+    function(k)
+        if k:lower() == "h" and Sex then
+            Max = Max + 1
+            getgenv().Fly = false
+            if Sex then
+                local T = LP.Character:FindFirstChild("UpperTorso",true) or LP.Character:FindFirstChild("HumanoidRootPart",true)
+                local S = {
+                    F = 0,
+                    B = 0,
+                    L = 0,
+                    R = 0
+                }
+                local S2 = {
+                    F = 0,
+                    B = 0,
+                    L = 0,
+                    R = 0
+                }
+                local SPEED = 5
+                local function FLY()
+                    getgenv().Fly = true
+                    local BodyGyro = Instance.new("BodyGyro", T)
+                    local BodyVelocity = Instance.new("BodyVelocity", T)
+                    BodyGyro.P = 9e4
+                    BodyGyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+                    BodyGyro.cframe = T.CFrame
+                    BodyVelocity.velocity = Vector3.new(0, 0, 0)
+                    BodyVelocity.maxForce = Vector3.new(9e9, 9e9, 9e9)
+                    spawn(
+                        function()
+                            repeat
+                                wait()
+                                LP.Character.Humanoid.PlatformStand = true
+                                if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
+                                    SPEED = 500
+                                elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
+                                    SPEED = 0
+                                end
+                                if (S.L + S.R) ~= 0 or (S.F + S.B) ~= 0 then
+                                    BodyVelocity.velocity =
+                                        ((Workspace.CurrentCamera.CoordinateFrame.lookVector * (S.F + S.B)) +
+                                        ((Workspace.CurrentCamera.CoordinateFrame *
+                                            CFrame.new(S.L + S.R, (S.F + S.B) * 0.2, 0).p) -
+                                            Workspace.CurrentCamera.CoordinateFrame.p)) *
+                                        SPEED
+                                    S2 = {
+                                        F = S.F,
+                                        B = S.B,
+                                        L = S.L,
+                                        R = S.R
+                                    }
+                                elseif (S.L + S.R) == 0 and (S.F + S.B) == 0 and SPEED ~= 0 then
+                                    BodyVelocity.velocity =
+                                        ((Workspace.CurrentCamera.CoordinateFrame.lookVector * (S2.F + S2.B)) +
+                                        ((Workspace.CurrentCamera.CoordinateFrame *
+                                            CFrame.new(S2.L + S2.R, (S2.F + S2.B) * 0.2, 0).p) -
+                                            Workspace.CurrentCamera.CoordinateFrame.p)) *
+                                        SPEED
+                                else
+                                    BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+                                end
+                                BodyGyro.cframe = Workspace.CurrentCamera.CoordinateFrame
+                            until not getgenv().Fly
+                            S = {
+                                F = 0,
+                                B = 0,
+                                L = 0,
+                                R = 0
+                            }
+                            S2 = {
+                                F = 0,
+                                B = 0,
+                                L = 0,
+                                R = 0
+                            }
+                            SPEED = 0
+                            BodyGyro:destroy()
+                            BodyVelocity:destroy()
+                            LP.Character.Humanoid.PlatformStand = false
+                        end
+                    )
+                end
+                Mouse.KeyDown:connect(
+                    function(k)
+                        if k:lower() == "w" then
+                            S.F = 1
+                        elseif k:lower() == "s" then
+                            S.B = -1
+                        elseif k:lower() == "a" then
+                            S.L = -1
+                        elseif k:lower() == "d" then
+                            S.R = 1
+                        end
+                    end
+                )
+                Mouse.KeyUp:connect(
+                    function(k)
+                        if k:lower() == "w" then
+                            S.F = 0
+                        elseif k:lower() == "s" then
+                            S.B = 0
+                        elseif k:lower() == "a" then
+                            S.L = 0
+                        elseif k:lower() == "d" then
+                            S.R = 0
+                        end
+                    end
+                )
+                FLY()
+                if Max == 2 then
+                    getgenv().Fly = false
+                    Max = 0
+                end
+            end
+        end
+    end
+)
+end)
+
+RightGroupBox:AddButton('FPS Booster', function()
+    for i,v in pairs(game:GetDescendants()) do 
+        if v:IsA("Texture") then
+            v.Texture = ""
+        elseif v:IsA("BasePart") then
+            v.Material = Enum.Material.Wood
+        end 
+    end 
+end)
+
+RightGroupBox:AddButton('ServerHop', function() ServerHop() end)
+RightGroupBox:AddButton('Rejoin', function() 
+    local Success, ErrorMessage = pcall(function()
+        Rejoin()
+    end)
+    if ErrorMessage and not Success then
+        warn(ErrorMessage)
+    elseif Success and not ErrorMessage then
+        print(Success)
+    end
+end)
+-- I set NoUI so it does not show up in the keybinds menu
+MenuGroup:AddButton('Unload', function() Library:Unload() end)
+MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = "RightControl", NoUI = true, Text = 'Menu keybind' }) 
+
+Library.ToggleKeybind = Options.MenuKeybind 
+ThemeManager:SetLibrary(Library)
+SaveManager:SetLibrary(Library)
+
+SaveManager:IgnoreThemeSettings() 
+SaveManager:SetIgnoreIndexes({ 'MenuKeybind' }) 
+ThemeManager:SetFolder('V.G Hub')
+SaveManager:SetFolder("V.G Hub/" .. game.PlaceId)
+SaveManager:BuildConfigSection(Tabs['UI Settings']) 
+ThemeManager:ApplyToTab(Tabs['UI Settings'])
