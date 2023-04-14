@@ -31,6 +31,8 @@ for i,v in pairs(getgc(true)) do
             G._hasEggInIncubator = v 
         elseif getinfo(v).name == "_startHarvest" then
             G._startHarvest = v
+        elseif getinfo(v).name == "_attemptBoost" then
+            G._attemptBoost = v 
         end 
     end 
 end
@@ -77,25 +79,25 @@ function G:GetConnections(A, B)
     end 
 end 
 
-Player.PlayerGui.NodeGui.BoostFrame.ChildAdded:Connect(
-    function(v)
-        if v:IsA("Frame") and v:FindFirstChild("ClickButton") then
-            wait(0.5)
-            G:GetConnections(v.ClickShadowButton,"MouseButton1Down") 
-        end
-    end
-)
-
-
 getgenv().GF = true
 function G:Collect(v)
     local Old = game:GetService("Workspace").Interactions.Nodes.Harvest:FindFirstChild(v, true)
     if Old then
         for i,v in pairs(Old.ActiveNodes:GetChildren()) do
             if not v:FindFirstChild("Harvested",true).Value then
-                Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame = v:GetModelCFrame() * CFrame.new(0,100,50)
-                Tween(Player.Character:FindFirstChild("HumanoidRootPart", true), v:GetModelCFrame(), 200)
+                if v:FindFirstChild("CurrentBoosts", true) then
+                    v:FindFirstChild("CurrentBoosts", true).Name = "CurrentBoostsValue"
+                end 
+                if Mag(v:GetModelCFrame(), Player.Character:GetModelCFrame()) > 16 then
+                    if Method == "Up" then
+                        Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame = v:GetModelCFrame() * CFrame.new(0,100,50)
+                    elseif Method == "Down" then
+                        Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame = v:GetModelCFrame() * CFrame.new(0,-200,50)
+                    end 
+                    Tween(Player.Character:FindFirstChild("HumanoidRootPart", true), v:GetModelCFrame(), 200)
+                end 
                 if Mag(v:GetModelCFrame(), Player.Character:GetModelCFrame()) < 15 and wait(3) then
+                    local Type = v.NodeType.Value .. v.CurrentBoosts.Value
                     G._startHarvest(v)
                 end 
                 break
@@ -103,13 +105,12 @@ function G:Collect(v)
         end 
     end 
 end
-local Deku = {}
-for i,v in pairs(Workspace.Interactions.Nodes.Harvest:GetChildren()) do
-    if not table.find(Deku, v.Name) and not v.Name:find("Fish") and not v.Name:find("Egg") then
-        table.insert(Deku, v.Name)
-    end 
-end 
-
+Player.PlayerGui.NodeGui.BoostFrame.ChildAdded:Connect(function(v)
+    if v:IsA("Frame") and v:FindFirstChild("ClickButton") then
+        wait(0.5)
+        G._attemptBoost(true, Type) 
+    end
+end)
 function G:SellAll()
     for i, v in pairs(Player.Data.Resources:GetChildren()) do
         if v.Value > 0 then
@@ -146,6 +147,11 @@ for i,v in next,G.Eggs do
     table.sort(Eggs)
 end 
 
+local deku ={
+    "Food",
+    "Magic",
+    "Resources"
+}
 local GUI = 'https://raw.githubusercontent.com/1201for/V.G-Hub/main/GUI/'
 local Library = loadstring(game:HttpGet(GUI .. 'PlayerLIB'))()
 local ThemeManager = loadstring(game:HttpGet(GUI .. 'Theme'))()
@@ -203,10 +209,52 @@ Toggles.NIGGxER:OnChanged(function(State)
         end 
     end)
 end)
+
 LeftGroupBox:AddDropdown('N', {Values= Eggs, Default = 1, Multi = false, Text = 'Eggs', Tooltip = ''})
 Options.N:OnChanged(function()
     Strings = Options.N.Value
 end)
+
+LeftGroupBox:AddToggle('NIGGER', {Text = 'Auto Collect', Default = false,Tooltip = ''})
+Toggles.NIGGER:OnChanged(function(State)
+    FR = Toggles.NIGGER.Value
+    spawn(function()
+        while wait() and FR do 
+            pcall(function()
+                G:Collect(String)
+                wait(10)
+            end)
+        end 
+    end)
+end)
+
+LeftGroupBox:AddToggle('NIGGERw', {Text = 'Auto Collect Eggs', Default = false,Tooltip = ''})
+Toggles.NIGGERw:OnChanged(function(State)
+    FR2 = Toggles.NIGGERw.Value
+    spawn(function()
+        while wait() and FR2 do 
+            pcall(function()
+                G:Collect("Eggs")
+                wait(15)
+            end)
+        end 
+    end)
+end)
+
+LeftGroupBox:AddToggle('NIGGERw2', {Text = 'Auto Collect EventResources', Default = false,Tooltip = ''})
+Toggles.NIGGERw2:OnChanged(function(State)
+    FR2 = Toggles.NIGGERw2.Value
+    spawn(function()
+        while wait() and FR2 do 
+            pcall(function()
+                G:Collect("EventResources")
+                wait(15)
+            end)
+        end 
+    end)
+end)
+
+local Fish = require(ReplicatedStorage["_replicationFolder"].FishingClient)
 LeftGroupBox:AddToggle("NIGdGxER", {Text = 'Auto Fish', Default = false,Tooltip = ''})
 Toggles.NIGdGxER:OnChanged(function(State)
     AutoFish = Toggles.NIGdGxER.Value
@@ -227,14 +275,13 @@ Toggles.NIGdGxER:OnChanged(function(State)
     end)
 end)
 
-
-LeftGroupBox:AddToggle('NIGGER', {Text = 'Auto Collect', Default = false,Tooltip = ''})
-Toggles.NIGGER:OnChanged(function(State)
-    FR = Toggles.NIGGER.Value
+LeftGroupBox:AddToggle('NIGGERw23', {Text = 'Auto Collect EventEggs', Default = false,Tooltip = ''})
+Toggles.NIGGERw23:OnChanged(function(State)
+    FR2 = Toggles.NIGGERw23.Value
     spawn(function()
-        while wait() and FR do 
+        while wait() and FR2 do 
             pcall(function()
-                G:Collect(String)
+                G:Collect("EventEggs")
                 wait(20)
             end)
         end 
@@ -242,9 +289,16 @@ Toggles.NIGGER:OnChanged(function(State)
 end)
 
 
-LeftGroupBox:AddDropdown('Nodes', {Values = Deku, Default = 1, Multi = false, Text = 'Nodes', Tooltip = ''})
+
+LeftGroupBox:AddDropdown('Nodes', {Values = deku, Default = 1, Multi = false, Text = 'Nodes', Tooltip = ''})
 Options.Nodes:OnChanged(function()
     String = Options.Nodes.Value
+end)
+
+
+LeftGroupBox:AddDropdown('N4', {Values= {"Up", "Down"}, Default = 1, Multi = false, Text = 'Collect Method', Tooltip = ''})
+Options.N4:OnChanged(function()
+    Method = Options.N4.Value
 end)
 
 LeftGroupBox:AddButton('SellAll', function() G:SellAll() end)
