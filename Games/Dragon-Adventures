@@ -323,18 +323,15 @@ spawn(function()
         pcall(function()
             for i,v in pairs(Sex:GetChildren()) do
                 if v:IsA("Model") then
-                    Player.Character:FindFirstChild("HumanoidRootPart").CFrame = v:GetModelCFrame() * CFrame.new(50, 900, 0)
-                    repeat wait()
+                    Player.Character:FindFirstChild("HumanoidRootPart").CFrame = v:GetModelCFrame() * CFrame.new(50, 200, 0)
                     Tween(Player.Character.PrimaryPart,
                         v:FindFirstChildWhichIsA("BasePart"),
-                        100)
+                        200)
+                    if Mag(v:GetModelCFrame(), Player.Character:GetModelCFrame()) < 15 and wait(3) then
+                        game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
+                    end 
                     
-                    until Mag(Player.Character.HumanoidRootPart, v:FindFirstChildWhichIsA('BasePart')) < 5
-                    repeat wait()
-                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
-                    until v.Harvested.Value
-                    
-                    wait(3)
+                    wait(20)
                 end 
             end 
        end)
