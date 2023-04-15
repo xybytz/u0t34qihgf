@@ -327,6 +327,7 @@ spawn(function()
                     Tween(Player.Character.PrimaryPart,
                         v:FindFirstChildWhichIsA("BasePart"),
                         200)
+			Player.Character:FindFirstChild("HumanoidRootPart").CFrame = v:GetModelCFrame() * CFrame.new(0, 5, 0)
                     if Mag(v:GetModelCFrame(), Player.Character:GetModelCFrame()) < 15 and wait(3) then
                         game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
                     end 
