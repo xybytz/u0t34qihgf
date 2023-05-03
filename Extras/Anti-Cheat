@@ -1,6 +1,4 @@
 repeat wait() until game:IsLoaded()
-wait(3)
-
 local G = getgenv and getgenv() or _G or shared
 local Table = {
     185655149,
@@ -9,7 +7,17 @@ local Table = {
 if table.find(Table, game.PlaceId) then
     wait(3)
 end
-
+for i,v in next, getgc(true) do
+    if type(v) == "table" and type(rawget(v, "Detected")) == "function" then
+        hookfunction(v.Detected, function(...)
+            local A, B = ...
+            if A == Player then 
+                return
+            end 
+        end)
+    end 
+end 
+G.GG = {}
 G.Get =
     setmetatable(
     {},
@@ -33,6 +41,7 @@ G.Error = ScriptContext.Error
 G.MessageOut = LogService.MessageOut
 G.Kick = Player.Kick
 G.Idled = Player.Idled 
+
 
 local Name = game.PlaceId .. ".json"
 local Des = {}
@@ -78,7 +87,6 @@ local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(...)
     local Args = {...}
     local A, B, C = ...
-
     if table.find(Yes, getnamecallmethod()) and A == Player then
         return 
     end 
@@ -103,21 +111,11 @@ end
 ScriptContext:SetTimeout(0.5)
 
 G.GetFunction = function(A)
-    for i,v in pairs(getgc()) do
-        if type(v) == "function" and getinfo(v).name == tostring(A) then
-            A = v 
+    for i,v in next, getgc() do
+        if type(v) == "function" and getinfo(v).name == A and islclosure(v) then
+            return v 
         end 
     end 
-    return A 
-end 
-
-G.ScriptFunction = function(A, B) 
-    for i,v in pairs(getgc()) do
-        if type(v) == "function" and getinfo(v).name == tostring(A) and getcallingscript() == B then 
-            A = v 
-        end 
-    end 
-    return A, B 
 end 
 
 G.Teleport = function(A, B, Toggle)
@@ -156,7 +154,7 @@ G.ServerHop = function()
         while wait() do
             pcall(function()
                 local Gay = HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. game.PlaceId .. '/servers/Public?sortOrder=Asc&limit=100'))
-                for i,v in pairs(Gay.data) do
+                for i,v in next, Gay.data do
                     if v.playing < v.maxPlayers then
                         TeleportService:TeleportToPlaceInstance(game.PlaceId, v.id, Player)
                         break
@@ -176,7 +174,7 @@ G.NoClip = function(A)
     return A:ChangeState(11)
 end 
 G.NoClip2 = function(A)
-    for i,v in pairs(A:GetChildren()) do
+    for i,v in next, A:GetChildren() do
         if v:IsA("BasePart") then
             v.CanCollide = false 
         end 
@@ -190,6 +188,23 @@ G.Mag = function(A, B)
     return (A.Position - B.Position).Magnitude 
 end
 
-for i,v in pairs(Disables) do 
+for i,v in next, Disables do 
     DisableConnection(v)
 end
+local get_thread_context = get_thread_context or getthreadcontext or getidentity or syn.get_thread_identity
+local set_thread_context = set_thread_context or setthreadcontext or setidentity or syn.set_thread_identity
+local OldToNew = get_thread_context()
+for i,v in next, getgc() do
+    if type(v) == "function" and islclosure(v) then
+        if table.find(getconstants(v), "Detected") and table.find(getconstants(v), "crash") then
+            set_thread_context(2)
+            hookfunction(v, function()
+                return 
+            end)
+            set_thread_context(OldToNew)
+        end 
+    end 
+end 
+
+G.VirtualInputManager = Get.VirtualInputManager
+G.VirtualUser = Get.VirtualUser
