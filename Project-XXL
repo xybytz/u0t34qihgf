@@ -231,7 +231,7 @@ Settings.AutoSkills = State
 spawn(
     function()
         while Settings.AutoSkills do
-            for i, v in pairs({"E", "R", "C", "X", "Y", "V"}) do
+            for i, v in pairs({"E", "R", "C", "X", "Y", "V", "Z"}) do
                 wait(delay2)
                 VirtualInputManager:SendKeyEvent(true, v, false, game)
             end
