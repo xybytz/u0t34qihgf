@@ -1,0 +1,455 @@
+local VirtualInputManager = game:GetService("VirtualInputManager")
+repeat
+    wait()
+until Player
+Player.PlayerGui:WaitForChild("Chat")
+
+Player.PlayerGui.Chat.Frame.ChatChannelParentFrame.Visible = true
+Player.PlayerGui.Chat.Frame.ChatBarParentFrame.Position =
+    Player.PlayerGui.Chat.Frame.ChatChannelParentFrame.Position +
+    UDim2.new(UDim.new(), Player.PlayerGui.Chat.Frame.ChatChannelParentFrame.Size.Y)
+local Locations = {}
+for i,v in pairs(require(ReplicatedStorage.Modules.Global["Map_Locaations"])) do
+    if not table.find(Locations, i) then
+        table.insert(Locations, i)
+    end 
+end 
+local NPCS = {}
+for i,v in pairs(Workspace:GetChildren()) do
+    if not table.find(Players:GetPlayers(), v.Name) and v:IsA("Model") and not table.find(NPCS, v.Name) and v:FindFirstChildWhichIsA("Humanoid", true) then
+        table.insert(NPCS, v.Name)
+    end 
+end 
+local Mobs = {}
+for i,v in pairs(Workspace.Mobs:GetDescendants()) do
+    if v:IsA("Model") and v:FindFirstChildWhichIsA("Humanoid") and not table.find(Mobs, v.Name) then
+        table.insert(Mobs, v.Name)
+    end 
+end 
+
+local function Tween(A, B, C)
+    if A then
+        local Time = (B.Position - A.Position).magnitude / C
+        local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
+        local Tween = game:GetService("TweenService"):Create(A, Info, {CFrame = B})
+        Tween:Play()
+    end
+end
+
+local function getNearestMob()
+    local TargetDistance = math.huge
+    local Target
+    for i, v in next, game:GetService("Workspace").Mobs:GetChildren() do
+        local Humanoid = v:FindFirstChildWhichIsA("Humanoid", true)
+        local Parent = Humanoid.Parent.Parent
+        for i,v in pairs(Parent:GetChildren()) do
+            if v:IsA("Model") and v:FindFirstChildWhichIsA("Humanoid", true).Health ~= 0 and v.Name == Mobs then
+            local Mag = (v:GetModelCFrame().Position - Player.Character.HumanoidRootPart.Position).Magnitude
+                if Mag < TargetDistance then
+                    TargetDistance = Mag
+                    Target = v
+                end 
+            end 
+        end
+    end
+    return Target
+end
+
+local Retard = {
+    GUI = Player.PlayerGui.Menu.Quest.Excess,
+    Rice = function()
+        local String = Workspace:FindFirstChild("StarterVillage_RiceStrings", true)
+        local Sarah = Workspace:FindFirstChild("Sarah", true)
+        if not Player.PlayerGui.Menu.Quest.Excess.Visible then
+            Tween(Player.Character:FindFirstChild("HumanoidRootPart", true), Sarah:GetModelCFrame(), 300)
+            if Mag(Sarah:GetModelCFrame(), Player.Character:GetModelCFrame()) < 5 then
+                VirtualInputManager:SendKeyEvent(true, "E", false, game)
+                wait(2)
+                Player.PlayerGui.Npc_Dialogue.Button_Clicked:Fire(true)
+            end
+        elseif Player.PlayerGui.Menu.Quest.Excess.Visible then
+            local want = String:FindFirstChildWhichIsA("BasePart", true)
+            Tween(Player.Character:FindFirstChild("HumanoidRootPart", true), want.CFrame, 300)
+            fireproximityprompt(want:FindFirstChildWhichIsA("ProximityPrompt", true))
+        end 
+    end,
+}
+
+local function Gets()
+    local quest = Player.PlayerGui.Menu.Quest.Holder:FindFirstChildWhichIsA("Frame", true).name
+    local q = string.split(quest, "of ")[2]
+    for i,v in pairs(Workspace.Mobs:GetChildren()) do
+        local Mob = v:FindFirstChild(tostring(q), true)
+        
+        Tween(Player.Character:FindFirstChild("HumanoidRootPart", true), Mob:GetModelCFrame() * CFrame.new(0,8,0) * CFrame.Angles(-90,0,0))
+        VirtualInputManager:SendMouseButtonEvent(0,0,0, true, game, 0)
+    end 
+end 
+
+local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
+local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
+local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
+local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
+local Window = Library:CreateWindow({
+    Title = MarketplaceService:GetProductInfo(game.PlaceId).Name,
+    Center = true, 
+    AutoShow = true,
+})
+
+local Tabs = {
+    Main = Window:AddTab('Main'), 
+    Misc = Window:AddTab("Misc"),
+    Events = Window:AddTab("Events"),
+    ['UI Settings'] = Window:AddTab('UI Settings'),
+}
+
+local LeftGroupBox = Tabs.Main:AddLeftGroupbox('AutoFarms')
+local LeftGroupBox2 = Tabs.Main:AddLeftGroupbox("Quick Helper")
+local RightGroupBox = Tabs.Main:AddRightGroupbox('Quick Misc')
+local RightGroupBox2 = Tabs.Main:AddRightGroupbox("Teleports")
+
+local RightGroupBox = Tabs.Misc:AddLeftGroupbox('Groupbox')
+local RightBox = Tabs.Misc:AddRightGroupbox('Groupbox')
+
+local LeftEventGroupBox = Tabs.Events:AddLeftGroupbox('AutoFarms')
+
+local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
+
+
+LeftGroupBox:AddToggle('R', {Text = 'Auto Mob', Default = false,Tooltip = ''})
+Toggles.R:OnChanged(function(State)
+    Toggle = Toggles.R.Value
+    RenderStepped:Connect(function()
+        if Toggle then
+            pcall(function()
+                NoClip(Player.Character:FindFirstChildWhichIsA("Humanoid", true))
+            end)
+        end
+    end)
+    spawn(function()
+        while Toggle and wait(.1) do
+            pcall(function()
+                if TweenMethod == "Top" and wait(0.1) then
+                    Tween(Player.Character.HumanoidRootPart, getNearestMob():GetModelCFrame() * CFrame.new(0,8,0) * CFrame.Angles(math.rad(-90), 0, 0), 300)
+                elseif TweenMethod == "Behind" and wait(0.1) then
+                    Tween(Player.Character.HumanoidRootPart, getNearestMob():GetModelCFrame() * CFrame.new(0,0,5), 300)
+                elseif TweenMethod == "Bottom" and wait(0.1) then
+                    Tween(Player.Character.HumanoidRootPart, getNearestMob():GetModelCFrame() * CFrame.new(0,-8,0) * CFrame.Angles(math.rad(90), 0, 0), 300)
+                end 
+                VirtualInputManager:SendMouseButtonEvent(0,0,0,true,game,0)
+                for i, v in pairs(Player.Backpack:GetChildren()) do
+                    if v:IsA("Tool") then
+                        if v:FindFirstChild("SwordName", true) and FightMethod == "Sword" then
+                            Player.Character:FindFirstChildWhichIsA("Humanoid", true):EquipTool(v)
+                        elseif (v:FindFirstChild("SwordName") or v.Name == ("Combat")) and FightMethod == "Fist" then
+                            Player.Character:FindFirstChildWhichIsA("Humanoid"):EquipTool(v)
+                        end 
+                    end 
+                end 
+            end)
+        end 
+    end)
+end)
+
+LeftGroupBox:AddDropdown('E', {Values = Mobs, Default = 1, Multi = false, Text = 'Mobs', Tooltip = ''})
+Options.E:OnChanged(function()
+    Mobs = Options.E.Value
+end)
+
+LeftGroupBox:AddDropdown('D', {Values = {"Top", "Behind", "Bottom"}, Default = 1, Multi = false, Text = 'Teleport Method', Tooltip = ''})
+Options.D:OnChanged(function()
+    TweenMethod = Options.D.Value
+end)
+
+LeftGroupBox:AddDropdown('F', {Values = {"Fist", "Sword"}, Default = 1, Multi = false, Text = 'Fighting Method', Tooltip = ''})
+Options.F:OnChanged(function()
+    FightMethod = Options.F.Value
+end)
+
+LeftGroupBox:AddToggle('T', {Text = 'Rice Farm', Default = false,Tooltip = ''})
+Toggles.T:OnChanged(function(State)
+    Goes = Toggles.T.Value
+    spawn(function()
+        while Goes and wait(1) do
+            
+                Retard.Rice()
+            
+        end
+    end)
+end)
+
+
+LeftGroupBox:AddToggle('Road', {Text = 'Auto Completle quest', Default = false,Tooltip = ''})
+Toggles.Road:OnChanged(function(State)
+    Road = Toggles.Road.Value
+    spawn(function()
+        while wait() and Road do 
+            
+                Gets()
+          
+        end 
+    end)
+end)
+
+LeftGroupBox:AddDropdown('Locations2', {Values = Locations, Default = 0, Multi = false, Text = 'Locations', Tooltip = ''})
+Options.Locations2:OnChanged(function()
+    for i,v in pairs(require(ReplicatedStorage.Modules.Global["Map_Locaations"])) do
+        if i == Options.Locations2.Value then
+            Player.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(v)
+        end 
+    end 
+end)
+
+LeftGroupBox:AddDropdown('NPC', {Values = Locations, Default = 0, Multi = false, Text = 'Locations', Tooltip = ''})
+Options.NPC:OnChanged(function()
+    pcall(function()
+        Player.Character:FindFirstChild("HumanoidRootPart").CFrame = Workspace:FindFirstChild(Options.NPC.Value, true):GetModelCFrame()
+    end)
+end)
+
+
+ 
+local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
+RightGroupBox:AddToggle('ESP1', {Text = 'Esp Toggle', Default = false,Tooltip = ''})
+Toggles.ESP1:OnChanged(function(State)
+ESP:Toggle(Toggles.ESP1.Value)
+end)
+
+RightGroupBox:AddToggle('ESP2', {Text = 'Esp Players', Default = false,Tooltip = ''})
+Toggles.ESP2:OnChanged(function(State)
+ESP.Players = Toggles.ESP2.Value
+end)
+
+RightGroupBox:AddToggle('ESP3', {Text = 'Esp Tracers', Default = false,Tooltip = ''})
+Toggles.ESP3:OnChanged(function(State)
+ESP.Tracers = Toggles.ESP3.Value
+end)
+
+RightGroupBox:AddToggle('ESP4', {Text = 'Esp Names', Default = false,Tooltip = ''})
+Toggles.ESP4:OnChanged(function(State)
+ESP.EspNames = Toggles.ESP4.Value
+end)
+
+RightGroupBox:AddToggle('ESP5', {Text = 'Esp Boxes', Default = false,Tooltip = ''})
+Toggles.ESP5:OnChanged(function(State)
+ESP.Boxes = Toggles.ESP5.Value
+end)
+
+
+RightGroupBox:AddToggle('SSS1', {Text = 'Player Loop WalkSpeed/JumpPower', Default =  Toggle,Tooltip = 'This is a tooltip'})
+Toggles.SSS1:OnChanged(function(State)
+    Toggle3 = State 
+    Toggles.SSS1.Value = Toggle3
+    Stepped:Connect(function()
+        pcall(function()
+            if Toggle3 then
+                Player.Character:FindFirstChildWhichIsA("Humanoid").WalkSpeed = WalkSpeed
+                Player.Character:FindFirstChildWhichIsA("Humanoid").JumpPower = JumpPower
+            end 
+        end)
+    end)
+end)
+
+RightGroupBox:AddInput('SSF2', {Default = 'WalkSpeed',Numeric = true,Finished = false,Text = 'WalkSpeed',Tooltip = 'Numbers Only',Placeholder = 'WalkSpeed',})
+Options.SSF2:OnChanged(function(State)
+    WalkSpeed = State
+    Options.SSF2.Value = WalkSpeed
+end)
+
+RightGroupBox:AddInput('SSF3', {Default = 'JumpPower',Numeric = true,Finished = false,Text = 'JumpPower',Tooltip = 'Numbers Only',Placeholder = 'JumpPower',})
+
+Options.SSF3:OnChanged(function(State)
+    JumpPower = State
+    Options.SSF3.Value = JumpPower
+end)
+
+RightGroupBox:AddToggle('SSS4', {Text = 'Infinite Jump',Default =  InfiniteJump,Tooltip = 'This is a tooltip', 
+})
+
+Toggles.SSS4:OnChanged(function(State)
+InfiniteJump = State
+Toggles.SSS4.Value = InfiniteJump
+UserInputService.JumpRequest:connect(
+    function()
+        if InfiniteJump then
+            Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState("Jumping")
+        end
+    end
+)
+end)
+
+RightGroupBox:AddToggle('SSS5', {Text = 'N NoClip',Default =  Sex2,Tooltip = 'This is a tooltip'})
+Toggles.SSS5:OnChanged(function(State)
+    Sex2 = State
+    Toggles.SSS5.Value = Sex2
+    RunService.Stepped:connect(function(v)
+        if noclips then
+            pcall(function()
+                NoClip2(Player.Character)
+            end)
+        end
+    end)
+end)
+
+RightGroupBox:AddToggle('SSS6', {Text = 'H Fly',Default =  Sex,Tooltip = 'Fly By Pressing H'})
+Toggles.SSS6:OnChanged(function(State)
+Sex = State
+Toggles.SSS6.Value = Sex
+local Max = 0
+local LP = Players.LocalPlayer
+local Mouse = LP:GetMouse()
+Mouse.KeyDown:connect(
+    function(k)
+        if k:lower() == "h" and Sex then
+            Max = Max + 1
+            getgenv().Fly = false
+            if Sex then
+                local T = LP.Character:FindFirstChild("UpperTorso",true) or LP.Character:FindFirstChild("HumanoidRootPart",true)
+                local S = {
+                    F = 0,
+                    B = 0,
+                    L = 0,
+                    R = 0
+                }
+                local S2 = {
+                    F = 0,
+                    B = 0,
+                    L = 0,
+                    R = 0
+                }
+                local SPEED = 5
+                local function FLY()
+                    getgenv().Fly = true
+                    local BodyGyro = Instance.new("BodyGyro", T)
+                    local BodyVelocity = Instance.new("BodyVelocity", T)
+                    BodyGyro.P = 9e4
+                    BodyGyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+                    BodyGyro.cframe = T.CFrame
+                    BodyVelocity.velocity = Vector3.new(0, 0, 0)
+                    BodyVelocity.maxForce = Vector3.new(9e9, 9e9, 9e9)
+                    spawn(
+                        function()
+                            repeat
+                                wait()
+                                LP.Character.Humanoid.PlatformStand = true
+                                if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
+                                    SPEED = 500
+                                elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
+                                    SPEED = 0
+                                end
+                                if (S.L + S.R) ~= 0 or (S.F + S.B) ~= 0 then
+                                    BodyVelocity.velocity =
+                                        ((Workspace.CurrentCamera.CoordinateFrame.lookVector * (S.F + S.B)) +
+                                        ((Workspace.CurrentCamera.CoordinateFrame *
+                                            CFrame.new(S.L + S.R, (S.F + S.B) * 0.2, 0).p) -
+                                            Workspace.CurrentCamera.CoordinateFrame.p)) *
+                                        SPEED
+                                    S2 = {
+                                        F = S.F,
+                                        B = S.B,
+                                        L = S.L,
+                                        R = S.R
+                                    }
+                                elseif (S.L + S.R) == 0 and (S.F + S.B) == 0 and SPEED ~= 0 then
+                                    BodyVelocity.velocity =
+                                        ((Workspace.CurrentCamera.CoordinateFrame.lookVector * (S2.F + S2.B)) +
+                                        ((Workspace.CurrentCamera.CoordinateFrame *
+                                            CFrame.new(S2.L + S2.R, (S2.F + S2.B) * 0.2, 0).p) -
+                                            Workspace.CurrentCamera.CoordinateFrame.p)) *
+                                        SPEED
+                                else
+                                    BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+                                end
+                                BodyGyro.cframe = Workspace.CurrentCamera.CoordinateFrame
+                            until not getgenv().Fly
+                            S = {
+                                F = 0,
+                                B = 0,
+                                L = 0,
+                                R = 0
+                            }
+                            S2 = {
+                                F = 0,
+                                B = 0,
+                                L = 0,
+                                R = 0
+                            }
+                            SPEED = 0
+                            BodyGyro:destroy()
+                            BodyVelocity:destroy()
+                            LP.Character.Humanoid.PlatformStand = false
+                        end
+                    )
+                end
+                Mouse.KeyDown:connect(
+                    function(k)
+                        if k:lower() == "w" then
+                            S.F = 1
+                        elseif k:lower() == "s" then
+                            S.B = -1
+                        elseif k:lower() == "a" then
+                            S.L = -1
+                        elseif k:lower() == "d" then
+                            S.R = 1
+                        end
+                    end
+                )
+                Mouse.KeyUp:connect(
+                    function(k)
+                        if k:lower() == "w" then
+                            S.F = 0
+                        elseif k:lower() == "s" then
+                            S.B = 0
+                        elseif k:lower() == "a" then
+                            S.L = 0
+                        elseif k:lower() == "d" then
+                            S.R = 0
+                        end
+                    end
+                )
+                FLY()
+                if Max == 2 then
+                    getgenv().Fly = false
+                    Max = 0
+                end
+            end
+        end
+    end
+)
+end)
+
+RightGroupBox:AddButton('FPS Booster', function()
+    for i,v in pairs(game:GetDescendants()) do 
+        if v:IsA("Texture") then
+            v.Texture = ""
+        elseif v:IsA("BasePart") then
+            v.Material = Enum.Material.Wood
+        end 
+    end 
+end)
+
+RightGroupBox:AddButton('ServerHop', function() ServerHop() end)
+RightGroupBox:AddButton('Rejoin', function() 
+    local Success, ErrorMessage = pcall(function()
+        Rejoin()
+    end)
+    if ErrorMessage and not Success then
+        warn(ErrorMessage)
+    elseif Success and not ErrorMessage then
+        print(Success)
+    end
+end)
+-- I set NoUI so it does not show up in the keybinds menu
+MenuGroup:AddButton('Unload', function() Library:Unload() end)
+MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = "RightControl", NoUI = true, Text = 'Menu keybind' }) 
+
+Library.ToggleKeybind = Options.MenuKeybind 
+ThemeManager:SetLibrary(Library)
+SaveManager:SetLibrary(Library)
+
+SaveManager:IgnoreThemeSettings() 
+SaveManager:SetIgnoreIndexes({ 'MenuKeybind' }) 
+ThemeManager:SetFolder('V.G Hub')
+SaveManager:SetFolder("V.G Hub/" .. game.PlaceId)
+SaveManager:BuildConfigSection(Tabs['UI Settings']) 
+ThemeManager:ApplyToTab(Tabs['UI Settings'])
