@@ -274,11 +274,16 @@ end)
 local Toggle1 = Section1:CreateToggle("Auto Mob", Settings.AutoA, function(State)
 Settings.AutoA = State
 RunService.Stepped:connect(function()
-    pcall(function()
+   
         if Settings.AutoA then
-            Player.Character.Humanoid:ChangeState(11)
+            for i,v in pairs(Player.Character:GetChildren()) do
+                if v:IsA("BasePart") then
+                    v.CanCollide = false
+                    v.Velocity = Vector3.new(0,0,0)
+                end 
+            end 
         end
-    end)
+    
 end)
 spawn(function()
     while wait(0.1) and Settings.AutoA do 
@@ -288,7 +293,7 @@ spawn(function()
                     if v:FindFirstChild("HumanoidRootPart") then
                         local Humanoid = v:FindFirstChildWhichIsA("Humanoid",true)
                         if Humanoid.Health ~= 0 then
-                            Player.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 4) * CFrame.Angles(aa, 0, 0)
+                            Player.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, -15, 0) * CFrame.Angles(0, 0, 0)
                             ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(false, Vector3.new(v.HumanoidRootPart.Position),CFrame.new(v.HumanoidRootPart.Position))
                             if Player.Backpack:FindFirstChild("Combat",true) then
                                 Player.Character:FindFirstChild("Humanoid",true):EquipTool(Player.Backpack:FindFirstChild("Combat",true))
@@ -536,7 +541,6 @@ spawn(
                     for i, v in pairs(Live:GetChildren()) do
                         if
                             v:FindFirstChild("Humanoid") and v.Humanoid.Health ~= 0 and
-                                isnetworkowner(v.HumanoidRootPart) and
                                 v.Humanoid.Health < v.Humanoid.MaxHealth
                          then
                             v.Humanoid.Health = 0
