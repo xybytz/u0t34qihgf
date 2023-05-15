@@ -104,11 +104,6 @@ G.DisableConnection = function(A)
     return A
 end
 
-G.Connection = function(A, B, C)
-    for i,v in next getconnections(A[B]) do
-        v:tostring(C)()
-    end
-end
 
 G.Tween = function(A, B, C)
     if A and B then
@@ -196,4 +191,3 @@ end
 
 G.VirtualInputManager = Get.VirtualInputManager
 G.VirtualUser = Get.VirtualUser
-ScriptContext:SetTimeout(0)
