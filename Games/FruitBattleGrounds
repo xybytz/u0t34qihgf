@@ -1,7 +1,7 @@
 if messagebox then
 messagebox("A fatal error occurred. game patched pls do not contact developers for help", "We are aware of patch pls wait", 0x10)
 else 
-Kick("A fatal error occurred. game patched pls do not contact developers for help", "We are aware of patch pls wait")
+Kick(Player,"A fatal error occurred. game patched pls do not contact developers for help We are aware of patch pls wait")
 end 
 repeat wait(9e9) until game 
 local Numbers = {
