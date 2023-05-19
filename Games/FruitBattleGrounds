@@ -1,4 +1,5 @@
-
+messagebox("Game Patched",0,1)
+repeat wait(9e9) until game 
 local Numbers = {
     49,
     50,
