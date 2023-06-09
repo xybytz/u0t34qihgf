@@ -122,7 +122,8 @@ local Eggs = {
     "retired_egg",
     "seasia_2023_egg",
     "mythic_egg",
-    "japan_2022_egg"
+    "japan_2022_egg",
+    "danger_2023_egg",
 }
 
 local gifts = {
