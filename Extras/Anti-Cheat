@@ -168,16 +168,4 @@ for i,v in next, Disables do
         v:Disable()
     end
 end
-for i,v in next, getgc() do
-    if type(v) == "function" and islclosure(v) then
-        local Table = getconstants(v)
-        if table.find(Table, "Detected") and table.find(Table, "crash") then
-            hookfunction(v, function()
-                return               
-            end)
-        end
-    end
-end
 
-G.VirtualInputManager = Get.VirtualInputManager
-G.VirtualUser = Get.VirtualUser
