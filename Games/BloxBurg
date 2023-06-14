@@ -1,0 +1,147 @@
+local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+local TweenService = game:GetService("TweenService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+local ScriptContext = game:GetService("ScriptContext")
+local MarketplaceService = game:GetService("MarketplaceService")
+
+local wait = task.wait
+local spawn = task.spawn
+local Player = Players.LocalPlayer
+local ST = ReplicatedStorage.Stats[Player.Name]
+local Locations = Workspace.Environment.Locations
+local Da = ReplicatedStorage.Modules.DataService
+
+local j = Player.PlayerScripts.Modules.JobHandler
+
+local Hairs = {
+    Afro = 11412443,
+    Charming = 74878559,
+    Combed = 13332444,
+    Headband = 13070796,
+    Pigtails = 82186393,
+    Messy = 26400959,
+    Bun = 47963332,
+    Long = 19999424,
+    Curly = 31309506,
+    Sideswept = 16627529
+}
+
+local Color = {
+    Gray = BrickColor.new("Pearl"),
+    Blonde = BrickColor.new("Gold"),
+    Brown = BrickColor.new("Burnt Sienna"),
+    Black = BrickColor.new("Black"),
+    Red = BrickColor.new("Crimson"),
+    Blue = BrickColor.new("Bright blue"),
+    Green = BrickColor.new("Lime green"),
+    Pink = BrickColor.new("Hot pink")
+}
+local Fire = function(Signal)
+    for i,v in next, getconnections(Signal) do
+        v:Fire()
+    end
+end
+local Disable = function(Signal)
+    for i,v in next, getconnections(Signal) do
+        v:Disable()
+    end
+end
+local Click = function(a)
+    for i,v in next, getconnections(a.Activated) do
+        v:Fire()
+    end
+end
+Disable(Player.Idled)
+Disable(ScriptContext.Error)
+Disable(game:GetService("LogService").MessageOut)
+
+function StylishOrder(v)
+    return {Style = v.Order:FindFirstChild("Style").Value, Color = v.Order:FindFirstChild("Color").Value}
+end
+
+local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
+local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
+local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
+local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
+local Window = Library:CreateWindow({
+    Title = MarketplaceService:GetProductInfo(game.PlaceId).Name,
+    Center = true, 
+    AutoShow = true,
+})
+local Tabs = {
+    Main = Window:AddTab('Main'), 
+    ['UI Settings'] = Window:AddTab('UI Settings'),
+}
+
+local LeftGroupBox = Tabs.Main:AddLeftGroupbox('AutoFarms')
+local LeftGroupBox2 = Tabs.Main:AddLeftGroupbox("Quick Helper")
+local RightGroupBox = Tabs.Main:AddRightGroupbox('Quick Misc')
+local RightGroupBox2 = Tabs.Main:AddRightGroupbox("Teleports")
+local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
+
+LeftGroupBox:AddToggle('Infinite', {Text = 'HairDesser', Default = false,Tooltip = ''})
+Toggles.Infinite:OnChanged(function()
+T = Toggles.Infinite.Value
+    spawn(function()
+        while wait() and T do
+            pcall(function()
+                if ST.Job.Value ~= "StylezHairdresser" then return require(j):GoToWork("StylezHairdresser") end
+                local w = Locations.StylezHairStudio.HairdresserWorkstations:GetChildren()[2]
+                Player.Character:FindFirstChildWhichIsA("Humanoid", true):MoveTo(w:GetModelCFrame().Position)
+                local A = w.Occupied.Value
+                local Order = StylishOrder(A)
+                if A.PrimaryHat.Handle.Mesh.MeshId:split("id=")[2] ~= tostring(Hairs[Order.Style]) or A.PrimaryHat.Handle.BrickColor ~= Color[Order.Color] then
+                    repeat wait(0.5)
+                        Click(w.Mirror.HairdresserGUI.Frame:FindFirstChild("Style").Next)
+                    until A.PrimaryHat.Handle.Mesh.MeshId:split("id=")[2] == tostring(Hairs[Order.Style])
+                    repeat wait(0.5)
+                        Click(w.Mirror.HairdresserGUI.Frame:FindFirstChild("Color").Next)
+                    until A.PrimaryHat.Handle.BrickColor == Color[Order.Color]
+                    wait(0.5)
+                    Click(w.Mirror.HairdresserGUI.Frame:FindFirstChild("Done"))
+                end
+                if ST.Job.ShiftEarnings.Value >= 50000 then
+                    Click(Player.PlayerGui.MainGUI.Bar.CharMenu.WorkFrame.WorkFrame.Buttons.Action)
+                end
+            end)
+        end
+    end)
+end)
+
+RightGroupBox:AddButton('FPS Booster', function()
+    for i,v in pairs(game:GetDescendants()) do 
+        if v:IsA("Texture") then
+            v.Texture = ""
+        elseif v:IsA("BasePart") then
+            v.Material = Enum.Material.Wood
+        end 
+    end 
+end)
+
+RightGroupBox:AddButton('ServerHop', function() ServerHop() end)
+RightGroupBox:AddButton('Rejoin', function() 
+    local Success, ErrorMessage = pcall(function()
+        Rejoin()
+    end)
+    if ErrorMessage and not Success then
+        warn(ErrorMessage)
+    elseif Success and not ErrorMessage then
+        print(Success)
+    end
+end)
+-- I set NoUI so it does not show up in the keybinds menu
+MenuGroup:AddButton('Unload', function() Library:Unload() end)
+MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = "RightControl", NoUI = true, Text = 'Menu keybind' }) 
+
+Library.ToggleKeybind = Options.MenuKeybind 
+ThemeManager:SetLibrary(Library)
+SaveManager:SetLibrary(Library)
+
+SaveManager:IgnoreThemeSettings() 
+SaveManager:SetIgnoreIndexes({ 'MenuKeybind' }) 
+ThemeManager:SetFolder('V.G Hub')
+SaveManager:SetFolder("V.G Hub/" .. game.PlaceId)
+SaveManager:BuildConfigSection(Tabs['UI Settings']) 
+ThemeManager:ApplyToTab(Tabs['UI Settings'])
