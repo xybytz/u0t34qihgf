@@ -108,8 +108,15 @@ T = Toggles.Infinite.Value
                     wait(0.5)
                     Click(w.Mirror.HairdresserGUI.Frame:FindFirstChild("Done"))
                 end
-                if ST.Job.ShiftEarnings.Value >= 50000 then
+                if ST.Job.ShiftEarnings.Value >= Number or 50000 then
                     Click(Player.PlayerGui.MainGUI.Bar.CharMenu.WorkFrame.WorkFrame.Buttons.Action)
+                end
+                if ST.Job.ShiftEarnings.Value >= Number or 50000 and Dis then
+                    Kick(Player, "Kicked At $" .. Number .. " Your Welcome")
+                end
+                if ST.Job.ShiftEarnings.Value >= Number or 50000 and Shop then
+                    Kick(Player, "Serverhopping At $" .. Number .. " Your Welcome")
+                    ServerHop()
                 end
             end)
         end
@@ -141,12 +148,33 @@ H = Toggles.Def.Value
                     FireConnection(w.OrderDisplay.DisplayMain.CashierGUI.Frame.Done.Activated)
                     wait(5)
                 end
-                if ST.Job.ShiftEarnings.Value >= 50000 then
+                if ST.Job.ShiftEarnings.Value >= Number or 50000 then
                     Click(Player.PlayerGui.MainGUI.Bar.CharMenu.WorkFrame.WorkFrame.Buttons.Action)
+                end
+                if ST.Job.ShiftEarnings.Value >= Number or 50000 and Dis then
+                    Kick(Player, "Kicked At $" .. Number .. " Your Welcome")
+                end
+                if ST.Job.ShiftEarnings.Value >= Number or 50000 and Shop then
+                    Kick(Player, "ServerHopping At $" .. Number .. " Your Welcome")
+                    ServerHop()
                 end
             end)
         end
     end)
+end)
+
+LeftGroupBox:AddSlider('Addr', {Text = 'Stop At Certain Money',Default = 2500,Min = 100,Max = 1000000,Rounding = 1,Compact = false,})
+Options.Addr:OnChanged(function()
+    Number = Options.Addr.Value   
+end)
+LeftGroupBox:AddToggle('DFFGGf', {Text = 'Kick At Certain Job Money', Default = false,Tooltip = ''})
+Toggles.DFFGGf:OnChanged(function()
+    Dis = Toggles.DFFGGf.Value
+end)
+
+LeftGroupBox:AddToggle('DF4f', {Text = 'ServerHop At Certain Job Money', Default = false,Tooltip = ''})
+Toggles.DF4f:OnChanged(function()
+    Shop = Toggles.DF4f.Value
 end)
 RightGroupBox:AddButton('FPS Booster', function()
     for i,v in pairs(game:GetDescendants()) do 
