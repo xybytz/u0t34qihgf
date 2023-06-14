@@ -11,6 +11,7 @@ local spawn = task.spawn
 local Player = Players.LocalPlayer
 local ST = ReplicatedStorage.Stats[Player.Name]
 local Locations = Workspace.Environment.Locations
+
 local Da = ReplicatedStorage.Modules.DataService
 
 local j = Player.PlayerScripts.Modules.JobHandler
@@ -61,6 +62,11 @@ function StylishOrder(v)
     return {Style = v.Order:FindFirstChild("Style").Value, Color = v.Order:FindFirstChild("Color").Value}
 end
 
+function BurgerOrder(v)
+    return {Burger = v.Order.Burger.Value, Fries = v.Order.Fries.Value,Cola = v.Order.Cola.Value}
+end
+
+
 local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
 local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
 local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
@@ -110,6 +116,36 @@ T = Toggles.Infinite.Value
     end)
 end)
 
+LeftGroupBox:AddToggle('Def', {Text = 'BloxyBurger', Default = false,Tooltip = ''})
+Toggles.Def:OnChanged(function()
+H = Toggles.Def.Value
+    spawn(function()
+        while wait() and H do
+            pcall(function()
+                if ST.Job.Value ~= "BloxyBurgersCashier" then return require(j):GoToWork("BloxyBurgersCashier") end
+                local w = Locations.BloxyBurgers.CashierWorkstations:GetChildren()[1]
+                Player.Character:FindFirstChildWhichIsA("Humanoid", true):MoveTo(w.OrderDisplay.DisplayMain.Position)
+                local A = w.Occupied.Value
+                local Order = BurgerOrder(A)
+                if A:FindFirstChild("ChatBubble", true) then
+                    if Order.Fries == true and wait(0.5) then
+                        FireConnection(w.OrderDisplay.DisplayMain.CashierGUI.Frame.Fries.Activated)
+                    end
+                    if Order.Cola == true and wait(0.5) then
+                        FireConnection(w.OrderDisplay.DisplayMain.CashierGUI.Frame.Cola.Activated)
+                    end
+                    wait(0.5)
+                    FireConnection(w.OrderDisplay.DisplayMain.CashierGUI.Frame[Order.Burger].Activated)
+                    wait(1)
+                    FireConnection(w.OrderDisplay.DisplayMain.CashierGUI.Frame.Done.Activated)
+                end
+                if ST.Job.ShiftEarnings.Value >= 50000 then
+                    Click(Player.PlayerGui.MainGUI.Bar.CharMenu.WorkFrame.WorkFrame.Buttons.Action)
+                end
+            end)
+        end
+    end)
+end)
 RightGroupBox:AddButton('FPS Booster', function()
     for i,v in pairs(game:GetDescendants()) do 
         if v:IsA("Texture") then
