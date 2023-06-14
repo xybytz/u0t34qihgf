@@ -127,6 +127,7 @@ H = Toggles.Def.Value
                 Player.Character:FindFirstChildWhichIsA("Humanoid", true):MoveTo(w.OrderDisplay.DisplayMain.Position)
                 local A = w.Occupied.Value
                 local Order = BurgerOrder(A)
+                repeat wait() until A:FindFirstChild("ChatBubble", true)
                 if A:FindFirstChild("ChatBubble", true) then
                     if Order.Fries == true and wait(0.5) then
                         FireConnection(w.OrderDisplay.DisplayMain.CashierGUI.Frame.Fries.Activated)
@@ -138,6 +139,7 @@ H = Toggles.Def.Value
                     FireConnection(w.OrderDisplay.DisplayMain.CashierGUI.Frame[Order.Burger].Activated)
                     wait(1)
                     FireConnection(w.OrderDisplay.DisplayMain.CashierGUI.Frame.Done.Activated)
+                    wait(5)
                 end
                 if ST.Job.ShiftEarnings.Value >= 50000 then
                     Click(Player.PlayerGui.MainGUI.Bar.CharMenu.WorkFrame.WorkFrame.Buttons.Action)
