@@ -86,7 +86,7 @@
 						DekuDimz was here UwU
 						ik your now a furry executing this
 ]]--
-repeat task.wait() until game:IsLoaded()
+repeat wait() until game:IsLoaded()
 local G = getgenv and getgenv() or _G or shared
 G.Get = setmetatable({}, {__index = function(A, B) return game:GetService(B) end})
 
@@ -186,12 +186,17 @@ G.Teleport = function(A, B, Toggle)
 end
 
 G.DisableConnection = function(A)
-    for i,v in pairs(getconnections(A)) do 
+    for i,v in next, getconnections(A) do 
         v:Disable()
     end
     return A
 end
 
+G.FireConnection = function(A)
+    for i,v in next, getconnections(A) do
+        v:Fire()
+    end
+end
 
 G.Tween = function(A, B, C)
     if A and B then
@@ -218,7 +223,7 @@ G.ServerHop = function()
             pcall(function()
                 local Gay = HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. game.PlaceId .. '/servers/Public?sortOrder=Asc&limit=100'))
                 for i,v in next, Gay.data do
-                    if v.playing ~= v.maxPlayers and v.playing > 1 then
+                    if v.playing < v.maxPlayers then
                         TeleportService:TeleportToPlaceInstance(game.PlaceId, v.id, Player)
                         break
                     end
@@ -256,4 +261,4 @@ for i,v in next, Disables do
         v:Disable()
     end
 end
-
+ScriptContext:SetTimeout(0)
