@@ -231,13 +231,12 @@ TD = Toggles.dd.Value
                     local Color = Order.Color.Value
                     local Paint = workspace.Environment.Locations.MikesMotors.PaintingEquipment:FindFirstChild(Color)
                     
-                    repeat wait()
                         WalkTo(Paint.Can.Position)
+                    repeat wait()
                         LookAt(Paint)
                         wait(3)
                         FireConnection(Player.PlayerGui.MainGUI.InteractIndicator.Activated)
-                        wait(4)
-                    until Player.Character:FindFirstChild("Spray Painter", true) and Player.Character:FindFirstChild("Spray Painter", true).Can.BrickColor == Paint.Can.BrickColor
+                    until Player.Character:FindFirstChild("Spray Painter", true) and Player.Character:FindFirstChild("Spray Painter", true).Can.BrickColor == Paint.Can.BrickColor and wait(4)
                     WalkTo(Vector3.new(1162, 14, 401))
                     LookAt(A.Vehicle)
                     FireConnection(Player.PlayerGui.MainGUI.InteractIndicator.Activated)
