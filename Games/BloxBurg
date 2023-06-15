@@ -162,6 +162,7 @@ H = Toggles.Def.Value
                     wait(5)
                 end
                 if ST.Job.ShiftEarnings.Value >= Number then
+                    Player.Character:FindFirstChildWhichIsA("Humanoid", true):MoveTo(CFrame.new(861, 14, 268))
                     Click(Player.PlayerGui.MainGUI.Bar.CharMenu.WorkFrame.WorkFrame.Buttons.Action)
                 end
                 if ST.Job.ShiftEarnings.Value >= Number and Dis then
