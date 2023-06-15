@@ -55,6 +55,16 @@ local Click = function(a)
         v:Fire()
     end
 end
+
+local LookAt = function(A)
+    Workspace.CurrentCamera.CFrame =  CFrame.lookAt(Workspace.CurrentCamera.CFrame.Position + Vector3.new(0,5,0), A:GetModelCFrame().Position)
+end
+
+local WalkTo = function(A)
+    Player.Character:FindFirstChildWhichIsA("Humanoid", true):MoveTo(A)
+    Player.Character:FindFirstChildWhichIsA("Humanoid", true).MoveToFinished:Wait()
+end
+
 Disable(Player.Idled)
 Disable(ScriptContext.Error)
 Disable(LogService.MessageOut)
@@ -176,6 +186,99 @@ H = Toggles.Def.Value
         end
     end)
 end)
+LeftGroupBox:AddToggle('dd', {Text = 'MikesMechanic', Default = false,Tooltip = ''})
+Toggles.dd:OnChanged(function()
+TD = Toggles.dd.Value
+    spawn(function()
+        while wait(5) and TD do
+            pcall(function()
+                if ST.Job.Value ~= "MikesMechanic" then return require(j):GoToWork("MikesMechanic") end
+                for i,v in next, Workspace.Environment.Locations.MikesMotors.MechanicWorkstations:GetChildren() do
+                    if v.Display.Screen.MechanicGUI.Frame.Done.Visible and not v.Display.Screen.MechanicGUI.Used.Visible then
+                        w = v
+                    end
+                end
+                for i,v in next, Workspace.Environment.Locations.MikesMotors.MechanicWorkstations:GetDescendants() do
+                    if v.Parent.Name == "DrawerSmall" or v.Parent.Name == "Display" and v:IsA("BasePart") and v.CanCollide then
+                        v.CanCollide = false
+                    end
+                end
+            
+                WalkTo(Vector3.new(1162, 14, 401))
+                local A = w.Occupied.Value
+                local Order = A:FindFirstChild("Order", true)
+                repeat wait() until A:FindFirstChild("ChatBubble", true)
+                local Wanted
+                if Order:FindFirstChild('Color') then
+                    Wanted = 'Color'
+                elseif Order:FindFirstChild('Wheels') then
+                    Wanted = 'Wheels'
+                elseif Order:FindFirstChild('Oil') then
+                    Wanted = 'Oil'
+                end
+                if Wanted == "Oil" then
+                    local OilCan = workspace.Environment.Locations.MikesMotors.OilCans:FindFirstChild('Can', true)
+                    repeat wait()
+                        WalkTo(OilCan:GetModelCFrame().Position)
+                        LookAt(OilCan)
+                        wait(3)
+                        FireConnection(Player.PlayerGui.MainGUI.InteractIndicator.Activated)
+                    until Player.Character:FindFirstChild("Oil Can", true)
+                    WalkTo(Vector3.new(1162, 14, 401))
+                    FireConnection(Player.PlayerGui.MainGUI.InteractIndicator.Activated)
+                end
+                if Wanted == "Color" then
+                    local Color = Order.Color.Value
+                    local Paint = workspace.Environment.Locations.MikesMotors.PaintingEquipment:FindFirstChild(Color)
+                    
+                        WalkTo(Paint.Can.Position)
+                    repeat wait()
+                        LookAt(Paint)
+                        wait(3)
+                        FireConnection(Player.PlayerGui.MainGUI.InteractIndicator.Activated)
+                    until Player.Character:FindFirstChild("Spray Painter", true) and Player.Character:FindFirstChild("Spray Painter", true).Can.BrickColor == Paint.Can.BrickColor
+                    WalkTo(Vector3.new(1162, 14, 401))
+                    LookAt(A.Vehicle)
+                    FireConnection(Player.PlayerGui.MainGUI.InteractIndicator.Activated)
+                    wait(5)
+                end
+                if Wanted == "Wheels" then
+                    for i=1,2 do
+                        local Wheels = Order.Wheels.Value
+                        local Wheel = Workspace.Environment.Locations.MikesMotors.TireRacks:FindFirstChild(Wheels)
+                        while not Player.Character:FindFirstChild("Motorcycle Wheel", true) do
+                            WalkTo(Wheel.Part.Position)
+                            LookAt(Wheel)
+                            wait(3)
+                            FireConnection(Player.PlayerGui.MainGUI.InteractIndicator.Activated)
+                        end
+                        while Player.Character:FindFirstChild("Motorcycle Wheel", true) do
+                            LookAt(A.Vehicle)
+                            WalkTo(Vector3.new(1162, 14, 401))
+                            FireConnection(Player.PlayerGui.MainGUI.InteractIndicator.Activated)
+                            if Player.PlayerGui.MainGUI.InteractionMenu:FindFirstChild("Center", true) then
+                                FireConnection(Player.PlayerGui.MainGUI.InteractionMenu:FindFirstChild("Center", true):FindFirstChild("Button", true).Activated)
+                            end
+                        end
+                    end
+                end
+                FireConnection(w.Display.Screen.MechanicGUI.Frame.Done.Activated)
+                if ST.Job.ShiftEarnings.Value >= Number then
+                    Player.Character:FindFirstChildWhichIsA("Humanoid", true):MoveTo(CFrame.new(861, 14, 268))
+                    Click(Player.PlayerGui.MainGUI.Bar.CharMenu.WorkFrame.WorkFrame.Buttons.Action)
+                    WalkTo(Vector3.new(1179, 13, 432))
+                end
+                if ST.Job.ShiftEarnings.Value >= Number and Dis then
+                    Kick(Player, "Kicked At $" .. Number .. " Your Welcome")
+                end
+                if ST.Job.ShiftEarnings.Value >= Number and Shop then
+                    Kick(Player, "ServerHopping At $" .. Number .. " Your Welcome")
+                    ServerHop()
+                end
+            end)
+        end
+    end)
+end)
 
 LeftGroupBox:AddSlider('Addr', {Text = 'Stop At Certain Money',Default = 2500,Min = 100,Max = 1000000,Rounding = 1,Compact = false,})
 Options.Addr:OnChanged(function()
@@ -224,6 +327,11 @@ ThemeManager:SetLibrary(Library)
 SaveManager:SetLibrary(Library)
 
 SaveManager:IgnoreThemeSettings() 
+SaveManager:SetIgnoreIndexes({ 'MenuKeybind' }) 
+ThemeManager:SetFolder('V.G Hub')
+SaveManager:SetFolder("V.G Hub/" .. game.PlaceId)
+SaveManager:BuildConfigSection(Tabs['UI Settings']) 
+ThemeManager:ApplyToTab(Tabs['UI Settings'])
 SaveManager:SetIgnoreIndexes({ 'MenuKeybind' }) 
 ThemeManager:SetFolder('V.G Hub')
 SaveManager:SetFolder("V.G Hub/" .. game.PlaceId)
