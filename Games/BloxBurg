@@ -5,6 +5,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 local ScriptContext = game:GetService("ScriptContext")
 local MarketplaceService = game:GetService("MarketplaceService")
+local LogService = game:GetService("LogService")
 
 local wait = task.wait
 local spawn = task.spawn
@@ -56,7 +57,19 @@ local Click = function(a)
 end
 Disable(Player.Idled)
 Disable(ScriptContext.Error)
-Disable(game:GetService("LogService").MessageOut)
+Disable(LogService.MessageOut)
+UserInputService.WindowFocusReleased:Connect(function()
+    if Render then
+        RunService:Set3dRenderingEnabled(false)
+        setfpscap(15)
+    end
+end)
+UserInputService.WindowFocused:Connect(function()
+    if Render then
+        RunService:Set3dRenderingEnabled(true)
+        setfpscap(100)
+    end
+end)
 
 function StylishOrder(v)
     return {Style = v.Order:FindFirstChild("Style").Value, Color = v.Order:FindFirstChild("Color").Value}
@@ -108,13 +121,13 @@ T = Toggles.Infinite.Value
                     wait(0.5)
                     Click(w.Mirror.HairdresserGUI.Frame:FindFirstChild("Done"))
                 end
-                if ST.Job.ShiftEarnings.Value >= Number or 50000 then
+                if ST.Job.ShiftEarnings.Value >= Number then
                     Click(Player.PlayerGui.MainGUI.Bar.CharMenu.WorkFrame.WorkFrame.Buttons.Action)
                 end
-                if ST.Job.ShiftEarnings.Value >= Number or 50000 and Dis then
+                if ST.Job.ShiftEarnings.Value >= Number and Dis then
                     Kick(Player, "Kicked At $" .. Number .. " Your Welcome")
                 end
-                if ST.Job.ShiftEarnings.Value >= Number or 50000 and Shop then
+                if ST.Job.ShiftEarnings.Value >= Number and Shop then
                     Kick(Player, "Serverhopping At $" .. Number .. " Your Welcome")
                     ServerHop()
                 end
@@ -148,13 +161,13 @@ H = Toggles.Def.Value
                     FireConnection(w.OrderDisplay.DisplayMain.CashierGUI.Frame.Done.Activated)
                     wait(5)
                 end
-                if ST.Job.ShiftEarnings.Value >= Number or 50000 then
+                if ST.Job.ShiftEarnings.Value >= Number then
                     Click(Player.PlayerGui.MainGUI.Bar.CharMenu.WorkFrame.WorkFrame.Buttons.Action)
                 end
-                if ST.Job.ShiftEarnings.Value >= Number or 50000 and Dis then
+                if ST.Job.ShiftEarnings.Value >= Number and Dis then
                     Kick(Player, "Kicked At $" .. Number .. " Your Welcome")
                 end
-                if ST.Job.ShiftEarnings.Value >= Number or 50000 and Shop then
+                if ST.Job.ShiftEarnings.Value >= Number and Shop then
                     Kick(Player, "ServerHopping At $" .. Number .. " Your Welcome")
                     ServerHop()
                 end
@@ -175,6 +188,10 @@ end)
 LeftGroupBox:AddToggle('DF4f', {Text = 'ServerHop At Certain Job Money', Default = false,Tooltip = ''})
 Toggles.DF4f:OnChanged(function()
     Shop = Toggles.DF4f.Value
+end)
+LeftGroupBox:AddToggle('eeeee', {Text = 'Low Render Fps', Default = false,Tooltip = ''})
+Toggles.eeeee:OnChanged(function()
+    Render = Toggles.eeeee.Value
 end)
 RightGroupBox:AddButton('FPS Booster', function()
     for i,v in pairs(game:GetDescendants()) do 
