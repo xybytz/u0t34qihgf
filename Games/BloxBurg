@@ -231,11 +231,12 @@ TD = Toggles.dd.Value
                     local Color = Order.Color.Value
                     local Paint = workspace.Environment.Locations.MikesMotors.PaintingEquipment:FindFirstChild(Color)
                     
-                        WalkTo(Paint.Can.Position)
                     repeat wait()
+                        WalkTo(Paint.Can.Position)
                         LookAt(Paint)
                         wait(3)
                         FireConnection(Player.PlayerGui.MainGUI.InteractIndicator.Activated)
+                        wait(4)
                     until Player.Character:FindFirstChild("Spray Painter", true) and Player.Character:FindFirstChild("Spray Painter", true).Can.BrickColor == Paint.Can.BrickColor
                     WalkTo(Vector3.new(1162, 14, 401))
                     LookAt(A.Vehicle)
@@ -327,11 +328,6 @@ ThemeManager:SetLibrary(Library)
 SaveManager:SetLibrary(Library)
 
 SaveManager:IgnoreThemeSettings() 
-SaveManager:SetIgnoreIndexes({ 'MenuKeybind' }) 
-ThemeManager:SetFolder('V.G Hub')
-SaveManager:SetFolder("V.G Hub/" .. game.PlaceId)
-SaveManager:BuildConfigSection(Tabs['UI Settings']) 
-ThemeManager:ApplyToTab(Tabs['UI Settings'])
 SaveManager:SetIgnoreIndexes({ 'MenuKeybind' }) 
 ThemeManager:SetFolder('V.G Hub')
 SaveManager:SetFolder("V.G Hub/" .. game.PlaceId)
