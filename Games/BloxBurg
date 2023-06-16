@@ -284,7 +284,7 @@ Toggles.FDd:OnChanged(function()
 Yes = Toggles.FDd.Value
     Player.PlayerGui.MainGUI.ChildAdded:Connect(function(v)
         wait(0.3)
-        if Yes then
+        if Yes and v.Name == "DefaultButton" then
             FireConnection(v.MouseButton1Click)    
             if v:FindFirstChild("TextLabel") then
                 for Index,Value in next, Keys do
