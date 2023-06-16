@@ -17,7 +17,7 @@ local Da = ReplicatedStorage.Modules.DataService
 
 local j = Player.PlayerScripts.Modules.JobHandler
 
-local Hairs = {
+local Hairs = {--Created by Zinzox
     Afro = 11412443,
     Charming = 74878559,
     Combed = 13332444,
@@ -30,7 +30,7 @@ local Hairs = {
     Sideswept = 16627529
 }
 
-local Color = {
+local Color = { --Created by Zinzox Apparently 
     Gray = BrickColor.new("Pearl"),
     Blonde = BrickColor.new("Gold"),
     Brown = BrickColor.new("Burnt Sienna"),
@@ -40,19 +40,10 @@ local Color = {
     Green = BrickColor.new("Lime green"),
     Pink = BrickColor.new("Hot pink")
 }
-local Fire = function(Signal)
-    for i,v in next, getconnections(Signal) do
-        v:Fire()
-    end
-end
+
 local Disable = function(Signal)
     for i,v in next, getconnections(Signal) do
         v:Disable()
-    end
-end
-local Click = function(a)
-    for i,v in next, getconnections(a.Activated) do
-        v:Fire()
     end
 end
 
@@ -123,16 +114,16 @@ T = Toggles.Infinite.Value
                 local Order = StylishOrder(A)
                 if A.PrimaryHat.Handle.Mesh.MeshId:split("id=")[2] ~= tostring(Hairs[Order.Style]) or A.PrimaryHat.Handle.BrickColor ~= Color[Order.Color] then
                     repeat wait(0.5)
-                        Click(w.Mirror.HairdresserGUI.Frame:FindFirstChild("Style").Next)
+                        FireConnection(w.Mirror.HairdresserGUI.Frame:FindFirstChild("Style").Next.Activated)
                     until A.PrimaryHat.Handle.Mesh.MeshId:split("id=")[2] == tostring(Hairs[Order.Style])
                     repeat wait(0.5)
-                        Click(w.Mirror.HairdresserGUI.Frame:FindFirstChild("Color").Next)
+                        FireConnection(w.Mirror.HairdresserGUI.Frame:FindFirstChild("Color").Next.Activated)
                     until A.PrimaryHat.Handle.BrickColor == Color[Order.Color]
                     wait(0.5)
-                    Click(w.Mirror.HairdresserGUI.Frame:FindFirstChild("Done"))
+                    FireConnection(w.Mirror.HairdresserGUI.Frame:FindFirstChild("Done"))
                 end
                 if ST.Job.ShiftEarnings.Value >= Number then
-                    Click(Player.PlayerGui.MainGUI.Bar.CharMenu.WorkFrame.WorkFrame.Buttons.Action)
+                    FireConnection(Player.PlayerGui.MainGUI.Bar.CharMenu.WorkFrame.WorkFrame.Buttons.Action.Activated)
                 end
                 if ST.Job.ShiftEarnings.Value >= Number and Dis then
                     Kick(Player, "Kicked At $" .. Number .. " Your Welcome")
@@ -173,7 +164,7 @@ H = Toggles.Def.Value
                 end
                 if ST.Job.ShiftEarnings.Value >= Number then
                     Player.Character:FindFirstChildWhichIsA("Humanoid", true):MoveTo(CFrame.new(861, 14, 268))
-                    Click(Player.PlayerGui.MainGUI.Bar.CharMenu.WorkFrame.WorkFrame.Buttons.Action)
+                    FireConnection(Player.PlayerGui.MainGUI.Bar.CharMenu.WorkFrame.WorkFrame.Buttons.Action)
                 end
                 if ST.Job.ShiftEarnings.Value >= Number and Dis then
                     Kick(Player, "Kicked At $" .. Number .. " Your Welcome")
@@ -236,7 +227,7 @@ TD = Toggles.dd.Value
                         LookAt(Paint)
                         wait(3)
                         FireConnection(Player.PlayerGui.MainGUI.InteractIndicator.Activated)
-                    until Player.Character:FindFirstChild("Spray Painter", true) and Player.Character:FindFirstChild("Spray Painter", true).Can.BrickColor == Paint.Can.BrickColor and wait(4)
+                    until Player.Character:FindFirstChild("Spray Painter", true) and Player.Character:FindFirstChild("Spray Painter", true).Can.BrickColor == Paint.Can.BrickColor
                     WalkTo(Vector3.new(1162, 14, 401))
                     LookAt(A.Vehicle)
                     FireConnection(Player.PlayerGui.MainGUI.InteractIndicator.Activated)
@@ -265,7 +256,7 @@ TD = Toggles.dd.Value
                 FireConnection(w.Display.Screen.MechanicGUI.Frame.Done.Activated)
                 if ST.Job.ShiftEarnings.Value >= Number then
                     Player.Character:FindFirstChildWhichIsA("Humanoid", true):MoveTo(CFrame.new(861, 14, 268))
-                    Click(Player.PlayerGui.MainGUI.Bar.CharMenu.WorkFrame.WorkFrame.Buttons.Action)
+                    FireConnection(Player.PlayerGui.MainGUI.Bar.CharMenu.WorkFrame.WorkFrame.Buttons.Action)
                     WalkTo(Vector3.new(1179, 13, 432))
                 end
                 if ST.Job.ShiftEarnings.Value >= Number and Dis then
