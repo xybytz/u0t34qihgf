@@ -79,7 +79,16 @@ end
 function BurgerOrder(v)
     return {Burger = v.Order.Burger.Value, Fries = v.Order.Fries.Value,Cola = v.Order.Cola.Value}
 end
-
+local Keys = {
+    ["A"] = "0x41",
+    ["D"] = "0x44",
+    ["E"] = "0x45", 
+    ["F"] = "0x46",
+    ["S"] = "0x53",
+    ["R"] = "0x52",
+    ["W"] = "0x57",
+    ["Q"] = "0x51"
+}
 
 local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
 local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
@@ -267,6 +276,24 @@ TD = Toggles.dd.Value
                     ServerHop()
                 end
             end)
+        end
+    end)
+end)
+LeftGroupBox:AddToggle('FDd', {Text = 'Cook Helper', Default = false,Tooltip = ''})
+Toggles.FDd:OnChanged(function()
+Yes = Toggles.FDd.Value
+    Player.PlayerGui.MainGUI.ChildAdded:Connect(function(v)
+        wait(0.3)
+        if Yes then
+            FireConnection(v.MouseButton1Click)    
+            if v:FindFirstChild("TextLabel") then
+                for Index,Value in next, Keys do
+                    if v:FindFirstChild("TextLabel").Text == Index then
+                        keypress(Value)
+                        keyrelease(Value)
+                    end
+                end
+            end     
         end
     end)
 end)
