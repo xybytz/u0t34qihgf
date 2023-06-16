@@ -129,10 +129,7 @@ T = Toggles.Infinite.Value
                         FireConnection(w.Mirror.HairdresserGUI.Frame:FindFirstChild("Color").Next.Activated)
                     until A.PrimaryHat.Handle.BrickColor == Color[Order.Color]
                     wait(0.5)
-                    FireConnection(w.Mirror.HairdresserGUI.Frame:FindFirstChild("Done"))
-                end
-                if ST.Job.ShiftEarnings.Value >= Number then
-                    FireConnection(Player.PlayerGui.MainGUI.Bar.CharMenu.WorkFrame.WorkFrame.Buttons.Action.Activated)
+                    FireConnection(w.Mirror.HairdresserGUI.Frame:FindFirstChild("Done").Activated)
                 end
                 if ST.Job.ShiftEarnings.Value >= Number and Dis then
                     Kick(Player, "Kicked At $" .. Number .. " Your Welcome")
