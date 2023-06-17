@@ -50,7 +50,9 @@ end
 local LookAt = function(A)
     Workspace.CurrentCamera.CFrame =  CFrame.lookAt(Workspace.CurrentCamera.CFrame.Position + Vector3.new(0,5,0), A:GetModelCFrame().Position)
 end
-
+local LookAt2 = function(A)
+    Workspace.CurrentCamera.CFrame =  CFrame.lookAt(Workspace.CurrentCamera.CFrame.Position + Vector3.new(0,5,0), A.Position)
+end
 local WalkTo = function(A)
     Player.Character:FindFirstChildWhichIsA("Humanoid", true):MoveTo(A)
     Player.Character:FindFirstChildWhichIsA("Humanoid", true).MoveToFinished:Wait()
@@ -79,6 +81,10 @@ end
 function BurgerOrder(v)
     return {Burger = v.Order.Burger.Value, Fries = v.Order.Fries.Value,Cola = v.Order.Cola.Value}
 end
+function OrderIceCream(v)
+    return {Flavor1 = v.Order.Flavor1.Value, Flavor2 = v.Order.Flavor2.Value, Topping = v.Order.Topping.Value}
+end
+
 local Keys = {
     ["A"] = "0x41",
     ["D"] = "0x44",
@@ -133,6 +139,7 @@ T = Toggles.Infinite.Value
                 end
                 if ST.Job.ShiftEarnings.Value >= Number and Dis then
                     Kick(Player, "Kicked At $" .. Number .. " Your Welcome")
+                    game:Shutdown()
                 end
                 if ST.Job.ShiftEarnings.Value >= Number and Shop then
                     Kick(Player, "Serverhopping At $" .. Number .. " Your Welcome")
@@ -168,12 +175,9 @@ H = Toggles.Def.Value
                     FireConnection(w.OrderDisplay.DisplayMain.CashierGUI.Frame.Done.Activated)
                     wait(5)
                 end
-                if ST.Job.ShiftEarnings.Value >= Number then
-                    Player.Character:FindFirstChildWhichIsA("Humanoid", true):MoveTo(CFrame.new(861, 14, 268))
-                    FireConnection(Player.PlayerGui.MainGUI.Bar.CharMenu.WorkFrame.WorkFrame.Buttons.Action)
-                end
                 if ST.Job.ShiftEarnings.Value >= Number and Dis then
                     Kick(Player, "Kicked At $" .. Number .. " Your Welcome")
+                    game:Shutdown()
                 end
                 if ST.Job.ShiftEarnings.Value >= Number and Shop then
                     Kick(Player, "ServerHopping At $" .. Number .. " Your Welcome")
@@ -260,13 +264,9 @@ TD = Toggles.dd.Value
                     end
                 end
                 FireConnection(w.Display.Screen.MechanicGUI.Frame.Done.Activated)
-                if ST.Job.ShiftEarnings.Value >= Number then
-                    Player.Character:FindFirstChildWhichIsA("Humanoid", true):MoveTo(CFrame.new(861, 14, 268))
-                    FireConnection(Player.PlayerGui.MainGUI.Bar.CharMenu.WorkFrame.WorkFrame.Buttons.Action)
-                    WalkTo(Vector3.new(1179, 13, 432))
-                end
                 if ST.Job.ShiftEarnings.Value >= Number and Dis then
                     Kick(Player, "Kicked At $" .. Number .. " Your Welcome")
+                    game:Shutdown()
                 end
                 if ST.Job.ShiftEarnings.Value >= Number and Shop then
                     Kick(Player, "ServerHopping At $" .. Number .. " Your Welcome")
@@ -276,6 +276,114 @@ TD = Toggles.dd.Value
         end
     end)
 end)
+
+LeftGroupBox:AddToggle('GTO', {Text = 'BensIceCreamSeller', Default = false,Tooltip = ''})
+Toggles.GTO:OnChanged(function()
+Go = Toggles.GTO.Value
+    spawn(function()
+        while wait() and Go do
+            pcall(function()
+                if ST.Job.Value ~= "BensIceCreamSeller" then return require(j):GoToWork("BensIceCreamSeller") end
+                for i,v in next, workspace.Environment.Locations.BensIceCream:GetDescendants() do
+                    if v:IsA("BasePart") and v.CanCollide then
+                        v.CanCollide = false
+                    end
+                end
+                local W
+                for i,v in next, workspace.Environment.Locations.BensIceCream.CustomerTargets:GetChildren() do
+                    if v.Occupied.Value ~= nil then
+                        W = v.Occupied.Value
+                    end
+                end
+                repeat wait() until W:FindFirstChild("ChatBubble", true)
+                local Table = workspace.Environment.Locations.BensIceCream.TableObjects
+                local Order = OrderIceCream(W)
+                if not Player.Character:FindFirstChild("Ice Cream Cup", true) then
+                    WalkTo(Table.IceCreamCups:GetModelCFrame().Position)
+                    LookAt(Table.IceCreamCups)
+                    FireConnection(Player.PlayerGui.MainGUI.InteractIndicator.Activated)
+                end
+                if Order.Flavor1 then
+                    WalkTo(Table:FindFirstChild(Order.Flavor1):GetModelCFrame().Position + Vector3.new(1,0,2))
+                    LookAt(Table:FindFirstChild(Order.Flavor1))
+                    wait(1)
+                    FireConnection(Player.PlayerGui.MainGUI.InteractIndicator.Activated)
+                end
+                if Order.Flavor2 ~= nil then
+                    WalkTo(Table:FindFirstChild(Order.Flavor2):GetModelCFrame().Position)
+                    LookAt(Table:FindFirstChild(Order.Flavor2))
+                    wait(1)
+                    FireConnection(Player.PlayerGui.MainGUI.InteractIndicator.Activated)
+                end
+                if Order.Topping ~= "" then
+                    WalkTo(Table:FindFirstChild(Order.Topping):GetModelCFrame().Position)
+                    LookAt(Table:FindFirstChild(Order.Topping))
+                    wait(1)
+                    FireConnection(Player.PlayerGui.MainGUI.InteractIndicator.Activated)
+                end
+                WalkTo(W:GetModelCFrame().Position)
+                LookAt(W)
+                wait(1)
+                FireConnection(Player.PlayerGui.MainGUI.InteractIndicator.Activated)
+                wait(10)
+                if ST.Job.ShiftEarnings.Value >= Number and Dis then
+                    Kick(Player, "Kicked At $" .. Number .. " Your Welcome")
+                    game:Shutdown()
+                end
+                if ST.Job.ShiftEarnings.Value >= Number and Shop then
+                    Kick(Player, "ServerHopping At $" .. Number .. " Your Welcome")
+                    ServerHop()
+                end
+            end)
+        end
+    end)
+end)
+LeftGroupBox:AddToggle('FFFFFFF', {Text = 'SupermarketCashier', Default = false,Tooltip = ''})
+Toggles.FFFFFFF:OnChanged(function()
+GHT = Toggles.FFFFFFF.Value
+    spawn(function()
+        while wait() and GHT do
+            pcall(function()
+                if ST.Job.Value ~= "SupermarketCashier" then return require(j):GoToWork("SupermarketCashier") end
+                local W = Workspace.Environment.Locations.Supermarket.CashierWorkstations:GetChildren()[2]
+                WalkTo(W:GetModelCFrame().Position)
+                local N = 0
+                if W.BagsLeft.Value < 1 then
+                    local C = Workspace.Environment.Locations.Supermarket.Crates:FindFirstChild('BagCrate')
+                    WalkTo(C.Position)
+                    LookAt2(C)
+                    FireConnection(Player.PlayerGui.MainGUI.InteractIndicator.Activated)
+                    wait(1)
+                    WalkTo(W.BagHolder:GetModelCFrame().Position)
+                    LookAt(W)
+                    FireConnection(Player.PlayerGui.MainGUI.InteractIndicator.Activated)
+                end
+
+                if W.DroppedFood:FindFirstChildWhichIsA('Part', true) then
+                    WalkTo(W:GetModelCFrame().Position)
+                    LookAt(W)
+                    FireConnection(Player.PlayerGui.MainGUI.InteractIndicator.Activated)
+                    wait(1)
+                    LookAt2(W.DroppedFood:FindFirstChildWhichIsA('Part', true))
+                    FireConnection(Player.PlayerGui.MainGUI.InteractIndicator.Activated)
+
+                end
+                if not W.DroppedFood:FindFirstChildWhichIsA('Part', true) and wait(3) then
+                    FireConnection(W.Display.Screen.CashierGUI.Frame.Done.Activated)
+                end
+                if ST.Job.ShiftEarnings.Value >= Number and Dis then
+                    Kick(Player, "Kicked At $" .. Number .. " Your Welcome")
+                    game:Shutdown()
+                end
+                if ST.Job.ShiftEarnings.Value >= Number and Shop then
+                    Kick(Player, "ServerHopping At $" .. Number .. " Your Welcome")
+                    ServerHop()
+                end
+            end)
+        end
+    end)
+end)
+
 LeftGroupBox:AddToggle('FDd', {Text = 'Cook Helper', Default = false,Tooltip = ''})
 Toggles.FDd:OnChanged(function()
 Yes = Toggles.FDd.Value
