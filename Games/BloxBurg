@@ -6,6 +6,7 @@ local RunService = game:GetService("RunService")
 local ScriptContext = game:GetService("ScriptContext")
 local MarketplaceService = game:GetService("MarketplaceService")
 local LogService = game:GetService("LogService")
+local UserInputService = game:GetService("UserInputService")
 
 local wait = task.wait
 local spawn = task.spawn
@@ -57,7 +58,15 @@ local WalkTo = function(A)
     Player.Character:FindFirstChildWhichIsA("Humanoid", true):MoveTo(A)
     Player.Character:FindFirstChildWhichIsA("Humanoid", true).MoveToFinished:Wait()
 end
-
+spawn(function()
+    while wait() do
+        pcall(function()
+            if Player.PlayerGui.MainGUI.Bar.CharMenu.WorkFrame.WorkFrame.TimeLabel.TextLabel.Text:find("5h") then
+                game:Shutdown()
+            end
+        end)
+    end
+end)
 Disable(Player.Idled)
 Disable(ScriptContext.Error)
 Disable(LogService.MessageOut)
