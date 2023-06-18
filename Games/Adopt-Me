@@ -302,18 +302,18 @@ local Bed = function(Name)
     GoToHome()
     for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
         if v:FindFirstChildWhichIsA("Model") and (table.find(Beds, v:FindFirstChildWhichIsA("Model").Name)) then
-            local String = string.split(v.Name,"true/")[2]
+            local String = string.split(v.Name,"/f")[2]
             print(String)
-            return String
+            return "f".. String
         end
     end
 end
 local Cash = function()
     for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
         if v:FindFirstChildWhichIsA("Model") and (table.find(RetardedBullShit, v:FindFirstChildWhichIsA("Model").Name)) then
-            local String = string.split(v.Name,"true/")[2]
+            local String = string.split(v.Name,"/f")[2]
             print(String)
-            return String
+            return "f".. String
         end
     end
 end
@@ -566,7 +566,7 @@ Invis = Toggles.AutoInvis.Value
     end)
 end)
 
-    RightGroupBox:AddToggle('S3FDH', {Text = 'Auto Egg hunt', Default = false,Tooltip = ''})
+RightGroupBox:AddToggle('S3FDH', {Text = 'Auto Egg hunt', Default = false,Tooltip = ''})
 Toggles.S3FDH:OnChanged(function(State)
     Test = Toggles.S3FDH.Value
     spawn(function()
@@ -582,35 +582,6 @@ Toggles.S3FDH:OnChanged(function(State)
     end)
 end)
 
-RightGroupBox:AddToggle('SFDH', {Text = 'Auto Spring Fest', Default = false,Tooltip = ''})
-Toggles.SFDH:OnChanged(function(State)
-    Hoe = Toggles.SFDH.Value
-    RenderStepped:Connect(function()
-        if Hoe then
-            pcall(function()
-                Player.Character:FindFirstChildWhichIsA("Humanoid", true):ChangeState(11)
-            end)
-        end 
-    end)
-    spawn(function()
-        while wait() and Hoe do
-            pcall(function()
-                local FashionMinigameInterior = require(game:GetService("ReplicatedStorage").ClientModules.Game.InteriorHelpers.FashionMinigameInterior)
-                local FurnitureMinigameInterior = require(game:GetService("ReplicatedStorage").ClientModules.Game.InteriorHelpers.FurnitureMinigameInterior)
-                local String = string.gsub(FashionMinigameInterior.get_join_timer_display_string_now(), "%D","")
-                local String2 = string.gsub(FurnitureMinigameInterior.get_join_timer_display_string_now(), "%D","")
-                if String2 < String  then
-                    GoToStore("FurnitureMinigame")
-                    Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame = Workspace.Interiors.FurnitureMinigame.Minigame.JoinZone.Collider.CFrame
-                end 
-                if String < String2 then
-                    GoToStore("FashionMinigame")
-                    Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame = Workspace.Interiors.FashionMinigame.Minigame.JoinZone.Collider.CFrame     
-                end     
-            end)
-        end 
-    end)
-end)
 
 RightGroupBox:AddToggle('CPU', {Text = 'CPU Usage Improver', Default = false,Tooltip = ''})
 Toggles.CPU:OnChanged(function(State)
