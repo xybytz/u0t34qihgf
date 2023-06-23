@@ -144,6 +144,9 @@ local Equip = function()
         Player.Character.Humanoid:EquipTool(v) 
     end
 end
+local UnEquip = function()
+    return Player.Character.Humanoid:UnequipTools()
+end
 local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
 local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
 local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
@@ -232,8 +235,8 @@ Go = Toggles.Autoquest.Value
                 if not Quest.Visible then
                     for i,v in next, workspace.QuestBoards:GetDescendants() do
                         if v.Name == FFFD then
+                            UnEquip()
                             Teleport(CFrame.new(v.Position))
-                            Equip()
                             fireclickdetector(v.ClickDetector)
                         end
                     end
