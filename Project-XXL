@@ -137,8 +137,36 @@ LeftGroupBox:AddDropdown('Que', {Values = Quests, Default = 1, Multi = false, Te
 Options.Que:OnChanged(function()
     Quest1 = Options.Que.Value
 end)
+
+LeftGroupBox:AddToggle('Tof', {Text = 'Auto Chests', Default = false,Tooltip = ''})
+Toggles.Tof:OnChanged(function(State)
+Tof = Toggles.Tof.Value 
+    RunService.Stepped:Connect(function()
+        pcall(function()
+            if Tof then
+                Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState(11)
+            end
+        end)
+    end)
+    spawn(function()
+        while wait() and Tof do
+            pcall(function()
+                for i,v in next, Chests:GetChildren() do
+                    if v.Transparency == 0 then
+                        Teleport(CFrame.new(v.Position + Vector3.new(0,-15,0)))
+                        wait(1)
+                        firetouchinterest(Player.Character.HumanoidRootPart, v, 0)
+                    end
+                end
+            end)
+        end
+    end)
+end)
+
+
+
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
-LeftGroupBox:AddToggle('ESP1', {Text = 'Esp Toggle', Default = false,Tooltip = ''})
+RightGroupBox:AddToggle('ESP1', {Text = 'Esp Toggle', Default = false,Tooltip = ''})
 Toggles.ESP1:OnChanged(function(State)
 ESP:Toggle(Toggles.ESP1.Value)
 end)
