@@ -5,6 +5,7 @@ local Live = workspace.Live
 local Map = workspace.Map
 local NPCS = workspace.NPCS
 local QuestMarkers = workspace.QuestMarkers
+local Drops = workspace.Drops
 local PlayerValues = Player.PlayerValues
 
 RunService.Stepped:Connect(function()
@@ -29,7 +30,54 @@ for i,v in next, Player.Codes:GetChildren() do
         table.insert(Codes, v.Name)
     end
 end
+local Fruits = {
+    Common = {
+        "Nagi Nagi no mi",
+        "Suke Suke no mi",
+        "Guru Guru no mi",
+        "Sube Sube no mi",
+        "Dark Magic (Simon)",
+        "Purple Flare",
+        "Airwalk",
+        "Blaze",
+    },
+    Rare = {
+        "Mera Mera no mi",
+        "Zushi Zushi no mi",
+        "Goro Goro no mi",
+        "Suna Suna no mi",
+        "Moku Moku no mi",
+        "Yami Yami no mi",
+        "Gomu Gomu no mi",
+        "Pika Pika no mi",
+        "Hie Hie no mi",
+        "Gura Gura no mi",
+        "Blueflame"
+    },
+    Legendary = {
+        "Anti Magic",
+        "Sunshine (Escanor)",
+        "Lightning Dragon Slayer Magic",
+        "Fire Dragon Slayer Magic",
+        "Fire Dragon Slayer Magic v2",
+        "One For All: Prime"
+    }
+}
 
+local removeCommon = function(A)
+    for i,v in next, Player.Backpack:GetChildren() do
+        if v:IsA("Tool") and table.find(Fruits.Common, v.Name) then
+            v.Parent = nil
+        end
+    end
+end
+local removeCommonBags = function()
+    for i,v in next, Player.Backpack:GetChildren() do
+        if v:IsA("Tool") and v:FindFirstChild("Rarity", true) and v:FindFirstChild("Rarity", true).Text == "Common" then
+            v.Parent = nil
+        end
+    end
+end
 local Teleport = function(A)
     Player.Character:FindFirstChild("HumanoidRootPart").CFrame = A 
 end
@@ -153,7 +201,7 @@ Tof = Toggles.Tof.Value
             pcall(function()
                 for i,v in next, Chests:GetChildren() do
                     if v.Transparency == 0 then
-                        Teleport(CFrame.new(v.Position + Vector3.new(0,-15,0)))
+                        Teleport(CFrame.new(v.Position + Vector3.new(0,0, 0)))
                         wait(1)
                         firetouchinterest(Player.Character.HumanoidRootPart, v, 0)
                     end
@@ -163,8 +211,42 @@ Tof = Toggles.Tof.Value
     end)
 end)
 
+LeftGroupBox:AddToggle('FRo', {Text = 'Auto Drops', Default = false,Tooltip = ''})
+Toggles.FRo:OnChanged(function(State)
+FRo = Toggles.FRo.Value
+    spawn(function()
+        while wait() and FRo do
+            pcall(function()
+                for i,v in next, Drops:GetChildren() do
+                    firetouchinterest(Player.Character.HumanoidRootPart, v.Handle, 0)
+                end
+            end)
+        end
+    end)
+end)
 
-
+LeftGroupBox:AddToggle('RRR', {Text = 'Remove Common Fruits', Default = false,Tooltip = ''})
+Toggles.RRR:OnChanged(function(State)
+RRR = Toggles.RRR.Value
+    spawn(function()
+        while wait() and RRR do
+            pcall(function()
+                removeCommon()
+            end)
+        end
+    end)
+end)
+LeftGroupBox:AddToggle('TTT', {Text = 'Remove Common Bags', Default = false,Tooltip = ''})
+Toggles.TTT:OnChanged(function(State)
+TTT = Toggles.TTT.Value
+    spawn(function()
+        while wait() and TTT do
+            pcall(function()
+                removeCommonBags()
+            end)
+        end
+    end)
+end)
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 RightGroupBox:AddToggle('ESP1', {Text = 'Esp Toggle', Default = false,Tooltip = ''})
 Toggles.ESP1:OnChanged(function(State)
