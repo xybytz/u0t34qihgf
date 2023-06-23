@@ -226,13 +226,14 @@ Go = Toggles.Autoquest.Value
         end)
     end)
     spawn(function()
-        while wait() and Go do 
+        while wait(.1) and Go do 
             pcall(function()
                 local Quest = Player.PlayerGui.Menu.QuestFrame
                 if not Quest.Visible then
                     for i,v in next, workspace.QuestBoards:GetDescendants() do
                         if v.Name == FFFD then
-                            Teleport(v.CFrame)
+                            Teleport(CFrame.new(v.Position))
+                            Equip()
                             fireclickdetector(v.ClickDetector)
                         end
                     end
@@ -241,7 +242,7 @@ Go = Toggles.Autoquest.Value
                     Teleport(CFrame.new(QuestMarkers[Quest.QuestName.Text].Position + Vector3.new(0, -50, 0)))
                     for i,v in next, Live:GetChildren() do
                         if string.find(Quest.QuestName.Text, v.Name) then
-                            v.HumanoidRootPart.CFrame = Player.Character:GetModelCFrame() * CFrame.new(0,0,3)
+                            v.HumanoidRootPart.CFrame = Player.Character:GetModelCFrame() * CFrame.new(0,0,-3)
                             Equip()
                             Hit(v)
                             if v.Humanoid.Health ~= v.Humanoid.MaxHealth then
