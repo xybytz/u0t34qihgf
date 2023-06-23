@@ -63,7 +63,38 @@ local Fruits = {
         "One For All: Prime"
     }
 }
-
+local Specializations = {
+    "Haoshoku Haki",
+    "Flashstep",
+    "Kenbunshoku Haki",
+    "Sonido",
+    "Busoshoku Haki"
+}
+local Races = {
+    "Human",
+    "Kumate Tribe",
+    "Skypiean",
+    "Dodoria's Race",
+    "Burter's Race",
+    "Namekian",
+    "Saiyan",
+    "Frieza Race (First Form)",
+    "Bojack's Race",
+    "Android",
+    "Uzumaki Clan",
+    "Cerealian",
+    "Hybrid Saiyan",
+    "Angel (In Training)",
+    "Demon",
+    "Fanalis",
+    "Lunarian",
+    "Mink",
+    "Angel",
+    "Baby (Possessed)",
+    "Heeter Race",
+    "Toppo's Race",
+    "Beerus' Race",
+}
 local removeCommon = function(A)
     for i,v in next, Player.Backpack:GetChildren() do
         if v:IsA("Tool") and table.find(Fruits.Common, v.Name) then
@@ -78,6 +109,27 @@ local removeCommonBags = function()
         end
     end
 end
+
+local Checkrace = function()
+    return Player.PlayerValues.Race.Value 
+end
+local RollRace = function(A)
+    if Checkrace() ~= A then
+        for i,v in next, Player.Backpack:GetChildren() do
+            if v:IsA("Tool") and v:FindFirstChild("Heart", true) then
+                v.Parent = Player.Character
+                ReplicatedStorage:WaitForChild("RemoteEvents"):FindFirstChild("ItemRemote"):FireServer()
+                break
+            elseif not v:FindFirstChild("Heart", true) then
+                ReplicatedStorage:WaitForChild("RemoteEvents"):FindFirstChild("RaceSpinRemote"):FireServer(1)
+                break
+            end
+        end
+    end
+end
+
+
+
 local Teleport = function(A)
     Player.Character:FindFirstChild("HumanoidRootPart").CFrame = A 
 end
@@ -85,6 +137,9 @@ local Hit = function(A)
     return ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("BladeCombatRemote"):FireServer(false, Vector3.new(A:FindFirstChildWhichIsA("BasePart").Position), CFrame.new(A:FindFirstChildWhichIsA("BasePart").Position))
 end
 local Equip = function()
+    if Player.Character:FindFirstChildWhichIsA("Tool", true) then
+        Player.Character:FindFirstChildWhichIsA("Humanoid", true):UnequipTools()
+    end
     if not Player.Character:FindFirstChildWhichIsA("Tool", true) then
         for i,v in next, Player.Backpack:GetChildren() do
             if v:IsA("Tool") and v:FindFirstChild("Combat Script", true) then
@@ -140,10 +195,28 @@ H = Toggles.AutoFarming.Value
     end)
 end)
 
-LeftGroupBox:AddDropdown('Mobs', {Values = Mobs, Default = 1, Multi = false, Text = 'Mobs', Tooltip = ''})
+LeftGroupBox:AddDropdown('Mobs1', {Values = Mobs, Default = 1, Multi = false, Text = 'Mobs', Tooltip = ''})
 
-Options.Mobs:OnChanged(function()
-    Mob = Options.Mobs.Value
+Options.Mobs1:OnChanged(function(S)
+    Mob = S
+end)
+LeftGroupBox:AddToggle('Roll', {Text = 'ReRoll Race', Default = false,Tooltip = ''})
+Toggles.Roll:OnChanged(function(State)
+Roll = Toggles.Roll.Value 
+    spawn(function()
+        while wait() and Roll do
+            pcall(function()
+                if Go then
+                    RollRace(Races1)
+                end
+            end)
+        end
+    end)
+end)
+LeftGroupBox:AddDropdown('Races', {Values = Races, Default = 1, Multi = false, Text = 'Races', Tooltip = ''})
+
+Options.Races:OnChanged(function()
+    Races1 = Options.Races.Value
 end)
 
 LeftGroupBox:AddToggle('Autoquest', {Text = 'Auto Quest', Default = false,Tooltip = ''})
@@ -181,8 +254,8 @@ Go = Toggles.Autoquest.Value
     end)
 end)
 LeftGroupBox:AddDropdown('Que', {Values = Quests, Default = 1, Multi = false, Text = 'Quests1', Tooltip = ''})
-Options.Que:OnChanged(function()
-    Quest1 = Options.Que.Value
+Options.Que:OnChanged(function(S)
+    Quest1 = S
 end)
 
 LeftGroupBox:AddToggle('Tof', {Text = 'Auto Chests', Default = false,Tooltip = ''})
