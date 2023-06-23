@@ -230,7 +230,12 @@ Go = Toggles.Autoquest.Value
             pcall(function()
                 local Quest = Player.PlayerGui.Menu.QuestFrame
                 if not Quest.Visible then
-                   fireclickdetector(workspace.QuestBoards:FindFirstChild(Quest1, true).ClickDetector)
+                    for i,v in next, workspace.QuestBoards:GetDescendants() do
+                        if v.Name == FFFD then
+                            Teleport(v.CFrame)
+                            fireclickdetector(v.ClickDetector)
+                        end
+                    end
                 end
                 if Quest.Visible then
                     Teleport(CFrame.new(QuestMarkers[Quest.QuestName.Text].Position + Vector3.new(0, -50, 0)))
@@ -251,7 +256,7 @@ Go = Toggles.Autoquest.Value
 end)
 LeftGroupBox:AddDropdown('Que', {Values = Quests, Default = 1, Multi = false, Text = 'Quests1', Tooltip = ''})
 Options.Que:OnChanged(function(S)
-    Quest1 = S
+    FFFD = Options.Que.Value
 end)
 
 LeftGroupBox:AddToggle('Tof', {Text = 'Auto Chests', Default = false,Tooltip = ''})
