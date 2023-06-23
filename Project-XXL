@@ -126,13 +126,12 @@ H = Toggles.AutoFarming.Value
         while wait() and H do 
             pcall(function()
                 for i,v in next, Live:GetChildren() do
-                    local Humanoid = v:FindFirstChildWhichIsA("Humanoid", true)
-                    if v:IsA("Model") and v.Name == Mob and Humanoid.Health ~= 0 then
+                    if v:IsA("Model") and v.Name == Mob and v:FindFirstChildWhichIsA("Humanoid", true).Health ~= 0 then
                         Teleport(CFrame.new(v:GetModelCFrame().Position + Vector3.new(0,-7,0)))
                         Equip()
                         Hit(v)
-                        if Humanoid.Health ~= Humanoid.MaxHealth then
-                            Humanoid.Health = 0
+                        if v:FindFirstChildWhichIsA("Humanoid", true).Health ~= v:FindFirstChildWhichIsA("Humanoid", true).MaxHealth then
+                            v:FindFirstChildWhichIsA("Humanoid", true).Health = 0
                         end
                     end
                 end
@@ -171,7 +170,7 @@ Go = Toggles.Autoquest.Value
                             v.HumanoidRootPart.CFrame = Player.Character:GetModelCFrame() * CFrame.new(0,0,3)
                             Equip()
                             Hit(v)
-                            if Humanoid.Health ~= Humanoid.MaxHealth then
+                            if v:FindFirstChildWhichIsA("Humanoid", true).Health ~= v:FindFirstChildWhichIsA("Humanoid", true).MaxHealth then
                                 Humanoid.Health = 0
                             end
                         end
