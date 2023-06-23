@@ -114,16 +114,15 @@ local Checkrace = function()
     return Player.PlayerValues.Race.Value 
 end
 local RollRace = function(A)
-    if Checkrace() ~= A then
-        for i,v in next, Player.Backpack:GetChildren() do
-            if v:IsA("Tool") and v:FindFirstChild("Heart", true) then
-                v.Parent = Player.Character
-                ReplicatedStorage:WaitForChild("RemoteEvents"):FindFirstChild("ItemRemote"):FireServer()
-                break
-            elseif not v:FindFirstChild("Heart", true) then
-                ReplicatedStorage:WaitForChild("RemoteEvents"):FindFirstChild("RaceSpinRemote"):FireServer(1)
-                break
-            end
+    if Checkrace() == A then return end
+    for i,v in next, Player.Backpack:GetChildren() do
+        if v:IsA("Tool") and v:FindFirstChild("Heart", true) then
+            v.Parent = Player.Character
+            ReplicatedStorage:WaitForChild("RemoteEvents"):FindFirstChild("ItemRemote"):FireServer()
+            break
+        else
+            ReplicatedStorage:WaitForChild("RemoteEvents"):FindFirstChild("RaceSpinRemote"):FireServer(1)
+            break
         end
     end
 end
@@ -138,14 +137,11 @@ local Hit = function(A)
 end
 local Equip = function()
     if Player.Character:FindFirstChildWhichIsA("Tool", true) then
-        Player.Character:FindFirstChildWhichIsA("Humanoid", true):UnequipTools()
+        Player.Character.Humanoid:UnequipTools()
     end
     if not Player.Character:FindFirstChildWhichIsA("Tool", true) then
-        for i,v in next, Player.Backpack:GetChildren() do
-            if v:IsA("Tool") and v:FindFirstChild("Combat Script", true) then
-                Player.Character:FindFirstChildWhichIsA("Humanoid", true):EquipTool(v) 
-            end
-        end
+        local v = Player.Backpack:FindFirstChild("Combat Script", true).Parent
+        Player.Character.Humanoid:EquipTool(v) 
     end
 end
 local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
@@ -178,15 +174,15 @@ H = Toggles.AutoFarming.Value
         end)
     end)
     spawn(function()
-        while wait() and H do 
+        while wait(.1) and H do 
             pcall(function()
                 for i,v in next, Live:GetChildren() do
-                    if v:IsA("Model") and v.Name == Mob and v:FindFirstChildWhichIsA("Humanoid", true).Health ~= 0 then
+                    if v:IsA("Model") and v.Name == ddd and v.Humanoid.Health ~= 0 then
                         Teleport(CFrame.new(v:GetModelCFrame().Position + Vector3.new(0,-7,0)))
                         Equip()
                         Hit(v)
-                        if v:FindFirstChildWhichIsA("Humanoid", true).Health ~= v:FindFirstChildWhichIsA("Humanoid", true).MaxHealth then
-                            v:FindFirstChildWhichIsA("Humanoid", true).Health = 0
+                        if v.Humanoid.Health ~= v.Humanoid.MaxHealth then
+                            v.Humanoid.Health = 0
                         end
                     end
                 end
@@ -196,10 +192,10 @@ H = Toggles.AutoFarming.Value
 end)
 
 LeftGroupBox:AddDropdown('Mobs1', {Values = Mobs, Default = 1, Multi = false, Text = 'Mobs', Tooltip = ''})
-
 Options.Mobs1:OnChanged(function(S)
-    Mob = S
+    ddd = Options.Mobs1.Value
 end)
+
 LeftGroupBox:AddToggle('Roll', {Text = 'ReRoll Race', Default = false,Tooltip = ''})
 Toggles.Roll:OnChanged(function(State)
 Roll = Toggles.Roll.Value 
@@ -243,7 +239,7 @@ Go = Toggles.Autoquest.Value
                             v.HumanoidRootPart.CFrame = Player.Character:GetModelCFrame() * CFrame.new(0,0,3)
                             Equip()
                             Hit(v)
-                            if v:FindFirstChildWhichIsA("Humanoid", true).Health ~= v:FindFirstChildWhichIsA("Humanoid", true).MaxHealth then
+                            if v.Humanoid.Health ~= v.Humanoid.MaxHealth then
                                 Humanoid.Health = 0
                             end
                         end
