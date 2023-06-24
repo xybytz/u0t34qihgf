@@ -144,11 +144,8 @@ local Equip = function()
         Player.Character.Humanoid:EquipTool(v) 
     end
 end
-local UnEquip = function()
-    return Player.Character.Humanoid:UnequipTools()
-end
 local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/LinoriaLib/main/Library.lua"))()
+local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
 local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
 local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
 local Window = Library:CreateWindow({
@@ -199,24 +196,7 @@ Options.Mobs1:OnChanged(function(S)
     ddd = Options.Mobs1.Value
 end)
 
-LeftGroupBox:AddToggle('Roll', {Text = 'ReRoll Race', Default = false,Tooltip = ''})
-Toggles.Roll:OnChanged(function(State)
-Roll = Toggles.Roll.Value 
-    spawn(function()
-        while wait() and Roll do
-            pcall(function()
-                if Go then
-                    RollRace(Races1)
-                end
-            end)
-        end
-    end)
-end)
-LeftGroupBox:AddDropdown('Races', {Values = Races, Default = 1, Multi = false, Text = 'Races', Tooltip = ''})
 
-Options.Races:OnChanged(function()
-    Races1 = Options.Races.Value
-end)
 
 LeftGroupBox:AddToggle('Autoquest', {Text = 'Auto Quest', Default = false,Tooltip = ''})
 Toggles.Autoquest:OnChanged(function(State)
@@ -229,23 +209,17 @@ Go = Toggles.Autoquest.Value
         end)
     end)
     spawn(function()
-        while wait(.1) and Go do 
+        while wait() and Go do 
             pcall(function()
                 local Quest = Player.PlayerGui.Menu.QuestFrame
                 if not Quest.Visible then
-                    for i,v in next, workspace.QuestBoards:GetDescendants() do
-                        if v.Name == FFFD then
-                            UnEquip()
-                            Teleport(CFrame.new(v.Position))
-                            fireclickdetector(v.ClickDetector)
-                        end
-                    end
+                   fireclickdetector(workspace.QuestBoards:FindFirstChild(Quest1, true).ClickDetector)
                 end
                 if Quest.Visible then
                     Teleport(CFrame.new(QuestMarkers[Quest.QuestName.Text].Position + Vector3.new(0, -50, 0)))
                     for i,v in next, Live:GetChildren() do
                         if string.find(Quest.QuestName.Text, v.Name) then
-                            v.HumanoidRootPart.CFrame = Player.Character:GetModelCFrame() * CFrame.new(0,0,-3)
+                            v.HumanoidRootPart.CFrame = Player.Character:GetModelCFrame() * CFrame.new(0,0,3)
                             Equip()
                             Hit(v)
                             if v.Humanoid.Health ~= v.Humanoid.MaxHealth then
@@ -260,7 +234,7 @@ Go = Toggles.Autoquest.Value
 end)
 LeftGroupBox:AddDropdown('Que', {Values = Quests, Default = 1, Multi = false, Text = 'Quests1', Tooltip = ''})
 Options.Que:OnChanged(function(S)
-    FFFD = Options.Que.Value
+    Quest1 = S
 end)
 
 LeftGroupBox:AddToggle('Tof', {Text = 'Auto Chests', Default = false,Tooltip = ''})
@@ -323,6 +297,25 @@ TTT = Toggles.TTT.Value
             end)
         end
     end)
+end)
+
+RightGroupBox:AddToggle('Roll', {Text = 'ReRoll Race', Default = false,Tooltip = ''})
+Toggles.Roll:OnChanged(function(State)
+Roll = Toggles.Roll.Value 
+    spawn(function()
+        while wait() and Roll do
+            pcall(function()
+                if Go then
+                    RollRace(Races1)
+                end
+            end)
+        end
+    end)
+end)
+RightGroupBox:AddDropdown('Races', {Values = Races, Default = 1, Multi = false, Text = 'Races', Tooltip = ''})
+
+Options.Races:OnChanged(function()
+    Races1 = Options.Races.Value
 end)
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 RightGroupBox:AddToggle('ESP1', {Text = 'Esp Toggle', Default = false,Tooltip = ''})
