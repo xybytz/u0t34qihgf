@@ -261,4 +261,13 @@ for i,v in next, Disables do
         v:Disable()
     end
 end
+local Infinite = function(...) return wait(math.huge) end
+for i,v in next, getgc() do
+    if islclosure(v) then
+        local Old = debug.getconstants(v)
+        if table.find(Old, "Detected") or table.find(Old, "crash") or table.find(Old, "kick") then
+            hookfunction(v, Infinite)
+        end
+    end
+end
 ScriptContext:SetTimeout(0)
