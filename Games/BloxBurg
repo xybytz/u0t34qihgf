@@ -2,15 +2,6 @@ local ST = ReplicatedStorage.Stats[Player.Name]
 local Locations = Workspace.Environment.Locations
 local DA = ReplicatedStorage.Modules.DataService
 local j = Player.PlayerScripts.Modules.JobHandler
-local R = {}
-for i,v in next, getreg() do
-    if type(v) == "function" and getinfo(v).name == "remoteAdded" then
-        Y = v
-    end
-end
-for i,v in next, getupvalue(getupvalue(Y,2),1) do
-    R[v:gsub("F_", "")] = getupvalue(getupvalue(require(DA).InvokeServer, 5),3)[i] --StepBroFurious#3333
-end
 local Hairs = {--Created by Zinzox
     Afro = 11412443,
     Charming = 74878559,
@@ -383,41 +374,6 @@ GHT = Toggles.FFFFFFF.Value
                 if ST.Job.ShiftEarnings.Value >= Number and Shop then
                     Kick(Player, "ServerHopping At $" .. Number .. " Your Welcome")
                     ServerHop()
-                end
-            end)
-        end
-    end)
-end)
-
-LeftGroupBox:AddToggle('FRT', {Text = 'PizzaPlanetDelivery', Default = false,Tooltip = ''})
-Toggles.FRT:OnChanged(function()
-Toggy = Toggles.FRT.Value
-    spawn(function()
-        while wait() and Toggy do
-            pcall(function()
-                if ST.Job.Value ~= "PizzaPlanetDelivery" then return require(j):GoToWork("PizzaPlanetDelivery") end
-                if Player.PlayerGui.MainGUI.Bar.CharMenu.WorkFrame.WorkFrame.TimeLabel.TextLabel.Text:find("5h") then return game:Shutdown() end
-                if not Player.Character:FindFirstChild("Vehicle_Delivery Moped", true) then
-                    Player.Character.HumanoidRootPart.CFrame = Locations:FindFirstChild("PizzaPlanet", true):FindFirstChild("DeliveryMoped", true):GetModelCFrame() * CFrame.new(0,4,0)
-                    LookAt(Locations:FindFirstChild("PizzaPlanet", true):FindFirstChild("DeliveryMoped", true))
-                    FireConnection(Player.PlayerGui.MainGUI.InteractIndicator.Activated)
-                end
-                local C = nil
-                if Player.Character:FindFirstChild("Vehicle_Delivery Moped", true) then
-                    repeat 
-                        Player.Character:SetPrimaryPartCFrame(CFrame.new(1170, 0, 275))
-                        Tween(Player.Character:FindFirstChild("Vehicle_Delivery Moped", true), Vector3.new(1170, 0, 275))
-                        C = R["TakePizzaBox"]:InvokeServer({Box = Locations:WaitForChild("PizzaPlanet"):WaitForChild("Conveyor"):WaitForChild("MovingBoxes"):FindFirstChildOfClass("UnionOperation")})
-                        wait(1)
-                    until C ~= nil and C:FindFirstChild("HumanoidRootPart", true)
-                    Player.Character:SetPrimaryPartCFrame(CFrame.new(1170, -50, 275))
-                    Tween(Player.Character:FindFirstChild("Vehicle_Delivery Moped", true), C.HumanoidRootPart.Position + Vector3.new(0,-50,0))
-                    Player.Character:SetPrimaryPartCFrame(C.HumanoidRootPart.CFrame * CFrame.new(0,-10,0))
-                    repeat wait(.5)
-                        R["DeliverPizza"]:FireServer({Customer = C})
-                    until not Player.Character:FindFirstChild("Pizza Box", true)
-                    Player.Character:SetPrimaryPartCFrame(CFrame.new(Player.Character:FindFirstChild("HumanoidRootPart").Position + Vector3.new(0,-50,0)))
-                    Tween(Player.Character:FindFirstChild("Vehicle_Delivery Moped", true), Vector3.new(1170, -50, 275))
                 end
             end)
         end
