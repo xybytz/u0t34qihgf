@@ -70,7 +70,6 @@ local Specializations = {
     "Sonido",
     "Busoshoku Haki"
 }
-local ddd
 local Races = {
     "Human",
     "Kumate Tribe",
@@ -129,16 +128,6 @@ local RollRace = function(A)
 end
 
 
-local InstantKill = function(Toggle, Target)
-    if Toggle then
-        if Target:FindFirstChildWhichIsA("Humanoid") then
-            local H = Target:FindFirstChildWhichIsA("Humanoid")
-            if H.Health ~= H.MaxHealth then
-                H.Health = 0
-            end
-        end
-    end
-end
 
 local Teleport = function(A)
     Player.Character:FindFirstChild("HumanoidRootPart").CFrame = A 
@@ -185,13 +174,16 @@ H = Toggles.AutoFarming.Value
         end)
     end)
     spawn(function()
-        while wait(.3) and H do 
+        while wait() and H do 
             pcall(function()
                 for i,v in next, Live:GetChildren() do
                     if v:IsA("Model") and v.Name == ddd and v.Humanoid.Health ~= 0 then
                         Teleport(CFrame.new(v:GetModelCFrame().Position + Vector3.new(0,-7,0)))
                         Equip()
                         Hit(v)
+                        if v.Humanoid.Health ~= v.Humanoid.MaxHealth then
+                            v.Humanoid.Health = 0
+                        end
                     end
                 end
             end)
@@ -232,6 +224,9 @@ Go = Toggles.Autoquest.Value
                             v.HumanoidRootPart.CFrame = Player.Character:GetModelCFrame() * CFrame.new(0,0,3)
                             Equip()
                             Hit(v)
+                            if v.Humanoid.Health ~= v.Humanoid.MaxHealth then
+                                Humanoid.Health = 0
+                            end
                         end
                     end
                 end
@@ -242,23 +237,6 @@ end)
 LeftGroupBox:AddDropdown('Que', {Values = Quests, Default = 1, Multi = false, Text = 'Quests1', Tooltip = ''})
 Options.Que:OnChanged(function(S)
     Quest1 = S
-end)
-
-
-LeftGroupBox:AddToggle('GG', {Text = 'Instant Kill', Default = false,Tooltip = ''})
-Toggles.GG:OnChanged(function(State)
-InstantKi = Toggles.GG.Value 
-    spawn(function()
-        while wait() and InstantKi do
-            pcall(function()
-                for i,v in next, Live:GetChildren() do
-                    if v:IsA("Model") and InstantKi then
-                        InstantKill(true, v)
-                    end
-                end
-            end)
-        end
-    end)
 end)
 
 LeftGroupBox:AddToggle('Tof', {Text = 'Auto Chests', Default = false,Tooltip = ''})
