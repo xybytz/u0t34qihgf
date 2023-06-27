@@ -109,20 +109,28 @@ local removeCommonBags = function()
         end
     end
 end
+local removeUnCommonBags = function()
+    for i,v in next, Player.Backpack:GetChildren() do
+        if v:IsA("Tool") and v:FindFirstChild("Rarity", true) and v:FindFirstChild("Rarity", true).Text == "Uncommon" then
+            v.Parent = nil
+        end
+    end
+end
 
 local Checkrace = function()
     return Player.PlayerValues.Race.Value 
 end
 local RollRace = function(A)
-    if Checkrace() == A then return end
-    for i,v in next, Player.Backpack:GetChildren() do
-        if v:IsA("Tool") and v:FindFirstChild("Heart", true) then
-            v.Parent = Player.Character
-            ReplicatedStorage:WaitForChild("RemoteEvents"):FindFirstChild("ItemRemote"):FireServer()
-            break
-        else
-            ReplicatedStorage:WaitForChild("RemoteEvents"):FindFirstChild("RaceSpinRemote"):FireServer(1)
-            break
+    if A ~= Player.PlayerValues.Race.Value  then
+        for i,v in next, Player.Backpack:GetChildren() do
+            if v:IsA("Tool") and v:FindFirstChild("Heart", true) then
+                Player.Character:FindFirstChildWhichIsA("Humanoid"):EquipTool(v)
+                ReplicatedStorage:WaitForChild("RemoteEvents"):FindFirstChild("ItemRemote"):FireServer()
+                break
+            elseif not v:IsA("Tool") and not v:FindFirstChild("Heart", true) then
+                ReplicatedStorage:WaitForChild("RemoteEvents"):FindFirstChild("RaceSpinRemote"):FireServer(1)
+                break
+            end
         end
     end
 end
@@ -302,16 +310,24 @@ TTT = Toggles.TTT.Value
     end)
 end)
 
+LeftGroupBox:AddToggle('Sex', {Text = 'Remove UnCommon Bags', Default = false,Tooltip = ''})
+Toggles.Sex:OnChanged(function(State)
+Sex = Toggles.Sex.Value
+    spawn(function()
+        while wait() and Sex do
+            pcall(function()
+                removeUnCommonBags()
+            end)
+        end
+    end)
+end)
+
 RightGroupBox:AddToggle('Roll', {Text = 'ReRoll Race', Default = false,Tooltip = ''})
 Toggles.Roll:OnChanged(function(State)
 Roll = Toggles.Roll.Value 
     spawn(function()
         while wait() and Roll do
-            pcall(function()
-                if Go then
-                    RollRace(Races1)
-                end
-            end)
+            RollRace(Races1)    
         end
     end)
 end)
