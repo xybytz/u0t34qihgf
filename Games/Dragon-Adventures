@@ -235,14 +235,28 @@ OldNameCall =
 )
 
 
+local OldNameCall = nil
+OldNameCall = hookmetamethod(game, "__newindex", function(...)
+    local Self, Key = ...
+    local WalkSpeed = Player.Character:FindFirstChildWhichIsA("Humanoid", true).WalkSpeed
+    local JumpPower = Player.Character:FindFirstChildWhichIsA("Humanoid", true).JumpPower
+    if not checkcaller() then
+        if Self == WalkSpeed then
+            return WalkSpeed or 16 
+        elseif Self == JumpPower then
+            return JumpPower or 50
+        end
+    end
+    return OldNameCall(...)
+end)
 
 
-healing = {}
-for i, v in pairs(ReplicatedStorage.Storage.Items.Items.Healing:GetChildren()) do
-    if v.ClassName == "ModuleScript" then
-        r = require(v)
-        for i, v in pairs(r) do
-            table.insert(healing, i)
+local Healing = {}
+for i,v in next, ReplicatedStorage.Storage.Items.Items.Healing:GetChildren() do
+    if v:IsA("ModuleScript") then
+        local A = require(v)
+        for i,v in next, A do
+            table.insert(Healing, i)
         end
     end
 end
@@ -327,7 +341,7 @@ spawn(function()
                     Tween(Player.Character.PrimaryPart,
                         v:FindFirstChildWhichIsA("BasePart"),
                         200)
-			Player.Character:FindFirstChild("HumanoidRootPart").CFrame = v:GetModelCFrame() * CFrame.new(0, 5, 0)
+			    Player.Character:FindFirstChild("HumanoidRootPart").CFrame = v:GetModelCFrame() * CFrame.new(0, 5, 0)
                     if Mag(v:GetModelCFrame(), Player.Character:GetModelCFrame()) < 15 and wait(3) then
                         game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
                     end 
@@ -729,7 +743,7 @@ while Settings.AutoHeal do wait(0.1)
                         if v.ClassName == "Model" and v:FindFirstChild("ID") then
                             ReplicatedStorage.Remotes.HealDragonRemote:InvokeServer(
                                 tostring(v.Name),
-                                healing
+                                Healing
                             )
                         end
                     end
@@ -742,7 +756,7 @@ end)
 
 
 
-local Dropdown1 = Section1:CreateDropdown("Healing Items", healing, function(String)
+local Dropdown1 = Section1:CreateDropdown("Healing Items", Healing, function(String)
     Settings.HealingItem = String
 end)
 
