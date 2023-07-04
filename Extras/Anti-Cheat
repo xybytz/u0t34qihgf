@@ -204,7 +204,7 @@ G.Tween = function(A, B, C)
         local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
         local Tween = TweenService:Create(A, Info, {CFrame = CFrame.new(B.Position)})
         Tween:Play()
-        if not Tween.Completed then
+        if Tween.Completed then
             Tween.Completed:Wait()
         end
     end
