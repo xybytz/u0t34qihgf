@@ -69,3 +69,17 @@ end
 StarterGui:SetCore("SendNotification",{Title = "V.G Hub Discord",Text = "Copy to clipboard?",Duration = 5,Callback = Gang,Button1 = "Yes",Button2 = "No"})
 local EndTime = tick()
 print("V.G Hub Took ", StarTime - EndTime, " To Load")
+
+
+local function Copy()
+    setclipboard("https://link-target.net/451794/support-me")
+end
+local Gang = Instance.new("BindableFunction")
+
+function Gang.OnInvoke(v)
+    if v == "Yes" then
+        Copy()
+        SendNotification("Send Support Link", "Support Link Copying Sucessful", "rbxassetid://8429081004", 15)
+    end
+end
+StarterGui:SetCore("SendNotification",{Title = "Do you want to support me?",Text = "Copy Support Link to clipboard?",Duration = 5,Callback = Gang,Button1 = "Yes",Button2 = "No"})
