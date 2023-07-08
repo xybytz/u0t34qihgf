@@ -6,6 +6,7 @@ local Map = workspace.Map
 local NPCS = workspace.NPCS
 local QuestMarkers = workspace.QuestMarkers
 local Drops = workspace.Drops
+local QuestBoards = workspace.QuestBoards
 local PlayerValues = Player.PlayerValues
 
 RunService.Stepped:Connect(function()
@@ -141,7 +142,7 @@ local Teleport = function(A)
     Player.Character:FindFirstChild("HumanoidRootPart").CFrame = A 
 end
 local Hit = function(A)
-    return ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("BladeCombatRemote"):FireServer(false, Vector3.new(A:FindFirstChildWhichIsA("BasePart").Position), CFrame.new(A:FindFirstChildWhichIsA("BasePart").Position))
+    ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("BladeCombatRemote"):FireServer(false, Vector3.new(A:FindFirstChildWhichIsA("BasePart").Position), CFrame.new(A:FindFirstChildWhichIsA("BasePart").Position))
 end
 local Equip = function()
     if Player.Character:FindFirstChildWhichIsA("Tool", true) then
@@ -182,7 +183,7 @@ H = Toggles.AutoFarming.Value
         end)
     end)
     spawn(function()
-        while wait() and H do 
+        while wait(.1) and H do 
             pcall(function()
                 for i,v in next, Live:GetChildren() do
                     if v:IsA("Model") and v.Name == ddd and v.Humanoid.Health ~= 0 then
@@ -217,19 +218,19 @@ Go = Toggles.Autoquest.Value
         end)
     end)
     spawn(function()
-        while wait() and Go do 
+        while wait(.1) and Go do 
             pcall(function()
                 local Quest = Player.PlayerGui.Menu.QuestFrame
                 if not Quest.Visible then
-                    Teleport(workspace.QuestBoards:FindFirstChild(Quest1, true).CFrame)
+                    Teleport(QuestBoards:FindFirstChild(Quest1, true).CFrame)
                     wait(1)
-                    fireclickdetector(workspace.QuestBoards:FindFirstChild(Quest1, true).ClickDetector)
+                    fireclickdetector(QuestBoards:FindFirstChild(Quest1, true).ClickDetector)
                 end
                 if Quest.Visible then
                     Teleport(CFrame.new(QuestMarkers[Quest.QuestName.Text].Position + Vector3.new(0, -50, 0)))
                     for i,v in next, Live:GetChildren() do
                         if string.find(Quest.QuestName.Text, v.Name) then
-                            v.HumanoidRootPart.CFrame = Player.Character:GetModelCFrame() * CFrame.new(0,0,3)
+                            v.HumanoidRootPart.CFrame = Player.Character:GetModelCFrame() * CFrame.new(0,0,-3)
                             Equip()
                             Hit(v)
                             if v.Humanoid.Health ~= v.Humanoid.MaxHealth then
@@ -273,6 +274,19 @@ Tof = Toggles.Tof.Value
     end)
 end)
 
+LeftGroupBox:AddToggle('NIG', {Text = 'Auto Skills', Default = false,Tooltip = ''})
+Toggles.NIG:OnChanged(function(State)
+NIG = Toggles.NIG.Value 
+    spawn(function()
+        while wait() and NIG do
+            pcall(function()
+                for i,v in next, {"X", "Z", "C", "V", "R", "E"} do
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true,v,false,game,0)
+                end
+            end)
+        end
+    end)
+end)
 LeftGroupBox:AddToggle('FRo', {Text = 'Auto Drops', Default = false,Tooltip = ''})
 Toggles.FRo:OnChanged(function(State)
 FRo = Toggles.FRo.Value
