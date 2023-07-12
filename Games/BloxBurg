@@ -56,25 +56,14 @@ end
 local OrderIceCream = function(v)
     return {Flavor1 = v.Order.Flavor1.Value, Flavor2 = v.Order.Flavor2.Value, Topping = v.Order.Topping.Value}
 end
-local function Tween(Part, Position)
-    local Speed = 35
-    Part.PrimaryPart:FindFirstChildWhichIsA("BodyVelocity", true):Destroy()
-    local A = CFrame.new(Position.X, Position.Y, Position.Z)
-    local B = Instance.new('BodyVelocity', Part.PrimaryPart)
-    B.MaxForce = Vector3.new(9e9, 9e9, 9e9)
-    B.P = Speed
-    repeat
-        local to = (A.p - Part.PrimaryPart.Position).Unit * Speed
-        B.Velocity = to
-        wait()
-    until (Part.PrimaryPart.Position - A.Position).Magnitude <= 5
-    B.Velocity = Vector3.new(0, 0, 0)
-end
+
+local Hour = math.random(1,4)
+local Minute = math.random(20,59)
+local RandomTime = tostring(Hour) .. "h " .. tostring(Minute) .. "m"
+warn("Stopping At " .. RandomTime)
 spawn(function()
     while wait() do
-        if Player.PlayerGui.MainGUI.Bar.CharMenu.WorkFrame.WorkFrame.TimeLabel.TextLabel.Text:find("5h") then
-            game:Shutdown()
-        end
+        if Player.PlayerGui.MainGUI.Bar.CharMenu.WorkFrame.WorkFrame.TimeLabel.TextLabel.Text:find(tostring(RandomTime)) then return game:Shutdown() end
     end
 end)
 DisableConnection(Player.Idled)
