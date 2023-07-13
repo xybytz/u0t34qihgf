@@ -1,3 +1,5 @@
+local Table = {13985303823}
+if not table.find(Table, game.PlaceId) then return end
 repeat task.wait() until game:IsLoaded()
 local G = getgenv and getgenv() or _G or shared
 for i,v in next, game:GetChildren() do
