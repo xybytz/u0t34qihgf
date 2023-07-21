@@ -458,9 +458,9 @@ LeftGroupBox2:AddButton('Teleport to Selected World', function()
     end 
 end)
  
-LeftGroupBox2:AddDropdown('2222', {Values = Worlds, Default = 1, Multi = false, Text = 'Useable Healing Items', Tooltip = ''})
-Options.s222:OnChanged(function(String)
-    Type = Options.s222.Value
+LeftGroupBox2:AddDropdown('s2222', {Values = Worlds, Default = 1, Multi = false, Text = 'Useable Healing Items', Tooltip = ''})
+Options.s2222:OnChanged(function(String)
+    Type = Options.s2222.Value
 end)
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 LeftGroupBox2:AddToggle('ESP1', {Text = 'Esp Toggle', Default = false,Tooltip = ''})
