@@ -4,6 +4,9 @@ if not table.find(Table, game.PlaceId) then return end
 repeat
     wait()
 until game:IsLoaded()
+for i,v in next, getconnections(LogService.MessageOut) do
+    v:Enable()
+end
 wait()
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local CoreGui = game:GetService("CoreGui")
@@ -133,27 +136,39 @@ Players.PlayerAdded:Connect(
 local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__newindex", function(...)
     local Self, Key = ...
-    local WalkSpeed = Player.Character:FindFirstChildWhichIsA("Humanoid", true).WalkSpeed
-    local JumpPower = Player.Character:FindFirstChildWhichIsA("Humanoid", true).JumpPower
     if not checkcaller() then
-        if Self == WalkSpeed then
-            return WalkSpeed or 16 
-        elseif Self == JumpPower then
-            return JumpPower or 50
+        if Self.Name == "WalkSpeed" then
+            return Player.Character:FindFirstChildWhichIsA("Humanoid", true).WalkSpeed or 16 
+        elseif Self.Name == "JumpPower" then
+            return Player.Character:FindFirstChildWhichIsA("Humanoid", true).WalkSpeed or 50
         end
     end
     return OldNameCall(...)
 end)
 
-local RF, RE
+local RF, RE, SH, CE
 for i,v in next, getgc() do
     if type(v) == "function" and islclosure(v) then
         if debug.getinfo(v).name == "GetRemoteFunction" then
             RF = v 
         elseif debug.getinfo(v).name == "GetRemoteEvent" then
             RE = v
+        elseif debug.getinfo(v).name == "_startHarvest" then
+            SH = v
+        elseif debug.getinfo(v).name == "attemptToClaimEgg" then
+            CE = v
         end
     end
+end
+local Tween = function(A, B, C)
+    if A and B then
+        local Time = (B.Position - A.Position).Magnitude / C 
+        local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
+        local Tween = TweenService:Create(A, Info, {CFrame = CFrame.new(B.Position)})
+        Tween:Play()
+        Tween.Completed:Wait()
+    end
+    return A, B, C
 end
 
 local Healing = {}
@@ -285,9 +300,9 @@ Options.AlchemyFoods:OnChanged(function(String)
     AlchemyFoods = Options.AlchemyFoods.Value
 end)
 end
-LeftGroupBox:AddToggle('Collect', {Text = 'Auto Collect', Default = false,Tooltip = ''})
-Toggles.Collect:OnChanged(function(State)
-AutoCollect = Toggles.Collect.Value
+LeftGroupBox:AddToggle('sdfg', {Text = 'Auto Collect', Default = false,Tooltip = ''})
+Toggles.sdfg:OnChanged(function(State)
+AutoCollect = Toggles.sdfg.Value
     RunService.Stepped:connect(function()
         if AutoCollect then
             pcall(function()
@@ -300,14 +315,15 @@ AutoCollect = Toggles.Collect.Value
             pcall(function()
                 for i, v in pairs(Workspace.Interactions.Nodes.Harvest[CollectionItem].ActiveNodes:GetChildren()) do
                     if v:IsA("Model") and v:FindFirstChildWhichIsA("BasePart") and AutoCollect then
-                        Player.Character.HumanoidRootPart.CFrame =
-                            v:FindFirstChildWhichIsA("BasePart").CFrame * CFrame.new(40, 5, 0)
+                        if v.CurrentPlayer.Value ~= Player.Name and wait(3) then
+                            Player.Character.HumanoidRootPart.CFrame = v:FindFirstChildWhichIsA("BasePart").CFrame * CFrame.new(40, 5, 0)
+                            Tween(Player.Character:FindFirstChild("HumanoidRootPart"), v:FindFirstChildWhichIsA("BasePart").CFrame, 16)
+                        end
                         wait(1)
-                        repeat wait()
-                        Tween(Player.Character:FindFirstChild("HumanoidRootPart"), v:FindFirstChildWhichIsA("BasePart").CFrame, 16)
-                        wait(3)
-                        VirtualInputManager:SendKeyEvent(true, "E", false, game)
-                        until v == nil or AutoCollect == false or v:FindFirstChild("Harvested").Value == true and wait(6)
+                        if not v:FindFirstChild("Harvested").Value then
+                            SH(v)
+                        end
+                        wait(6)
                     end
                 end
             end)
@@ -342,7 +358,7 @@ AutoEgg = Toggles.Egg3.Value
                         if AutoEgg == false then
                             break
                         end
-                        VirtualInputManager:SendKeyEvent(true, "E", false, game)
+                        CE(v)
                         until v == nil or AutoEgg == false or v.Harvested.Value == true and wait(6)
                     end
                 end
