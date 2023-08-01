@@ -72,7 +72,7 @@ print("V.G Hub Took ", StarTime - EndTime, " To Load")
 
 
 local function Copy()
-    setclipboard("https://link-target.net/451794/support-me")
+    setclipboard("https://www.buymeacoffee.com/DekuDimz")
 end
 local Gang = Instance.new("BindableFunction")
 
