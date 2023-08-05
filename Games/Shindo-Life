@@ -1,0 +1,720 @@
+local Shindo = {
+    4616652839,
+    4601350214,
+    4601350394,
+    4601350656,
+    4601350809,
+    5431071837,
+    5447073001,
+    5084678830,
+    5431069982,
+    4601350760,
+    6341670805,
+    6505734854,
+    6901575446,
+    6984568732,
+    6986372023,
+    5451398863,
+    7214033433,
+    5451401540,
+    5307141034,
+    7534339269,
+    5451410109,
+    6593187011,
+    6593188260,
+    5743370338,
+    5664805984,
+    5664803952,
+    8184506020,
+    8472733618,
+    7923764447,
+    9310522814,
+    5451405681,
+    7524809704,
+    7524811367,
+    6602058266,
+    5255237254,
+    6602103757,
+    5824792748,
+    4616652839,
+    4601350214,
+    4601350394,
+    4601350656,
+    4601350809,
+    5431071837,
+    5447073001,
+    5431069982,
+    4601350760,
+    6341670805,
+    6505734854,
+    6901575446,
+    6984568732,
+    6986372023,
+    5451398863,
+    7214033433,
+    5451401540,
+    5307141034,
+    7534339269,
+    5451410109,
+    6593187011,
+    6593188260,
+    5743370338,
+    5664805984,
+    5664803952,
+    8184506020,
+    8472733618,
+    7923764447,
+    9310522814,
+    5451405681,
+    7524809704,
+    7524811367,
+    6602058266,
+    5255237254,
+    6602103757,
+    5824792748
+}
+
+if not table.find(Shindo, game.PlaceId) then
+    return
+end
+local npc = Workspace.npc 
+repeat wait() until Player:FindFirstChild("statz",true)
+local Stat = Player.statz
+local Keys = {}
+local Delete = {
+    "CCoff",
+    "custo",
+    "conquer",
+    "narutoshadowclone"
+}
+local Pcall = pcall(function()
+    for i,v in pairs(Delete) do
+        Workspace:FindFirstChild(v,true):Destroy()
+    end 
+end)
+local For = function(E)
+    return Stat.main[tostring(E)]
+end 
+
+local Key = function(Key)
+    return VirtualInputManager:SendKeyEvent(true,tostring(Key),true) and VirtualInputManager:SendKeyEvent(false,tostring(Key),false)
+end 
+
+local NoClip = function()
+    for i,v in next, Player.Character:GetChildren() do
+		if v:IsA("BasePart") then
+			v.CanCollide = false
+			v.Velocity = Vector3.new(0, 0, 0)
+		end
+	end
+end 
+
+for i,v in pairs(Stat.presetkeys:GetChildren()) do
+    if not table.find(Keys,v.Name) then
+        table.insert(Keys,v.Name)
+    end 
+end 
+
+local Old = pcall(function()
+    local Dungons = {}
+    for i=1,15 do 
+        table.insert(Dungons,"dungeon" .. i)
+    end 
+end)
+
+local ETable = {"element1", "element2", "element3", "element4"}
+local FTable = {"kg1", "kg2", "kg3", "kg4"}
+local Keys = {"T", "Y", "F", "G", "H", "Z", "C", "Q", "E", "V", "B", "N"}
+
+local Teleport = function (A)
+	Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame = A 
+end
+
+RunService.Stepped:Connect(function()
+	sethiddenproperty(Player, "SimulationRadius", 1000)	
+end)
+
+local Quests = {}
+for i,v in next, Workspace:GetDescendants() do
+    if v:IsA("Model") and v.Name == "missiongiver" and v:FindFirstChild("loggys") then
+        table.insert(Quests, v.timer.time.boss.Text)
+        warn(v.timer.time.boss.Text)
+    end
+end
+
+local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
+local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
+local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
+local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
+local Window = Library:CreateWindow({
+    Title = MarketplaceService:GetProductInfo(game.PlaceId).Name,
+    Center = true, 
+    AutoShow = true,
+})
+
+local Tabs = {
+    Main = Window:AddTab('Main'), 
+    ['UI Settings'] = Window:AddTab('UI Settings'),
+}
+
+local LeftGroupBox = Tabs.Main:AddLeftGroupbox('Groupbox')
+local Keys = Tabs.Main:AddLeftGroupbox('Groupbox')
+local RightGroupBox = Tabs.Main:AddRightGroupbox('Groupbox')
+local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
+
+
+LeftGroupBox:AddToggle('A2', {Text = 'Auto Logs', Default = false,Tooltip = 'Removed Ability to grip you one activated', Callback = function(A)
+Logs = A
+	spawn(function()
+		while Logs and wait() do
+			pcall(function()
+				Teleport(Workspace.npc.logtraining.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0))
+				Player.Character.combat.update:FireServer("mouse1", true)
+				Player.Character.combat.update:FireServer("mouse1", false)
+			end)
+		end
+	end)
+end})
+Toggles.A2:OnChanged(function()
+    Logs = Toggles.A2.Value
+end)
+
+
+if game.PlaceId == 7524809704 then
+	LeftGroupBox:AddToggle('A2', {Text = 'Auto Join Dungeon', Default = false,Tooltip = 'Trys to join dugeon', Callback = function(A)
+		Dungeon1 = A
+        spawn(function()
+            while wait() and Dungeon1 do
+                Player.pressplay:FireServer(Dungon)
+            end
+        end)
+	end})
+	Toggles.A2:OnChanged(function()
+		Dungeon1 = Toggles.A2.Value
+	end)
+	LeftGroupBox2:AddDropdown('MTD', {Values = Dungons, Default = 1, Multi = false, Text = 'Pick Dungon', Tooltip = '', Callback = function(A)
+		Dungon = A
+	end})
+
+	Options.MTD:OnChanged(function()
+		Dungon = Options.MTD.Value
+	end)
+end
+LeftGroupBox:AddToggle('A3', {Text = 'Auto Mobs', Default = false,Tooltip = 'Farms Mobs', Callback = function(A)
+AutoMobs = A
+	RunService.Stepped:Connect(function()
+		if AutoMobs then
+			NoClip()
+		end		
+	end)
+	spawn(function()
+		while AutoMobs and wait(0.1) do
+			pcall(function()
+                local Nig = Player.PlayerGui:FindFirstChild("Main"):FindFirstChild("ingame"):FindFirstChild("Missionstory")
+				if not Nig.Visible then
+					for i, v in pairs(Workspace.missiongivers:GetChildren()) do
+						if v:FindFirstChild("Head") and v.Head:FindFirstChild("givemission") and v.Head.givemission.Enabled and v.Head.givemission:FindFirstChild("color").Image == "http://www.roblox.com/asset/?id=5459241648" then
+							Teleport(CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -7, 3))
+							v:FindFirstChild("CLIENTTALK"):FireServer()
+							v:FindFirstChild("CLIENTTALK"):FireServer("accept")
+							break
+						end
+					end
+				end
+				if Nig.Visible then
+					for i, v in pairs(npc:GetChildren()) do
+						if v:IsA("Model") and v:FindFirstChild("npctype") and string.find(Nig.bg.name.Text,v.Head.mob.fram.name.info.Text) and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Head.CFrame.Y > -1000 then
+							Teleport(CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0,0,3)))
+							Player.Character.combat.update:FireServer("mouse1", true)  
+                            Player.Character.combat.update:FireServer("mouse1", false)
+                            local Anti = v:FindFirstChild("antiexploit", true)
+                            if Anti then 
+                                Anti:Destroy()
+                            end
+                            local Humanoid = v:FindFirstChildWhichIsA("Humanoid")
+                            if Humanoid.Health then
+                                Humanoid.Health = -9e9
+                            end 
+                            local fakehealth = v:FindFirstChild("fakehealth", true)
+                            if fakehealth then
+                                fakehealth.Value = -9e9 
+                            end
+                            wait(0.5)
+						end
+					end
+				end
+			end)
+		end
+	end)
+end})
+
+Toggles.A3:OnChanged(function()
+	AutoMobs = Toggles.A3.Value
+end)
+LeftGroupBox:AddToggle('B1', {Text = 'Auto Boss Quests', Default = false,Tooltip = 'Farms Boss Quests Mini "Bosses"', Callback = function(A)
+Boss = A
+    spawn(function()
+        while wait() and Boss do
+            pcall(function()
+                local Nig = Player.PlayerGui:FindFirstChild("Main"):FindFirstChild("ingame"):FindFirstChild("Missionstory")
+                if not Nig.Visible then
+                    for i,v in next, Workspace.bossdropmission.missions:GetChildren() do
+                        for i,v in next, v:GetChildren() do
+                            if v:IsA("Model") and v:FindFirstChild("loggys") and not Nig.Visible then
+                                Teleport(CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0,-7,0)))
+                                v:FindFirstChild("CLIENTTALK"):FireServer()
+							    v:FindFirstChild("CLIENTTALK"):FireServer("accept")
+                            end
+                        end
+                    end
+                end
+                if Nig.Visible then
+                    for i,v in next, Workspace.npc:GetChildren() do
+                        if v:IsA("Model") and v:FindFirstChild("npctype") and not v.Head.mob.fram.name.info.Text:find("Spirit") and not v:FindFirstChild("rpaw") and string.find(Nig.bg.name.Text, v.Head.mob.fram.name.info.Text) and v.Head.CFrame.Y > -1000 then
+                            Teleport(CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0,0,-3)))
+                            Player.Character.combat.update:FireServer("mouse1", true)  
+                            Player.Character.combat.update:FireServer("mouse1", false)
+                            local Anti = v:FindFirstChild("antiexploit", true)
+                            if Anti then 
+                                Anti:Destroy()
+                            end
+                            local Humanoid = v:FindFirstChildWhichIsA("Humanoid")
+                            if Humanoid.Health then
+                                Humanoid.Health = -9e9
+                            end 
+                            local fakehealth = v:FindFirstChild("fakehealth", true)
+                            if fakehealth then
+                                fakehealth.Value = -9e9 
+                            end
+                            wait(0.5)
+                        end
+                    end
+                end 
+            end)
+        end
+    end)
+end})
+
+Toggles.B1:OnChanged(function()
+	Boss = Toggles.B1.Value
+end)
+
+LeftGroupBox:AddToggle('A4', {Text = 'Semi Kill Aura', Default = false,Tooltip = 'Mob Has to be Damaged', Callback = function(A)
+Kill = A
+	spawn(function()
+		while Kill do wait()
+			pcall(function()
+				for i,v in pairs(npc:GetChildren()) do
+					if v:IsA("Model") and v:FindFirstChildWhichIsA("Humanoid") then
+						local Anti = v:FindFirstChild("antiexploit", true)
+						if Anti then 
+							Anti:Destroy()
+						end
+						local Humanoid = v:FindFirstChildWhichIsA("Humanoid")
+						if Humanoid.Health then
+							Humanoid.Health = 0 
+						end 
+						local fakehealth = v:FindFirstChild("fakehealth", true)
+						if fakehealth then
+							fakehealth.Value = 0 
+						end
+					end 
+				end 
+			end)
+		end 
+	end)
+end})
+
+Toggles.A4:OnChanged(function()
+	Kill = Toggles.A4.Value
+end)
+LeftGroupBox:AddToggle('A5', {Text = 'Auto Dungeon', Default = false,Tooltip = 'Farms Dungeon', Callback = function(A)
+Hope = A
+	RunService.Stepped:Connect(function()
+		if Hope then
+			NoClip()
+		end	
+	end)
+	spawn(function()
+		while Hope and wait() do
+			pcall(function()
+				for i, v in pairs(npc:GetChildren()) do
+					if v:IsA("Model") and v:FindFirstChild("npctype") and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Head.CFrame.Y > -1000 then
+						Teleport(CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -7, 3))
+						Player.Character.combat.update:FireServer("mouse1", true)
+					end
+				end
+			end)
+		end
+	end)
+end})
+Toggles.A5:OnChanged(function()
+	Hope = Toggles.A5.Value
+end)
+
+
+
+LeftGroupBox:AddToggle('A6', {Text = 'Maru Farm', Default = false,Tooltip = 'Farms Maru Event', Callback = function(A)
+	Bosses2 = A
+	RunService.Stepped:Connect(function()
+		if Bosses3 then
+			NoClip()
+		end
+    end)
+    spawn(function()
+        while Bosses2 and wait() do
+            pcall(function()
+                local Nig = Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory")
+                if not Nig.Visible then
+                    for i, v in pairs(Workspace.MARUmission.missions:GetChildren()) do
+                        if v:IsA("Model") then
+                            Teleport(CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -5, 3))
+                            wait(1)
+                            v:FindFirstChild("CLIENTTALK"):FireServer()
+                            v:FindFirstChild("CLIENTTALK"):FireServer("accept")
+                        end
+                    end
+                elseif Nig.Visible then
+                    for i, v in pairs(Workspace.npc:GetChildren()) do
+                        if v:IsA("Model") and v:FindFirstChild("npctype") and v.Head.CFrame.Y > -1000 then
+                            Teleport(CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -7, 3))
+                            wait(0.5)
+                            Player.Character.combat.update:FireServer("mouse1", true)
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+end})
+Toggles.A5:OnChanged(function()
+	Bosses2 = Toggles.A6.Value
+end)
+LeftGroupBox:AddToggle('B2', {Text = 'Happy Event Farm Gen 3', Default = false,Tooltip = 'farms Boss that Drop scrolls', Callback = function(A)
+    boo = A 
+    RunService.Stepped:Connect(function()
+        if boo then
+            NoClip()
+        end
+    end)
+    spawn(function()
+        while wait() and boo do
+           pcall(function()
+                local Nig = Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory")
+                if not Nig.Visible then
+                    for i,v in next, workspace.HAPPYmission.missions.Hollow4:GetChildren() do
+                        if v:IsA("Model") and v:FindFirstChild("loggys") and v:FindFirstChild("timer") then
+                            Teleport(CFrame.new(v:FindFirstChild("HumanoidRootPart").Position + Vector3.new(0,-7,0)))
+                            v:FindFirstChild("CLIENTTALK"):FireServer()
+                            v:FindFirstChild("CLIENTTALK"):FireServer("accept")
+                            wait(.5)
+                        end
+                    end
+                end
+                if Nig.Visible then
+                    for i,v in next, Workspace.npc:GetChildren() do
+                        if v:IsA("Model") and v:FindFirstChild("npctype") and v:FindFirstChild("bossdrop") and (string.find(v.Head.mob.fram.name.info.Text, "Happy")) and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Head.CFrame.Y > -1000 then
+                            Teleport(CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -7, 3)))
+                            Player.Character.combat.update:FireServer("mouse1", true)  
+                            Player.Character.combat.update:FireServer("mouse1", false)
+                            local Anti = v:FindFirstChild("antiexploit", true)
+                            if Anti then 
+                                Anti:Destroy()
+                            end
+                            local Humanoid = v:FindFirstChildWhichIsA("Humanoid")
+                            if Humanoid.Health then
+                                Humanoid.Health = -9e9
+                            end 
+                            local fakehealth = v:FindFirstChild("fakehealth", true)
+                            if fakehealth then
+                                fakehealth.Value = -9e9 
+                            end
+                            wait(0.5)
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+end})
+
+
+LeftGroupBox:AddToggle('A7', {Text = 'Tail Beast Farm', Default = false,Tooltip = 'Farms Tail Beast event', Callback = function(A)
+	Bosses3 = A
+	RunService.Stepped:Connect(function()
+		if Bosses3 then
+			NoClip()
+		end
+    end)
+    spawn(function()
+        while Bosses2 and wait() do
+            pcall(function()
+                local Nig = Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory")
+                if not Nig.Visible then
+                    for i, v in pairs(Workspace.MARUmission.missions:GetChildren()) do
+                        if v:IsA("Model") then
+                            Teleport(CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -5, 3))
+                            wait(1)
+                            v:FindFirstChild("CLIENTTALK"):FireServer()
+                            v:FindFirstChild("CLIENTTALK"):FireServer("accept")
+                        end
+                    end
+                elseif Nig.Visible then
+                    for i, v in pairs(Workspace.npc:GetChildren()) do
+                        if v:IsA("Model") and v:FindFirstChild("npctype") and v.Head.CFrame.Y > -1000 then
+                            Teleport(CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -7, 3))
+                            wait(0.5)
+                            Player.Character.combat.update:FireServer("mouse1", true)
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+end})
+Toggles.A7:OnChanged(function()
+	Bosses3 = Toggles.A7.Value
+end)
+Keys:AddToggle('A5', {Text = 'Auto Press Keybinds', Default = false,Tooltip = "Presses Skill Keys", Callback = function(A)
+    D = A
+    spawn(function()
+        while wait() and D do
+            for i,v in next, Keys do wait()
+                game:GetService("VirtualInputManager"):SendKeyEvent(true, v, false, game)
+            end
+        end
+    end)
+end})
+Keys:AddToggle('F1', {Text = 'Auto Rebirth', Default = false,Tooltip = "Sets your level to 0", Callback = function(A)
+    Rebirth = A
+    spawn(function()
+        while wait() and Rebirth do
+            if Player.statz.lvl:FindFirstChild("lvl").Value == 1000 and wait(1) then
+                Player.startevent:FireServer("rankup")
+            end
+        end
+    end)
+end})
+
+Toggles.F1:OnChanged(function(State)
+    Foe = Toggles.F1.Value 
+end)
+
+RightGroupBox:AddToggle('SSS', {Text = 'WalkSpeed Toggle',Default = false,Tooltip = '', Callback = function(A)
+WS = A 
+    RunService.Stepped:Connect(function()
+        if WS then
+			print(WalkSpeed)
+            Player.Character:FindFirstChildWhichIsA("Humanoid").WalkSpeed = WalkSpeed or 16
+        end
+    end)
+end})
+Toggles.SSS:OnChanged(function(State)
+    Foe = Toggles.SSS.Value 
+end)
+RightGroupBox:AddInput('SSF3', {Default = 'WalkSpeed',Numeric = true,Finished = false,Text = 'WalkSpeed',Tooltip = 'Numbers Only',Placeholder = 'WalkSpeed'})
+Options.SSF3:OnChanged(function(State)
+    WalkSpeed = Options.SSF3.Value
+end)
+
+RightGroupBox:AddToggle('EEE', {Text = 'JumpPower Toggle',Default = false,Tooltip = '', Callback = function(A)
+JP = A 
+    RunService.Stepped:Connect(function()
+        if JP then
+            pcall(function()
+                Player.Character:FindFirstChildWhichIsA("Humanoid").JumpPower = JumpPower or 50
+            end)
+        end
+    end)
+end})
+Toggles.EEE:OnChanged(function(State)
+    JP = Toggles.EEE.Value 
+end)
+RightGroupBox:AddInput('SSF1', {Default = 'JumpPower',Numeric = true,Finished = false,Text = 'JumpPower',Tooltip = 'Numbers Only',Placeholder = 'JumpPower'})
+
+Options.SSF1:OnChanged(function(State)
+    JumpPower = Options.SSF1.Value 
+end)
+
+
+RightGroupBox:AddToggle('vvS', {Text = 'Infinite Jump',Default =  InfiniteJump,Tooltip = '', Callback = function(A)
+InfiniteJump = A
+    UserInputService.JumpRequest:connect(function()
+        if InfiniteJump then
+            Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState("Jumping")
+        end
+    end)
+end})
+
+Toggles.vvS:OnChanged(function()
+    InfiniteJump = Toggles.vvS.Value 
+end)
+
+RightGroupBox:AddToggle('eeS', {Text = 'N NoClip',Default =  Sex2,Tooltip = '', Callback = function(A)
+noclips = A
+    RunService.Stepped:connect(function(v)
+        if noclips then
+            pcall(function()
+                NoClip2(Player.Character)
+            end)
+        end
+    end)
+end})
+Toggles.eeS:OnChanged(function()
+    noclips = Toggles.eeS.Value 
+end)
+
+RightGroupBox:AddToggle('aaS', {Text = 'H Fly',Default =  Sex,Tooltip = 'Fly By Pressing H', Callback = function(A)
+Sex = A
+local Max = 0
+local LP = Players.LocalPlayer
+local Mouse = LP:GetMouse()
+Mouse.KeyDown:connect(
+    function(k)
+        if k:lower() == "h" and Sex then
+            Max = Max + 1
+            getgenv().Fly = false
+            if Sex then
+                local T = LP.Character:FindFirstChild("UpperTorso",true) or LP.Character:FindFirstChild("HumanoidRootPart",true)
+                local S = {
+                    F = 0,
+                    B = 0,
+                    L = 0,
+                    R = 0
+                }
+                local S2 = {
+                    F = 0,
+                    B = 0,
+                    L = 0,
+                    R = 0
+                }
+                local SPEED = 5
+                local function FLY()
+                    getgenv().Fly = true
+                    local BodyGyro = Instance.new("BodyGyro", T)
+                    local BodyVelocity = Instance.new("BodyVelocity", T)
+                    BodyGyro.P = 9e4
+                    BodyGyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+                    BodyGyro.cframe = T.CFrame
+                    BodyVelocity.velocity = Vector3.new(0, 0, 0)
+                    BodyVelocity.maxForce = Vector3.new(9e9, 9e9, 9e9)
+                    spawn(
+                        function()
+                            repeat
+                                wait()
+                                LP.Character.Humanoid.PlatformStand = true
+                                if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
+                                    SPEED = 500
+                                elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
+                                    SPEED = 0
+                                end
+                                if (S.L + S.R) ~= 0 or (S.F + S.B) ~= 0 then
+                                    BodyVelocity.velocity =
+                                        ((Workspace.CurrentCamera.CoordinateFrame.lookVector * (S.F + S.B)) +
+                                        ((Workspace.CurrentCamera.CoordinateFrame *
+                                            CFrame.new(S.L + S.R, (S.F + S.B) * 0.2, 0).p) -
+                                            Workspace.CurrentCamera.CoordinateFrame.p)) *
+                                        SPEED
+                                    S2 = {
+                                        F = S.F,
+                                        B = S.B,
+                                        L = S.L,
+                                        R = S.R
+                                    }
+                                elseif (S.L + S.R) == 0 and (S.F + S.B) == 0 and SPEED ~= 0 then
+                                    BodyVelocity.velocity =
+                                        ((Workspace.CurrentCamera.CoordinateFrame.lookVector * (S2.F + S2.B)) +
+                                        ((Workspace.CurrentCamera.CoordinateFrame *
+                                            CFrame.new(S2.L + S2.R, (S2.F + S2.B) * 0.2, 0).p) -
+                                            Workspace.CurrentCamera.CoordinateFrame.p)) *
+                                        SPEED
+                                else
+                                    BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+                                end
+                                BodyGyro.cframe = Workspace.CurrentCamera.CoordinateFrame
+                            until not getgenv().Fly
+                            S = {
+                                F = 0,
+                                B = 0,
+                                L = 0,
+                                R = 0
+                            }
+                            S2 = {
+                                F = 0,
+                                B = 0,
+                                L = 0,
+                                R = 0
+                            }
+                            SPEED = 0
+                            BodyGyro:destroy()
+                            BodyVelocity:destroy()
+                            LP.Character.Humanoid.PlatformStand = false
+                        end
+                    )
+                end
+                Mouse.KeyDown:connect(
+                    function(k)
+                        if k:lower() == "w" then
+                            S.F = 1
+                        elseif k:lower() == "s" then
+                            S.B = -1
+                        elseif k:lower() == "a" then
+                            S.L = -1
+                        elseif k:lower() == "d" then
+                            S.R = 1
+                        end
+                    end
+                )
+                Mouse.KeyUp:connect(
+                    function(k)
+                        if k:lower() == "w" then
+                            S.F = 0
+                        elseif k:lower() == "s" then
+                            S.B = 0
+                        elseif k:lower() == "a" then
+                            S.L = 0
+                        elseif k:lower() == "d" then
+                            S.R = 0
+                        end
+                    end
+                )
+                FLY()
+                if Max == 2 then
+                    getgenv().Fly = false
+                    Max = 0
+                end
+            end
+        end
+    end
+)
+end})
+Toggles.aaS:OnChanged(function()
+    Sex = Toggles.aaS.Value 
+end)
+
+
+RightGroupBox:AddButton('ServerHop', function() ServerHop() end)
+RightGroupBox:AddButton('Rejoin', function() 
+    local Success, ErrorMessage = pcall(function()
+        Rejoin()
+    end)
+    if ErrorMessage and not Success then
+        warn(ErrorMessage)
+    elseif Success and not ErrorMessage then
+        print(Success)
+    end
+end)
+-- I set NoUI so it does not show up in the keybinds menu
+MenuGroup:AddButton('Unload', function() Library:Unload() end)
+MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = "RightControl", NoUI = true, Text = 'Menu keybind' }) 
+
+Library.ToggleKeybind = Options.MenuKeybind 
+ThemeManager:SetLibrary(Library)
+SaveManager:SetLibrary(Library)
+
+SaveManager:IgnoreThemeSettings() 
+SaveManager:SetIgnoreIndexes({ 'MenuKeybind' }) 
+ThemeManager:SetFolder('V.G Hub')
+SaveManager:SetFolder("V.G Hub/" .. game.PlaceId)
+SaveManager:BuildConfigSection(Tabs['UI Settings']) 
+ThemeManager:ApplyToTab(Tabs['UI Settings'])
