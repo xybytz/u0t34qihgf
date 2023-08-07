@@ -163,7 +163,94 @@ local RightGroupBox = Tabs.Main:AddRightGroupbox('Groupbox')
 local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
 
 
+if game.PlaceId == 4616652839 then
+local Bloods = {}
+for i,v in pairs(game:GetService("ReplicatedStorage").alljutsu:GetChildren()) do
+    if v:IsA("Folder") and v:FindFirstChild("KG") then
+        table.insert(Bloods,v.Name)
+    end
+end 
+local ELEMENT = {}
+for i,v in pairs(game:GetService("ReplicatedStorage").alljutsu:GetChildren()) do
+    if v:IsA("Folder") and v:FindFirstChild("ELEMENT") then
+        table.insert(ELEMENT,v.Name)
+    end
+end 
+local Er = {}
+for i,v in pairs(Player.statz.main:GetChildren()) do
+    if v.Name:find("element") then
+        table.insert(Er,v.Name)
+    end
+end
+local Er1 = {}
+for i,v in pairs(Player.statz.main:GetChildren()) do
+    if v.Name:find("kg") then
+        table.insert(Er1,v.Name)
+    end
+end
+LeftGroupBox:AddToggle('A2', {Text = 'Spin Element', Default = false,Tooltip = '', Callback = function(A)
+	Elment = A
+    spawn(function()
+        while wait() and Elment do
+            pcall(function()
+                if not string.find(Player.statz.main[elementslot].Value, wantedElement) and not Player.statz.main[elementslot]:FindFirstChild("dontspin") then
+                    Player.startevent:FireServer("spin", elementslot)
+                elseif not string.find(Player.statz.main[elementslot].Value, wantedElement) and Player.statz.spins.Value == 0 then
+                    warn("No Spins Left")
+                end
+            end)
+        end
+    end)
+end})
+LeftGroupBox:AddDropdown('Scroll', {Values = Er, Default = 1, Multi = false, Text = 'Element Slot', Tooltip = '', Callback = function(A)
+	elementslot = A
+end})
 
+Options.Scroll:OnChanged(function()
+	elementslot = Options.Scroll.Value
+end)
+
+LeftGroupBox:AddDropdown('Scroll2', {Values = Bloods, Default = 1, Multi = false, Text = 'Elements', Tooltip = '', Callback = function(A)
+	wantedElement = A
+end})
+
+Options.Scroll2:OnChanged(function()
+	wantedElement = Options.Scroll2.Value
+end)
+
+
+
+
+LeftGroupBox:AddToggle('A2', {Text = 'Spin BloodLine', Default = false,Tooltip = '', Callback = function(A)
+	Bloodd = A
+    spawn(function()
+        while wait() and Bloodd do
+            pcall(function()
+                if not string.find(Player.statz.main[bloodslots].Value, wantedBlood) and not Player.statz.main[bloodslots]:FindFirstChild("dontspin") then
+                    Player.startevent:FireServer("spin", bloodslots)
+                elseif not string.find(Player.statz.main[bloodslots].Value, wantedBlood) or Player.statz.spins.Value == 0 then
+                    warn("No Spins Left")
+                end
+            end)
+        end
+    end)
+end})
+LeftGroupBox:AddDropdown('Scroll3', {Values = Er1, Default = 1, Multi = false, Text = 'BloodLines Slot', Tooltip = '', Callback = function(A)
+	bloodslots = A
+end})
+
+Options.Scroll3:OnChanged(function()
+	bloodslots = Options.Scroll3.Value
+end)
+
+LeftGroupBox:AddDropdown('Scroll4', {Values = Bloods, Default = 1, Multi = false, Text = 'BloodLines', Tooltip = '', Callback = function(A)
+	wantedBlood = A
+end})
+
+Options.Scroll4:OnChanged(function()
+	wantedBlood = Options.Scroll4.Value
+end)
+end
 
 if game.PlaceId == 7524809704 then
 	LeftGroupBox:AddToggle('A2', {Text = 'Auto Join Dungeon', Default = false,Tooltip = 'Trys to join dugeon', Callback = function(A)
@@ -177,7 +264,7 @@ if game.PlaceId == 7524809704 then
 	Toggles.A2:OnChanged(function()
 		Dungeon1 = Toggles.A2.Value
 	end)
-	LeftGroupBox2:AddDropdown('MTD', {Values = Dungons, Default = 1, Multi = false, Text = 'Pick Dungon', Tooltip = '', Callback = function(A)
+	LeftGroupBox:AddDropdown('MTD', {Values = Dungons, Default = 1, Multi = false, Text = 'Pick Dungon', Tooltip = '', Callback = function(A)
 		Dungon = A
 	end})
 
