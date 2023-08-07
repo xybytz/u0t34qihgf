@@ -163,21 +163,6 @@ local RightGroupBox = Tabs.Main:AddRightGroupbox('Groupbox')
 local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
 
 
-LeftGroupBox:AddToggle('A2', {Text = 'Auto Logs', Default = false,Tooltip = 'Removed Ability to grip you one activated', Callback = function(A)
-Logs = A
-	spawn(function()
-		while Logs and wait() do
-			pcall(function()
-				Teleport(Workspace.npc.logtraining.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0))
-				Player.Character.combat.update:FireServer("mouse1", true)
-				Player.Character.combat.update:FireServer("mouse1", false)
-			end)
-		end
-	end)
-end})
-Toggles.A2:OnChanged(function()
-    Logs = Toggles.A2.Value
-end)
 
 
 if game.PlaceId == 7524809704 then
@@ -212,7 +197,7 @@ AutoMobs = A
 			pcall(function()
                 local Nig = Player.PlayerGui:FindFirstChild("Main"):FindFirstChild("ingame"):FindFirstChild("Missionstory")
 				if not Nig.Visible then
-					for i, v in pairs(Workspace.missiongivers:GetChildren()) do
+					for i, v in next, Workspace.missiongivers:GetChildren() do
 						if v:FindFirstChild("Head") and v.Head:FindFirstChild("givemission") and v.Head.givemission.Enabled and v.Head.givemission:FindFirstChild("color").Image == "http://www.roblox.com/asset/?id=5459241648" then
 							Teleport(CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -7, 3))
 							v:FindFirstChild("CLIENTTALK"):FireServer()
@@ -222,7 +207,7 @@ AutoMobs = A
 					end
 				end
 				if Nig.Visible then
-					for i, v in pairs(npc:GetChildren()) do
+					for i, v in next, npc:GetChildren() do
 						if v:IsA("Model") and v:FindFirstChild("npctype") and string.find(Nig.bg.name.Text,v.Head.mob.fram.name.info.Text) and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Head.CFrame.Y > -1000 then
 							Teleport(CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0,0,3)))
 							Player.Character.combat.update:FireServer("mouse1", true)  
@@ -264,6 +249,7 @@ Boss = A
                                 Teleport(CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0,-7,0)))
                                 v:FindFirstChild("CLIENTTALK"):FireServer()
 							    v:FindFirstChild("CLIENTTALK"):FireServer("accept")
+                                wait(0.5)
                             end
                         end
                     end
@@ -304,7 +290,7 @@ Kill = A
 	spawn(function()
 		while Kill do wait()
 			pcall(function()
-				for i,v in pairs(npc:GetChildren()) do
+				for i,v in next, npc:GetChildren() do
 					if v:IsA("Model") and v:FindFirstChildWhichIsA("Humanoid") then
 						local Anti = v:FindFirstChild("antiexploit", true)
 						if Anti then 
@@ -338,7 +324,7 @@ Hope = A
 	spawn(function()
 		while Hope and wait() do
 			pcall(function()
-				for i, v in pairs(npc:GetChildren()) do
+				for i, v in next, npc:GetChildren() do
 					if v:IsA("Model") and v:FindFirstChild("npctype") and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Head.CFrame.Y > -1000 then
 						Teleport(CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -7, 3))
 						Player.Character.combat.update:FireServer("mouse1", true)
@@ -366,7 +352,7 @@ LeftGroupBox:AddToggle('A6', {Text = 'Maru Farm', Default = false,Tooltip = 'Far
             pcall(function()
                 local Nig = Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory")
                 if not Nig.Visible then
-                    for i, v in pairs(Workspace.MARUmission.missions:GetChildren()) do
+                    for i, v in next, Workspace.MARUmission.missions:GetChildren() do
                         if v:IsA("Model") then
                             Teleport(CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -5, 3))
                             wait(1)
@@ -375,7 +361,7 @@ LeftGroupBox:AddToggle('A6', {Text = 'Maru Farm', Default = false,Tooltip = 'Far
                         end
                     end
                 elseif Nig.Visible then
-                    for i, v in pairs(Workspace.npc:GetChildren()) do
+                    for i, v in next, npc:GetChildren() do
                         if v:IsA("Model") and v:FindFirstChild("npctype") and v.Head.CFrame.Y > -1000 then
                             Teleport(CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -7, 3))
                             wait(0.5)
@@ -451,7 +437,7 @@ LeftGroupBox:AddToggle('A7', {Text = 'Tail Beast Farm', Default = false,Tooltip 
             pcall(function()
                 local Nig = Player.PlayerGui:WaitForChild("Main"):WaitForChild("ingame"):WaitForChild("Missionstory")
                 if not Nig.Visible then
-                    for i, v in pairs(Workspace.MARUmission.missions:GetChildren()) do
+                    for i, v in next, Workspace.MARUmission.missions:GetChildren() do
                         if v:IsA("Model") then
                             Teleport(CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -5, 3))
                             wait(1)
@@ -460,7 +446,7 @@ LeftGroupBox:AddToggle('A7', {Text = 'Tail Beast Farm', Default = false,Tooltip 
                         end
                     end
                 elseif Nig.Visible then
-                    for i, v in pairs(Workspace.npc:GetChildren()) do
+                    for i, v in next, Workspace.npc:GetChildren() do
                         if v:IsA("Model") and v:FindFirstChild("npctype") and v.Head.CFrame.Y > -1000 then
                             Teleport(CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0, -7, 3))
                             wait(0.5)
@@ -504,8 +490,9 @@ RightGroupBox:AddToggle('SSS', {Text = 'WalkSpeed Toggle',Default = false,Toolti
 WS = A 
     RunService.Stepped:Connect(function()
         if WS then
-			print(WalkSpeed)
-            Player.Character:FindFirstChildWhichIsA("Humanoid").WalkSpeed = WalkSpeed or 16
+            pcall(function()
+                Player.Character:FindFirstChildWhichIsA("Humanoid").WalkSpeed = WalkSpeed or 16
+            end)
         end
     end)
 end})
