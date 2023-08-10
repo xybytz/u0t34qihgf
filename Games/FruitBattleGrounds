@@ -1,12 +1,12 @@
 
-repeat wait(9e9) until game 
+repeat wait() until game:IsLoaded()
 local Numbers = {
     49,
     50,
     51,
     52
 }
-local VirtualInputManager = game:GetService("VirtualInputManager")
+local VirtualInputManager = Instance.new("VirtualInputManager")
 
 local d = Instance.new("Part")
 d.Name = "Ro"
@@ -26,7 +26,6 @@ local Respawn = function() -- Stolen LOL
     end
 end
 
-DisableConnection(Player,"Idled")
 
 RunService.Stepped:connect(
     function()
