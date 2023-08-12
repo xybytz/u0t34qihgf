@@ -1,4 +1,3 @@
-
 local Chests = Workspace.Chests
 local DamageParts = Workspace.DamageParts
 local Effect = Workspace.Effects
@@ -302,7 +301,25 @@ end})
 Options.Mobs1:OnChanged(function(S)
     ddd = Options.Mobs1.Value
 end)
-
+LeftGroupBox:AddToggle('Kill', {Text = 'Kill Aura', Default = false,Tooltip = '', Callback = function(A)
+    Toggt = A
+    spawn(function()
+        while wait() and Toggt do
+            pcall(function()
+                for i,v in next, Live:GetChildren() do
+                    if v:IsA("Model") and v:FindFirstChild("Humanoid").Health ~= 0 then
+                        if v.Humanoid.Health < v.Humanoid.MaxHealth and Mag(v:GetModelCFrame(), Player.Character:GetModelCFrame()) < 100 then
+                            v.Humanoid.Health = 0
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+end})
+Toggles.Kill:OnChanged(function()
+    Toggt = Toggles.Kill.Value 
+end)
 LeftGroupBox:AddToggle('Autoquest', {Text = 'Auto Quest', Default = false,Tooltip = '', Callback = function(A)
     Go = A
     RunService.Stepped:Connect(function()
