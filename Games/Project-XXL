@@ -1,0 +1,831 @@
+local Chests = Workspace.Chests
+local DamageParts = Workspace.DamageParts
+local Effect = Workspace.Effects
+local Live = Workspace.Live
+local Map = Workspace.Map
+local NPCS = Workspace.NPCS
+local QuestMarkers = Workspace.QuestMarkers
+local Drops = Workspace.Drops
+local QuestBoards = Workspace.QuestBoards
+local PlayerValues = Player.PlayerValues
+
+RunService.Stepped:Connect(function()
+    sethiddenproperty(Player, "SimulationRadius", 1000)
+end)
+
+local Mobs = {}
+for i,v in next, Live:GetChildren() do
+    if v:IsA("Model") and not v:FindFirstChild("RaidBoss") and not table.find(Mobs, v.Name) then
+        table.insert(Mobs, v.Name)
+    end
+end
+local Quests = {}
+for i,v in next, Player.Quests:GetChildren() do
+    if not table.find(Quests, v.Name) then
+        table.insert(Quests, v.Name)
+    end
+end
+local Codes = {}
+for i,v in next, Player.Codes:GetChildren() do
+    if not table.find(Codes, v.Name) then
+        table.insert(Codes, v.Name)
+    end
+end
+local Boss = {}
+for i,v in next, Workspace.Live:GetChildren() do
+    if v:IsA("Model") and v:FindFirstChild("RaidBoss") and not table.find(Boss, v.Name) then
+        table.insert(Boss, v.Name)
+    end
+end
+table.sort(Boss)
+table.sort(Codes)
+table.sort(Quests)
+table.sort(Mobs)
+local Fruits = {
+    Common = {
+        "Nagi Nagi no mi",
+        "Suke Suke no mi",
+        "Guru Guru no mi",
+        "Sube Sube no mi",
+        "Dark Magic (Simon)",
+        "Purple Flare",
+        "Airwalk",
+        "Blaze",
+    },
+    Rare = {
+        "Mera Mera no mi",
+        "Zushi Zushi no mi",
+        "Goro Goro no mi",
+        "Suna Suna no mi",
+        "Moku Moku no mi",
+        "Yami Yami no mi",
+        "Gomu Gomu no mi",
+        "Pika Pika no mi",
+        "Hie Hie no mi",
+        "Gura Gura no mi",
+        "Blueflame",
+    },
+    Legendary = {
+        "Anti Magic",
+        "Sunshine (Escanor)",
+        "Lightning Dragon Slayer Magic",
+        "Fire Dragon Slayer Magic",
+        "Fire Dragon Slayer Magic v2",
+        "One For All: Prime",
+    }
+}
+local Specializations = {
+    "Haoshoku Haki",
+    "Flashstep",
+    "Kenbunshoku Haki",
+    "Sonido",
+    "Busoshoku Haki",
+}
+local Races = {
+    "Human",
+    "Kumate Tribe",
+    "Skypiean",
+    "Dodoria's Race",
+    "Burter's Race",
+    "Namekian",
+    "Saiyan",
+    "Frieza Race (First Form)",
+    "Bojack's Race",
+    "Android",
+    "Uzumaki Clan",
+    "Cerealian",
+    "Hybrid Saiyan",
+    "Angel (In Training)",
+    "Demon",
+    "Fanalis",
+    "Lunarian",
+    "Mink",
+    "Angel",
+    "Baby (Possessed)",
+    "Heeter Race",
+    "Toppo's Race",
+    "Beerus' Race",
+}
+local Credit = {}
+for i,v in next, Workspace.GameStuff:GetChildren() do
+    local A = v:FindFirstChild("Overhead", true)
+    if A ~= nil then
+        table.insert(Credit, A.Parent.Parent)
+    end
+end
+
+local removeCommon = function(A)
+    for i,v in next, Player.Backpack:GetChildren() do
+        if v:IsA("Tool") and table.find(Fruits.Common, v.Name) then
+            v.Parent = nil
+        end
+    end
+end
+local removeRare = function(A)
+    for i,v in next, Player.Backpack:GetChildren() do
+        if v:IsA("Tool") and table.find(Fruits.Rare, v.Name) then
+            v.Parent = nil
+        end
+    end
+end
+local removeCommonBags = function()
+    for i,v in next, Player.Backpack:GetChildren() do
+        if v:IsA("Tool") and v:FindFirstChild("Rarity", true) and v:FindFirstChild("Rarity", true).Text == "Common" then
+            v.Parent = nil
+        end
+    end
+end
+local removeUnCommonBags = function()
+    for i,v in next, Player.Backpack:GetChildren() do
+        if v:IsA("Tool") and v:FindFirstChild("Rarity", true) and v:FindFirstChild("Rarity", true).Text == "Uncommon" then
+            v.Parent = nil
+        end
+    end
+end
+
+local RemoveRokakaka = function()
+    for i,v in next, Player.Backpack:GetChildren() do
+        if v.Name == "Rokakaka" then
+            v.Parent = nil 
+        end
+    end
+end
+
+local RemovePaper = function()
+    for i,v in next, Player.Backpack:GetChildren() do
+        if v.Name == "Newspaper" then
+            v.Parent = nil 
+        end
+    end
+end
+
+local removeRareBags = function()
+    for i,v in next, Player.Backpack:GetChildren() do
+        if v:IsA("Tool") and v:FindFirstChild("Rarity", true) and v:FindFirstChild("Rarity", true).Text == "Rare" then
+            v.Parent = nil
+        end
+    end
+end
+
+local Checkrace = function()
+    return Player.PlayerValues.Race.Value 
+end
+local RollRace = function(A)
+    if A ~= Player.PlayerValues.Race.Value  then
+        for i,v in next, Player.Backpack:GetChildren() do
+            if v:IsA("Tool") and v:FindFirstChild("Heart", true) then
+                Player.Character:FindFirstChildWhichIsA("Humanoid"):EquipTool(v)
+                ReplicatedStorage:WaitForChild("RemoteEvents"):FindFirstChild("ItemRemote"):FireServer()
+                break
+            elseif not v:IsA("Tool") and not v:FindFirstChild("Heart", true) then
+                ReplicatedStorage:WaitForChild("RemoteEvents"):FindFirstChild("RaceSpinRemote"):FireServer(1)
+                break
+            end
+        end
+    end
+end
+
+local NoCliper = function()
+    for i,v in next, Player.Character:GetChildren() do
+        if v:IsA("BasePart") then
+            v.CanCollide = false
+            v.Velocity = Vector3.new(0,0,0)
+        end
+    end
+    return Player.Character
+end
+
+local Teleport = function(A)
+    Player.Character:FindFirstChild("HumanoidRootPart").CFrame = A 
+end
+local Hit = function(A)
+    ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("BladeCombatRemote"):FireServer(false, Vector3.new(A:FindFirstChildWhichIsA("BasePart").Position), CFrame.new(A:FindFirstChildWhichIsA("BasePart").Position))
+end
+local Equip = function()
+    if Player.Character:FindFirstChildWhichIsA("Tool", true) then
+        Player.Character.Humanoid:UnequipTools()
+    end
+    if not Player.Character:FindFirstChildWhichIsA("Tool", true) then
+        local v = Player.Backpack:FindFirstChild("Combat Script", true).Parent
+        Player.Character.Humanoid:EquipTool(v) 
+    end
+end
+local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/LinoriaLib/main/Library.lua"))()
+local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
+local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
+local Window = Library:CreateWindow({
+    Title = MarketplaceService:GetProductInfo(game.PlaceId).Name,
+    Center = true, 
+    AutoShow = true,
+})
+
+local Tabs = {
+    Main = Window:AddTab('Main'), 
+    Auto = Window:AddTab('Auto Delete'),
+    ['UI Settings'] = Window:AddTab('UI Settings'),
+}
+
+local LeftGroupBox = Tabs.Main:AddLeftGroupbox('AutoFarms')
+local RightGroupBox = Tabs.Main:AddRightGroupbox('Quick Misc')
+local AutoDelete = Tabs.Auto:AddLeftGroupbox('Delete')
+local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
+
+LeftGroupBox:AddToggle('AutoFarming', {Text = 'Auto Mob', Default = false,Tooltip = '', Callback = function(A)
+    H = A
+    RunService.Stepped:Connect(function()
+        pcall(function()
+            if H then
+                NoCliper()
+            end
+        end)
+    end)
+    spawn(function()
+        while wait(.1) and H do 
+            pcall(function()
+                for i,v in next, Live:GetChildren() do
+                    if v:IsA("Model") and v.Name == ddd and v.Humanoid.Health ~= 0 then
+                        Teleport(CFrame.new(v:GetModelCFrame().Position + Vector3.new(0,-7,0)))
+                        Equip()
+                        Hit(v)
+                        if v.Humanoid.Health < v.Humanoid.MaxHealth then
+                            v.Humanoid.Health = 0
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+end})
+Toggles.AutoFarming:OnChanged(function(State)
+    H = Toggles.AutoFarming.Value 
+end)
+
+LeftGroupBox:AddToggle('AutoBoss', {Text = 'Auto Boss', Default = false,Tooltip = '', Callback = function(A)
+    ASSF = A
+    RunService.Stepped:Connect(function()
+        pcall(function()
+            if ASSF then
+                NoCliper()
+            end
+        end)
+    end)
+    spawn(function()
+        while wait() and ASSF do 
+            pcall(function()
+                for i,v in next, Live:GetChildren() do
+                    if v:IsA("Model") and v.Humanoid.Health ~= 0 and v:FindFirstChild("RaidBoss", true) then
+                        Teleport(CFrame.new(v:GetModelCFrame().Position + Vector3.new(0,-7,0)))
+                        Equip()
+                        Hit(v)
+                        if v.Humanoid.Health < v.Humanoid.MaxHealth and Mag(Player.Character:GetModelCFrame(), v:GetModelCFrame()) < 50 then
+                            v.Humanoid.Health = 0
+                        end
+                        wait(.5)
+                        if v.Humanoid.Health == 0 then
+                            Teleport(CFrame.new(1000, 50000, 1000))
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+end})
+Toggles.AutoBoss:OnChanged(function()
+    H = Toggles.AutoBoss.Value 
+end)
+
+LeftGroupBox:AddDropdown('Mobs1', {Values = Mobs, Default = 1, Multi = false, Text = 'Mobs', Tooltip = '', Callback = function(A)
+    ddd = A
+end})
+Options.Mobs1:OnChanged(function(S)
+    ddd = Options.Mobs1.Value
+end)
+
+LeftGroupBox:AddToggle('Autoquest', {Text = 'Auto Quest', Default = false,Tooltip = '', Callback = function(A)
+    Go = A
+    RunService.Stepped:Connect(function()
+        pcall(function()
+            if Go then
+                NoCliper()
+            end
+        end)
+    end)
+    spawn(function()
+        while wait(.1) and Go do 
+            pcall(function()
+                local Quest = Player.PlayerGui.Menu.QuestFrame
+                if not Quest.Visible then
+                    Teleport(CFrame.new(QuestBoards:FindFirstChild(Quest1, true).Position + Vector3.new(0, -20, 0)))
+                    wait(1)
+                    fireclickdetector(QuestBoards:FindFirstChild(Quest1, true).ClickDetector)
+                end
+                if Quest.Visible then
+                    for i,v in next, Live:GetChildren() do
+                        if string.find(Quest.QuestName.Text, v.Name) and v:FindFirstChild("Humanoid") and v.Humanoid.Health ~= 0 and v:FindFirstChildWhichIsA("ForceField", true) then
+                            Teleport(CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0,-7,0)))
+                            Equip()
+                            Hit(v)
+                            if v.Humanoid.Health < v.Humanoid.MaxHealth and Mag(Player.Character:GetModelCFrame(), v:GetModelCFrame()) < 50 then
+                                v.Humanoid.Health = 0
+                            end
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+end})
+Toggles.Autoquest:OnChanged(function()
+    Go = Toggles.Autoquest.Value 
+end)
+LeftGroupBox:AddDropdown('Que', {Values = Quests, Default = 1, Multi = false, Text = 'Quests1', Tooltip = '', Callback = function(A)
+    Quest1 = A
+end})
+Options.Que:OnChanged(function()
+    Quest1 = Options.Que.Value
+end)
+
+LeftGroupBox:AddToggle('FTH', {Text = 'Auto use DragonBalls', Default = false,Tooltip = '', Callback = function(A)
+    Dragoon = A
+    spawn(function()
+        while Dragoon and wait() do
+            pcall(function()
+                local A = Player
+                local K = Player.PlayerValues
+                if K.DragonBall1.Value == false and A.Backpack:FindFirstChild("One Star Dragonball") then
+                    A.Character.Humanoid:EquipTool(A.Backpack["One Star Dragonball"])
+                    ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+                elseif K.DragonBall2.Value == false and A.Backpack:FindFirstChild("Two Star Dragonball") then
+                    A.Character.Humanoid:EquipTool(A.Backpack["Two Star Dragonball"])
+                    ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+                elseif K.DragonBall3.Value == false and A.Backpack:FindFirstChild("Three Star Dragonball")  then
+                    A.Character.Humanoid:EquipTool(A.Backpack["Three Star Dragonball"])
+                    ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+                elseif K.DragonBall4.Value == false and A.Backpack:FindFirstChild("Four Star Dragonball")  then
+                    A.Character.Humanoid:EquipTool(A.Backpack["Four Star Dragonball"])
+                    ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+                elseif K.DragonBall5.Value == false and A.Backpack:FindFirstChild("Five Star Dragonball") then
+                    A.Character.Humanoid:EquipTool(A.Backpack["Five Star Dragonball"])
+                    ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+                elseif K.DragonBall6.Value == false and A.Backpack:FindFirstChild("Six Star Dragonball") then
+                    A.Character.Humanoid:EquipTool(A.Backpack["Six Star Dragonball"])
+                    ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+                elseif K.DragonBall7.Value == false and A.Backpack:FindFirstChild("Seven Star Dragonball") then
+                    A.Character.Humanoid:EquipTool(A.Backpack["Seven Star Dragonball"])
+                    ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+                end
+            end)
+        end
+    end)
+end})
+
+Toggles.FTH:OnChanged(function()
+    Dragoon = Toggles.FTH.Value 
+end)
+
+LeftGroupBox:AddToggle('DTRE', {Text = 'Auto Prestige', Default = false,Tooltip = '', Callback = function(A)
+    DoingIt = A
+    spawn(function()
+        while wait() and DoingIt do
+            pcall(function()
+                if Player.PlayerValues.Level.Value >= 1000 then
+                    ReplicatedStorage.RemoteEvents.PrestigeRemote:FireServer("PC")
+                end
+            end)
+        end
+    end)
+end})
+
+Toggles.DTRE:OnChanged(function()
+    DoingIt = Toggles.DTRE.Value 
+end)
+
+
+LeftGroupBox:AddToggle('Tof', {Text = 'Auto Chests', Default = false,Tooltip = '', Callback = function(A)
+    Tof = A
+    RunService.Stepped:Connect(function()
+        pcall(function()
+            if Tof then
+                NoCliper()
+            end
+        end)
+    end)
+    spawn(function()
+        while wait() and Tof do
+            pcall(function()
+                for i,v in next, Chests:GetChildren() do
+                    if v.Transparency == 0 then
+                        Teleport(CFrame.new(v.Position + Vector3.new(0, 2, 0)))
+                        firetouchinterest(Player.Character.HumanoidRootPart, v, 0)
+                        firetouchinterest(Player.Character.HumanoidRootPart, v, 1)
+                        break
+                    end
+                end
+            end)
+        end
+    end)
+end})
+Toggles.Tof:OnChanged(function(State)
+    Tof = Toggles.Tof.Value 
+end)
+
+LeftGroupBox:AddToggle('NIG', {Text = 'Auto Skills', Default = false,Tooltip = '', Callback = function(A)
+    NIG = A
+    spawn(function()
+        while wait() and NIG do
+            pcall(function()
+                for i,v in next, {"X", "Z", "C", "V", "R", "E"} do
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true,v,false,game,0)
+                end
+            end)
+        end
+    end)
+end})
+Toggles.NIG:OnChanged(function(State)
+    NIG = Toggles.NIG.Value 
+end)
+LeftGroupBox:AddToggle('FRo', {Text = 'Auto Drops', Default = false,Tooltip = '', Callback = function(A)
+    FRo = A
+    spawn(function()
+        while wait() and FRo do
+            pcall(function()
+                for i,v in next, Drops:GetChildren() do
+                    v.Handle.CFrame = Player.Character.HumanoidRootPart.CFrame
+                end
+            end)
+        end
+    end)
+end})
+Toggles.FRo:OnChanged(function(State)
+    FRo = Toggles.FRo.Value
+end)
+
+AutoDelete:AddToggle('SDFW', {Text = 'Remove NewsPaper', Default = false,Tooltip = '', Callback = function(A)
+    DFGH = A
+    spawn(function()
+        while wait() and DFGH do
+            pcall(function()
+                RemovePaper()
+            end)
+        end
+    end)
+end})
+Toggles.SDFW:OnChanged(function()
+    DFGH = Toggles.SDFW.Value
+end)
+
+AutoDelete:AddToggle('FGHT', {Text = 'Remove Rokakaka', Default = false,Tooltip = '', Callback = function(A)
+    GFDC = A
+    spawn(function()
+        while wait() and GFDC do
+            pcall(function()
+                RemoveRokakaka()
+            end)
+        end
+    end)
+end})
+Toggles.FGHT:OnChanged(function()
+    GFDC = Toggles.FGHT.Value
+end)
+
+AutoDelete:AddToggle('RRR', {Text = 'Remove Common Fruits', Default = false,Tooltip = '', Callback = function(A)
+    RRR = A
+    spawn(function()
+        while wait() and RRR do
+            pcall(function()
+                removeCommon()
+            end)
+        end
+    end)
+end})
+Toggles.RRR:OnChanged(function()
+    RRR = Toggles.RRR.Value
+end)
+
+AutoDelete:AddToggle('SDFD', {Text = 'Remove Rare Fruits', Default = false,Tooltip = '', Callback = function(A)
+    SDF = A
+    spawn(function()
+        while wait() and SDF do
+            pcall(function()
+                removeRare()
+            end)
+        end
+    end)
+end})
+Toggles.SDFD:OnChanged(function()
+    SDF = Toggles.SDFD.Value
+end)
+
+AutoDelete:AddToggle('TTT', {Text = 'Remove Common Bags', Default = false,Tooltip = '', Callback = function(A)
+    TTT = A
+    spawn(function()
+        while wait() and TTT do
+            pcall(function()
+                removeCommonBags()
+            end)
+        end
+    end)
+end})
+Toggles.TTT:OnChanged(function()
+    TTT = Toggles.TTT.Value
+end)
+
+AutoDelete:AddToggle('Sex', {Text = 'Remove UnCommon Bags', Default = false,Tooltip = '', Callback = function(A)
+    Sex = A
+    spawn(function()
+        while wait() and Sex do
+            pcall(function()
+                removeUnCommonBags()
+            end)
+        end
+    end)
+end})
+Toggles.Sex:OnChanged(function()
+    Sex = Toggles.Sex.Value
+end)
+
+AutoDelete:AddToggle('SDX', {Text = 'Remove Rare Bags', Default = false,Tooltip = '', Callback = function(A)
+    cD = A
+    spawn(function()
+        while wait() and cD do
+            pcall(function()
+                removeRareBags()
+            end)
+        end
+    end)
+end})
+Toggles.SDX:OnChanged(function()
+    cD = Toggles.SDX.Value
+end)
+
+RightGroupBox:AddToggle('Roll', {Text = 'ReRoll Race', Default = false,Tooltip = '', Callback = function(A)
+    Roll = A
+    spawn(function()
+        while wait() and Roll do
+            RollRace(Races1)    
+        end
+    end)
+end})
+Toggles.Roll:OnChanged(function()
+    Roll = Toggles.Roll.Value 
+end)
+RightGroupBox:AddDropdown('Races', {Values = Races, Default = 1, Multi = false, Text = 'Races', Tooltip = '', Callback = function(A)
+    Races1 = A
+end})
+
+Options.Races:OnChanged(function()
+    Races1 = Options.Races.Value
+end)
+local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
+RightGroupBox:AddToggle('ESP1', {Text = 'Esp Toggle', Default = false,Tooltip = '', Callback = function(A)
+    ESP:Toggle(A)
+end})
+Toggles.ESP1:OnChanged(function(State)
+    ESP:Toggle(Toggles.ESP1.Value)
+end)
+
+RightGroupBox:AddToggle('ESP2', {Text = 'Esp Players', Default = false,Tooltip = '', Callback = function(A)
+    ESP.Players = A
+end})
+Toggles.ESP2:OnChanged(function(State)
+    ESP.Players = Toggles.ESP2.Value
+end)
+
+RightGroupBox:AddToggle('ESP3', {Text = 'Esp Tracers', Default = false,Tooltip = '', Callback = function(A)
+    ESP.Tracers = A
+end})
+Toggles.ESP3:OnChanged(function(State)
+    ESP.Tracers = Toggles.ESP3.Value
+end)
+
+RightGroupBox:AddToggle('ESP4', {Text = 'Esp Names', Default = false,Tooltip = '', Callback = function(A)
+    ESP.EspNames = A
+end})
+Toggles.ESP4:OnChanged(function(State)
+    ESP.EspNames = Toggles.ESP4.Value
+end)
+
+RightGroupBox:AddToggle('ESP5', {Text = 'Esp Boxes', Default = false,Tooltip = '', Callback = function(A)
+    ESP.Boxes = A
+end})
+Toggles.ESP5:OnChanged(function(State)
+    ESP.Boxes = Toggles.ESP5.Value
+end)
+
+RightGroupBox:AddToggle('SSS', {Text = 'WalkSpeed Toggle',Default = false,Tooltip = '', Callback = function(A)
+WS = A 
+    RunService.Stepped:Connect(function()
+        if WS then
+			print(WalkSpeed)
+            Player.Character:FindFirstChildWhichIsA("Humanoid").WalkSpeed = WalkSpeed or 16
+        end
+    end)
+end})
+Toggles.SSS:OnChanged(function(State)
+    Foe = Toggles.SSS.Value 
+end)
+RightGroupBox:AddInput('SSF3', {Default = 'WalkSpeed',Numeric = true,Finished = false,Text = 'WalkSpeed',Tooltip = 'Numbers Only',Placeholder = 'WalkSpeed'})
+Options.SSF3:OnChanged(function(State)
+    WalkSpeed = Options.SSF3.Value
+end)
+
+RightGroupBox:AddToggle('EEE', {Text = 'JumpPower Toggle',Default = false,Tooltip = '', Callback = function(A)
+JP = A 
+    RunService.Stepped:Connect(function()
+        if JP then
+            pcall(function()
+                Player.Character:FindFirstChildWhichIsA("Humanoid").JumpPower = JumpPower or 50
+            end)
+        end
+    end)
+end})
+Toggles.EEE:OnChanged(function(State)
+    JP = Toggles.EEE.Value 
+end)
+RightGroupBox:AddInput('SSF1', {Default = 'JumpPower',Numeric = true,Finished = false,Text = 'JumpPower',Tooltip = 'Numbers Only',Placeholder = 'JumpPower'})
+
+Options.SSF1:OnChanged(function(State)
+    JumpPower = Options.SSF1.Value 
+end)
+
+
+RightGroupBox:AddToggle('vvS', {Text = 'Infinite Jump',Default =  InfiniteJump,Tooltip = '', Callback = function(A)
+InfiniteJump = A
+    UserInputService.JumpRequest:connect(function()
+        if InfiniteJump then
+            Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState("Jumping")
+        end
+    end)
+end})
+
+Toggles.vvS:OnChanged(function()
+    InfiniteJump = Toggles.vvS.Value 
+end)
+
+RightGroupBox:AddToggle('eeS', {Text = 'N NoClip',Default =  Sex2,Tooltip = '', Callback = function(A)
+noclips = A
+    RunService.Stepped:connect(function(v)
+        if noclips then
+            pcall(function()
+                NoClip2(Player.Character)
+            end)
+        end
+    end)
+end})
+Toggles.eeS:OnChanged(function()
+    noclips = Toggles.eeS.Value 
+end)
+
+RightGroupBox:AddToggle('aaS', {Text = 'H Fly',Default =  Sex,Tooltip = 'Fly By Pressing H', Callback = function(A)
+Sex = A
+local Max = 0
+local LP = Players.LocalPlayer
+local Mouse = LP:GetMouse()
+Mouse.KeyDown:connect(
+    function(k)
+        if k:lower() == "h" and Sex then
+            Max = Max + 1
+            getgenv().Fly = false
+            if Sex then
+                local T = LP.Character:FindFirstChild("UpperTorso",true) or LP.Character:FindFirstChild("HumanoidRootPart",true)
+                local S = {
+                    F = 0,
+                    B = 0,
+                    L = 0,
+                    R = 0
+                }
+                local S2 = {
+                    F = 0,
+                    B = 0,
+                    L = 0,
+                    R = 0
+                }
+                local SPEED = 5
+                local function FLY()
+                    getgenv().Fly = true
+                    local BodyGyro = Instance.new("BodyGyro", T)
+                    local BodyVelocity = Instance.new("BodyVelocity", T)
+                    BodyGyro.P = 9e4
+                    BodyGyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+                    BodyGyro.cframe = T.CFrame
+                    BodyVelocity.velocity = Vector3.new(0, 0, 0)
+                    BodyVelocity.maxForce = Vector3.new(9e9, 9e9, 9e9)
+                    spawn(function()
+                        repeat wait()
+                            LP.Character.Humanoid.PlatformStand = true
+                                if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
+                                    SPEED = 500
+                                elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
+                                    SPEED = 0
+                                end
+                                if (S.L + S.R) ~= 0 or (S.F + S.B) ~= 0 then
+                                    BodyVelocity.velocity =
+                                        ((Workspace.CurrentCamera.CoordinateFrame.lookVector * (S.F + S.B)) +
+                                        ((Workspace.CurrentCamera.CoordinateFrame *
+                                            CFrame.new(S.L + S.R, (S.F + S.B) * 0.2, 0).p) -
+                                            Workspace.CurrentCamera.CoordinateFrame.p)) *
+                                        SPEED
+                                    S2 = {
+                                        F = S.F,
+                                        B = S.B,
+                                        L = S.L,
+                                        R = S.R
+                                    }
+                                elseif (S.L + S.R) == 0 and (S.F + S.B) == 0 and SPEED ~= 0 then
+                                    BodyVelocity.velocity =
+                                        ((Workspace.CurrentCamera.CoordinateFrame.lookVector * (S2.F + S2.B)) +
+                                        ((Workspace.CurrentCamera.CoordinateFrame *
+                                            CFrame.new(S2.L + S2.R, (S2.F + S2.B) * 0.2, 0).p) -
+                                            Workspace.CurrentCamera.CoordinateFrame.p)) *
+                                        SPEED
+                                else
+                                    BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+                                end
+                                BodyGyro.cframe = Workspace.CurrentCamera.CoordinateFrame
+                            until not getgenv().Fly
+                            S = {
+                                F = 0,
+                                B = 0,
+                                L = 0,
+                                R = 0
+                            }
+                            S2 = {
+                                F = 0,
+                                B = 0,
+                                L = 0,
+                                R = 0
+                            }
+                            SPEED = 0
+                            BodyGyro:destroy()
+                            BodyVelocity:destroy()
+                            LP.Character.Humanoid.PlatformStand = false
+                        end
+                    )
+                end
+                Mouse.KeyDown:connect(
+                    function(k)
+                        if k:lower() == "w" then
+                            S.F = 1
+                        elseif k:lower() == "s" then
+                            S.B = -1
+                        elseif k:lower() == "a" then
+                            S.L = -1
+                        elseif k:lower() == "d" then
+                            S.R = 1
+                        end
+                    end
+                )
+                Mouse.KeyUp:connect(
+                    function(k)
+                        if k:lower() == "w" then
+                            S.F = 0
+                        elseif k:lower() == "s" then
+                            S.B = 0
+                        elseif k:lower() == "a" then
+                            S.L = 0
+                        elseif k:lower() == "d" then
+                            S.R = 0
+                        end
+                    end
+                )
+                FLY()
+                if Max == 2 then
+                    getgenv().Fly = false
+                    Max = 0
+                end
+            end
+        end
+    end
+)
+end})
+Toggles.aaS:OnChanged(function()
+    Sex = Toggles.aaS.Value 
+end)
+
+
+RightGroupBox:AddButton('ServerHop', function() ServerHop() end)
+RightGroupBox:AddButton('Rejoin', function() 
+    local Success, ErrorMessage = pcall(function()
+        Rejoin()
+    end)
+    if ErrorMessage and not Success then
+        warn(ErrorMessage)
+    elseif Success and not ErrorMessage then
+        print(Success)
+    end
+end)
+-- I set NoUI so it does not show up in the keybinds menu
+MenuGroup:AddButton('Unload', function() Library:Unload() end)
+MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = "RightControl", NoUI = true, Text = 'Menu keybind' }) 
+
+Library.ToggleKeybind = Options.MenuKeybind 
+ThemeManager:SetLibrary(Library)
+SaveManager:SetLibrary(Library)
+
+SaveManager:IgnoreThemeSettings() 
+SaveManager:SetIgnoreIndexes({ 'MenuKeybind' }) 
+ThemeManager:SetFolder('V.G Hub')
+SaveManager:SetFolder("V.G Hub/" .. game.PlaceId)
+SaveManager:BuildConfigSection(Tabs['UI Settings']) 
+ThemeManager:ApplyToTab(Tabs['UI Settings'])
