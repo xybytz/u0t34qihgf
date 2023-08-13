@@ -613,7 +613,7 @@ AutoDelete:AddToggle('dfgh', {Text = 'Remove Hearts', Default = false,Tooltip = 
     spawn(function()
         while wait() and fghv do
             pcall(function()
-                removeHeart()
+                RemoveHeart()
             end)
         end
     end)
