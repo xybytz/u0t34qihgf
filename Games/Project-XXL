@@ -231,7 +231,7 @@ local RightGroupBox = Tabs.Main:AddRightGroupbox('Quick Misc')
 local AutoDelete = Tabs.Auto:AddLeftGroupbox('Delete')
 local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
 
-LeftGroupBox:AddToggle('AutoFarming', {Text = 'Auto Mob', Default = false,Tooltip = '', Callback = function(A)
+LeftGroupBox:AddToggle('AutoFarming', {Text = 'Auto Mob', Default = false,Tooltip = 'might not instant kill then server hop', Callback = function(A)
     H = A
     RunService.Stepped:Connect(function()
         pcall(function()
@@ -241,14 +241,14 @@ LeftGroupBox:AddToggle('AutoFarming', {Text = 'Auto Mob', Default = false,Toolti
         end)
     end)
     spawn(function()
-        while wait(.1) and H do 
+        while wait(.2) and H do 
             pcall(function()
                 for i,v in next, Live:GetChildren() do
                     if v:IsA("Model") and v.Name == ddd and v.Humanoid.Health ~= 0 then
                         Teleport(CFrame.new(v:GetModelCFrame().Position + Vector3.new(0,-7,0)))
                         Equip()
                         Hit(v)
-                        if v.Humanoid.Health < v.Humanoid.MaxHealth then
+                        if v.Humanoid.Health < v.Humanoid.MaxHealth and v.Humanoid:FindFirstChild("creator",true) then
                             v.Humanoid.Health = 0
                         end
                     end
@@ -261,7 +261,7 @@ Toggles.AutoFarming:OnChanged(function(State)
     H = Toggles.AutoFarming.Value 
 end)
 
-LeftGroupBox:AddToggle('AutoBoss', {Text = 'Auto Boss', Default = false,Tooltip = '', Callback = function(A)
+LeftGroupBox:AddToggle('AutoBoss', {Text = 'Auto Boss', Default = false,Tooltip = 'Defeats Bosses might not instant kill then server hop', Callback = function(A)
     ASSF = A
     RunService.Stepped:Connect(function()
         pcall(function()
@@ -271,18 +271,17 @@ LeftGroupBox:AddToggle('AutoBoss', {Text = 'Auto Boss', Default = false,Tooltip 
         end)
     end)
     spawn(function()
-        while wait() and ASSF do 
+        while wait(.1) and ASSF do 
             pcall(function()
                 for i,v in next, Live:GetChildren() do
                     if v:IsA("Model") and v.Humanoid.Health ~= 0 and v:FindFirstChild("RaidBoss", true) then
                         Teleport(CFrame.new(v:GetModelCFrame().Position + Vector3.new(0,-7,0)))
                         Equip()
                         Hit(v)
-                        if v.Humanoid.Health < v.Humanoid.MaxHealth and Mag(Player.Character:GetModelCFrame(), v:GetModelCFrame()) < 50 then
+                        if v.Humanoid.Health < v.Humanoid.MaxHealth and v.Humanoid:FindFirstChild("creator", true) then
                             v.Humanoid.Health = 0
                         end
-                        wait(.5)
-                        if v.Humanoid.Health == 0 then
+                        if v.Humanoid.Health == 0 and wait(.2) then
                             Teleport(CFrame.new(1000, 50000, 1000))
                         end
                     end
@@ -308,7 +307,7 @@ LeftGroupBox:AddToggle('Kill', {Text = 'Kill Aura', Default = false,Tooltip = ''
             pcall(function()
                 for i,v in next, Live:GetChildren() do
                     if v:IsA("Model") and v:FindFirstChild("Humanoid").Health ~= 0 then
-                        if v.Humanoid.Health < v.Humanoid.MaxHealth and Mag(v:GetModelCFrame(), Player.Character:GetModelCFrame()) < 100 then
+                        if v.Humanoid.Health < v.Humanoid.MaxHealth and v.Humanoid:FindFirstChild("creator", true) then
                             v.Humanoid.Health = 0
                         end
                     end
@@ -344,7 +343,7 @@ LeftGroupBox:AddToggle('Autoquest', {Text = 'Auto Quest', Default = false,Toolti
                             Teleport(CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0,-7,0)))
                             Equip()
                             Hit(v)
-                            if v.Humanoid.Health < v.Humanoid.MaxHealth and Mag(Player.Character:GetModelCFrame(), v:GetModelCFrame()) < 50 then
+                            if v.Humanoid.Health < v.Humanoid.MaxHealth and v.Humanoid:FindFirstChild("creator", true) then
                                 v.Humanoid.Health = 0
                             end
                         end
@@ -362,6 +361,30 @@ LeftGroupBox:AddDropdown('Que', {Values = Quests, Default = 1, Multi = false, Te
 end})
 Options.Que:OnChanged(function()
     Quest1 = Options.Que.Value
+end)
+LeftGroupBox:AddToggle('DFG', {Text = "Player Passive Mode/God", Default = false,Tooltip = "Players Cant Attack you and you can't attack players", Callback = function(A)
+    Fog = t
+    spawn(function()
+        while wait() and Fog do
+            pcall(function()
+                if not Player.PlayerValues.PassiveMode.Value then
+                    firetouchinterest(Player.Character.HumanoidRootPart, Workspace.GameStuff.UiGokuTeleportModel.TeleportPart, 0)
+                    firetouchinterest(Player.Character.HumanoidRootPart, Workspace.GameStuff.UiGokuTeleportModel.TeleportPart, 1)
+                    for i=1, 10 do wait()
+                        Teleport(CFrame.new(Workspace.SafeZoneIndicator.Position + Vector3.new(0,2,0)))
+                        Teleport(CFrame.new(Workspace.SafeZoneIndicator.Position + Vector3.new(0,2,0)))
+                    end
+                end
+                if not Fog then
+                    Player.Character.Humanoid.Health = 0
+                end
+            end)
+        end
+    end)
+end})
+
+Toggles.DFG:OnChanged(function()
+    Fog = Toggles.DFG.Value 
 end)
 
 LeftGroupBox:AddToggle('FTH', {Text = 'Auto use DragonBalls', Default = false,Tooltip = '', Callback = function(A)
