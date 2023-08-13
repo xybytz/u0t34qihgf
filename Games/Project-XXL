@@ -151,6 +151,14 @@ local RemoveRokakaka = function()
     end
 end
 
+local RemoveHeart = function()
+    for i,v in next, Player.Backpack:GetChildren() do
+        if v.Name == "Heart" then
+            v.Parent = nil 
+        end
+    end
+end
+
 local RemovePaper = function()
     for i,v in next, Player.Backpack:GetChildren() do
         if v.Name == "Newspaper" then
@@ -370,7 +378,7 @@ LeftGroupBox:AddToggle('DFG', {Text = "Player Passive Mode/God", Default = false
                 if not Player.PlayerValues.PassiveMode.Value then
                     firetouchinterest(Player.Character.HumanoidRootPart, Workspace.GameStuff.UiGokuTeleportModel.TeleportPart, 0)
                     firetouchinterest(Player.Character.HumanoidRootPart, Workspace.GameStuff.UiGokuTeleportModel.TeleportPart, 1)
-                    for i=1, 10 do wait()
+                    for i=1, 50 do wait()
                         Teleport(CFrame.new(Workspace.SafeZoneIndicator.Position + Vector3.new(0,2,0)))
                         Teleport(CFrame.new(Workspace.SafeZoneIndicator.Position + Vector3.new(0,2,0)))
                     end
@@ -598,6 +606,20 @@ AutoDelete:AddToggle('SDX', {Text = 'Remove Rare Bags', Default = false,Tooltip 
 end})
 Toggles.SDX:OnChanged(function()
     cD = Toggles.SDX.Value
+end)
+
+AutoDelete:AddToggle('dfgh', {Text = 'Remove Hearts', Default = false,Tooltip = '', Callback = function(A)
+    fghv = A
+    spawn(function()
+        while wait() and fghv do
+            pcall(function()
+                removeHeart()
+            end)
+        end
+    end)
+end})
+Toggles.dfgh:OnChanged(function()
+    fghv = Toggles.dfgh.Value
 end)
 
 RightGroupBox:AddToggle('Roll', {Text = 'ReRoll Race', Default = false,Tooltip = '', Callback = function(A)
