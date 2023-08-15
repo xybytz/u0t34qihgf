@@ -4,6 +4,9 @@ if not table.find(Table, game.PlaceId) then return end
 repeat
     wait()
 until game:IsLoaded()
+local get_thread_context = get_thread_context or getthreadcontext or getidentity or syn.get_thread_identity
+local get_thread_identity = get_thread_context
+local set_thread_context = set_thread_context or setthreadcontext or setidentity or syn.set_thread_identity
 for i,v in next, getconnections(LogService.MessageOut) do
     v:Enable()
 end
@@ -225,6 +228,29 @@ local Noclip = function()
         end
     end 
 end 
+
+local GetEgg = function(A)
+    local Target = nil
+    local Max = math.huge 
+    for i,v in next, Workspace.Interactions.Nodes.Harvest.Eggs.ActiveNodes:GetChildren() do
+        if v:IsA("Model") then
+            local Mag = Mag(v:GetModelCFrame(), Player.Character:GetModelCFrame())
+            if Mag < Max then
+                Max = Mag 
+                Target = v 
+            end
+        end
+    end
+    return Target
+end
+local Teleport = function(A)
+    Player.Character.HumanoidRootPart.CFrame = A 
+end
+
+local CollectEgg = function(A)
+    VirtualInputManager:SendKeyEvent(true, "E", false, game)
+end
+
 local deku1 = {"SolsticeFlares", "SolsticeBoxes"}
 local deku = {"Food", "Magic", "Resources"}
 
@@ -348,18 +374,15 @@ AutoEgg = Toggles.Egg3.Value
     spawn(function()
         while AutoEgg do wait()
             pcall(function()
-                for i, v in pairs(Workspace.Interactions.Nodes.Harvest.Eggs.ActiveNodes:GetChildren()) do
-                    if v:IsA("Model") and v:FindFirstChildWhichIsA("BasePart") then
-                        Player.Character.HumanoidRootPart.CFrame = v:FindFirstChildWhichIsA("BasePart").CFrame * CFrame.new(40, -3, 0)
-                        wait(1)
-                        repeat wait()
-                        Tween(Player.Character:FindFirstChild("HumanoidRootPart"), v:FindFirstChildWhichIsA("BasePart").CFrame, 16)
-                        wait(3)
-                        if AutoEgg == false then
-                            break
-                        end
-                        CE(v)
-                        until v == nil or AutoEgg == false or v.Harvested.Value == true and wait(6)
+                local Egg = GetEgg()
+                local H = Egg:FindFirstChild("Harvested", true)
+                if Egg and H and not H.Value then
+                    Teleport(CFrame.new(Egg:GetModelCFrame().Position + Vector3.new(0, -50, 50)))
+                    Tween(Player.Character:FindFirstChild("HumanoidRootPart"), Egg:GetModelCFrame(), 16)
+                    wait(3)
+                    CollectEgg(Egg)
+                    if not H.Value and wait(15) then
+                        wait()
                     end
                 end
             end)
