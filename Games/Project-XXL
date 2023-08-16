@@ -1,3 +1,4 @@
+repeat wait() until game:IsLoaded()
 local Chests = Workspace.Chests
 local DamageParts = Workspace.DamageParts
 local Effect = Workspace.Effects
@@ -11,7 +12,9 @@ local PlayerValues = Player.PlayerValues
 
 RunService.Stepped:Connect(function()
     sethiddenproperty(Player, "SimulationRadius", 1000)
+    sethiddenproperty(Player, "MaxSimulationRadius", 1000)
 end)
+
 
 local Mobs = {}
 for i,v in next, Live:GetChildren() do
@@ -82,33 +85,51 @@ local Specializations = {
     "Busoshoku Haki",
 }
 local Races = {
-    "Human",
-    "Kumate Tribe",
-    "Skypiean",
-    "Dodoria's Race",
-    "Burter's Race",
-    "Namekian",
-    "Saiyan",
-    "Frieza Race (First Form)",
-    "Bojack's Race",
-    "Android",
-    "Uzumaki Clan",
-    "Cerealian",
-    "Hybrid Saiyan",
-    "Angel (In Training)",
-    "Demon",
-    "Fanalis",
-    "Lunarian",
-    "Mink",
-    "Angel",
-    "Baby (Possessed)",
-    "Heeter Race",
-    "Toppo's Race",
-    "Beerus' Race",
+    Common = {
+        "Human",
+        "Kumate Tribe",
+        "Skypiean",
+        "Dodoria's Race",
+        "Burter's Race",
+        "Namekian",
+    },
+    Rare = {
+        "Saiyan",
+        "Frieza Race (First Form)",
+        "Bojack's Race",
+        "Android",
+        "Uzumaki Clan",
+        "Cerealian",
+        "Hybrid Saiyan",
+        "Angel (In Training)",
+        "Demon",
+        "Fanalis",
+    },
+    Legendary = {
+        "Lunarian",
+        "Mink",
+        "Angel",
+        "Baby (Possessed)",
+        "Heeter Race",
+        "Toppo's Race",
+        "Beerus' Race",
+    },
 }
+local Stats = {
+    "Strength",
+    "Magic",
+    "Weapon",
+    "Endurance",
+}
+local races = {}
+for i,v in Races do
+    for i,v in next, v do
+        table.insert(races, v)
+    end
+end
 local Credit = {}
 for i,v in next, Workspace.GameStuff:GetChildren() do
-    local A = v:FindFirstChild("Overhead", true)
+    local A = v:FindFirstChild("OverHumanoidRootPart", true)
     if A ~= nil then
         table.insert(Credit, A.Parent.Parent)
     end
@@ -179,24 +200,16 @@ local Checkrace = function()
     return Player.PlayerValues.Race.Value 
 end
 local RollRace = function(A)
-    if A ~= Player.PlayerValues.Race.Value  then
-        for i,v in next, Player.Backpack:GetChildren() do
-            if v:IsA("Tool") and v:FindFirstChild("Heart", true) then
-                Player.Character:FindFirstChildWhichIsA("Humanoid"):EquipTool(v)
-                ReplicatedStorage:WaitForChild("RemoteEvents"):FindFirstChild("ItemRemote"):FireServer()
-                break
-            elseif not v:IsA("Tool") and not v:FindFirstChild("Heart", true) then
-                ReplicatedStorage:WaitForChild("RemoteEvents"):FindFirstChild("RaceSpinRemote"):FireServer(1)
-                break
-            end
-        end
+    wait(.5)
+    if (A ~= Player.PlayerValues.Race.Value or table.find(Races.Legendary, Player.PlayerValues.Race.Value)) then
+        ReplicatedStorage:WaitForChild("RemoteEvents"):FindFirstChild("RaceSpinRemote"):FireServer(1)
     end
 end
 
 local NoCliper = function()
-    for i,v in next, Player.Character:GetChildren() do
+    for i,v in next, Player.Character:GetDescendants() do
         if v:IsA("BasePart") then
-            v.CanCollide = false
+            sethiddenproperty(v, "CanCollide", false)
             v.Velocity = Vector3.new(0,0,0)
         end
     end
@@ -231,13 +244,41 @@ local Window = Library:CreateWindow({
 local Tabs = {
     Main = Window:AddTab('Main'), 
     Auto = Window:AddTab('Auto Delete'),
+    Matics = Window:AddTab('Automatics'),
     ['UI Settings'] = Window:AddTab('UI Settings'),
 }
 
 local LeftGroupBox = Tabs.Main:AddLeftGroupbox('AutoFarms')
 local RightGroupBox = Tabs.Main:AddRightGroupbox('Quick Misc')
 local AutoDelete = Tabs.Auto:AddLeftGroupbox('Delete')
+
+local Oh = Tabs.Matics:AddLeftGroupbox('Automatic systems')
 local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
+
+Oh:AddToggle('Hate', {Text = 'Auto Stat Points', Default = false,Tooltip = '', Callback = function(A)
+    Hater = A
+    spawn(function()
+        while wait() and Hater do
+            pcall(function()
+                if Player.PlayerValues.StatPoints.Value ~= 0 then
+                    ReplicatedStorage.RemoteEvents.UpgradeStatsRemote:FireServer(Stat, "1")
+                end
+            end)
+        end
+    end)
+end})
+
+Toggles.Hate:OnChanged(function(State)
+    Hater = Toggles.Hate.Value 
+end)
+
+
+Oh:AddDropdown('AS', {Values = Stats, Default = 1, Multi = false, Text = 'Stats', Tooltip = '', Callback = function(A)
+    Stat = A
+end})
+Options.AS:OnChanged(function(S)
+    Stat = Options.AS.Value
+end)
 
 LeftGroupBox:AddToggle('AutoFarming', {Text = 'Auto Mob', Default = false,Tooltip = 'might not instant kill then server hop', Callback = function(A)
     H = A
@@ -253,10 +294,10 @@ LeftGroupBox:AddToggle('AutoFarming', {Text = 'Auto Mob', Default = false,Toolti
             pcall(function()
                 for i,v in next, Live:GetChildren() do
                     if v:IsA("Model") and v.Name == ddd and v.Humanoid.Health ~= 0 then
-                        Teleport(CFrame.new(v:GetModelCFrame().Position + Vector3.new(0,-7,0)))
+                        Teleport(CFrame.new(v:GetModelCFrame().Position + Vector3.new(0,-15,0)))
                         Equip()
                         Hit(v)
-                        if v.Humanoid.Health < v.Humanoid.MaxHealth and v.Humanoid:FindFirstChild("creator",true) then
+                        if v.Humanoid.Health < v.Humanoid.MaxHealth then
                             v.Humanoid.Health = 0
                         end
                     end
@@ -268,6 +309,14 @@ end})
 Toggles.AutoFarming:OnChanged(function(State)
     H = Toggles.AutoFarming.Value 
 end)
+
+LeftGroupBox:AddDropdown('Mobs1', {Values = Mobs, Default = 1, Multi = false, Text = 'Mobs', Tooltip = '', Callback = function(A)
+    ddd = A
+end})
+Options.Mobs1:OnChanged(function(S)
+    ddd = Options.Mobs1.Value
+end)
+
 
 LeftGroupBox:AddToggle('AutoBoss', {Text = 'Auto Boss', Default = false,Tooltip = 'Defeats Bosses might not instant kill then server hop', Callback = function(A)
     ASSF = A
@@ -282,11 +331,11 @@ LeftGroupBox:AddToggle('AutoBoss', {Text = 'Auto Boss', Default = false,Tooltip 
         while wait(.1) and ASSF do 
             pcall(function()
                 for i,v in next, Live:GetChildren() do
-                    if v:IsA("Model") and v.Humanoid.Health ~= 0 and v:FindFirstChild("RaidBoss", true) then
-                        Teleport(CFrame.new(v:GetModelCFrame().Position + Vector3.new(0,-7,0)))
+                    if v:IsA("Model") and v.Humanoid.Health ~= 0 and v:FindFirstChild("RaidBoss", true) and (AllBosses or not AllBosses and string.find(Doe, v.Name)) then
+                        Teleport(CFrame.new(v:GetModelCFrame().Position + Vector3.new(0,-17,0)))
                         Equip()
                         Hit(v)
-                        if v.Humanoid.Health < v.Humanoid.MaxHealth and v.Humanoid:FindFirstChild("creator", true) then
+                        if v.Humanoid.Health < v.Humanoid.MaxHealth then
                             v.Humanoid.Health = 0
                         end
                         if v.Humanoid.Health == 0 and wait(.2) then
@@ -302,12 +351,21 @@ Toggles.AutoBoss:OnChanged(function()
     H = Toggles.AutoBoss.Value 
 end)
 
-LeftGroupBox:AddDropdown('Mobs1', {Values = Mobs, Default = 1, Multi = false, Text = 'Mobs', Tooltip = '', Callback = function(A)
-    ddd = A
+LeftGroupBox:AddDropdown('Que1', {Values = Boss, Default = 1, Multi = false, Text = 'Bosses', Tooltip = '', Callback = function(A)
+    Doe = A
 end})
-Options.Mobs1:OnChanged(function(S)
-    ddd = Options.Mobs1.Value
+Options.Que1:OnChanged(function()
+    Doe = Options.Que1.Value
 end)
+
+
+LeftGroupBox:AddToggle('ASDFG', {Text = 'Auto All Boss', Default = false,Tooltip = 'Defeats all bosses AUTOBOSS must be on', Callback = function(A)
+    AllBosses = A
+end})
+Toggles.ASDFG:OnChanged(function(S)
+    AllBosses = Toggles.ASDFG.Value
+end)
+
 LeftGroupBox:AddToggle('Kill', {Text = 'Kill Aura', Default = false,Tooltip = '', Callback = function(A)
     Toggt = A
     spawn(function()
@@ -315,7 +373,7 @@ LeftGroupBox:AddToggle('Kill', {Text = 'Kill Aura', Default = false,Tooltip = ''
             pcall(function()
                 for i,v in next, Live:GetChildren() do
                     if v:IsA("Model") and v:FindFirstChild("Humanoid").Health ~= 0 then
-                        if v.Humanoid.Health < v.Humanoid.MaxHealth and v.Humanoid:FindFirstChild("creator", true) then
+                        if v.Humanoid.Health < v.Humanoid.MaxHealth then
                             v.Humanoid.Health = 0
                         end
                     end
@@ -327,7 +385,7 @@ end})
 Toggles.Kill:OnChanged(function()
     Toggt = Toggles.Kill.Value 
 end)
-LeftGroupBox:AddToggle('Autoquest', {Text = 'Auto Quest', Default = false,Tooltip = '', Callback = function(A)
+LeftGroupBox:AddToggle('Autoquest', {Text = 'Auto Grab Quest', Default = false,Tooltip = '', Callback = function(A)
     Go = A
     RunService.Stepped:Connect(function()
         pcall(function()
@@ -345,18 +403,6 @@ LeftGroupBox:AddToggle('Autoquest', {Text = 'Auto Quest', Default = false,Toolti
                     wait(1)
                     fireclickdetector(QuestBoards:FindFirstChild(Quest1, true).ClickDetector)
                 end
-                if Quest.Visible then
-                    for i,v in next, Live:GetChildren() do
-                        if string.find(Quest.QuestName.Text, v.Name) and v:FindFirstChild("Humanoid") and v.Humanoid.Health ~= 0 and v:FindFirstChildWhichIsA("ForceField", true) then
-                            Teleport(CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0,-7,0)))
-                            Equip()
-                            Hit(v)
-                            if v.Humanoid.Health < v.Humanoid.MaxHealth and v.Humanoid:FindFirstChild("creator", true) then
-                                v.Humanoid.Health = 0
-                            end
-                        end
-                    end
-                end
             end)
         end
     end)
@@ -370,6 +416,81 @@ end})
 Options.Que:OnChanged(function()
     Quest1 = Options.Que.Value
 end)
+
+
+LeftGroupBox:AddToggle('DER', {Text = 'Player Slient Aim', Default = false,Tooltip = 'Aims attacks at closest Player', Callback = function(A)
+    Mobg4 = A
+    function ClosestPlayerToCurser()
+        local MaxDistance, Closest = math.huge
+        for i, v in pairs(Players:GetPlayers()) do
+            if v ~= Player then
+                local H = v.Character:FindFirstChild("HumanoidRootPart")
+                if H then
+                    local Pos, Vis = Workspace.CurrentCamera:WorldToScreenPoint(H.Position)
+                    if Vis then
+                        local A1, A2 = Vector2.new(Player:GetMouse().X, Player:GetMouse().Y), Vector2.new(Pos.X, Pos.Y)
+                        local Dist = (A2 - A1).Magnitude
+                        if Dist < MaxDistance and Dist <= math.huge then
+                            MaxDistance = Dist
+                            Closest = v
+                        end
+                    end
+                end
+            end
+        end
+        return Closest
+    end
+
+
+
+    local OldNameCall = nil
+    OldNameCall = hookmetamethod(game, "__index", function(self, v, ...)
+        if self == Player:GetMouse() and (v == "Hit" or v == "Target") then
+            if ClosestPlayerToCurser() and Mobg4 then
+                return ((v == "Hit" and ((ClosestPlayerToCurser().Character.HumanoidRootPart.CFrame) or (ClosestPlayerToCurser().Character.HumanoidRootPart.CFrame + (ClosestPlayerToCurser().Character.HumanoidRootPart.Velocity)))) or (v == "Target" and ClosestPlayerToCurser().Character.HumanoidRootPart))
+            end
+        end
+        return OldNameCall(self, v, ...)
+    end)
+end})
+
+LeftGroupBox:AddToggle('DER', {Text = 'Mob Slient Aim', Default = false,Tooltip = 'Aims attacks at closest mob', Callback = function(A)
+    Mobg = A
+    function ClosestMobToCurser()
+        local MaxDistance, Closest = math.huge
+        for i, v in pairs(Live:GetChildren()) do
+            if v:IsA("Model")  then
+                local H = v:FindFirstChild("HumanoidRootPart")
+                if H then
+                    local Pos, Vis = Workspace.CurrentCamera:WorldToScreenPoint(H.Position)
+                    if Vis then
+                        local A1, A2 = Vector2.new(Player:GetMouse().X, Player:GetMouse().Y), Vector2.new(Pos.X, Pos.Y)
+                        local Dist = (A2 - A1).Magnitude
+                        if Dist < MaxDistance and Dist <= math.huge then
+                            MaxDistance = Dist
+                            Closest = v
+                        end
+                    end
+                end
+            end
+        end
+        return Closest
+    end
+    local OldNameCall = nil
+    OldNameCall = hookmetamethod(game, "__index", function(self, v, ...)
+        if self == Player:GetMouse() and (v == "Hit" or v == "Target") then
+            if ClosestMobToCurser() and Mobg then
+                return ((v == "Hit" and ((ClosestMobToCurser().HumanoidRootPart.CFrame) or (ClosestMobToCurser().HumanoidRootPart.CFrame + (ClosestMobToCurser().HumanoidRootPart.Velocity)))) or (v == "Target" and ClosestMobToCurser().HumanoidRootPart))
+            end
+        end
+        return OldNameCall(self, v)
+    end)
+end})
+
+Toggles.DER:OnChanged(function()
+    Mobg = Toggles.DER.Value 
+end)
+
 LeftGroupBox:AddToggle('DFG', {Text = "Player Passive Mode/God", Default = false,Tooltip = "Players Cant Attack you and you can't attack players", Callback = function(A)
     Fog = t
     spawn(function()
@@ -394,6 +515,28 @@ end})
 Toggles.DFG:OnChanged(function()
     Fog = Toggles.DFG.Value 
 end)
+
+
+LeftGroupBox:AddToggle('f', {Text = 'Auto Charge Stamina', Default = false,Tooltip = 'Charges Stamina when low', Callback = function(A)
+    Goty = A
+    RunService.Stepped:connect(function()
+        pcall(function()
+            if Goty then
+                local Lock = Player.PlayerValues.Stamina
+                if Lock.Value < Lock.MaxValue then
+                    ReplicatedStorage.RemoteEvents.ManaChargeRemote:FireServer(true)
+                elseif Lock.Value == Lock.MaxValue then
+                    ReplicatedStorage.RemoteEvents.ManaChargeRemote:FireServer(false)
+                end
+            end
+        end)
+    end)
+end})
+
+Toggles.f:OnChanged(function()
+    Goty = Toggles.f.Value 
+end)
+
 
 LeftGroupBox:AddToggle('FTH', {Text = 'Auto use DragonBalls', Default = false,Tooltip = '', Callback = function(A)
     Dragoon = A
@@ -449,6 +592,24 @@ end})
 Toggles.DTRE:OnChanged(function()
     DoingIt = Toggles.DTRE.Value 
 end)
+LeftGroupBox:AddToggle('dfghj', {Text = 'Auto Quest Chests', Default = false,Tooltip = '', Callback = function(A)
+    Gotfff = A
+    spawn(function()
+        while wait() and Gotfff do
+            pcall(function()         
+                for i,v in next, Workspace:GetChildren() do
+                    if v:IsA("BasePart") and v.Name:find("Chest") and v.Name:find(Player.Name) then
+                        Teleport(CFrame.new(v.Position + Vector3.new(0,2,0)))
+                    end
+                end
+            end)
+        end
+    end)
+end})
+
+Toggles.dfghj:OnChanged(function(State)
+    Gotfff = Toggles.dfghj.Value 
+end)
 
 
 LeftGroupBox:AddToggle('Tof', {Text = 'Auto Chests', Default = false,Tooltip = '', Callback = function(A)
@@ -465,7 +626,7 @@ LeftGroupBox:AddToggle('Tof', {Text = 'Auto Chests', Default = false,Tooltip = '
             pcall(function()
                 for i,v in next, Chests:GetChildren() do
                     if v.Transparency == 0 then
-                        Teleport(CFrame.new(v.Position + Vector3.new(0, 2, 0)))
+                        Teleport(CFrame.new(v.Position + Vector3.new(0, -30, 0)))
                         firetouchinterest(Player.Character.HumanoidRootPart, v, 0)
                         firetouchinterest(Player.Character.HumanoidRootPart, v, 1)
                         break
@@ -633,7 +794,7 @@ end})
 Toggles.Roll:OnChanged(function()
     Roll = Toggles.Roll.Value 
 end)
-RightGroupBox:AddDropdown('Races', {Values = Races, Default = 1, Multi = false, Text = 'Races', Tooltip = '', Callback = function(A)
+RightGroupBox:AddDropdown('Races', {Values = races, Default = 1, Multi = false, Text = 'Races', Tooltip = '', Callback = function(A)
     Races1 = A
 end})
 
@@ -680,8 +841,9 @@ RightGroupBox:AddToggle('SSS', {Text = 'WalkSpeed Toggle',Default = false,Toolti
 WS = A 
     RunService.Stepped:Connect(function()
         if WS then
-			print(WalkSpeed)
-            Player.Character:FindFirstChildWhichIsA("Humanoid").WalkSpeed = WalkSpeed or 16
+            pcall(function()
+                Player.Character:FindFirstChildWhichIsA("Humanoid").WalkSpeed = WalkSpeed or 16
+            end)
         end
     end)
 end})
@@ -698,7 +860,12 @@ JP = A
     RunService.Stepped:Connect(function()
         if JP then
             pcall(function()
-                Player.Character:FindFirstChildWhichIsA("Humanoid").JumpPower = JumpPower or 50
+                local H = Player.Character:FindFirstChildWhichIsA("Humanoid")
+                if H.UseJumpPower then
+                    H.JumpPower = JumpPower or 50
+                else
+                    H.JumpHeight = JumpPower or 50
+                end
             end)
         end
     end)
@@ -726,7 +893,7 @@ Toggles.vvS:OnChanged(function()
     InfiniteJump = Toggles.vvS.Value 
 end)
 
-RightGroupBox:AddToggle('eeS', {Text = 'N NoClip',Default =  Sex2,Tooltip = '', Callback = function(A)
+RightGroupBox:AddToggle('eeS', {Text = 'NoClip',Default =  Sex2,Tooltip = '', Callback = function(A)
 noclips = A
     RunService.Stepped:connect(function(v)
         if noclips then
