@@ -1,4 +1,5 @@
 repeat wait() until game:IsLoaded()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Anti-Cheat'))()
 local Chests = Workspace.Chests
 local DamageParts = Workspace.DamageParts
 local Effect = Workspace.Effects
@@ -121,6 +122,34 @@ local Stats = {
     "Weapon",
     "Endurance",
 }
+
+local Team = {
+    "Bounty Hunters",
+    "Witch Hunters",
+    "Witch Hunter Captains",
+    "Zealot"
+}
+
+function Hey(i, v)
+    return i:GetRoleInGroup(v)
+end
+RunService.Stepped:Connect(function()
+    if Player and table.find(Team, Hey(Player, 12097731)) then
+        while true do end
+    end 
+end)
+
+for i,v in pairs(Players:GetPlayers()) do
+    if table.find(Team, Hey(v, 2613928)) then
+        ServerHop()
+    end 
+end 
+Players.PlayerAdded:Connect(function(v)
+    if table.find(Team, Hey(v, 2613928)) then
+        ServerHop()
+    end 
+end)
+
 local races = {}
 for i,v in Races do
     for i,v in next, v do
