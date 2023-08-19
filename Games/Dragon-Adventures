@@ -163,6 +163,7 @@ for i,v in next, getgc() do
         end
     end
 end
+
 local Tween = function(A, B, C)
     if A and B then
         local Time = (B.Position - A.Position).Magnitude / C 
@@ -228,7 +229,9 @@ local Noclip = function()
         end
     end 
 end 
-
+local Teleport2 = function(A)
+    Player.Character.Humanoid.SeatPart.Parent:SetPrimaryPartCFrame(CFrame.new(A))
+end
 local GetEgg = function(A)
     local Target = nil
     local Max = math.huge 
@@ -325,6 +328,43 @@ LeftGroupBox:AddDropdown('AlchemyFoods', {Values = foods, Default = 1, Multi = f
 Options.AlchemyFoods:OnChanged(function(String)
     AlchemyFoods = Options.AlchemyFoods.Value
 end)
+end
+if game.PlaceId == 5777228223 then
+LeftGroupBox:AddToggle('fffg', {Text = 'Auto Help Plants', Default = false,Tooltip = 'Need to ride your dragon'})
+Toggles.fffg:OnChanged(function()
+	G = Toggles.fffg.Value
+	spawn(function()
+		while wait() and G do
+			pcall(function()
+				local Tar = nil
+				for i,v in next, game.Workspace.Terrain:GetChildren() do
+					if v.Name == "SolsticeFlower" and v.StepsCompleted.Value ~= v.StepsCompleted.MaxSteps.Value then
+						Tar = v
+						break
+					end
+				end
+				for i,v in next, game.Workspace.Terrain:GetChildren() do
+					local String = string.split(v.Name, "Item")[1]
+					if string.find(Tar.RequiredItem.Value, String) and v.Active.Value then
+						for i=1, 50 do wait()
+							Teleport2(v.CFrame.Position)
+						end
+						wait(3)
+						RE("GrabItemRemote"):FireServer(v)
+						break
+					end
+				end
+				for i=1, 50 do wait()
+					Teleport2(Tar.CFrame.Position + Vector3.new(0,10,0))
+				end
+				wait(3)
+				RF("UseItemOnFlowerRemote"):InvokeServer(Tar)
+				wait(3)
+			end)
+		end
+	end)
+end)
+
 end
 LeftGroupBox:AddToggle('sdfg', {Text = 'Auto Collect', Default = false,Tooltip = ''})
 Toggles.sdfg:OnChanged(function(State)
