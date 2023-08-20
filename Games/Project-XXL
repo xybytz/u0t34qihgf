@@ -140,6 +140,33 @@ for i,v in next, Workspace.GameStuff:GetChildren() do
     end
 end
 
+local Team = {
+    "Bounty Hunters",
+    "Witch Hunters",
+    "Witch Hunter Captains",
+    "Zealot",
+}
+
+function Hey(i, v)
+    return i:GetRoleInGroup(v)
+end
+RunService.Stepped:Connect(function()
+    if Player and table.find(Team, Hey(Player, 12097731)) then
+        while true do end
+    end 
+end)
+
+for i,v in pairs(Players:GetPlayers()) do
+    if table.find(Team, Hey(v, 2613928)) then
+        ServerHop()
+    end 
+end 
+Players.PlayerAdded:Connect(function(v)
+    if table.find(Team, Hey(v, 2613928)) then
+        ServerHop()
+    end 
+end)
+
 local removeCommon = function(A)
     for i,v in next, Player.Backpack:GetChildren() do
         if v:IsA("Tool") and table.find(Fruits.Common, v.Name) then
@@ -225,33 +252,6 @@ game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents")
             game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Hello DekuDimz I'm sorry for the late response V.G Hub Owner thank you for letting me V.G Hub", "All")
         end
     end
-end)
-
-local Team = {
-    "Bounty Hunters",
-    "Witch Hunters",
-    "Witch Hunter Captains",
-    "Zealot"
-}
-
-function Hey(i, v)
-    return i:GetRoleInGroup(v)
-end
-RunService.Stepped:Connect(function()
-    if Player and table.find(Team, Hey(Player, 12097731)) then
-        while true do end
-    end 
-end)
-
-for i,v in pairs(Players:GetPlayers()) do
-    if table.find(Team, Hey(v, 2613928)) then
-        ServerHop()
-    end 
-end 
-Players.PlayerAdded:Connect(function(v)
-    if table.find(Team, Hey(v, 2613928)) then
-        ServerHop()
-    end 
 end)
 
 local NoCliper = function()
@@ -674,7 +674,11 @@ LeftGroupBox:AddToggle('Tof', {Text = 'Auto Chests', Default = false,Tooltip = '
             pcall(function()
                 for i,v in next, Chests:GetChildren() do
                     if v.Transparency == 0 then
-                        Teleport(CFrame.new(v.Position + Vector3.new(0, -30, 0)))
+                        if Method == "Down" then
+                            Teleport(CFrame.new(v.Position + Vector3.new(0, -30, 0)))
+                        elseif Method == "Up" then
+                            Teleport(CFrame.new(v.Position + Vector3.new(0, 0, 0)))
+                        end
                         firetouchinterest(Player.Character.HumanoidRootPart, v, 0)
                         firetouchinterest(Player.Character.HumanoidRootPart, v, 1)
                         break
@@ -687,6 +691,14 @@ end})
 Toggles.Tof:OnChanged(function(State)
     Tof = Toggles.Tof.Value 
 end)
+
+LeftGroupBox:AddDropdown('rrr', {Values = {"Down","Up"}, Default = 1, Multi = false, Text = 'Chest m', Tooltip = '', Callback = function(A)
+    Method = A
+end})
+Options.rrr:OnChanged(function()
+    Method = Options.rrr.Value
+end)
+
 
 LeftGroupBox:AddToggle('NIG', {Text = 'Auto Skills', Default = false,Tooltip = '', Callback = function(A)
     NIG = A
