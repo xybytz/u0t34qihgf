@@ -1,7 +1,9 @@
 repeat task.wait() until game:IsLoaded()
-local StarTime = tick()
+local StartTime = tick()
+
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Anti-Cheat"))()
 local A = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.G-Hub-Games-List"))()
+
 local BlurEffect = Instance.new("BlurEffect")
 BlurEffect.Parent = Lighting
 BlurEffect.Size = 0
@@ -14,6 +16,7 @@ elseif gethui then
 else
     ScreenGui.Parent = CoreGui
 end
+
 local ImageLabel = Instance.new("ImageLabel")
 ImageLabel.Parent = ScreenGui
 ImageLabel.BackgroundColor3 = Color3.new(1, 1, 1)
@@ -23,36 +26,34 @@ ImageLabel.Rotation = 0
 ImageLabel.Size = UDim2.new(0, 303, 0, 263)
 ImageLabel.Image = "rbxassetid://8429081004"
 ImageLabel.ImageTransparency = 1
+
 for Index = 1, 50, 2 do
     BlurEffect.Size = Index
     ImageLabel.ImageTransparency = ImageLabel.ImageTransparency - 0.1
     wait()
 end
+
 wait(.1)
 ImageLabel:TweenPosition(UDim2.new(0.5, 342 / 1, 0.5, 263 / 2, Enum.EasingDirection.Out, Enum.EasingStyle.Quint, 0.5))
 wait(.1)
-for Index = 1, 50, 2 do
-    BlurEffect.Size = 50 - Index
-    ImageLabel.ImageTransparency = ImageLabel.ImageTransparency + 0.1
-    wait()
-end
+
 BlurEffect:Destroy()
 ScreenGui:Destroy()
 
 local queue_on_teleport = queue_on_teleport or syn and syn.queue_on_teleport 
 queue_on_teleport[[repeat wait() until game:IsLoaded() print("ServerHoped or rejoined") loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/littlegui/main/V.G-Hubs-Source'))()]]
 
-for i, v in pairs(Games) do
+for i, v in next, Games do
     if i == game.PlaceId then
         loadstring(game:HttpGet(v))()
     end
 end
 
-for i,v in next, Unknown do
+for i, v in next, Unknown do
     loadstring(game:HttpGet(v))()
 end
 
-SendNotification("Warning", "RightControl to toggle if the gui does not show up then the game is not supported please try again later or never if the game is supported the gui will pop up reguardless GOOD DAY!", "rbxassetid://8429081004", 5)
+SendNotification("Warning", "RightControl or RightShift to toggle", "rbxassetid://8429081004", 5)
 SendNotification("Credits", "Toxic Mods screen thingy And Kiriot22 esp,IY for fly script inspiration,Staylin Save Settings,Felix for being sexy, E621 Anticheat bypasses", "rbxassetid://8429081004", 5)
 
 local function Copy()
@@ -67,19 +68,22 @@ function Gang.OnInvoke(v)
     end
 end
 StarterGui:SetCore("SendNotification",{Title = "V.G Hub Discord",Text = "Copy to clipboard?",Duration = 5,Callback = Gang,Button1 = "Yes",Button2 = "No"})
-local EndTime = tick()
-print("V.G Hub Took ", StarTime - EndTime, " To Load")
 
-
-local function Copy()
-    setclipboard("https://www.buymeacoffee.com/DekuDimz")
+for i,v in next, getconnections(LogService.MessageOut) do
+    v:Enable()
 end
-local Gang = Instance.new("BindableFunction")
+local function Copy()
+    setclipboard("https://www.youtube.com/channel/UCSdk562h1Sv-L3XhXac3MaQ")
+end
+local Uhhh = Instance.new("BindableFunction")
 
-function Gang.OnInvoke(v)
+function Uhhh.OnInvoke(v)
     if v == "Yes" then
         Copy()
-        SendNotification("Send Support Link", "Support Link Copying Sucessful", "rbxassetid://8429081004", 15)
+        SendNotification("YT", "Copied Link Done", "rbxassetid://8429081004", 15)
     end
 end
-StarterGui:SetCore("SendNotification",{Title = "Do you want to support me?",Text = "Copy Support Link to clipboard?",Duration = 5,Callback = Gang,Button1 = "Yes",Button2 = "No"})
+StarterGui:SetCore("SendNotification",{Title = "Do you want to Subscribe To DekuDimz?",Text = "Copy Youtube Channel Link to clipboard?",Duration = 50,Callback = Uhhh,Button1 = "Yes",Button2 = "No"})
+
+
+print("Took ", tick() - StartTime, " To Load <3")
