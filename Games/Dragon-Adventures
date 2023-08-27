@@ -330,6 +330,48 @@ Options.AlchemyFoods:OnChanged(function(String)
 end)
 end
 if game.PlaceId == 5777228223 then
+LeftGroupBox:AddToggle('dsa', {Text = 'Auto Sun Event', Default = false,Tooltip = 'N', Callback = function(A)
+    ForSho = A
+    Stepped:Connect(function()
+        if ForSho then
+            pcall(function()
+                NoCliper()
+            end)
+        end
+    end)
+
+    spawn(function()
+        while wait() and ForSho do
+            pcall(function()
+                if Player.Settings.Minigame.Value then
+                    for i,v in next, workspace.Interactions.SolsticeEvent.CatchObject:GetChildren() do
+                        if v:IsA("Model") and Mag(Player.Character:GetModelCFrame(), v:GetModelCFrame()) < math.huge then
+                            Tween(Player.Character.HumanoidRootPart, v:GetModelCFrame(), 500)
+                            RE("GetCatchObjectRemote"):FireServer(v)
+                        end
+                    end
+                elseif not Player.Settings.Minigame.Value and Player.Settings.Minigame.Queue.Value ~= "CatchObject" then
+                    Player.Character:FindFirstChild("HumanoidRootPart").CFrame = Workspace.Interactions.SolsticeEvent.CatchObject.StartZone.NoticeBeams:GetModelCFrame()
+                elseif Player.PlayerGui.MinigamesGui.RewardFrame.RewardsFrame.Visible then
+                    for i=1, 2 do
+                        RF("GetMinigameRewardRemote"):InvokeServer(i)
+                    end
+                    for i,v in next, Player.PlayerGui.MinigamesGui.RewardFrame.RewardsFrame:GetChildren() do
+                        if i ~= 1 or i ~= 2 then
+                            v:Destroy()
+                        end
+                    end
+                end 
+            end)
+        end
+    end)
+end})
+
+Toggles.dsa:OnChanged(function()
+    ForSho = Toggles.dsa.Value 
+end)
+
+
 LeftGroupBox:AddToggle('fffg', {Text = 'Auto Help Plants', Default = false,Tooltip = 'Need to ride your dragon'})
 Toggles.fffg:OnChanged(function()
 	G = Toggles.fffg.Value
