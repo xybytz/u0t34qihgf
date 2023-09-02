@@ -529,7 +529,7 @@ LeftGroupBox:AddToggle('BabyFarm', {Text = 'BabyFarm', Default = false,Tooltip =
         while wait(1) and BabyFarm do 
             pcall(function()
                 for i,v in pairs(Player.PlayerGui.AilmentsMonitorApp.Ailments:GetChildren()) do
-                    if v:IsA("ImageButton") then
+                    if v:IsA("Frame") then
                         wait(.1)
                         ReplicatedStorage.API["MonitorAPI/AddAdditive"]:FireServer(v.Name, math.random(1,100))
                     end
