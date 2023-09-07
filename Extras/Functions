@@ -48,3 +48,25 @@ end)
 VG.Kick = newcclosure(function(Message)
     return Kick(Player, Message)
 end)
+
+VG.DisableConnection = newcclosure(function(Signal)
+    for i,v in next, getconnections(Signal) do
+        v:Disable()
+    end
+end)
+
+VG.GetPosition = newcclosure(function(Instance)
+    if Instance:IsA("BasePart") then
+        return Instance.Position
+    elseif Instance:IsA("Model") then
+        return Instance:GetModelCFrame().Position
+    end
+end)
+
+VG.GetCFrame = newcclosure(function(Instance)
+    if Instance:IsA("BasePart") then
+        return Instance.CFrame
+    elseif Instance:IsA("Model") then
+        return Instance:GetModelCFrame()
+    end
+end)
