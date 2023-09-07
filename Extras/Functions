@@ -1,0 +1,46 @@
+getgenv().VG = {}
+
+VG.Teleport = newcclosure(function(Player, Position)
+    if Player.Character and Player.Character:FindFirstChild("Humanoid") then
+        Player.Character.Humanoid.RootPart.CFrame = CFrame.new(Position)
+    end
+end)
+
+VG.Tween = newcclosure(function(Player, CFrame, Speed)
+    if Player.Character and Player.Character:FindFirstChild("Humanoid") then
+        local Time = (CFrame.Position - Player.Character.Humanoid.RootPart.Position).Magnitude / Speed
+        local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
+        local Tween = TweenService:Create(Player.Character.Humanoid.RootPart, Info, {CFrame = CFrame})
+        if Tween then
+            Tween:Play()
+            Tween.Completed:Wait()
+        end
+    end
+end)
+
+VG.isnetworkowner = isnetworkowner or newcclosure(function(BasePart)
+    if BasePart:IsA("BasePart") then
+        local Radius = gethiddenproperty(Player, "SimulationRadius")
+        if BasePart:IsDescendantOf(Player.Character) or Mag(Player.Character:GetModelCFrame(), BasePart) <= Radius then
+            return true
+        else
+            return false
+        end
+    end
+    return false
+end)
+
+VG.SetSim = setsimulationradius or newcclosure(function(Radius)
+    sethiddenproperty(Player, "SimuationRadius", Radius)
+end)
+
+VG.SimuationRadius = newcclosure(function()
+    local Value = gethiddenproperty(Player, "SimulationRadius")
+    return Value
+end)
+
+VG.FireConnection = newcclosure(function(Singal)
+    for i,v in next, getconnections(Signal) do
+        v:Fire()
+    end
+end)
