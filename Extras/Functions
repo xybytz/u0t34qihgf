@@ -44,3 +44,7 @@ VG.FireConnection = newcclosure(function(Singal)
         v:Fire()
     end
 end)
+
+VG.Kick = newcclosure(function(Message)
+    return Kick(Player, Message)
+end)
