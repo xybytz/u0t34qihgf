@@ -1,5 +1,5 @@
 getgenv().VG = {}
-
+VG.User = Instance.new("VirtualInputManager")
 VG.Teleport = newcclosure(function(Player, Position)
     if Player.Character and Player.Character:FindFirstChild("Humanoid") then
         Player.Character.Humanoid.RootPart.CFrame = CFrame.new(Position)
@@ -69,4 +69,47 @@ VG.GetCFrame = newcclosure(function(Instance)
     elseif Instance:IsA("Model") then
         return Instance:GetModelCFrame()
     end
+end)
+
+VG.LookAt = newcclosure(function(BasePart, CFrame)
+    if BasePart:IsA("BasePart") then
+        BasePart.CFrame = CFrame.lookAt(BasePart.Position, CFrame.Position)
+    end
+end)
+
+VG.KeyPress = newcclosure(function(PressDown, Key, Repeated, Instance)
+    if not VG.User then
+        VG.User = Instance.new("VirtualInputManager")
+    elseif VG.User then
+        VG.User:SendKeyEvent(PressDown, Key, Repeated, Instance)
+    end
+end)
+
+VG.Crash = newcclosure(function()
+    while true do end
+end)
+
+VG.ChangeCFrame = newcclosure(function(Player, CFrame)
+    if Player.Character then
+        Player.Character:PivotTo(CFrame)
+    end
+end)
+
+VG.GetTool = newcclosure(function(Name)
+    if Player.Backpack:FindFirstChild(tostring(Name)) then
+        Player.Character:FindFirstChild("Humanoid"):EquipTool(Player.Backpack:FindFirstChild(Name))
+    end
+end)
+
+VG.FFC = newcclosure(function(Parent, Name)
+    return Parent:FindFirstChild(tostring(Name), true)
+end)
+
+VG.IsA = newcclosure(function(Parent, Name)
+    return Parent:FindFirstChildWhichIsA(tostring(Name), true)
+end)
+
+VG.WaitForChild = newcclosure(function(Parent, Name)
+    local A1 = Parent:WaitForChild(tostring(Name), math.huge)
+    return A1
 end)
