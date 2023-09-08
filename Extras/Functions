@@ -24,10 +24,22 @@ VG.Tween = newcclosure(function(Player, CFrame, Speed)
     end
 end)
 
+VG.GetNearestPlayerToBasePart = function(BasePart)
+    for i,v in next, Players:GetPlayers() do
+        local Radius = gethiddenproperty(v, "SimulationRadius")
+        if (v.Character:GetModelCFrame().Position - BasePart.Position).Magnitude > Radius and v ~= Player then
+            return true
+        else
+            return false
+        end
+    end
+    return false
+end
+
 VG.isnetworkowner = isnetworkowner or newcclosure(function(BasePart)
     if BasePart:IsA("BasePart") then
         local Radius = gethiddenproperty(Player, "SimulationRadius")
-        if BasePart:IsDescendantOf(Player.Character) or Mag(Player.Character:GetModelCFrame(), BasePart) <= Radius then
+        if (BasePart:IsDescendantOf(Player.Character) or Mag(Player.Character:GetModelCFrame(), BasePart) <= Radius) and not VG.GetNearestPlayerToBasePart(BasePart) then
             return true
         else
             return false
@@ -144,6 +156,3 @@ VG.Mag = newcclosure(function(Pos1, Pos2)
     local Mag = math.floor((Pos2.Position - Pos1.Position).Magnitude)
     return Mag
 end)
-return Mag
-end)
-
