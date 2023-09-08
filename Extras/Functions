@@ -141,7 +141,9 @@ VG.EnableConnection = newcclosure(function(Signal)
 end)
 
 VG.Mag = newcclosure(function(Pos1, Pos2)
-	local Mag = math.floor((Pos2.Position - Pos1.Position).Magnitude)
-	return Mag
+    local Mag = math.floor((Pos2.Position - Pos1.Position).Magnitude)
+    return Mag
+end)
+return Mag
 end)
 
