@@ -1,5 +1,6 @@
-
+repeat wait() until game:IsLoaded()
 getgenv().VG = {}
+
 VG.User = Instance.new("VirtualInputManager")
 VG.Protecter = Instance.new("Model", CoreGui)
 sethiddenproperty(VG.Protecter, "RobloxLocked", true)
@@ -140,6 +141,7 @@ VG.EnableConnection = newcclosure(function(Signal)
 end)
 
 VG.Mag = newcclosure(function(Pos1, Pos2)
-    local Mag = math.floor((Pos2.Position - Pos1.Position).Magnitude)
-    return Mag
+	local Mag = math.floor((Pos2.Position - Pos1.Position).Magnitude)
+	return Mag
 end)
+
