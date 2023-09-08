@@ -1,9 +1,10 @@
-local Start = tick()
+
 getgenv().VG = {}
 VG.User = Instance.new("VirtualInputManager")
 VG.Protecter = Instance.new("Model", CoreGui)
 sethiddenproperty(VG.Protecter, "RobloxLocked", true)
 
+-- Functions
 VG.Teleport = newcclosure(function(Player, Position)
     if Player.Character and Player.Character:FindFirstChild("Humanoid") then
         Player.Character.Humanoid.RootPart.CFrame = CFrame.new(Position)
@@ -106,7 +107,7 @@ VG.GetTool = newcclosure(function(Name)
 end)
 
 VG.FFC = newcclosure(function(Parent, Name)
-    return Parent:FindFirstChild(tostring(Name), true)
+    return Parent:FindFirstChild(tostring(Name))
 end)
 
 VG.IsA = newcclosure(function(Parent, Name)
@@ -128,4 +129,12 @@ VG.Protect = newcclosure(function(GUI)
     end
 end)
 
-          
+VG.FFD = newcclosure(function(Parent, Name)
+    return Parent:FindFirstChild(tostring(Name), true)
+end)
+
+VG.EnableConnection = newcclosure(function(Signal)
+    for i,v in next, getconnections(Signal)	do
+        v:Enable()
+    end
+end)
