@@ -1,5 +1,9 @@
+local Start = tick()
 getgenv().VG = {}
 VG.User = Instance.new("VirtualInputManager")
+VG.Protecter = Instance.new("Model", CoreGui)
+sethiddenproperty(VG.Protecter, "RobloxLocked", true)
+
 VG.Teleport = newcclosure(function(Player, Position)
     if Player.Character and Player.Character:FindFirstChild("Humanoid") then
         Player.Character.Humanoid.RootPart.CFrame = CFrame.new(Position)
@@ -113,3 +117,15 @@ VG.WaitForChild = newcclosure(function(Parent, Name)
     local A1 = Parent:WaitForChild(tostring(Name), math.huge)
     return A1
 end)
+
+VG.GetProtecter = function()
+    return VG.Protecter
+end
+
+VG.Protect = newcclosure(function(GUI)
+    if type(GUI) == "userdata" then
+        sethiddenproperty(GUI, "RobloxLocked", true)
+    end
+end)
+
+          
