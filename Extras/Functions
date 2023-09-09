@@ -156,8 +156,8 @@ VG.Mag = newcclosure(function(Pos1, Pos2)
     local Mag = math.floor((Pos2.Position - Pos1.Position).Magnitude)
     return Mag
 end)
-
-VG.MetalPipe = newcclosure(function(Loop)
+-- Music Functions
+VG.MetalPipe = function(Loop)
     local Pipe = Instance.new("Sound", Workspace)
     Pipe.SoundId = "rbxassetid://6729922069"
     Pipe.Looped = Loop
@@ -165,4 +165,4 @@ VG.MetalPipe = newcclosure(function(Loop)
     Pipe:Play()
     wait(4)
     Pipe:Destroy()
-end)
+end
