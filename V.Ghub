@@ -3,7 +3,7 @@ local StartTime = tick()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Functions"))()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Anti-Cheat"))()
 local A = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.G-Hub-Games-List"))()
-VG.MetalPipe(false)
+
 local BlurEffect = Instance.new("BlurEffect")
 BlurEffect.Parent = Lighting
 BlurEffect.Size = 0
@@ -87,3 +87,4 @@ StarterGui:SetCore("SendNotification",{Title = "Do you want to Subscribe To Deku
 
 
 print("Took ", tick() - StartTime, " To Load <3")
+VG.MetalPipe(false)
