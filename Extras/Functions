@@ -25,15 +25,15 @@ VG.Tween = newcclosure(function(Player, CFrame, Speed)
 end)
 
 VG.GetNearestPlayerToBasePart = function(BasePart)
-	for i,v in next, Players:GetPlayers() do
-		local Radius = gethiddenproperty(v, "SimulationRadius")
-		if (v.Character:GetModelCFrame().Position - BasePart.Position).Magnitude > Radius and v ~= Player then
-			return true 
-		else
-			return false
-		end
-	end	
-	return false
+    for i,v in next, Players:GetPlayers() do
+        local Radius = gethiddenproperty(v, "SimulationRadius")
+        if (v.Character:GetModelCFrame().Position - BasePart.Position).Magnitude > Radius and v ~= Player then
+            return true
+        else
+            return false
+        end
+    end
+    return false
 end
 
 VG.isnetworkowner = isnetworkowner or newcclosure(function(BasePart)
@@ -153,16 +153,16 @@ VG.EnableConnection = newcclosure(function(Signal)
 end)
 
 VG.Mag = newcclosure(function(Pos1, Pos2)
-	local Mag = math.floor((Pos2.Position - Pos1.Position).Magnitude)
-	return Mag
+    local Mag = math.floor((Pos2.Position - Pos1.Position).Magnitude)
+    return Mag
 end)
 
 VG.MetalPipe = newcclosure(function(Loop)
-	local Pipe = Instance.new("Sound", CoreGui)
-	Pipe.SoundId = "rbxassetid://6729922069"
-	Pipe.Looped = Loop
-	Pipe.Volume = 9e9
-	Pipe:Play()
-	wait(4)
-	Pipe:Destroy()
+    local Pipe = Instance.new("Sound", Workspace)
+    Pipe.SoundId = "rbxassetid://6729922069"
+    Pipe.Looped = Loop
+    Pipe.Volume = 9e9
+    Pipe:Play()
+    wait(4)
+    Pipe:Destroy()
 end)
