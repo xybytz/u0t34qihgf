@@ -169,13 +169,13 @@ end
 
 
 VG.Flying = function(Toggle, Speed)
+	getgenv().Toggle1 = Toggle
     if Toggle then
 		print("Yes")
         local Max = 0
         local LP = Players.LocalPlayer
         local Mouse = LP:GetMouse()
         Max = Max + 1
-        getgenv().Fly = false
         if Toggle then
             local T = LP.Character:FindFirstChild("UpperTorso",true) or LP.Character:FindFirstChild("HumanoidRootPart",true)
             local S = {
@@ -192,7 +192,6 @@ VG.Flying = function(Toggle, Speed)
             }
             local SPEED = 5
             local function FLY()
-                getgenv().Fly = true
                 local BodyGyro = Instance.new("BodyGyro", T)
                 local BodyVelocity = Instance.new("BodyVelocity", T)
                 BodyGyro.P = 9e4
@@ -232,7 +231,7 @@ VG.Flying = function(Toggle, Speed)
                             BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
                         end
                         BodyGyro.cframe = Workspace.CurrentCamera.CoordinateFrame
-                    until not getgenv().Fly
+					until not Toggle or not Toggle1
                     S = {
                         F = 0,
                         B = 0,
@@ -280,7 +279,6 @@ VG.Flying = function(Toggle, Speed)
             )
             FLY()
             if Max == 2 then
-                getgenv().Fly = false
                 Max = 0
             end
         end
