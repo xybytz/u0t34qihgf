@@ -168,14 +168,15 @@ VG.MetalPipe = function(Loop)
 end
 
 
-VG.Flying = function(Toggle)
+VG.Flying = function(Toggle, Speed)
     if Toggle then
+		print("Yes")
         local Max = 0
         local LP = Players.LocalPlayer
         local Mouse = LP:GetMouse()
         Max = Max + 1
         getgenv().Fly = false
-        if Sex then
+        if Toggle then
             local T = LP.Character:FindFirstChild("UpperTorso",true) or LP.Character:FindFirstChild("HumanoidRootPart",true)
             local S = {
                 F = 0,
@@ -203,7 +204,7 @@ VG.Flying = function(Toggle)
                     repeat wait()
                         LP.Character.Humanoid.PlatformStand = true
                         if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
-                            SPEED = 500
+                            SPEED = Speed
                         elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
                             SPEED = 0
                         end
