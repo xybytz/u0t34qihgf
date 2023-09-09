@@ -3,7 +3,7 @@ local StartTime = tick()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Functions"))()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Anti-Cheat"))()
 local A = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.G-Hub-Games-List"))()
-
+VG.MetalPipe(false)
 local BlurEffect = Instance.new("BlurEffect")
 BlurEffect.Parent = Lighting
 BlurEffect.Size = 0
