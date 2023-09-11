@@ -125,6 +125,7 @@ getgenv().Games = {
     [6679968919] = "https://raw.githubusercontent.com/1201for/V.G-Hub-Part-3/main/Fly-Race",
     [10320676839] = "https://raw.githubusercontent.com/1201for/V.G-Hub/main/Games/Project-XXL",
     [4924516231] = "https://raw.githubusercontent.com/1201for/V.G-Hub/main/Games/Punching-simulator", 
+    [4328630315] = "https://raw.githubusercontent.com/1201for/V.G-Hub/main/Games/Mega-Fun-Obby",
 }
 
 getgenv().Unknown = {
