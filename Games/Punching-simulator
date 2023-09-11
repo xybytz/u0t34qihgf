@@ -1,22 +1,21 @@
-
 local eggs = {}
 for i,v in next, Workspace.EggVendors:GetChildren() do
-	if v:IsA("Model") and not table.find(eggs, v.Name) and not v.Name:find("Robux") then
-		table.insert(eggs, v.Name)
-	end
+  if v:IsA("Model") and not table.find(eggs, v.Name) and not v.Name:find("Robux") then
+    table.insert(eggs, v.Name)
+  end
 end
 local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
 local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
 local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
 local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
 local Window = Library:CreateWindow({
-    Title = MarketplaceService:GetProductInfo(game.PlaceId).Name,
-    Center = true, 
-    AutoShow = true,
+  Title = MarketplaceService:GetProductInfo(game.PlaceId).Name,
+  Center = true,
+  AutoShow = true,
 })
 local Tabs = {
-    Main = Window:AddTab('Main'),
-    ['UI Settings'] = Window:AddTab('UI Settings'),
+  Main = Window:AddTab('Main'),
+  ['UI Settings'] = Window:AddTab('UI Settings'),
 }
 
 local LeftGroupBox = Tabs.Main:AddLeftGroupbox('')
@@ -27,131 +26,131 @@ local RightGroupBox2 = Tabs.Main:AddRightGroupbox("")
 local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
 
 LeftGroupBox:AddToggle('Sprind', {Text = 'OP Clicker gamepass', Default = false,Tooltip = '', Callback = function(A)
-	getrenv()._G.autoClickerGamepassOn  = A
+  getrenv()._G.autoClickerGamepassOn  = A
 end})
 Toggles.Sprind:OnChanged(function(State)
-    getrenv()._G.autoClickerGamepassOn  = Toggles.Sprind.Value
+  getrenv()._G.autoClickerGamepassOn  = Toggles.Sprind.Value
 end)
 
 LeftGroupBox:AddToggle('hate', {Text = 'Auto Fast Train', Default = false,Tooltip = '', Callback = function(A)
-	ForZYou = A
-	spawn(function()
-		while wait() and ForZYou do
-			pcall(function()
-				ReplicatedStorage.Events.DamageIncreaseOnClickEvent:FireServer()
-			end)
-		end
-	end)
+  ForZYou = A
+  spawn(function()
+    while wait() and ForZYou do
+      pcall(function()
+        ReplicatedStorage.Events.DamageIncreaseOnClickEvent:FireServer()
+      end)
+    end
+  end)
 end})
 Toggles.hate:OnChanged(function(State)
-    ForZYou = Toggles.hate.Value
+  ForZYou = Toggles.hate.Value
 end)
 
 LeftGroupBox:AddToggle('hate', {Text = 'Auto Egg', Default = false,Tooltip = '', Callback = function(A)
-	ForZYou = A
-	spawn(function()
-		while wait() and ForZYou do
-			pcall(function()
-				ReplicatedStorage.Events.PlayerPressedKeyOnEgg:FireServer(Egg)
-			end)
-		end
-	end)
+  ForZYou = A
+  spawn(function()
+    while wait() and ForZYou do
+      pcall(function()
+        ReplicatedStorage.Events.PlayerPressedKeyOnEgg:FireServer(Egg)
+      end)
+    end
+  end)
 end})
 Toggles.hate:OnChanged(function(State)
-    ForZYou = Toggles.hate.Value
+  ForZYou = Toggles.hate.Value
 end)
 
 LeftGroupBox:AddDropdown('e3', {Values = eggs,Default = 1,Multi = false,Text = 'eggs',Tooltip = '',Callback = function(Value)
-    Egg = Value
+  Egg = Value
 end})
 
 Options.e3:OnChanged(function()
-    Egg = Options.e3.Value
+  Egg = Options.e3.Value
 end)
 
 LeftGroupBox:AddToggle('ffg', {Text = 'Auto Equip Best', Default = false,Tooltip = '', Callback = function(A)
-	lol = A
-	spawn(function()
-		while wait() and lol do
-			pcall(function()
-				ReplicatedStorage.Events.EquipBest:InvokeServer()
-			end)
-		end
-	end)
+  lol = A
+  spawn(function()
+    while wait() and lol do
+      pcall(function()
+        ReplicatedStorage.Events.EquipBest:InvokeServer()
+      end)
+    end
+  end)
 end})
 Toggles.ffg:OnChanged(function(State)
-    lol = Toggles.ffg.Value
+  lol = Toggles.ffg.Value
 end)
 
 
 RightGroupBox:AddToggle('SSS', {Text = 'WalkSpeed Toggle',Default = false,Tooltip = '', Callback = function(A)
-WS = A 
-    RunService.Stepped:Connect(function()
-        if WS then
-            pcall(function()
-                Player.Character:FindFirstChildWhichIsA("Humanoid").WalkSpeed = WalkSpeed or 16
-            end)
-        end
-    end)
+  WS = A
+  RunService.Stepped:Connect(function()
+    if WS then
+      pcall(function()
+        Player.Character:FindFirstChildWhichIsA("Humanoid").WalkSpeed = WalkSpeed or 16
+      end)
+    end
+  end)
 end})
 Toggles.SSS:OnChanged(function(State)
-    Foe = Toggles.SSS.Value 
+  Foe = Toggles.SSS.Value
 end)
 RightGroupBox:AddInput('SSF3', {Default = 'WalkSpeed',Numeric = true,Finished = false,Text = 'WalkSpeed',Tooltip = 'Numbers Only',Placeholder = 'WalkSpeed'})
 Options.SSF3:OnChanged(function(State)
-    WalkSpeed = Options.SSF3.Value
+  WalkSpeed = Options.SSF3.Value
 end)
 
 RightGroupBox:AddToggle('EEE', {Text = 'JumpPower Toggle',Default = false,Tooltip = '', Callback = function(A)
-JP = A 
-    RunService.Stepped:Connect(function()
-        if JP then
-            pcall(function()
-                local H = Player.Character:FindFirstChildWhichIsA("Humanoid")
-                if H.UseJumpPower then
-                    H.JumpPower = JumpPower or 50
-                else
-                    H.JumpHeight = JumpPower or 50
-                end
-            end)
+  JP = A
+  RunService.Stepped:Connect(function()
+    if JP then
+      pcall(function()
+        local H = Player.Character:FindFirstChildWhichIsA("Humanoid")
+        if H.UseJumpPower then
+          H.JumpPower = JumpPower or 50
+        else
+          H.JumpHeight = JumpPower or 50
         end
-    end)
+      end)
+    end
+  end)
 end})
 Toggles.EEE:OnChanged(function(State)
-    JP = Toggles.EEE.Value 
+  JP = Toggles.EEE.Value
 end)
 RightGroupBox:AddInput('SSF1', {Default = 'JumpPower',Numeric = true,Finished = false,Text = 'JumpPower',Tooltip = 'Numbers Only',Placeholder = 'JumpPower'})
 
 Options.SSF1:OnChanged(function(State)
-    JumpPower = Options.SSF1.Value 
+  JumpPower = Options.SSF1.Value
 end)
 
 RightGroupBox:AddSlider('FlySpeed', {Text = 'FlySpeed',Default = 50,Min = 16,Max = 500,Rounding = 0,Compact = false,Callback = function(Value)
-	Speed = Value
+  Speed = Value
 end})
 
 Options.FlySpeed:OnChanged(function()
-    Speed = Options.FlySpeed.Value
+  Speed = Options.FlySpeed.Value
 end)
 
 RightGroupBox:AddLabel('Fly KeyBind'):AddKeyPicker('name2', {Default = 'H',SyncToggleState = false,Mode = 'Toggle',Text = 'Fly',NoUI = true,Callback = function(Value)
-    VG.Flying(Value, Speed)
+  VG.Flying(Value, Speed)
 end,
 ChangedCallback = function(New)
-	print(New)
+  print(New)
 end})
-Options.name2:SetValue({ 'H', 'Toggle' }) 
+Options.name2:SetValue({ 'H', 'Toggle' })
 
 RightGroupBox:AddButton('ServerHop', function() ServerHop() end)
-RightGroupBox:AddButton('Rejoin', function() 
-    local Success, ErrorMessage = pcall(function()
-        Rejoin()
-    end)
-    if ErrorMessage and not Success then
-        warn(ErrorMessage)
-    elseif Success and not ErrorMessage then
-        print(Success)
-    end
+RightGroupBox:AddButton('Rejoin', function()
+  local Success, ErrorMessage = pcall(function()
+    Rejoin()
+  end)
+  if ErrorMessage and not Success then
+    warn(ErrorMessage)
+  elseif Success and not ErrorMessage then
+    print(Success)
+  end
 end)
 Library:SetWatermarkVisibility(true)
 local FrameTimer = tick()
@@ -159,28 +158,29 @@ local FrameCounter = 0;
 local FPS = 60;
 
 local WatermarkConnection = RenderStepped:Connect(function()
-    FrameCounter += 1;
-    if (tick() - FrameTimer) >= 1 then
-        FPS = FrameCounter;
-        FrameTimer = tick();
-        FrameCounter = 0;
-    end;
-	Library:SetWatermark(('V.G Hub | %s fps | %s ms %s GameId'):format(
-        math.floor(FPS),
-        math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue()),  game.GameId
-    ));
+  FrameCounter = FrameCounter + 1;
+  if (tick() - FrameTimer) >= 1 then
+    FPS = FrameCounter;
+    FrameTimer = tick();
+    FrameCounter = 0;
+  end;
+  Library:SetWatermark(('V.G Hub | %s fps | %s ms %s GameId'):format(
+    math.floor(FPS),
+    math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue()),  game.GameId
+  ));
 end);
 
 MenuGroup:AddButton('Unload', function() Library:Unload() end)
-MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = "RightControl", NoUI = true, Text = 'Menu keybind' }) 
+MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = "RightControl", NoUI = true, Text = 'Menu keybind' })
 
-Library.ToggleKeybind = Options.MenuKeybind 
+Library.ToggleKeybind = Options.MenuKeybind
 ThemeManager:SetLibrary(Library)
 SaveManager:SetLibrary(Library)
 
-SaveManager:IgnoreThemeSettings() 
-SaveManager:SetIgnoreIndexes({ 'MenuKeybind' }) 
+SaveManager:IgnoreThemeSettings()
+SaveManager:SetIgnoreIndexes({ 'MenuKeybind' })
 ThemeManager:SetFolder('V.G Hub')
 SaveManager:SetFolder("V.G Hub/" .. game.PlaceId)
-SaveManager:BuildConfigSection(Tabs['UI Settings']) 
+SaveManager:BuildConfigSection(Tabs['UI Settings'])
 ThemeManager:ApplyToTab(Tabs['UI Settings'])
+
