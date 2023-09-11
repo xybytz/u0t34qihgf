@@ -183,3 +183,4 @@ ThemeManager:SetFolder('V.G Hub')
 SaveManager:SetFolder("V.G Hub/" .. game.PlaceId)
 SaveManager:BuildConfigSection(Tabs['UI Settings']) 
 ThemeManager:ApplyToTab(Tabs['UI Settings'])
+            
