@@ -44,7 +44,7 @@ local queue_on_teleport = queue_on_teleport or syn and syn.queue_on_teleport
 queue_on_teleport[[repeat wait() until game:IsLoaded() print("ServerHoped or rejoined") loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/littlegui/main/V.G-Hubs-Source'))()]]
 
 for i, v in next, Games do
-    if i == game.PlaceId then
+    if i == game.GameId or i == game.PlaceId then
         loadstring(game:HttpGet(v))()
     end
 end
@@ -65,9 +65,6 @@ function Gang.OnInvoke(v)
 end
 StarterGui:SetCore("SendNotification",{Title = "V.G Hub Discord",Text = "Copy to clipboard?",Duration = 5,Callback = Gang,Button1 = "Yes",Button2 = "No"})
 
-for i,v in next, getconnections(LogService.MessageOut) do
-    v:Enable()
-end
 local function Copy()
     setclipboard("https://www.youtube.com/channel/UCSdk562h1Sv-L3XhXac3MaQ")
 end
