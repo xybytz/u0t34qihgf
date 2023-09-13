@@ -49,10 +49,6 @@ for i, v in next, Games do
     end
 end
 
-for i, v in next, Unknown do
-    loadstring(game:HttpGet(v))()
-end
-
 SendNotification("Warning", "RightControl or RightShift to toggle", "rbxassetid://8429081004", 5)
 SendNotification("Credits", "Toxic Mods screen thingy And Kiriot22 esp,IY for fly script inspiration,Staylin Save Settings,Felix for being sexy, E621 Anticheat bypasses", "rbxassetid://8429081004", 5)
 
