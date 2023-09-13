@@ -124,30 +124,33 @@ if isfile("V.G Hub//" .. Name) and readfile("V.G Hub//" .. Name) then
     Settings = HttpService:JSONDecode(readfile("V.G Hub//" .. Name))
 end
 
-local Yes = {
+local Hack = {
     "Kick",
     "kick",
 }
 
-local Disables = {
-    Error,
-    MessageOut,
-    Idled
+local Uh = {
+    Player.Idled,
+    ScriptContext.Error,
+    LogService.MessageOut,
 }
 
-
-local OldNameCall = nil
-OldNameCall = hookmetamethod(game, "__namecall", function(...)
-    local Args = {...}
-    local A, B, C = ...
-    if table.find(Yes, getnamecallmethod()) and A == Player then
+local Hacker = nil
+Hacker = hookmetamethod(game, "__namecall", newcclosure(function(...)
+    local Self, Key = ...
+    if table.find(Hack, getnamecallmethod()) and Self == Player then
         return
     end
-    if type(A) ~= "Instance" then
-        return OldNameCall(...)
+    if table.find(Uh, Self) then
+        for i,v in next, getconnections(Self) do
+            v:Disable()
+        end
     end
-    return OldNameCall(...)
-end)
+    if type(Self) == "Instance" then
+        return Hacker(...)
+    end
+    return Hacker(...)
+end))
 
 
 if setfflag then
@@ -243,12 +246,6 @@ end
 G.Mag = function(A, B)
     return (A.Position - B.Position).Magnitude
 end
-if game.GameId ~= 111958650 then
-	for i,v in next, Disables do 
-	    for i,v in next, getconnections(v) do
-	        v:Disable()
-	    end
-	end
-end
+
 ScriptContext:SetTimeout(0)
 local getconstants=debug.getconstants or getconstants;local getidentity=get_thread_context or getthreadcontext or getidentity or syn.get_thread_identity;local setidentity=set_thread_context or setthreadcontext or setidentity or syn.set_thread_identity;local hookfunc=hookfunction or hookfunc or detour_function;for a,b in next,getgc()do if type(b)=="function"and islclosure(b)then local c=getconstants(b)if table.find(c,"Detected")and table.find(c,"crash")then hookfunc(b,function()return task.wait(math.huge)end)end end end
