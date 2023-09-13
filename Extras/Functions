@@ -2,6 +2,7 @@ repeat wait() until game:IsLoaded()
 getgenv().VG = {}
 
 VG.User = Instance.new("VirtualInputManager")
+VG.FOV = 1000
 VG.Protecter = Instance.new("Model", CoreGui)
 sethiddenproperty(VG.Protecter, "RobloxLocked", true)
 
@@ -169,9 +170,9 @@ end
 
 
 VG.Flying = function(Toggle, Speed)
-	getgenv().Toggle1 = Toggle
+    getgenv().Toggle1 = Toggle
     if Toggle then
-		print("Yes")
+        print("Yes")
         local Max = 0
         local LP = Players.LocalPlayer
         local Mouse = LP:GetMouse()
@@ -231,7 +232,7 @@ VG.Flying = function(Toggle, Speed)
                             BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
                         end
                         BodyGyro.cframe = Workspace.CurrentCamera.CoordinateFrame
-					until not Toggle or not Toggle1
+                    until not Toggle or not Toggle1
                     S = {
                         F = 0,
                         B = 0,
@@ -283,4 +284,41 @@ VG.Flying = function(Toggle, Speed)
             end
         end
     end
+end
+
+VG.Players = function()
+    local Table = Players:GetPlayers()
+    return Table
+end
+
+VG.GetClosest = function()
+    local Max, C = math.huge, nil
+    for i,v in next, VG.Players() do
+        if v ~= Player and v.Character and v.Character.PrimaryPart then
+            local Mag = Mag(Player.Character:GetModelCFrame(), v.Character:GetModelCFrame()) < Max
+            if Mag <= Max then
+                C = v
+            end
+        end
+    end
+    return C
+end
+
+VG.GetClosestToCam = function()
+    local Max, C = VG.FOV, nil
+    for i,v in next, VG.Players() do
+        if v ~= Player and v.Character and v.Character.PrimaryPart then
+            local Head = v:FindFirstChild("Head", true)
+            if Head then
+                local Screen, Point = Workspace.CurrentCamera:WorldToScreenPoint(VG.GetPosition(Head))
+                if Screen then
+                    local Mag = (Vector2.new(Point.X, Point.Y) - Vector2.new(Player:GetMouse().X, Player:GetMouse().Y))
+                    if Mag <= Max then
+                        C = v
+                    end
+                end
+            end
+        end
+    end
+    return C
 end
