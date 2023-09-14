@@ -90,11 +90,7 @@ VG.GetCFrame = newcclosure(function(Instance)
     end
 end)
 
-VG.LookAt = newcclosure(function(BasePart, CFrame)
-    if BasePart:IsA("BasePart") then
-        BasePart.CFrame = CFrame.lookAt(BasePart.Position, CFrame.Position, Vector3.new(0,1,0)
-    end
-end)
+
 
 VG.KeyPress = newcclosure(function(PressDown, Key, Repeated, Instance)
     if not VG.User then
