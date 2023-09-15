@@ -596,18 +596,6 @@ Toggles.Crash:OnChanged(function(State)
     Crash = Toggles.Crash.Value
 end)
 
-LeftGroupBox:AddToggle('FK', {Text = 'Auto Claim Quest', Default = false,Tooltip = '', Callback = function(A)
-    spawn(function()
-        while wait() and FK do 
-            pcall(function()
-                ReplicatedStorage.API:FindFirstChild("QuestAPI/ClaimQuest"):InvokeServer(tostring(Player.PlayerGui.QuestApp.Board.Body.Contents.ScrollingFrame.QuestTemplate.Body:GetAttribute("QuestId")))
-            end)
-        end 
-    end)
-end})
-Toggles.FK:OnChanged(function(State)
-    FK = Toggles.FK.Value
-end)
 
 LeftGroupBox:AddToggle('Neon', {Text = 'Auto Neon', Default = false,Tooltip = '', Callback = function(A)
     spawn(function()
