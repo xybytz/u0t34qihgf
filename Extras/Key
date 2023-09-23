@@ -61,12 +61,12 @@ Iris:Connect(function()
     if not Verified then
         Iris.Window({Title, [Iris.Args.Window.NoClose] = true, [Iris.Args.Window.NoResize] = true, [Iris.Args.Window.NoScrollbar] = true, [Iris.Args.Window.NoCollapse] = true}, {size = Iris.State(Vector2.new(700, 60))}) do
             Iris.SameLine() do
-                if Iris.Button({"I have visited the website. "..nTask:getURL()}).clicked then
+                if Iris.Button({"I have Done The Keysystem. "..nTask:getURL()}).clicked then
                     task.spawn(function()
                         Verified = nTask:verify()
                     end)
                 end
-                if Iris.Button({"Copy Website"}).clicked then
+                if Iris.Button({"Copy Key Link"}).clicked then
                     nTask:copyURL()
                 end
                 Iris.End()
