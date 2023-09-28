@@ -329,7 +329,9 @@ Options.AlchemyFoods:OnChanged(function(String)
     AlchemyFoods = Options.AlchemyFoods.Value
 end)
 end
+
 if game.PlaceId == 5777228223 then
+--[[
 LeftGroupBox:AddToggle('dsa', {Text = 'Auto Sun Event', Default = false,Tooltip = 'N', Callback = function(A)
     ForSho = A
     Stepped:Connect(function()
@@ -406,7 +408,7 @@ Toggles.fffg:OnChanged(function()
 		end
 	end)
 end)
-
+]]--
 end
 LeftGroupBox:AddToggle('sdfg', {Text = 'Auto Collect', Default = false,Tooltip = ''})
 Toggles.sdfg:OnChanged(function(State)
@@ -424,7 +426,7 @@ AutoCollect = Toggles.sdfg.Value
                 for i, v in pairs(Workspace.Interactions.Nodes.Harvest[CollectionItem].ActiveNodes:GetChildren()) do
                     if v:IsA("Model") and v:FindFirstChildWhichIsA("BasePart") and AutoCollect then
                         if v.CurrentPlayer.Value ~= Player.Name and wait(3) then
-                            Player.Character.HumanoidRootPart.CFrame = v:FindFirstChildWhichIsA("BasePart").CFrame * CFrame.new(40, 5, 0)
+                            Player.Character.HumanoidRootPart.CFrame = v:FindFirstChildWhichIsA("BasePart").CFrame * CFrame.new(40, -40, 0)
                             Tween(Player.Character:FindFirstChild("HumanoidRootPart"), v:FindFirstChildWhichIsA("BasePart").CFrame, 16)
                         end
                         wait(1)
