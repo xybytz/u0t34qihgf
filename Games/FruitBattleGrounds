@@ -203,38 +203,6 @@ end)
 local Spi = nil
 LeftGroupBox:AddDropdown('Method2', {Values = Wants, Default = 1, Multi = false, Text = 'Fruits', Tooltip = ''})
 
-
-LeftGroupBox:AddToggle('SD623', {Text = 'Auto Spin', Default = false,Tooltip = ''})
-Toggles.SD623:OnChanged(function(State)
-Spin = Toggles.SD623.Value
-spawn(function()
-    while Spin do wait(2)
-        local G = {Spi, Spi2, Spi3}
-        if not table.find(G, Slots[Slot.Value].Value) and Player.MAIN_DATA.Gems.Value >= 49 then
-            Load.Server("FruitsHandler","Spin",{})  
-        end
-    end 
-end)
-end)
-
-LeftGroupBox:AddDropdown('er', {Values = Wants, Default = 1, Multi = false, Text = 'Fruits', Tooltip = ''})
-
-Options.er:OnChanged(function(State)
-    Spi = Options.er.Value
-end)
-
-LeftGroupBox:AddDropdown('e', {Values = Wants, Default = 1, Multi = false, Text = 'Fruits', Tooltip = ''})
-
-Options.e:OnChanged(function(State)
-    Spi2 = Options.e.Value
-end)
-
-LeftGroupBox:AddDropdown('rre', {Values = Wants, Default = 1, Multi = false, Text = 'Fruits', Tooltip = ''})
-
-Options.rre:OnChanged(function(State)
-    Spi3 = Options.rre.Value
-end)
-
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 LeftGroupBox:AddToggle('ESP1', {Text = 'Esp Toggle', Default = false,Tooltip = ''})
 Toggles.ESP1:OnChanged(function(State)
