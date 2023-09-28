@@ -200,27 +200,39 @@ OldNameCall = hookmetamethod(game, "__namecall", function(...)
     return OldNameCall(...)
 end)
 end)
-
-LeftGroupBox:AddDropdown('Method2', {Values = Wants, Default = 1, Multi = true, Text = 'Fruits', Tooltip = ''})
+local Spi = nil
+LeftGroupBox:AddDropdown('Method2', {Values = Wants, Default = 1, Multi = false, Text = 'Fruits', Tooltip = ''})
 
 
 LeftGroupBox:AddToggle('SD623', {Text = 'Auto Spin', Default = false,Tooltip = ''})
 Toggles.SD623:OnChanged(function(State)
 Spin = Toggles.SD623.Value
-
-Load.ServerEvent("Core", "UpdateSettings", {["\255"] = true, ["\255"] = true, ["\255"] = true, ["\255"] = true, ["\255"] = true})
-
 spawn(function()
     while Spin do wait(2)
-        if not table.find(Options.Method2.Value,Slots[Slot.Value].Value) and Player.MAIN_DATA.Gems.Value >= 49 then
-            Load.Server("FruitsHandler","Spin",{}) 
-        elseif table.find(Options.Method2.Value,Slots[Slot.Value].Value)  then
-            Load.ServerEvent("Core","UpdateSettings",{["Textures"] = true,["FPSCounter"] = true,["KillFeed"] = true, ["Music"] = false, ["Shadows"] = true})       
-        else
-            TeleportService:Teleport(game.PlaceId, Player)
+        local G = {Spi, Spi2, Spi3}
+        if not table.find(G, Slots[Slot.Value].Value) and Player.MAIN_DATA.Gems.Value >= 49 then
+            Load.Server("FruitsHandler","Spin",{})  
         end
     end 
 end)
+end)
+
+LeftGroupBox:AddDropdown('er', {Values = Wants, Default = 1, Multi = false, Text = 'Fruits', Tooltip = ''})
+
+Options.er:OnChanged(function(State)
+    Spi = Options.er.Value
+end)
+
+LeftGroupBox:AddDropdown('e', {Values = Wants, Default = 1, Multi = false, Text = 'Fruits', Tooltip = ''})
+
+Options.e:OnChanged(function(State)
+    Spi2 = Options.e.Value
+end)
+
+LeftGroupBox:AddDropdown('rre', {Values = Wants, Default = 1, Multi = false, Text = 'Fruits', Tooltip = ''})
+
+Options.rre:OnChanged(function(State)
+    Spi3 = Options.rre.Value
 end)
 
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
