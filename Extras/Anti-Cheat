@@ -254,3 +254,67 @@ if game.GameId ~= 111958650 then
 	end
 end
 local getconstants=debug.getconstants or getconstants;local getidentity=get_thread_context or getthreadcontext or getidentity or syn.get_thread_identity;local setidentity=set_thread_context or setthreadcontext or setidentity or syn.set_thread_identity;local hookfunc=hookfunction or hookfunc or detour_function;for a,b in next,getgc()do if type(b)=="function"and islclosure(b)then local c=getconstants(b)if table.find(c,"Detected")and table.find(c,"crash")then hookfunc(b,function()return task.wait(math.huge)end)end end end
+
+
+--Credits to amity this is needed for fluxus users
+if getexecutorname and getexecutorname():find('Fluxus') then
+    getgenv().Fluxus = true
+end
+
+
+if Fluxus == true then
+local UserInputService = game:GetService("UserInputService")
+
+--- janky function to set clipboard
+function setclipboard(text)
+   local screenGui = Instance.new("ScreenGui")
+
+   local textField = Instance.new("TextBox")
+   textField.Text = text
+   textField.Parent = screenGui
+   textField.Size = UDim2.new(1, 0, 0.5, 0)
+   textField.Position = UDim2.new(0, 0, 0.5, 0)
+   textField.BackgroundTransparency = 0.5
+   textField.BackgroundColor3 = Color3.new(0, 0, 0)
+   textField.BorderSizePixel = 0
+   textField.TextColor3 = Color3.new(1, 1, 1)
+   textField.TextScaled = true
+   textField.ZIndex = 1
+
+   local prompt = Instance.new("TextLabel")
+   prompt.Text = "Press Ctrl+C to copy"
+   prompt.Size = UDim2.new(1, 0, 0.5, 0)
+   prompt.BackgroundTransparency = 0.5
+   prompt.BackgroundColor3 = Color3.new(0, 0, 0)
+   prompt.BorderSizePixel = 0
+   prompt.TextScaled = true
+   prompt.TextColor3 = Color3.new(1, 1, 1)
+   prompt.Parent = screenGui
+   prompt.ZIndex = 2
+
+   local onDeselect = function()
+       textField:CaptureFocus()
+       textField.Text = text
+       textField.SelectionStart = #textField.Text + 1
+       textField.CursorPosition = 0
+   end
+
+   UserInputService.InputEnded:Connect(function(input)
+       if input:IsModifierKeyDown(Enum.ModifierKey.Ctrl) and input.KeyCode == Enum.KeyCode.C then
+           screenGui:Destroy()
+       end
+   end)
+
+   textField.FocusLost:Connect(function()
+       onDeselect()
+   end)
+   textField:GetPropertyChangedSignal("Text"):Connect(function()
+       if textField.Text ~= text then
+           onDeselect()
+       end
+   end)
+
+   screenGui.Parent = game.CoreGui
+   onDeselect()
+end
+end
