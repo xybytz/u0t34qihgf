@@ -1,3 +1,4 @@
+
 local VirtualUser = VirtualUser
 Player.Idled:connect(
     function()
@@ -340,6 +341,17 @@ local NoCliper = function()
     return Player.Character
 end
 
+local IsStarted = function()
+    local Yes = Workspace.Interiors:FindFirstChild("TileSkipMinigame", true)
+    if Yes and Yes.Minigame:FindFirstChild("GoalPart") then
+        wait(5)
+        Player.Character.HumanoidRootPart.CFrame = Yes.Minigame:FindFirstChild("GoalPart").CFrame
+    else
+        GoToStore("TileSkipMinigameLobby")
+        Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors.TileSkipMinigameLobby.JoinZone.EmitterPart.CFrame
+    end
+end
+
 local Neons = {}
 local AilmentFurnitues = {}
 local Neon = {}
@@ -503,10 +515,10 @@ local Tabs = {
     ['UI Settings'] = Window:AddTab('UI Settings'),
 }
 
-local LeftGroupBox = Tabs.Main:AddLeftGroupbox('AutoFarms')
-local LeftGroupBox2 = Tabs.Main:AddLeftGroupbox("Quick Helper")
-local RightGroupBox = Tabs.Main:AddRightGroupbox('Quick Misc')
-local RightGroupBox2 = Tabs.Main:AddRightGroupbox("Teleports")
+local LeftGroupBox = Tabs.Main:AddLeftGroupbox('')
+local LeftGroupBox2 = Tabs.Main:AddLeftGroupbox("")
+local RightGroupBox = Tabs.Main:AddRightGroupbox('')
+local RightGroupBox2 = Tabs.Main:AddRightGroupbox("")
 
 local LeftBox = Tabs.Misc:AddLeftGroupbox('Groupbox')
 local RightBox = Tabs.Misc:AddRightGroupbox('Groupbox')
@@ -596,7 +608,20 @@ Toggles.Crash:OnChanged(function(State)
     Crash = Toggles.Crash.Value
 end)
 
+LeftEventGroupBox:AddToggle('eefd', {Text = 'Auto Skip Tile Event', Default = false,Tooltip = '', Callback = function(A)
+    Is = A
+    spawn(function()
+        while Is and wait() do
+            pcall(function()
+                IsStarted()
+            end)
+        end
+    end)
+end})
 
+Toggles.eefd:OnChanged(function(State)
+    Is = Toggles.eefd.Value
+end)
 LeftGroupBox:AddToggle('Neon', {Text = 'Auto Neon', Default = false,Tooltip = '', Callback = function(A)
     spawn(function()
         while Neon and wait() do
