@@ -610,6 +610,11 @@ end)
 
 LeftEventGroupBox:AddToggle('eefd', {Text = 'Auto Skip Tile Event', Default = false,Tooltip = '', Callback = function(A)
     Is = A
+    Stepped:connect(function()
+        if Is then
+            NoCliper()
+        end
+    end)
     spawn(function()
         while Is and wait() do
             pcall(function()
