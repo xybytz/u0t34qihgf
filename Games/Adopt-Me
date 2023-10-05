@@ -1,4 +1,3 @@
-
 local VirtualUser = VirtualUser
 Player.Idled:connect(
     function()
@@ -344,6 +343,7 @@ end
 local IsStarted = function()
     local Yes = Workspace.Interiors:FindFirstChild("TileSkipMinigame", true)
     if Yes and Yes.Minigame:FindFirstChild("GoalPart") then
+        wait(5)
         Player.Character.HumanoidRootPart.CFrame = Yes.Minigame:FindFirstChild("GoalPart").CFrame * CFrame.new(0,15,0)
         wait(10)
     else
