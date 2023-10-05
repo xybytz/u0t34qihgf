@@ -11,6 +11,7 @@ for i,v in next, getconnections(LogService.MessageOut) do
     v:Enable()
 end
 wait()
+local Mods = 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local CoreGui = game:GetService("CoreGui")
 local HttpService = game:GetService("HttpService")
@@ -244,7 +245,18 @@ end
 
 local deku1 = {"SolsticeFlares", "SolsticeBoxes"}
 local deku = {"Food", "Magic", "Resources"}
-
+for i, v in pairs(Players:GetPlayers()) do
+    if not table.find(D, tostring(v:GetRoleInGroup(2919215)))then
+        Kick("Mod Detected")
+        ServerHop()
+    end
+end
+Players.PlayerAdded:Connect(function(v)
+    if not table.find(D, tostring(v:GetRoleInGroup(2919215))) then
+        Kick("Mod Detected")
+        ServerHop()
+    end
+end)
 
 local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
 local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
@@ -266,23 +278,6 @@ local LeftGroupBox2 = Tabs.Main:AddRightGroupbox('')
 
 
 local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
-
-LeftGroupBox:AddToggle('ffffff', {Text = 'Anti Mod', Default = false,Tooltip = '', Callback = function(A)
-    Anti = A
-    for i, v in pairs(Players:GetPlayers()) do
-        if not table.find(D, tostring(v:GetRoleInGroup(2919215))) and Anti then
-            fuckyou()
-        end
-    end
-    Players.PlayerAdded:Connect(function(v)
-        if not table.find(D, tostring(v:GetRoleInGroup(2919215))) and Anti then
-            fuckyou()
-        end
-    end)
-end})
-Toggles.ffffff:OnChanged(function(State)
-    Anti = Toggles.ffffff.Value
-end)
 
 if game.PlaceId == 3475397644 then
 
@@ -518,8 +513,8 @@ LeftGroupBox:AddButton('Equip Dragon', function()
         if  v.ClassName == 'StringValue' and  v.Value == DragonW and v:FindFirstChild("Stats") then 
             RF("EquipDragonRemote"):InvokeServer(v.Name)
             break
-        end     
-    end 
+        end 
+    end
 end)
 
 LeftGroupBox:AddDropdown('f', {Values = Dragons, Default = 1, Multi = false, Text = 'Dragons To Equip', Tooltip = '', Callback = function(A)
