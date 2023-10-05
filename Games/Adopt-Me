@@ -1,3 +1,4 @@
+local Players = game:GetService("Players")
 
 local VirtualUser = VirtualUser
 Player.Idled:connect(
@@ -175,7 +176,7 @@ local SetLocation = function(A, B, C)
     local O = get_thread_identity()
     set_thread_identity(2)
     Location(A, B, C)
-    set_thread_identity(O)
+    set_thread_identity(7)
 end
 local Home = function()
     if Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA("Model") then
@@ -343,7 +344,7 @@ end
 
 local IsStarted = function()
     local InGame,NotGame = Workspace.Interiors:FindFirstChild("TileSkipMinigame", true), Workspace.Interiors:FindFirstChild("TileSkipMinigameLobby", true)
-    if InGame and InGame.Minigame:FindFirstChild("GoalPart") then
+    if InGame and InGame.Minigame:FindFirstChild("GoalPart") and not NotGame then
         Player.Character.HumanoidRootPart.CFrame = InGame.Minigame:FindFirstChild("GoalPart").CFrame
     elseif not InGame and NotGame then
         Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors.TileSkipMinigameLobby.JoinZone.EmitterPart.CFrame
@@ -609,7 +610,7 @@ Toggles.Crash:OnChanged(function(State)
     Crash = Toggles.Crash.Value
 end)
 
-LeftEventGroupBox:AddToggle('eefd', {Text = 'Auto Skip Tile Event', Default = false,Tooltip = '', Callback = function(A)
+LeftEventGroupBox:AddToggle('eefd', {Text = 'Skip Tile Event', Default = false,Tooltip = '', Callback = function(A)
     Is = A
     Stepped:connect(function()
         if Is then
@@ -619,7 +620,19 @@ LeftEventGroupBox:AddToggle('eefd', {Text = 'Auto Skip Tile Event', Default = fa
     spawn(function()
         while Is and wait() do
             pcall(function()
-                IsStarted()
+                local InGame, NotGame = Workspace.Interiors:FindFirstChild("TileSkipMinigame", true), Workspace.Interiors:FindFirstChild("TileSkipMinigameLobby", true)
+                print(InGame, NotGame)
+                if InGame and not NotGame then
+                    Tween(Player.Character.HumanoidRootPart, CFrame.new(7999, 1869, 10312), 25)
+                    InGame:Destroy()
+                elseif not InGame and NotGame then
+                    Player.Character.HumanoidRootPart.CFrame = CFrame.new(Workspace.Interiors.TileSkipMinigameLobby.JoinZone.EmitterPart.CFrame.Position)
+                elseif not InGame or not NotGame then
+                    spawn(function()
+                        GoToStore("TileSkipMinigameLobby")
+                    end)
+                    Player.Character.HumanoidRootPart.CFrame = CFrame.new(Workspace.Interiors.TileSkipMinigameLobby.JoinZone.EmitterPart.CFrame.Position)
+                end
             end)
         end
     end)
@@ -1085,28 +1098,36 @@ Options.NFt:OnChanged(function(String)
 end)
 
 RightGroupBox2:AddDropdown('Stores', {Values = Stores, Default = 0, Multi = false, Text = 'Locations', Tooltip = '', Callback = function(A)
+    spawn(function()
     pcall(function()
         GoToStore(A)
         Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors:FindFirstChildWhichIsA('Model').Doors.MainDoor.WorkingParts.TouchToEnter.CFrame:ToWorldSpace(CFrame.new(0, 0, -6))
     end)
+    end)
 end})
 
 Options.Stores:OnChanged(function()
+    spawn(function()
     pcall(function()
         GoToStore(Options.Stores.Value)
         Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors:FindFirstChildWhichIsA('Model').Doors.MainDoor.WorkingParts.TouchToEnter.CFrame:ToWorldSpace(CFrame.new(0, 0, -6))
     end)
+    end)
 end)
 
 local Button = RightGroupBox2:AddButton('Teleport Home', function()
+spawn(function()
     GoToHome()
     Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
 end)
+end)
 
 local Button2 = Button:AddButton('Teleport MainMap', function()
+spawn(function()
     GoToMainMap()
     Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors:FindFirstChildWhichIsA("Model"):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6))
     Player.Character.HumanoidRootPart.CFrame = CFrame.new(-247.35408, 17.3820152, -1518.88879) 
+end)
 end)
 
 LeftBox:AddToggle('JoYes', {Text = 'Auto Free Food"', Default = false,Tooltip = '', Callback = function(A)
@@ -1377,7 +1398,7 @@ RightGroupBox:AddButton('Rejoin', function()
     end
 end)
 -- I set NoUI so it does not show up in the keybinds menu
-MenuGroup:AddButton('Unload', function() Library:Unload() end)
+MenuGroup:AddButton('Unload', function() Library:Unload() set_thread_identity(7) end)
 MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = "RightControl", NoUI = true, Text = 'Menu keybind' }) 
 
 Library.ToggleKeybind = Options.MenuKeybind 
