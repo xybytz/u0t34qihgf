@@ -1,3 +1,4 @@
+
 local VirtualUser = VirtualUser
 Player.Idled:connect(
     function()
@@ -341,12 +342,12 @@ local NoCliper = function()
 end
 
 local IsStarted = function()
-    local Yes = Workspace.Interiors:FindFirstChild("TileSkipMinigame", true)
-    if Yes and Yes.Minigame:FindFirstChild("GoalPart") then
-        wait(5)
-        Player.Character.HumanoidRootPart.CFrame = Yes.Minigame:FindFirstChild("GoalPart").CFrame * CFrame.new(0,15,0)
-        wait(10)
-    else
+    local InGame,NotGame = Workspace.Interiors:FindFirstChild("TileSkipMinigame", true), Workspace.Interiors:FindFirstChild("TileSkipMinigameLobby", true)
+    if InGame and InGame.Minigame:FindFirstChild("GoalPart") then
+        Player.Character.HumanoidRootPart.CFrame = InGame.Minigame:FindFirstChild("GoalPart").CFrame
+    elseif not InGame and NotGame then
+        Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors.TileSkipMinigameLobby.JoinZone.EmitterPart.CFrame
+    elseif not InGame or not NotGame then
         GoToStore("TileSkipMinigameLobby")
         Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors.TileSkipMinigameLobby.JoinZone.EmitterPart.CFrame
     end
