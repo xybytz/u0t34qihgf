@@ -344,8 +344,8 @@ end
 local IsStarted = function()
     local Yes = Workspace.Interiors:FindFirstChild("TileSkipMinigame", true)
     if Yes and Yes.Minigame:FindFirstChild("GoalPart") then
-        wait(5)
-        Player.Character.HumanoidRootPart.CFrame = Yes.Minigame:FindFirstChild("GoalPart").CFrame
+        wait(10)
+        Player.Character.HumanoidRootPart.CFrame = Yes.Minigame:FindFirstChild("GoalPart").CFrame * CFrame.new(0,15,0)
     else
         GoToStore("TileSkipMinigameLobby")
         Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors.TileSkipMinigameLobby.JoinZone.EmitterPart.CFrame
