@@ -612,28 +612,28 @@ end)
 
 LeftEventGroupBox:AddToggle('eefd', {Text = 'Skip Tile Event', Default = false,Tooltip = '', Callback = function(A)
     Is = A
-    Stepped:connect(function()
-        if Is then
-            NoCliper()
-        end
-    end)
+                if not Workspace.Interiors:FindFirstChild("TileSkipMinigame", true) or not Workspace.Interiors:FindFirstChild("TileSkipMinigameLobby", true) then
+                    spawn(function()
+                        GoToStore("TileSkipMinigameLobby")
+                    end)
+wait(2)
+                    Player.Character.HumanoidRootPart.CFrame = CFrame.new(Workspace.Interiors.TileSkipMinigameLobby.JoinZone.EmitterPart.CFrame.Position)
+                end
     spawn(function()
         while Is and wait() do
             pcall(function()
                 local InGame, NotGame = Workspace.Interiors:FindFirstChild("TileSkipMinigame", true), Workspace.Interiors:FindFirstChild("TileSkipMinigameLobby", true)
-                print(InGame, NotGame)
-                if InGame and not NotGame then
-                    Tween(Player.Character.HumanoidRootPart, CFrame.new(7999, 1869, 10312), 25)
-                    GoToStore("TileSkipMinigameLobby")
-                    wait(4)
-                    Player.Character.HumanoidRootPart.CFrame = CFrame.new(Workspace.Interiors.TileSkipMinigameLobby.JoinZone.EmitterPart.CFrame.Position)
-                elseif not InGame and NotGame then
-                    Player.Character.HumanoidRootPart.CFrame = CFrame.new(Workspace.Interiors.TileSkipMinigameLobby.JoinZone.EmitterPart.CFrame.Position)
-                elseif not InGame or not NotGame then
-                    spawn(function()
-                        GoToStore("TileSkipMinigameLobby")
-                    end)
-                    Player.Character.HumanoidRootPart.CFrame = CFrame.new(Workspace.Interiors.TileSkipMinigameLobby.JoinZone.EmitterPart.CFrame.Position)
+                if Workspace.Interiors:FindFirstChild("TileSkipMinigame", true) then
+                    for i,v in next, Workspace.Interiors:FindFirstChild("TileSkipMinigame", true).Minigame.Tiles:GetChildren() do
+                        if not v:FindFirstChild("IsRevealed") then wait()
+                            Player.Character.HumanoidRootPart.CFrame = v:GetModelCFrame()
+                        end
+                    end
+                    for i,v in next, Workspace.Interiors:FindFirstChild("TileSkipMinigame", true).Minigame:GetChildren() do
+                        if v.Name == "GoalPart" then wait()
+                            Player.Character.HumanoidRootPart.CFrame = v.CFrame
+                        end
+                    end
                 end
             end)
         end
