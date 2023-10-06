@@ -622,10 +622,11 @@ LeftEventGroupBox:AddToggle('eefd', {Text = 'Skip Tile Event', Default = false,T
             pcall(function()
                 local InGame, NotGame = Workspace.Interiors:FindFirstChild("TileSkipMinigame", true), Workspace.Interiors:FindFirstChild("TileSkipMinigameLobby", true)
                 print(InGame, NotGame)
-                if InGame and not NotGame then
+                if InGame then
                     Tween(Player.Character.HumanoidRootPart, CFrame.new(7999, 1869, 10312), 25)
-                    wait(10)
-                    InGame:Destroy()
+                    GoToStore("TileSkipMinigameLobby")
+                    wait(4)
+                    Player.Character.HumanoidRootPart.CFrame = CFrame.new(Workspace.Interiors.TileSkipMinigameLobby.JoinZone.EmitterPart.CFrame.Position)
                 elseif not InGame and NotGame then
                     Player.Character.HumanoidRootPart.CFrame = CFrame.new(Workspace.Interiors.TileSkipMinigameLobby.JoinZone.EmitterPart.CFrame.Position)
                 elseif not InGame or not NotGame then
