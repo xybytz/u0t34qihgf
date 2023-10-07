@@ -11,7 +11,7 @@ for i,v in next, getconnections(LogService.MessageOut) do
     v:Enable()
 end
 wait()
-local Mods = 
+
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local CoreGui = game:GetService("CoreGui")
 local HttpService = game:GetService("HttpService")
