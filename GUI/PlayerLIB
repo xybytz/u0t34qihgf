@@ -8,7 +8,7 @@ local RenderStepped = RunService.RenderStepped;
 local LocalPlayer = Players.LocalPlayer;
 local Mouse = LocalPlayer:GetMouse();
 
-local ProtectGui = protectgui or (syn and syn.protect_gui) or VG.Protect or (function()  end);
+local ProtectGui = (syn and syn.protect_gui) or VG.Protect;
 
 local ScreenGui = Instance.new('ScreenGui');
 ProtectGui(ScreenGui);
