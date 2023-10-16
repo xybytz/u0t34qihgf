@@ -555,6 +555,22 @@ end})
 Toggles.BabyFarm:OnChanged(function(State)
     BabyFarm = Toggles.BabyFarm.Value
 end)
+LeftEventGroupBo:AddToggle('Bd', {Text = 'Trick Or Treat Auto', Default = false,Tooltip = '', Callback = function(A)
+    For = A
+    spawn(function()
+        while wait(3) and For do
+            pcall(function()
+                for i,v in next, Players:GetPlayers() do
+                    ReplicatedStorage.API:FindFirstChild("HalloweenAPI/TrickOrTreatHouse"):InvokeServer(v)
+                end
+            end)
+        end
+    end)
+end})
+
+Toggles.Bd:OnChanged(function(State)
+    For = Toggles.Bd.Value
+end)
 
 LeftBox:AddToggle('AutoInvis', {Text = 'Auto Invis', Default = false,Tooltip = '', Callback = function(A)
     Invis = A
@@ -643,6 +659,9 @@ end})
 Toggles.eefd:OnChanged(function(State)
     Is = Toggles.eefd.Value
 end)
+
+
+
 LeftGroupBox:AddToggle('Neon', {Text = 'Auto Neon', Default = false,Tooltip = '', Callback = function(A)
     spawn(function()
         while Neon and wait() do
