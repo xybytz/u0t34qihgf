@@ -555,7 +555,7 @@ end})
 Toggles.BabyFarm:OnChanged(function(State)
     BabyFarm = Toggles.BabyFarm.Value
 end)
-LeftEventGroupBo:AddToggle('Bd', {Text = 'Trick Or Treat Auto', Default = false,Tooltip = '', Callback = function(A)
+LeftEventGroupBox:AddToggle('Bd', {Text = 'Trick Or Treat Auto', Default = false,Tooltip = '', Callback = function(A)
     For = A
     spawn(function()
         while wait(3) and For do
