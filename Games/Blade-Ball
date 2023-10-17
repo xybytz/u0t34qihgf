@@ -6,9 +6,6 @@ local SF = Script.Function
 local SV = Script.Values
 repeat wait() until game:IsLoaded()
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Functions"))()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Anti-Cheat"))()-- Services
-
 for i,v in next, getgc(true) do
     if type(v) == "function" and getinfo(v).name == "parry" then
         SF.Parry = v
