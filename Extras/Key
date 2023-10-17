@@ -1,9 +1,9 @@
-local Title = "V.G Hub Supporter"
+local Title = "V.G Hub Key System"
 
-local API_HOST = "s2.wayauth.com" -- s1.wayauth.com, s2.wayauth.com, s3.wayauth.com, s4.wayauth.com, s5.wayauth.com
+local API_HOST = "s1.wayauth.com" -- s1.wayauth.com, s2.wayauth.com, s3.wayauth.com, s4.wayauth.com, s5.wayauth.com
 local LINKVERTISE_ID = 451794 -- Change me
-local LINKVERTISE_COUNT = 2 -- Change me
-local TOKEN_EXPIRE_TIME = 43200 -- Seconds
+local LINKVERTISE_COUNT = 3 -- Change me
+local TOKEN_EXPIRE_TIME = 21600 -- Seconds
 
 local Task = {}
 Task.__index = Task
@@ -83,18 +83,22 @@ Iris:Connect(function()
     end
 end)
 
+local TokenPassed
+
 if isfile("test-token.txt") then
     if nTask:verifyToken(readfile("test-token.txt")) then
         Verified = true
+        TokenPassed = true
     end
 end
 
 
 repeat task.wait() until Verified
-
+if not TokenPassed then
 warn("Verified website at", nTask.data.timestamp)
 warn("Finished at", os.date("%c"))
 warn("Authentication Token", nTask.data.token)
 warn("Authentication Token Expire Time", TOKEN_EXPIRE_TIME)
 
 writefile("test-token.txt", nTask.data.token)
+end
