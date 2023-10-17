@@ -1,4 +1,5 @@
 getgenv().Games = {
+	[4777817887] = "https://raw.githubusercontent.com/1201for/V.G-Hub/main/Games/Blade-Ball",
 	[111958650] = "https://raw.githubusercontent.com/1201for/V.G-Hub/main/Games/Arsenal",
     [2017809925] = "https://raw.githubusercontent.com/1201for/V.G-Hub/main/Games/Climb-1000-Stairs",
     [411193926] = "https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Survive_the_Night",
