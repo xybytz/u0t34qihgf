@@ -1,20 +1,14 @@
-local Players = game:GetService("Players")
-local Workspace = game:GetService("Workspace")
+repeat wait() until game:IsLoaded()
 local Balls = Workspace.Balls or Workspace:WaitForChild("Balls")
 local Script = {Function = {}, Values = {}}
 local SF = Script.Function
 local SV = Script.Values
 repeat wait() until game:IsLoaded()
-
 for i,v in next, getgc(true) do
     if type(v) == "function" and getinfo(v).name == "parry" then
         SF.Parry = v
     end
-    if type(v) == "function" and getinfo(v).name == "visualcd" then
-        hookfunction(v, function()
-            return nil
-        end)
-    end
+
 end
 
 function SF:IsReal()
@@ -74,7 +68,7 @@ LeftGroupBox:AddToggle('parry', {Text = 'Auto Parry', Default = false,Tooltip = 
                             ReplicatedStorage.Remotes.ParryButtonPress:Fire()
                         elseif SV.Method == "Function" then
                             SF.Parry()
-						end
+			end
                     end
                 end
             end)
@@ -116,7 +110,7 @@ LeftGroupBox:AddToggle('dt', {Text = 'Auto Farm' , Default = false,Tooltip = "de
                 end
                 local Ball = SF:Baller()
                 if Ball and Player.Character:FindFirstChild("HumanoidRootPart") then
-                    Player.Character.HumanoidRootPart.CFrame = CFrame.new(Ball.Position + Vector3.new(0,-10,0))
+                    Player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(Ball.Position.X, Workspace.Map:FindFirstChild('BottomCircle',true).Position.Y + -10, Ball.Position.Z))
                 end
 				local Ball = SF.IsReal()
                 if Ball then
@@ -130,10 +124,10 @@ LeftGroupBox:AddToggle('dt', {Text = 'Auto Farm' , Default = false,Tooltip = "de
                             ReplicatedStorage.Remotes.ParryButtonPress:Fire()
                         elseif SV.Method == "Function" then
                             SF.Parry()
-						end
+			end
                     end
                 end
-            end)
+	    end)
         end
     end)
 end})
@@ -179,6 +173,34 @@ Toggles.Sprint:OnChanged(function(State)
     Rog = Toggles.Sprint.Value
 end)
 
+LeftGroupBox:AddToggle('Fotf', {Text = 'Auto Buy Explotion Crate', Default = false,Tooltip = "Heheh go boom", Callback = function(A)
+    Goh = A
+	spawn(function()
+		while Goh  and wait() do
+			pcall(function()
+				ReplicatedStorage.Remote.RemoteFunction:InvokeServer("PromptPurchaseCrate",Workspace.Spawn.Crates.NormalExplosionCrate)
+			end)
+		end
+	end)
+end})
+
+Toggles.Fotf:OnChanged(function(State)
+    Goh = Toggles.Fotf.Value
+end)
+LeftGroupBox:AddToggle('Gotf', {Text = 'Auto Buy Sword Crate', Default = false,Tooltip = "Heheh go boom", Callback = function(A)
+    Fot = A
+	spawn(function()
+		while Fot  and wait() do
+			pcall(function()
+				ReplicatedStorage.Remote.RemoteFunction:InvokeServer("PromptPurchaseCrate", Workspace.Spawn.Crates.NormalSwordCrate)
+			end)
+		end
+	end)
+end})
+
+Toggles.Gotf:OnChanged(function(State)
+    Fot = Toggles.Gotf.Value
+end)
 
 LeftGroupBox:AddToggle('Face', {Text = 'Always face Ball', Default = false,Tooltip = "Enables a small sprint", Callback = function(A)
     Fac = A
@@ -186,7 +208,7 @@ LeftGroupBox:AddToggle('Face', {Text = 'Always face Ball', Default = false,Toolt
         while wait() and Fac do
             pcall(function()
                 Workspace.CurrentCamera.CFrame = CFrame.lookAt(Workspace.CurrentCamera.CFrame.Position, SF:Baller().CFrame.Position)
-			end)
+	end)
         end
     end)
 end})
