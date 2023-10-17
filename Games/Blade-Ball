@@ -1,0 +1,303 @@
+local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+local Balls = Workspace.Balls or Workspace:WaitForChild("Balls")
+local Script = {Function = {}, Values = {}}
+local SF = Script.Function
+local SV = Script.Values
+repeat wait() until game:IsLoaded()
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Functions"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Anti-Cheat"))()-- Services
+
+for i,v in next, getgc(true) do
+    if type(v) == "function" and getinfo(v).name == "parry" then
+        SF.Parry = v
+    end
+    if type(v) == "function" and getinfo(v).name == "visualcd" then
+        hookfunction(v, function()
+            return nil
+        end)
+    end
+end
+
+function SF:IsReal()
+    local Re
+    for i,v in next, Balls:GetChildren() do
+        if v:GetAttribute("realBall") == true and v:GetAttribute("target") == Player.Name then
+            Re = v
+        end
+    end
+    return Re
+end
+
+function SF:Baller()
+    local Real = nil
+    for i,v in next, Balls:GetChildren() do
+        if v:GetAttribute("realBall") == true then
+            Real = v
+        end
+    end
+    return Real
+end
+
+
+
+local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/GUI/PlayerLIB"))()
+local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
+local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
+local Window = Library:CreateWindow({
+    Title = MarketplaceService:GetProductInfo(game.PlaceId).Name,
+    Center = true,
+    AutoShow = true,
+})
+local Tabs = {
+    Main = Window:AddTab('Main'),
+    ['UI Settings'] = Window:AddTab('UI Settings'),
+}
+
+local LeftGroupBox = Tabs.Main:AddLeftGroupbox("")
+local RightGroupBox = Tabs.Main:AddRightGroupbox("")
+local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
+
+LeftGroupBox:AddToggle('parry', {Text = 'Auto Parry', Default = false,Tooltip = "deflects ball at certain degree not 100% acc", Callback = function(A)
+	Hate = A 
+	Stepped:Connect(function()
+        if Hate then
+            pcall(function()
+                local Ball = SF.IsReal()
+                if Ball then
+                    local M = VG.Mag(Ball.CFrame, Player.Character.HumanoidRootPart.CFrame)
+                    local M2 = Ball.Velocity.Magnitude
+                    if M / M2 <= .5 or M <= SV.Distance then
+                        if SV.Method == "KeyPress" then
+                            keypress(0x46)
+                            keyrelease(0x46)
+                        elseif SV.Method == "Remote" then
+                            ReplicatedStorage.Remotes.ParryButtonPress:Fire()
+                        elseif SV.Method == "Function" then
+                            SF.Parry()
+						end
+                    end
+                end
+            end)
+        end
+    end)
+end})
+
+Toggles.parry:OnChanged(function(State)
+    Hate = Toggles.parry.Value
+end)
+
+        
+LeftGroupBox:AddDropdown('ssfdf', {Values = {"Remote", "KeyPress", "Function"}, Default = 1, Multi = false, Text = 'Deflect Methods', Tooltip = 'Methods on how to use the deflect all do the same thing just some may act diff', Callback = function(A)
+    SV.Method = A
+end})
+
+Options.ssfdf:OnChanged(function()
+    SV.Method = Options.ssfdf.Value
+end)
+
+LeftGroupBox:AddSlider('HitM', {Text = 'Mag Hit Distance',Default = 30, Min = 0,Max = 35,Rounding = 0,Compact = false,Callback = function(Value)
+    SV.Distance = Value
+end})
+
+Options.HitM:OnChanged(function()
+    SV.Distance = Options.HitM.Value
+end)
+
+LeftGroupBox:AddToggle('dt', {Text = 'Auto Farm' , Default = false,Tooltip = "deflects ball at certain degree not 100% acc", Callback = function(A)
+	Loser = A 
+	Stepped:Connect(function()
+        if Loser then
+            pcall(function()
+                for i,v in next, Player.Character:GetChildren() do
+                    if v:IsA("BasePart") then
+                        v.CanCollide = false
+                        v.Velocity = Vector3.new(0,0,0)
+                    end
+                end
+                local Ball = SF:Baller()
+                if Ball and Player.Character:FindFirstChild("HumanoidRootPart") then
+                    Player.Character.HumanoidRootPart.CFrame = CFrame.new(Ball.Position + Vector3.new(0,-10,0))
+                end
+				local Ball = SF.IsReal()
+                if Ball then
+                    local M = VG.Mag(Ball.CFrame, Player.Character.HumanoidRootPart.CFrame)
+                    local M2 = Ball.Velocity.Magnitude
+                    if M / M2 <= .5 or M <= SV.Distance then
+                        if SV.Method == "KeyPress" then
+                            keypress(0x46)
+                            keyrelease(0x46)
+                        elseif SV.Method == "Remote" then
+                            ReplicatedStorage.Remotes.ParryButtonPress:Fire()
+                        elseif SV.Method == "Function" then
+                            SF.Parry()
+						end
+                    end
+                end
+            end)
+        end
+    end)
+end})
+
+Toggles.dt:OnChanged(function(State)
+    Loser = Toggles.dt.Value
+end)
+
+
+
+LeftGroupBox:AddToggle('Hahaha', {Text = 'Rage Mode', Default = false,Tooltip = "Might not win but will piss people off", Callback = function(A)
+	Hog = A 
+	Stepped:Connect(function()
+        if Hog then
+            pcall(function()
+                if Player.Character:FindFirstChild("Humanoid") then
+                   Workspace.CurrentCamera.CFrame = CFrame.lookAt(Workspace.CurrentCamera.CFrame.Position, SF:Baller().CFrame.Position)
+				   Player.Character.Humanoid:MoveTo(SF:Baller().CFrame.Position)
+                end
+            end)
+        end
+    end)
+end})
+
+Toggles.Hahaha:OnChanged(function(State)
+    Hog = Toggles.Hahaha.Value
+end)
+
+LeftGroupBox:AddToggle('Sprint', {Text = 'Toggle Sprint', Default = false,Tooltip = "Enables a small sprint", Callback = function(A)
+	Rog = A 
+	Stepped:Connect(function()
+        if Rog then
+            pcall(function()
+                if Player.Character:FindFirstChild("Humanoid") then
+                   Player.Character.Humanoid.WalkSpeed = 70
+                end
+            end)
+        end
+    end)
+end})
+
+Toggles.Sprint:OnChanged(function(State)
+    Rog = Toggles.Sprint.Value
+end)
+
+
+LeftGroupBox:AddToggle('Face', {Text = 'Always face Ball', Default = false,Tooltip = "Enables a small sprint", Callback = function(A)
+    Fac = A
+    spawn(function()
+        while wait() and Fac do
+            pcall(function()
+                Workspace.CurrentCamera.CFrame = CFrame.lookAt(Workspace.CurrentCamera.CFrame.Position, SF:Baller().CFrame.Position)
+			end)
+        end
+    end)
+end})
+
+Toggles.Face:OnChanged(function(State)
+    Fac = Toggles.Face.Value
+end)
+
+
+
+RightGroupBox:AddToggle('SSS', {Text = 'WalkSpeed Toggle',Default = false,Tooltip = '', Callback = function(A)
+    WS = A
+    RunService.Stepped:Connect(function()
+        if WS then
+            pcall(function()
+                Player.Character:FindFirstChildWhichIsA("Humanoid").WalkSpeed = WalkSpeed or 16
+            end)
+        end
+    end)
+end})
+Toggles.SSS:OnChanged(function(State)
+    Foe = Toggles.SSS.Value
+end)
+RightGroupBox:AddInput('SSF3', {Default = 'WalkSpeed',Numeric = true,Finished = false,Text = 'WalkSpeed',Tooltip = 'Numbers Only',Placeholder = 'WalkSpeed'})
+Options.SSF3:OnChanged(function(State)
+    WalkSpeed = Options.SSF3.Value
+end)
+
+RightGroupBox:AddToggle('EEE', {Text = 'JumpPower Toggle',Default = false,Tooltip = '', Callback = function(A)
+    JP = A
+    RunService.Stepped:Connect(function()
+        if JP then
+            pcall(function()
+                local H = Player.Character:FindFirstChildWhichIsA("Humanoid")
+                if H.UseJumpPower then
+                    H.JumpPower = JumpPower or 50
+                else
+                    H.JumpHeight = JumpPower or 50
+                end
+            end)
+        end
+    end)
+end})
+Toggles.EEE:OnChanged(function(State)
+    JP = Toggles.EEE.Value
+end)
+RightGroupBox:AddInput('SSF1', {Default = 'JumpPower',Numeric = true,Finished = false,Text = 'JumpPower',Tooltip = 'Numbers Only',Placeholder = 'JumpPower'})
+
+Options.SSF1:OnChanged(function(State)
+    JumpPower = Options.SSF1.Value
+end)
+
+RightGroupBox:AddSlider('FlySpeed', {Text = 'FlySpeed',Default = 50,Min = 16,Max = 500,Rounding = 0,Compact = false,Callback = function(Value)
+    Speed = Value
+end})
+
+Options.FlySpeed:OnChanged(function()
+    Speed = Options.FlySpeed.Value
+end)
+
+RightGroupBox:AddLabel('Fly KeyBind'):AddKeyPicker('name2', {Default = 'H',SyncToggleState = false,Mode = 'Toggle',Text = 'Fly',NoUI = true,Callback = function(Value)
+    VG.Flying(Value, Speed)
+end,
+ChangedCallback = function(New)
+    print(New)
+end})
+Options.name2:SetValue({ 'H', 'Toggle' })
+
+RightGroupBox:AddButton('ServerHop', function() ServerHop() end)
+RightGroupBox:AddButton('Rejoin', function()
+    local Success, ErrorMessage = pcall(function()
+        Rejoin()
+    end)
+    if ErrorMessage and not Success then
+        warn(ErrorMessage)
+    elseif Success and not ErrorMessage then
+        print(Success)
+    end
+end)
+Library:SetWatermarkVisibility(true)
+local FrameTimer = tick()
+local FrameCounter = 0;
+local FPS = 60;
+
+local WatermarkConnection = RenderStepped:Connect(function()
+    FrameCounter =FrameCounter + 1;
+    if (tick() - FrameTimer) >= 1 then
+        FPS = FrameCounter;
+        FrameTimer = tick();
+        FrameCounter = 0;
+    end;
+    Library:SetWatermark(('V.G Hub | %s fps | %s ms | %s GameId'):format(
+        math.floor(FPS),
+        math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue()),  game.GameId
+    ));
+end);
+
+MenuGroup:AddButton('Unload', function() Library:Unload() end)
+MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = "RightControl", NoUI = true, Text = 'Menu keybind' })
+
+Library.ToggleKeybind = Options.MenuKeybind
+ThemeManager:SetLibrary(Library)
+SaveManager:SetLibrary(Library)
+
+SaveManager:IgnoreThemeSettings()
+SaveManager:SetIgnoreIndexes({ 'MenuKeybind' })
+ThemeManager:SetFolder('V.G Hub')
+SaveManager:SetFolder("V.G Hub/" .. game.PlaceId)
+SaveManager:BuildConfigSection(Tabs['UI Settings'])
+ThemeManager:ApplyToTab(Tabs['UI Settings'])
+            
