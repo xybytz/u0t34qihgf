@@ -1,16 +1,22 @@
-repeat wait() until game:IsLoaded()
-local Script = {Function = {}, Values = {}}
+repeat
+    wait()
+until game:IsLoaded()
+
+local Script = {
+    Function = {},
+    Values = {}
+}
 local SF = Script.Function
 local SV = Script.Values
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Functions"))()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Anti-Cheat"))()
 
 for i,v in next, getgc() do
-	if type(v) == "function" then 
-		if debug.getinfo(v, "parry") then 
-			SF.Parry = v
-		end
-	end
+    if type(v) == "function" then 
+        if debug.getinfo(v, "parry") then
+            SF.Parry = v
+        end
+    end
 end
 local Balls = Workspace:WaitForChild("Balls") or Workspace:FindFirstChild("Balls") -- just to make Amity more mad :P
 function SF:IsReal()
@@ -48,7 +54,7 @@ function SF:Hit()
                 ReplicatedStorage.Remotes.ParryButtonPress:Fire()
             elseif SV.Method == "Function" then
                 SF.Parry()
-			end
+	    end
         end
     end
 end
@@ -118,8 +124,8 @@ LeftGroupBox:AddToggle('dt', {Text = 'Auto Farm' , Default = false,Tooltip = "de
                 if Ball and Player.Character:FindFirstChild("HumanoidRootPart") and Player.Character.Parent.Name == "Alive" then
                     Player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(Ball.Position.X, Workspace.Map:FindFirstChild('BottomCircle',true).Position.Y + -10, Ball.Position.Z))
                 end
-				SF:Hit()
-			end)
+		SF:Hit()
+	    end)
         end
     end)
 end})
