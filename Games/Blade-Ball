@@ -1,20 +1,22 @@
 repeat wait() until game:IsLoaded()
-local Balls = Workspace.Balls or Workspace:WaitForChild("Balls")
 local Script = {Function = {}, Values = {}}
 local SF = Script.Function
 local SV = Script.Values
-repeat wait() until game:IsLoaded()
-for i,v in next, getgc(true) do
-    if type(v) == "function" and getinfo(v).name == "parry" then
-        SF.Parry = v
-    end
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Functions"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Anti-Cheat"))()
 
+for i,v in next, getgc() do
+	if type(v) == "function" then 
+		if debug.getinfo(v, "parry") then 
+			SF.Parry = v
+		end
+	end
 end
-
+local Balls = Workspace:WaitForChild("Balls") or Workspace:FindFirstChild("Balls") -- just to make Amity more mad :P
 function SF:IsReal()
     local Re
     for i,v in next, Balls:GetChildren() do
-        if v:GetAttribute("realBall") == true and v:GetAttribute("target") == Player.Name then
+        if v:GetAttribute("realBall") and v:GetAttribute("target") == Player.Name then
             Re = v
         end
     end
@@ -24,14 +26,32 @@ end
 function SF:Baller()
     local Real = nil
     for i,v in next, Balls:GetChildren() do
-        if v:GetAttribute("realBall") == true then
+        if v:GetAttribute("realBall") then
             Real = v
         end
     end
     return Real
 end
 
-
+function SF:Hit()
+	local Ball = SF:IsReal()
+    if Ball then
+        local M = VG.Mag(Ball.CFrame, Player.Character.HumanoidRootPart.CFrame)
+        local M2 = Ball.Velocity.Magnitude + Player.Character.Humanoid.MoveDirection.Magnitude
+		local M3 = Ball.Velocity.Magnitude * (game.Stats.Network.ServerStatsItem["Data Ping"]:GetValue() / 1000)
+		M2 = M2 - M3
+		if M / M2 <= 0.5 or M <= SV.Distance then
+            if SV.Method == "KeyPress" then
+                keypress(0x46)
+                keyrelease(0x46)
+            elseif SV.Method == "Remote" then
+                ReplicatedStorage.Remotes.ParryButtonPress:Fire()
+            elseif SV.Method == "Function" then
+                SF.Parry()
+			end
+        end
+    end
+end
 
 local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/GUI/PlayerLIB"))()
@@ -56,21 +76,7 @@ LeftGroupBox:AddToggle('parry', {Text = 'Auto Parry', Default = false,Tooltip = 
 	Stepped:Connect(function()
         if Hate then
             pcall(function()
-                local Ball = SF.IsReal()
-                if Ball then
-                    local M = VG.Mag(Ball.CFrame, Player.Character.HumanoidRootPart.CFrame)
-                    local M2 = Ball.Velocity.Magnitude
-                    if M / M2 <= .5 or M <= SV.Distance then
-                        if SV.Method == "KeyPress" then
-                            keypress(0x46)
-                            keyrelease(0x46)
-                        elseif SV.Method == "Remote" then
-                            ReplicatedStorage.Remotes.ParryButtonPress:Fire()
-                        elseif SV.Method == "Function" then
-                            SF.Parry()
-			end
-                    end
-                end
+				SF:Hit()
             end)
         end
     end)
@@ -109,25 +115,11 @@ LeftGroupBox:AddToggle('dt', {Text = 'Auto Farm' , Default = false,Tooltip = "de
                     end
                 end
                 local Ball = SF:Baller()
-                if Ball and Player.Character:FindFirstChild("HumanoidRootPart") then
+                if Ball and Player.Character:FindFirstChild("HumanoidRootPart") and Player.Character.Parent.Name == "Alive" then
                     Player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(Ball.Position.X, Workspace.Map:FindFirstChild('BottomCircle',true).Position.Y + -10, Ball.Position.Z))
                 end
-				local Ball = SF.IsReal()
-                if Ball then
-                    local M = VG.Mag(Ball.CFrame, Player.Character.HumanoidRootPart.CFrame)
-                    local M2 = Ball.Velocity.Magnitude
-                    if M / M2 <= .5 or M <= SV.Distance then
-                        if SV.Method == "KeyPress" then
-                            keypress(0x46)
-                            keyrelease(0x46)
-                        elseif SV.Method == "Remote" then
-                            ReplicatedStorage.Remotes.ParryButtonPress:Fire()
-                        elseif SV.Method == "Function" then
-                            SF.Parry()
-			end
-                    end
-                end
-	    end)
+				SF:Hit()
+			end)
         end
     end)
 end})
@@ -135,17 +127,30 @@ end})
 Toggles.dt:OnChanged(function(State)
     Loser = Toggles.dt.Value
 end)
+LeftGroupBox:AddToggle('Hop', {Text = 'BHop', Default = false,Tooltip = "BHops you", Callback = function(A)
+	Hop = A
+	spawn(function()
+		while wait() and Hop do
+			pcall(function()
+				Player.Character.Humanoid.Jump = true
+			end)
+		end
+	end)
+end})
 
-
+Toggles.Hop:OnChanged(function(State)
+    Hop = Toggles.Hop.Value
+end)
 
 LeftGroupBox:AddToggle('Hahaha', {Text = 'Rage Mode', Default = false,Tooltip = "Might not win but will piss people off", Callback = function(A)
 	Hog = A 
 	Stepped:Connect(function()
         if Hog then
             pcall(function()
-                if Player.Character:FindFirstChild("Humanoid") then
+                if Player.Character:FindFirstChild("Humanoid") and Player.Character.Parent.Name == "Alive" then
                    Workspace.CurrentCamera.CFrame = CFrame.lookAt(Workspace.CurrentCamera.CFrame.Position, SF:Baller().CFrame.Position)
 				   Player.Character.Humanoid:MoveTo(SF:Baller().CFrame.Position)
+				   SF:Hit()
                 end
             end)
         end
@@ -208,7 +213,7 @@ LeftGroupBox:AddToggle('Face', {Text = 'Always face Ball', Default = false,Toolt
         while wait() and Fac do
             pcall(function()
                 Workspace.CurrentCamera.CFrame = CFrame.lookAt(Workspace.CurrentCamera.CFrame.Position, SF:Baller().CFrame.Position)
-	end)
+			end)
         end
     end)
 end})
