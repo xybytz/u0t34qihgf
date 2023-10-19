@@ -48,6 +48,7 @@ function SF:Hit()
 		M2 -= M3
 		print((M / M2))
         if M / M2 <= 0.5 then
+			wait()
             if SV.Method == "KeyPress" then
                 keypress(0x46)
                 keyrelease(0x46)
@@ -64,7 +65,7 @@ function SF:JustHit()
     local Ball = SF:IsReal()
 	if Ball then
 		local Old = Player.Character.HumanoidRootPart.CFrame
-		Player.Character.HumanoidRootPart.CFrame = Ball.CFrame * CFrame.new(5,0,5)
+		Player.Character.HumanoidRootPart.CFrame = CFrame.new(Ball.Position + Vector3.new(10,-0,10))
 		if SV.Method == "KeyPress" then
 			keypress(0x46)
 			keyrelease(0x46)
@@ -174,6 +175,21 @@ end})
 
 Toggles.dt:OnChanged(function(State)
     Loser = Toggles.dt.Value
+end)
+
+LeftGroupBox:AddToggle('royt', {Text = 'Freeze ability spam', Default = false,Tooltip = "", Callback = function(A)
+    roy = A
+    Stepped:Connect(function()
+        if roy then
+            pcall(function()
+                ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("Freeze"):FireServer()
+            end)
+        end
+    end)
+end})
+
+Toggles.royt:OnChanged(function(State)
+    roy = Toggles.royt.Value
 end)
 
 LeftGroupBox:AddToggle('Hahaha', {Text = 'Rage Mode', Default = false,Tooltip = "Might not win but will piss people off", Callback = function(A)
