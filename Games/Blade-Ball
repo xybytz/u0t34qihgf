@@ -8,12 +8,12 @@ local Script = {
 }
 local SF = Script.Function
 local SV = Script.Values
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Functions"))()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Anti-Cheat"))()
-
+for i,v in next, getconnections(LogService.MessageOut) do
+	v:Enable()
+end
 for i,v in next, getgc() do
     if type(v) == "function" then
-        if debug.getinfo(v, "parry") then
+        if debug.getinfo(v).name == "parry" then
             SF.Parry = v
         end
     end
@@ -42,11 +42,12 @@ end
 function SF:Hit()
     local Ball = SF:IsReal()
     if Ball then
-        local M = VG.Mag(Ball.CFrame, Player.Character.HumanoidRootPart.CFrame)
-        local M2 = Ball.Velocity.Magnitude + Player.Character.Humanoid.MoveDirection.Magnitude
-        local M3 = Ball.Velocity.Magnitude * (game.Stats.Network.ServerStatsItem["Data Ping"]:GetValue() / 1000)
-        M2 = M2 - M3
-        if M / M2 <= 0.5 or M <= SV.Distance then
+        local M = Mag(Ball.CFrame, Player.Character.HumanoidRootPart.CFrame)
+        local M2 = Ball.Velocity.Magnitude
+        local M3 = M2 * (game.Stats.Network.ServerStatsItem["Data Ping"]:GetValue() / 1000)
+		M2 -= M3
+		print((M / M2))
+        if M / M2 <= 0.5 then
             if SV.Method == "KeyPress" then
                 keypress(0x46)
                 keyrelease(0x46)
@@ -57,6 +58,43 @@ function SF:Hit()
             end
         end
     end
+end
+
+function SF:JustHit()
+    local Ball = SF:IsReal()
+	if Ball then
+		local Old = Player.Character.HumanoidRootPart.CFrame
+		Player.Character.HumanoidRootPart.CFrame = Ball.CFrame * CFrame.new(5,0,5)
+		if SV.Method == "KeyPress" then
+			keypress(0x46)
+			keyrelease(0x46)
+		elseif SV.Method == "Remote" then
+			ReplicatedStorage.Remotes.ParryButtonPress:Fire()
+		elseif SV.Method == "Function" then
+			SF.Parry()
+		end
+		wait()
+		Player.Character.HumanoidRootPart.CFrame = Old
+	end
+end
+
+function SF:FreezeHit()
+    local Old = Player.Character.HumanoidRootPart.CFrame
+    local Ball = SF:IsReal()
+	if Ball then
+		ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("Freeze"):FireServer()
+		Player.Character.HumanoidRootPart.CFrame = CFrame.new(Ball.Position + Vector3.new(0,-10,0))
+		wait()
+		if SV.Method == "KeyPress" then
+			keypress(0x46)
+			keyrelease(0x46)
+		elseif SV.Method == "Remote" then
+			ReplicatedStorage.Remotes.ParryButtonPress:Fire()
+		elseif SV.Method == "Function" then
+			SF.Parry()
+		end
+		Player.Character.HumanoidRootPart.CFrame = Old
+	end
 end
 
 local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
@@ -79,12 +117,18 @@ local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
 
 LeftGroupBox:AddToggle('parry', {Text = 'Auto Parry', Default = false,Tooltip = "deflects ball at certain degree not 100% acc", Callback = function(A)
     Hate = A
-    Stepped:Connect(function()
-        if Hate then
-            pcall(function()
-                SF:Hit()
-            end)
-        end
+	spawn(function()
+		while wait() and Hate do
+			if Hate then
+				if SV.MethodHit:find("Legit") then
+					SF:Hit()
+				elseif SV.MethodHit:find("Blatant") then
+					SF:JustHit()
+				elseif SV.MethodHit:find("Insane") then
+					SF:FreezeHit()
+				end
+			end
+		end
     end)
 end})
 
@@ -93,7 +137,7 @@ Toggles.parry:OnChanged(function(State)
 end)
 
 
-LeftGroupBox:AddDropdown('ssfdf', {Values = {"Remote", "KeyPress", "Function"}, Default = 1, Multi = false, Text = 'Deflect Methods', Tooltip = 'Methods on how to use the deflect all do the same thing just some may act diff', Callback = function(A)
+LeftGroupBox:AddDropdown('ssfdf', {Values = {"Remote", "KeyPress", "Function"}, Default = 1, Multi = false, Text = 'Deflect Methods', Tooltip = '', Callback = function(A)
     SV.Method = A
 end})
 
@@ -101,14 +145,12 @@ Options.ssfdf:OnChanged(function()
     SV.Method = Options.ssfdf.Value
 end)
 
-LeftGroupBox:AddSlider('HitM', {Text = 'Mag Hit Distance',Default = 30, Min = 0,Max = 35,Rounding = 0,Compact = false,Callback = function(Value)
-    SV.Distance = Value
+LeftGroupBox:AddDropdown('e2', {Values = {"Legit (Sucks)", "Blatant (hacker mode)", "Insane (need Freeze Ability)"}, Default = 1, Multi = false, Text = 'Parry Mode', Tooltip = '', Callback = function(A)
+    SV.MethodHit = A
 end})
-
-Options.HitM:OnChanged(function()
-    SV.Distance = Options.HitM.Value
+Options.e2:OnChanged(function()
+    SV.MethodHit = Options.e2.Value
 end)
-
 LeftGroupBox:AddToggle('dt', {Text = 'Auto Farm' , Default = false,Tooltip = "deflects ball at certain degree not 100% acc", Callback = function(A)
     Loser = A
     Stepped:Connect(function()
@@ -133,20 +175,6 @@ end})
 Toggles.dt:OnChanged(function(State)
     Loser = Toggles.dt.Value
 end)
-LeftGroupBox:AddToggle('Hop', {Text = 'BHop', Default = false,Tooltip = "BHops you", Callback = function(A)
-    Hop = A
-    spawn(function()
-        while wait() and Hop do
-            pcall(function()
-                Player.Character.Humanoid.Jump = true
-            end)
-        end
-    end)
-end})
-
-Toggles.Hop:OnChanged(function(State)
-    Hop = Toggles.Hop.Value
-end)
 
 LeftGroupBox:AddToggle('Hahaha', {Text = 'Rage Mode', Default = false,Tooltip = "Might not win but will piss people off", Callback = function(A)
     Hog = A
@@ -154,11 +182,11 @@ LeftGroupBox:AddToggle('Hahaha', {Text = 'Rage Mode', Default = false,Tooltip = 
         if Hog then
             pcall(function()
                 if Player.Character:FindFirstChild("Humanoid") and Player.Character.Parent.Name == "Alive" then
+					SF:Hit()
                     Workspace.CurrentCamera.CFrame = CFrame.lookAt(Workspace.CurrentCamera.CFrame.Position, SF:Baller().CFrame.Position)
                     if not SF:IsReal().Anchored then
                         Player.Character.Humanoid:MoveTo(SF:Baller().CFrame.Position)
                     end
-                    SF:Hit()
                 end
             end)
         end
