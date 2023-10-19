@@ -8,6 +8,8 @@ local Script = {
 }
 local SF = Script.Function
 local SV = Script.Values
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Functions"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Anti-Cheat"))()
 for i,v in next, getconnections(LogService.MessageOut) do
 	v:Enable()
 end
@@ -47,8 +49,7 @@ function SF:Hit()
         local M3 = M2 * (game.Stats.Network.ServerStatsItem["Data Ping"]:GetValue() / 1000)
 		M2 -= M3
 		print((M / M2))
-        if M / M2 <= 0.5 then
-			wait()
+        if M / M2 <= 0.6 then
             if SV.Method == "KeyPress" then
                 keypress(0x46)
                 keyrelease(0x46)
@@ -120,7 +121,7 @@ LeftGroupBox:AddToggle('parry', {Text = 'Auto Parry', Default = false,Tooltip = 
     Hate = A
 	spawn(function()
 		while wait() and Hate do
-			if Hate then
+			pcall(function()
 				if SV.MethodHit:find("Legit") then
 					SF:Hit()
 				elseif SV.MethodHit:find("Blatant") then
@@ -128,7 +129,7 @@ LeftGroupBox:AddToggle('parry', {Text = 'Auto Parry', Default = false,Tooltip = 
 				elseif SV.MethodHit:find("Insane") then
 					SF:FreezeHit()
 				end
-			end
+			end)
 		end
     end)
 end})
@@ -157,6 +158,7 @@ LeftGroupBox:AddToggle('dt', {Text = 'Auto Farm' , Default = false,Tooltip = "de
     Stepped:Connect(function()
         if Loser then
             pcall(function()
+				SF:Hit()
                 for i,v in next, Player.Character:GetChildren() do
                     if v:IsA("BasePart") then
                         v.CanCollide = false
@@ -167,7 +169,6 @@ LeftGroupBox:AddToggle('dt', {Text = 'Auto Farm' , Default = false,Tooltip = "de
                 if Ball and Player.Character:FindFirstChild("HumanoidRootPart") and Player.Character.Parent.Name == "Alive" then
                     Player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(Ball.Position.X, Workspace.Map:FindFirstChild('BottomCircle',true).Position.Y + -10, Ball.Position.Z))
                 end
-                SF:Hit()
             end)
         end
     end)
