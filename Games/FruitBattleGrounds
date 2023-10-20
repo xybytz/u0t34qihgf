@@ -1,3 +1,4 @@
+local Players = game:GetService("Players")
 
 repeat wait() until game:IsLoaded()
 local Numbers = {
@@ -123,7 +124,12 @@ Toggles.SD:OnChanged(function(State)
                 if (not Player.Character or Player.Character == nil) and not UI.HUD.Visible then
                     Respawn()
                 end 
-                Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState(11)
+                for i,v in next, Player.Character:GetChildren() do
+                    if v:IsA("BasePart") then
+                        v.CanCollide = false
+                        v.Velocity = Vector3.new(0,0,0)
+                    end
+                end
             end)
         end
     end)
@@ -142,10 +148,8 @@ Toggles.SD:OnChanged(function(State)
                 end 
                 for i, v in pairs(Numbers) do
                     VirtualInputManager:SendKeyEvent(true, v, false, game)
-                    wait(1)
                     VirtualInputManager:SendMouseButtonEvent(0,0,0, true, game, 1)
                     VirtualInputManager:SendMouseButtonEvent(0,0,0, false, game, 1) 
-                    wait(1)
                 end
             end)
         end
