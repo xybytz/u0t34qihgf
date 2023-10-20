@@ -124,8 +124,8 @@ RunService.RenderStepped:Connect(
             local Mouse = UserInputService:GetMouseLocation()
             local TargetPos = Workspace.Camera:WorldToViewportPoint(ClosestPlayer[Settings.AimPart].Position)
             mousemoverel(
-                (TargetPos.X - Mouse.X) * 0.09,
-                (TargetPos.Y - Mouse.Y) * 0.09
+                (TargetPos.X - Mouse.X) * UserSettings().GameSettings.MouseSensitivity,
+                (TargetPos.Y - Mouse.Y) * UserSettings().GameSettings.MouseSensitivity
             )
         end
     end
