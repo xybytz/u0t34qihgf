@@ -1,6 +1,16 @@
+
 repeat
     wait()
 until game:IsLoaded()
+
+local OldNameCall = nil
+OldNameCall = hookmetamethod(game, "__namecall", function(...)
+    local Self, Key = ...
+    if (Self.Name == "" or Self.Name == "RemoteEvent") and Self.Parent.Name == "Security" and Self.ClassName == "RemoteEvent" then
+        return wait(9e9)
+    end
+    return OldNameCall(...)
+end)
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
@@ -11,12 +21,12 @@ local Script = {
 }
 local SF = Script.Function
 local SV = Script.Values
-
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Functions"))()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Anti-Cheat"))()
 for i,v in next, getconnections(LogService.MessageOut) do
 	v:Enable()
 end
+
 for i,v in next, getgc() do
     if type(v) == "function" then
         if debug.getinfo(v).name == "parry" then
@@ -119,7 +129,7 @@ function SF:FreezeHit()
 end
 
 local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/GUI/PlayerLIB"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/GUI/Text1"))()
 local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
 local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
 local Window = Library:CreateWindow({
@@ -183,7 +193,7 @@ LeftGroupBox:AddToggle('dt', {Text = 'Auto Farm' , Default = false,Tooltip = "de
     Loser = A
     Stepped:Connect(function()
         if Loser then
-            pcall(function()
+			pcall(function()
 				SF:Hit()
                 for i,v in next, Player.Character:GetChildren() do
                     if v:IsA("BasePart") then
@@ -194,10 +204,10 @@ LeftGroupBox:AddToggle('dt', {Text = 'Auto Farm' , Default = false,Tooltip = "de
                 local Ball = SF:Baller()
                 if Ball and Player.Character:FindFirstChild("HumanoidRootPart") and Player.Character.Parent.Name == "Alive" then
                     for i=1, 50 do
-                        Player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(Ball.Position.X, Workspace.Map:FindFirstChild('BottomCircle',true).Position.Y + -10, Ball.Position.Z))
+                        Player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(Ball.Position.X, Workspace.Map:FindFirstChild('BALLSPAWN',true).Position.Y + -10, Ball.Position.Z))
                     end
                 end
-            end)
+			end)
         end
     end)
 end})
