@@ -87,7 +87,8 @@
 						ik your now a furry executing this
 ]]--
 repeat wait() until game:IsLoaded()
-
+if game.GameId then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Personal-Anti/Blade-Ball"))()
 local G = getgenv and getgenv() or _G or shared
 G.Get = setmetatable({}, {__index = function(A, B) return game:GetService(B) end})
 
@@ -147,7 +148,16 @@ Hacker = hookmetamethod(game, "__namecall", newcclosure(function(...)
     end
     return Hacker(...)
 end))
-
+if game.GameId ~= 4777817887 then
+	local OldHook = nil
+	OldHook = hookfunction(Instance.new("RemoteEvent").FireServer, newcclosure(function(...)
+		local Self, Key = ...
+		if Self.Name == "" then
+			return 
+		end
+		return OldHook(...)
+	end))
+end
 
 if setfflag then
     setfflag("HumanoidParallelRemoveNoPhysics", "False")
@@ -242,14 +252,11 @@ end
 G.Mag = function(A, B)
     return (A.Position - B.Position).Magnitude
 end
-
-
-if game.GameId ~= 111958650 or game.GameId ~= 4777817887 then
 ScriptContext:SetTimeout(0)
+if game.GameId ~= 111958650 then
 	for i,v in next, Uh do 
 		DisableConnection(v)
 	end
 end
-local getconstants=debug.getconstants or getconstants;local getidentity=get_thread_context or getthreadcontext or getidentity or syn.get_thread_identity;local setidentity=set_thread_context or setthreadcontext or setidentity or syn.set_thread_identity;local hookfunc=hookfunction or hookfunc or detour_function;for a,b in next,getgc()do if type(b)=="function"and islclosure(b)then local c=getconstants(b)if table.find(c,"Detected")and table.find(c,"crash")then hookfunc(b,function()return task.wait(math.huge)end)end end end
--- Extras Below 
+local getconstants=debug.getconstants or getconstants;local getidentity=get_thread_context or getthreadcontext or getidentity or syn.get_thread_identity;local setidentity=set_thread_context or setthreadcontext or setidentity or syn.set_thread_identity;local hookfunc=hookfunction or hookfunc or detour_function;for a,b in next,getgc()do if type(b)=="function"and islclosure(b)then local c=getconstants(b)if table.find(c,"Detected")and table.find(c,"crash")then hookfunc(b,function()return task.wait(math.huge)end)end end end end 
 
