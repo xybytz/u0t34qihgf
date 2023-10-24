@@ -87,8 +87,8 @@
 						ik your now a furry executing this
 ]]--
 repeat wait() until game:IsLoaded()
-if game.GameId then
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Personal-Anti/Blade-Ball"))()
+
+
 local G = getgenv and getgenv() or _G or shared
 G.Get = setmetatable({}, {__index = function(A, B) return game:GetService(B) end})
 
@@ -106,7 +106,8 @@ G.Error = ScriptContext.Error
 G.MessageOut = LogService.MessageOut
 G.Kick = Player.Kick
 G.Idled = Player.Idled
-
+local getconstants=debug.getconstants or getconstants;local getidentity=get_thread_context or getthreadcontext or getidentity or syn.get_thread_identity;local setidentity=set_thread_context or setthreadcontext or setidentity or syn.set_thread_identity;local hookfunc=hookfunction or hookfunc or detour_function;for a,b in next,getgc()do if type(b)=="function"and islclosure(b)then local c=getconstants(b)if table.find(c,"Detected")and table.find(c,"crash")then hookfunc(b,function()return task.wait(math.huge)end)end end end end 
+for a,b in next,getgc(true)do if rawget(b,"indexInstance")and type(rawget(b,"indexInstance"))=="table"then hookfunc(b.tvk,function()return game:GetService("CoreGui"):WaitForChild("nil/nil/Nigger, Hellp %%%#()*()$*#))(*#(%&)(%(&%#&)&*%4")end)end end
 local Name = game.PlaceId .. ".json"
 local Des = {}
 if makefolder and not isfile("V.G Hub") then
@@ -258,5 +259,3 @@ if game.GameId ~= 111958650 then
 		DisableConnection(v)
 	end
 end
-local getconstants=debug.getconstants or getconstants;local getidentity=get_thread_context or getthreadcontext or getidentity or syn.get_thread_identity;local setidentity=set_thread_context or setthreadcontext or setidentity or syn.set_thread_identity;local hookfunc=hookfunction or hookfunc or detour_function;for a,b in next,getgc()do if type(b)=="function"and islclosure(b)then local c=getconstants(b)if table.find(c,"Detected")and table.find(c,"crash")then hookfunc(b,function()return task.wait(math.huge)end)end end end end 
-
