@@ -243,8 +243,9 @@ G.Mag = function(A, B)
     return (A.Position - B.Position).Magnitude
 end
 
+
+if game.GameId ~= 111958650 or game.GameId ~= 4777817887 then
 ScriptContext:SetTimeout(0)
-if game.GameId ~= 111958650 then
 	for i,v in next, Uh do 
 		DisableConnection(v)
 	end
