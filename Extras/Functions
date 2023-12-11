@@ -4,7 +4,9 @@ getgenv().VG = {}
 VG.User = Instance.new("VirtualInputManager")
 VG.FOV = 1000
 VG.Protecter = Instance.new("Model", CoreGui)
+if sethiddenproperty then
 sethiddenproperty(VG.Protecter, "RobloxLocked", true)
+end
 
 -- Functions
 VG.Teleport = newcclosure(function(Player, Position)
@@ -50,7 +52,9 @@ VG.isnetworkowner = isnetworkowner or newcclosure(function(BasePart)
 end)
 
 VG.SetSim = setsimulationradius or newcclosure(function(Radius)
+    if sethiddenproperty then
     sethiddenproperty(Player, "SimuationRadius", Radius)
+end
 end)
 
 VG.SimuationRadius = newcclosure(function()
@@ -134,7 +138,8 @@ VG.GetProtecter = function()
 end
 
 VG.Protect = newcclosure(function(GUI)
-    if type(GUI) == "userdata" then
+    if type(GUI) == "userdata" and sethiddenproperty then
+        
         sethiddenproperty(GUI, "RobloxLocked", true)
     end
 end)
