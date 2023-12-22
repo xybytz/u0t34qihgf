@@ -29,6 +29,15 @@ VG.Teleport = function(Pos, Offset)
     Player.Character:PivotTo(CFrame.new(Pos + Offset))
 end
 -- VG.Teleport(Vector3.new(0,0,0), nil)
+VG.SetP = function(Object, Value, Property)
+    if not sethiddenproperty then
+        error("sethiddenproperty no there waaa")
+    else
+        sethiddenproperty(Object, Value, Property)
+    end
+end
+-- VG.SetP(Player.Character.Humanoid, "WalkSpeed", 50)
+
 VG.GetNearestPlayerToBasePart = function(BasePart)
     for i,v in next, Players:GetPlayers() do
         local Radius = gethiddenproperty(v, "SimulationRadius")
