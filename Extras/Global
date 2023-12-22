@@ -130,3 +130,15 @@ VG.NoClip = function()
 end
 
 --VG.NoClip()
+
+VG.GetPos = function(Instance)
+    if Instance then
+        if Instance:IsA("BasePart") then
+            return Instance.Position
+        elseif Instance:IsA("Model") then
+            return Instance:GetModelCFrame().Position
+        end
+    end
+end
+
+--VG.Pos(Character) -- Player.Character:GetModelCFrame().Position
