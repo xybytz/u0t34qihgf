@@ -1,356 +1,218 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
+local GetGlobal = getgenv and getgenv() or shared or _G
 
-UserInputService.InputBegan:Connect(function(Input, GPE)
-    if Input.KeyCode == Enum.KeyCode.LeftShift and Sp then
-        VG.IsA(Character, "Humanoid").WalkSpeed = 25
-    end
-end)
-UserInputService.InputEnded:Connect(function(Input, GPE)
-    if Input.KeyCode == Enum.KeyCode.LeftShift and Sp then
-        VG.IsA(Character, "Humanoid").WalkSpeed = 16
-    end
-end)
-
-local Emotes = getrenv()._G.Database.Emotes
-local New = {}
-for i,v in next, Emotes do
-    if not table.find(New, i) and not rawget(v, "Type") then
-        table.insert(New, i)
-    end
+for i,v in next, game.GetChildren(game) do
+    GetGlobal[v.ClassName] = v
 end
 
+GetGlobal.wait = task.wait
+GetGlobal.spawn = task.spawn
+GetGlobal.Player = Players.LocalPlayer
+GetGlobal.Kick = Player.Kick
+GetGlobal.Error = ScriptContext.Error
+GetGlobal.Idled = Player.Idled
+GetGlobal.MessageOut = LogService.MessageOut
+GetGlobal.Stepped = RunService.Stepped
+GetGlobal.RenderStepped = RunService.RenderStepped
+GetGlobal.Heartbeat = RunService.Heartbeat
+GetGlobal.PreRender = RunService.PreRender
+GetGlobal.PreSimulation = RunService.PreSimulation
+GetGlobal.PostSimulation = RunService.PostSimulation
+GetGlobal.Settings = {}
+GetGlobal.Verison = "v1"
+GetGlobal.VG = {}
+GetGlobal.IsVG = false
+GetGlobal.Owner = "DekuDimz"
+GetGlobal.Helper = "Bluwu"
+GetGlobal.User = Instance.new("VirtualInputManager")
+GetGlobal.AFK = false
+GetGlobal.Character = Player.Character or Player.CharacterAdded:Wait()
+GetGlobal.Protecter = Instance.new("Model", CoreGui)
+GetGlobal.GameId = game.GameId
+Protecter.RobloxLocked = true
 
-local GetRole = function(Role, True)
-    local Target = nil
-    local Table = game:GetService("ReplicatedStorage").Remotes.Extras.GetPlayerData:InvokeServer()
-    for i,v in next, Table do
-        if v.Role == Role and not True then
-            Target = i
-        elseif True and v.Role == "Innocent" and i == Player.Name then
-            Target = i
+VG.Mag = function(Pos1, Pos2)
+    return (Pos1.Position - Pos2.Position).Magnitude
+end
+-- VG.Mag(Player.Character:GetModelCFrame(), Workspace.Part1) < 50 -- true
+VG.Teleport = function(Pos)
+    Player.Character:PivotTo(CFrame.new(Pos))
+end
+-- VG.Teleport(Vector3.new(0,0,0), nil)
+VG.GetNearestPlayerToBasePart = function(BasePart)
+    for i,v in next, Players:GetPlayers() do
+        local Radius = gethiddenproperty(v, "SimulationRadius")
+        if (v.Character:GetModelCFrame().Position - BasePart.Position).Magnitude > Radius and v ~= Player then
+            return true
+        else
+            return false
         end
     end
-    return Target
+    return false
 end
-local KillAll = function(v)
-    if GetRole("Murderer", false) == Player.Name then
-        if VG.GetTool("Knife") then
-            VG.GetTool("Knife")
-        elseif VG.FFD(Player.PlayerGui, "CashBag").Visible then
-            VG.Teleport(Vector3.new(0,90000000000,0))
-            Character.Knife.Stab:FireServer("Slash")
-            firetouchinterest(v.Character.HumanoidRootPart, Character.Knife.Handle, 1)
-            firetouchinterest(v.Character.HumanoidRootPart, Character.Knife.Handle, 0)
+-- VG.GetNearestPlayerToBasePart(Workspace.Part1) -- true
+VG.isnetworkowner = isnetworkowner or function(BasePart)
+    if BasePart:IsA("BasePart") then
+        local Radius = gethiddenproperty(Player, "SimulationRadius")
+        if (BasePart:IsDescendantOf(Player.Character) or VG.Mag(Player.Character:GetModelCFrame(), BasePart) <= Radius) and not VG.GetNearestPlayerToBasePart(BasePart) then
+            return true
+        else
+            return false
+        end
+    end
+    return false
+end
+--VG.isnetworkowner(Player.Character.HumanoidRootPart) -- true
+VG.FireConnection = function(Signal)
+    if not getconnections then
+        error("No getconnections detected sorry")
+    else
+        for i,v in next, getconnections(Signal) do
+            v:Fire()
+        end
+    end
+end
+--VG.FireConnection(Player.PlayerGui.Button.MouseButton1Click)
+VG.DisableConnection = function(Signal)
+    if not getconnections then
+        error("No getconnections Detected wth")
+    else
+        for i,v in next, getconnections(Signal) do
+            v:Disable()
         end
     end
 end
 
-local ShootMurderer = function(v)
-    if (GetRole("Sheriff", false) == Player.Name or GetRole("Hero", false) == Player.Name) and VG.FFD(Player.PlayerGui, "CashBag").Visible then
-        if GetRole("Murderer", false) == v.Name then
-            VG.GetTool("Gun")
-            VG.Teleport(Character:GetModelCFrame().Position + Vector3.new(0,0,5))
-            Character.Gun.KnifeServer.ShootGun:InvokeServer(1, VG.GetPosition(v.Character), "AH")
-            VG.Teleport(Vector3.new(0,500000,0))
+-- VG.DisableConnection(ScriptContext.Error)
+
+VG.Tween = function(Object1, Object2, Speed, Offset, Wait)
+    if Object1 and Object2 then
+        local Timing = VG.Mag(Object1, Object2) / Speed
+        local TweenInfo = TweenInfo.new(Timing, Enum.EasingStyle.Linear)
+        local TweenSystem = TweenService:Create(Pos1, TweenInfo, {CFrame = CFrame.new(Object2.Position + Offset)})
+        TweenSystem:Play()
+        if Wait then
+            TweenSystem.Completed:Wait()
         end
     end
 end
+--VG.Tween(Player.Character:GetModelCFrame(), CFrame.new(0,0,0), 12, Vector3.new(0,0,0), true)
 
-local CollectCoin = function()
-    if GetRole("Innocent", true) == Player.Name then
-        local TargetCoin
-        local Map = VG.FFD(Workspace, "CoinContainer")
-        if Map then
-            for i,v in next, Map:GetChildren() do
-                if VG.FFD(Player.PlayerGui, "CashBag") and VG.FFD(Player.PlayerGui, "CashBag").Visible then
-                    if v.Name ~= "CollectedCoin" and VG.FFD(v, "CoinType") and Num then
-                        print(VG.FFD(v, "CoinType").Value)
-                        VG.Teleport(v.Position)
-                        wait(1)
-                        VG.Teleport(Vector3.new(0,500000,0))
-                        wait(2)
+VG.ServerHop = function()
+    spawn(function()
+        while wait() do
+            pcall(function()
+                local Gay = HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. game.PlaceId .. '/servers/Public?sortOrder=Asc&limit=100'))
+                for i,v in next, Gay.data do
+                    if v.playing < v.maxPlayers then
+                        TeleportService:TeleportToPlaceInstance(game.PlaceId, v.id, Player)
+                        break
                     end
                 end
-            end
+            end)
+            wait(4)
+        end
+    end)
+end
+-- VG.ServerHop()
+VG.Rejoin = function()
+    return TeleportService:Teleport(game.PlaceId, Player)
+end
+
+--VG.Rejoin()
+
+VG.NoClip = function()
+    for i,v in next, Player.Character:GetChildren() do
+        if v:IsA("BasePart") then
+            v.CanCollide = false
+            v.Velocity = Vector3.new(0,0,0)
         end
     end
 end
 
-local Trade = function(Player)
-    ReplicatedStorage.Trade.SendRequest:InvokeServer(Player)
-end
+--VG.NoClip()
 
-local ForceTrade = function(Player)
-    Trade(Player)
-    ReplicatedStorage.Trade.AcceptRequest:FireServer()
-end
-
-local Trap = function(CFrame)
-    ReplicatedStorage.TrapSystem.PlaceTrap:InvokeServer(CFrame)
-end
-local Version = {}
-local Rules = {
-    ["Murderer"] = Color3.new(255,0,0),
-    ["Innocent"] = Color3.new(0,255,0),
-    ["Hero"] = Color3.new(255, 255, 0),
-    ["Sheriff"] = Color3.new(0, 0, 255),
-}
-
-local Help = function(v)
-    local H = Instance.new("Highlight")
-    H.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-    H.FillColor = Color3.new(0,255,0)
-    Version[v] = H
-    H.Parent = v.Character
-    local function Help2(v)
-        H.Adornee = v
+VG.GetTool = function(Name)
+    if Player.Backpack:FindFirstChild(Name) then
+        Player.Character.Humanoid:EquipTool(Player.Backpack:FindFirstChild(Name))
     end
+end
 
-    v.CharacterAdded:Connect(Help2)
-    do
-        if v.Character then
-            Help2(v.Character)
+-- VG.GetTool("Sword")
+
+VG.FFD = function(Parent, Instance)
+    return Parent:FindFirstChild(Instance, true)
+end
+
+-- if VG.FFD(Workspace, "Part") then print(true) end
+
+VG.FFC = function(Parent, Instance)
+    return Parent:FindFirstChild(Instance)
+end
+
+-- if VG.FFC(Workspace, "Part") then print("Found FirstChild Of Parent") end
+
+VG.Wait = function(Parent, Instance)
+    return Parent:WaitForChild(Instance)
+end
+
+--print(VG.Wait(Workspace))
+
+VG.KeyPress = function(PressDown, Key, Repeated, Instance, TimesPressed)
+    if User then
+        User:SendKeyEvent(PressDown, Key, Repeated, Instance, TimesPressed)
+    end
+end
+-- VG.KeyPress(true, "E", false, game, 0)
+
+VG.GetProtecter = function()
+    return Protecter
+end
+-- print(VG.Protecter()) -- Model, Parent CoreGui
+
+VG.SetGuiParent = function(Gui)
+    if Gui then
+        Gui.RobloxLocked = true
+        Gui.Parent = VG.GetProtecter()
+    end
+end
+
+VG.NoClip = function()
+    for i,v in next, Player.Character:GetChildren() do
+        if v:IsA("BasePart") then
+            v.CanCollide = false
+            v.Velocity = Vector3.new(0,0,0)
         end
     end
 end
 
-local Update = function(v)
-    local H = Version[v]
-    if v.Name == GetRole("Murderer") then
-        H.FillColor = Rules["Murderer"]
-    end
-    if v.Name == GetRole("Hero") then
-        H.FillColor = Rules["Hero"]
-    end
-    if v.Name == GetRole("Sheriff") then
-        H.FillColor = Rules["Sheriff"]
-    end
-    if v.Name == GetRole("Innocent") then
-        H.FillColor = Rules["Innocent"]
+--VG.NoClip()
+
+VG.GetPos = function(Instance)
+    if Instance then
+        if Instance:IsA("BasePart") then
+            return Instance.Position
+        elseif Instance:IsA("Model") then
+            return Instance:GetModelCFrame().Position
+        end
     end
 end
 
-local Rules = {
-    ["Murderer"] = Color3.new(255,0,0),
-    ["Innocent"] = Color3.new(0,255,0),
-    ["Hero"] = Color3.new(255, 255, 0),
-    ["Sheriff"] = Color3.new(0, 0, 255),
-}
-spawn(function()
-    while wait() do
-        pcall(function()
-            for i, v in next, Players:GetPlayers() do
-                if v ~= Player then
-                    local h = v.Character:FindFirstChildWhichIsA("Highlight")
-                    if not h and ESP then
-                        Help(v)
-                    end
-                    if h and ESP then
-                        Update(v)
-                    end
-                    if h and not ESP then
-                        h:Destroy()
-                    end
-                end
-            end
-        end)
+-- VG.GetPos(Character) -- Character Position
+
+VG.PlayersTable = function()
+    local Ta = {}
+    for i,v in next, Players:GetPlayers() do -- why the fuck do i have to do this for dropdowns
+        if not table.find(Ta, v.Name) and v ~= Player then
+            table.find(Ta, v.Name)
+        end
     end
+    return Ta
+end
+
+--  VG.GetPlayers() -- Table of players names
+--Loops
+
+RenderStepped:Connect(function()
+    VG.GetProtecter().Name = HttpService:GenerateGUID()
 end)
 
-spawn(function()
-    while wait() do
-        pcall(function()
-            if Num then 
-                CollectCoin()
-            end
-        end)
-    end
-end)
-
-Stepped:Connect(function()
-    if Num then VG.NoClip() end
-    if d2 then
-        for i,v in next, Players:GetPlayers() do
-            if v ~= Player then
-                ShootMurderer(v)
-            end
-        end
-    end
-    if Kill then
-        for i,v in next, Players:GetPlayers() do
-            if v ~= Player then
-                KillAll(v)
-            end
-        end
-    end
-    if S1 then
-        VG.Teleport(Workspace:FindFirstChild("GunDrop").Position)
-    end
-    if Trap1 then
-        Trap(CFrame.new(Players[hacker].Character:GetModelCFrame()))
-    end
-    if TradeFor then
-        Trade(Players[Person])
-    end
-    if ForceTrades then
-        ForceTrade(Players[Person])
-    end
-end)
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
-local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
-local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
-
-local Window = Fluent:CreateWindow({
-    Title = "V.G Hub: Game " .. MarketplaceService:GetProductInfo(game.PlaceId).Name,
-    SubTitle = "by DekuDimz",
-    TabWidth = 160,
-    Size = UDim2.fromOffset(580, 460),
-    Acrylic = false, -- The blur may be detectable, setting this to false disables blur entirely
-    Theme = "Dark",
-    MinimizeKey = Enum.KeyCode.Delete -- Used when theres no MinimizeKeybind
-})
-
---Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
-local Tabs = {
-    Main = Window:AddTab({ Title = "Main", Icon = "" }),
-    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
-}
-
-local Options = Fluent.Options
-
-do
-    Fluent:Notify({
-        Title = "V.G Hub Loaded",
-        Content = "Congrats your using V.G Hub " .. Verison,
-        SubContent = "", -- Optional
-        Duration = 10 -- Set to nil to make the notification not disappear
-    })
-
-    local Toggle = Tabs.Main:AddToggle("Sprint", {Title = "Toggle Sprint", Default = false})
-    Toggle:OnChanged(function()
-        Sp = Options.Sprint.Value
-    end)
-    Options.Sprint:SetValue(false)
-    Tabs.Main:AddButton({Title = "Blurt Roles",Description = "Says Roles of Murderer and Sheriff if you are either will pick random player to say is that role you are currently",Callback = function()
-        if GetRole("Murderer", false) ~= Player.Name then
-            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(GetRole("Murderer", false) .. " is the Murderer","normalchat")
-        elseif GetRole("Murderer", false) == Player.Name then
-            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(tostring(Players:GetPlayers()[math.random(1, #Players:GetPlayers())]) .. " is the Murderer","normalchat")
-        end
-        if GetRole("Sheriff", false) ~= Player.Name then
-            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(GetRole("Sheriff", false) .. " is the Sheriff","normalchat")
-        elseif GetRole("Sheriff", false) == Player.Name then
-            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(tostring(Players:GetPlayers()[math.random(1, #Players:GetPlayers())]) .. " is the Sheriff","normalchat")
-        end
-    end})
-    local Toggle = Tabs.Main:AddToggle("Shot", {Title = "Shoot Murderer", Default = false})
-    Toggle:OnChanged(function()
-        d2 = Options.Shot.Value
-    end)
-    Options.Shot:SetValue(false)
-
-    local Toggle = Tabs.Main:AddToggle("Shot2", {Title = "Kill All", Default = false})
-    Toggle:OnChanged(function()
-        Kill = Options.Shot2.Value
-    end)
-    Options.Shot2:SetValue(false)
-
-    local Toggle = Tabs.Main:AddToggle("Lol", {Title = "Auto Collect Coins", Default = false})
-    Toggle:OnChanged(function()
-        Num = Options.Lol.Value
-    end)
-    Options.Lol:SetValue(false)
-
-    local Toggle = Tabs.Main:AddToggle("asjkdhj", {Title = "Auto Grab Gun", Default = false})
-    Toggle:OnChanged(function()
-        S1 = Options.asjkdhj.Value
-    end)
-    Options.asjkdhj:SetValue(false)
-
-    local Toggle = Tabs.Main:AddToggle("Rough", {Title = "Auto Trap Player", Default = false})
-    Toggle:OnChanged(function()
-        Trap1 = Options.Rough.Value
-    end)
-    Options.Rough:SetValue(false)
-   
-    local Toggle = Tabs.Main:AddToggle("You", {Title = "Auto Request Trade User", Default = false})
-    Toggle:OnChanged(function()
-        Trap1 = Options.You.Value
-    end)
-    Options.You:SetValue(false)
-
-    local Dropdown = Tabs.Main:AddDropdown("Players", {
-        Title = "Players",
-        Values = VG.GetPlayers(),
-        Multi = false,
-        Default = 1,
-    })
-
-    Dropdown:SetValue("DekuDimz")
-
-    Dropdown:OnChanged(function(Value)
-        Person = Value
-    end)
-
-
-
-    Tabs.Main:AddButton({Title = "Play Emote",Description = "Plays a selected Emote ",Callback = function()
-        ReplicatedStorage.Remotes.Misc.PlayEmote:Fire(Key or "floss")
-    end})
-
-    local Dropdown = Tabs.Main:AddDropdown("Dropdown", {
-        Title = "Emotes",
-        Values = New,
-        Multi = false,
-        Default = 1,
-    })
-
-    Dropdown:SetValue("Floss")
-
-    Dropdown:OnChanged(function(Value)
-        Key = Value
-    end)
-
-    local Keybind = Tabs.Main:AddKeybind("Keybind", {Title = "Emote Keybind",Mode = "Toggle",Default = "B",
-        Callback = function()
-            ReplicatedStorage.Remotes.Misc.PlayEmote:Fire(Key or "floss")
-        end,
-        ChangedCallback = function()
-            ReplicatedStorage.Remotes.Misc.PlayEmote:Fire(Key or "floss")
-        end
-    })
-    Keybind:OnClick(function()
-        print("Keybind clicked:", Keybind:GetState())
-    end)
-
-    Keybind:OnChanged(function()
-        print("Keybind changed:", Keybind.Value)
-    end)
-
-
-    local Toggle = Tabs.Main:AddToggle("ESP1", {Title = "Enable ESP", Default = false})
-    Toggle:OnChanged(function()
-        ESP = Options.ESP1.Value
-    end)
-    Options.ESP1:SetValue(false)
-end
-SaveManager:SetLibrary(Fluent)
-InterfaceManager:SetLibrary(Fluent)
-SaveManager:IgnoreThemeSettings()
-SaveManager:SetIgnoreIndexes({})
-InterfaceManager:SetFolder("FluentScriptHub")
-SaveManager:SetFolder("FluentScriptHub/specific-game")
-
-InterfaceManager:BuildInterfaceSection(Tabs.Settings)
-SaveManager:BuildConfigSection(Tabs.Settings)
-
-
-Window:SelectTab(1)
-
-Fluent:Notify({
-    Title = "V.G Hub",
-    Content = "The script has been loaded.",
-    Duration = 8
-})
-
-SaveManager:LoadAutoloadConfig()
