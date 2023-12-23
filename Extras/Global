@@ -209,7 +209,7 @@ VG.PlayersTable = function()
     return Ta
 end
 
---  VG.GetPlayers() -- Table of players names
+--  VG.PlayersTable() -- Table of players names
 --Loops
 
 RenderStepped:Connect(function()
