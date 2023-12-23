@@ -187,7 +187,7 @@ Stepped:Connect(function()
         VG.Teleport(Workspace:FindFirstChild("GunDrop").Position)
     end
     if Trap1 then
-        Trap(CFrame.new(Players[hacker].Character:GetModelCFrame()))
+        Trap(CFrame.new(Players[hacker].Character:GetModelCFrame().Position))
     end
     if TradeFor then
         Trade(Players[Person])
@@ -260,6 +260,12 @@ do
         Num = Options.Lol.Value
     end)
     Options.Lol:SetValue(false)
+
+    local Toggle = Tabs.Main:AddToggle("FuckOff", {Title = "Force Trade User", Default = false})
+    Toggle:OnChanged(function()
+        ForceTrades = Options.FuckOff.Value
+    end)
+    Options.FuckOff:SetValue(false)
 
     local Toggle = Tabs.Main:AddToggle("asjkdhj", {Title = "Auto Grab Gun", Default = false})
     Toggle:OnChanged(function()
