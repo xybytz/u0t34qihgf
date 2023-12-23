@@ -11,12 +11,6 @@ GetGlobal.Kick = Player.Kick
 GetGlobal.Error = ScriptContext.Error
 GetGlobal.Idled = Player.Idled
 GetGlobal.MessageOut = LogService.MessageOut
-GetGlobal.Stepped = RunService.Stepped
-GetGlobal.RenderStepped = RunService.RenderStepped
-GetGlobal.Heartbeat = RunService.Heartbeat
-GetGlobal.PreRender = RunService.PreRender
-GetGlobal.PreSimulation = RunService.PreSimulation
-GetGlobal.PostSimulation = RunService.PostSimulation
 GetGlobal.Settings = {}
 GetGlobal.Verison = "v1"
 GetGlobal.VG = {}
@@ -26,8 +20,7 @@ GetGlobal.Helper = "Bluwu"
 GetGlobal.User = Instance.new("VirtualInputManager")
 GetGlobal.AFK = false
 GetGlobal.Character = Player.Character or Player.CharacterAdded:Wait()
-GetGlobal.Protecter = Instance.new("Model", CoreGui)
-Protecter.RobloxLocked = true
+
 VG.Mag = function(Pos1, Pos2)
     return (Pos1.Position - Pos2.Position).Magnitude
 end
@@ -36,15 +29,6 @@ VG.Teleport = function(Pos, Offset)
     Player.Character:PivotTo(CFrame.new(Pos + Offset))
 end
 -- VG.Teleport(Vector3.new(0,0,0), nil)
-VG.SetP = function(Object, Value, Property)
-    if not sethiddenproperty then
-        error("sethiddenproperty no there waaa")
-    else
-        sethiddenproperty(Object, Value, Property)
-    end
-end
--- VG.SetP(Player.Character.Humanoid, "WalkSpeed", 50)
-
 VG.GetNearestPlayerToBasePart = function(BasePart)
     for i,v in next, Players:GetPlayers() do
         local Radius = gethiddenproperty(v, "SimulationRadius")
@@ -138,39 +122,28 @@ end
 
 --VG.NoClip()
 
-VG.GetPos = function(Instance)
-    if Instance then
-        if Instance:IsA("BasePart") then
-            return Instance.Position
-        elseif Instance:IsA("Model") then
-            return Instance:GetModelCFrame().Position
-        end
+VG.GetTool = function(Name)
+    if Player.Backpack:FindFirstChild(Name) then
+        Player.Character.Humanoid:EquipTool(Player.Backpack:FindFirstChild(Name))
     end
 end
 
---VG.Pos(Character) -- Player.Character:GetModelCFrame().Position
+-- VG.GetTool("Sword")
 
-VG.KeyPress = function(PressDown, Key, Repeated, Instance, TimesPressed)
-    if User then
-        User:SendKeyEvent(PressDown, Key, Repeated, Instance, TimesPressed)
-    end
-end
--- VG.KeyPress(true, "E", false, game, 0)
-
-VG.GetProtecter = function()
-    return Protecter
-end
--- print(VG.Protecter()) -- Model, Parent CoreGui
-
-VG.SetGuiParent = function(Gui)
-    if Gui then
-        Gui.RobloxLocked = true
-        Gui.Parent = VG.GetProtecter()
-    end
+VG.FFD = function(Parent, Instance)
+    return Parent:FindFirstChild(Instance, true)
 end
 
---Loops
+-- if VG.FFD(Workspace, "Part") then print(true) end
 
-RenderStepped:Connect(function()
-    VG.GetProtecter().Name = HttpService:GenerateGUID()
-end)
+VG.FFC = function(Parent, Instance)
+    return Parent:FindFirstChild(Instance)
+end
+
+-- if VG.FFC(Workspace, "Part") then print("Found FirstChild Of Parent") end
+
+VG.Wait = function(Parent, Instance)
+    return Parent:WaitForChild(Instance)
+end
+
+--print(VG.Wait(Workspace))
