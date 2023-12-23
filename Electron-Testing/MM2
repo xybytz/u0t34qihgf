@@ -281,7 +281,7 @@ do
 
     local Dropdown = Tabs.Main:AddDropdown("Players", {
         Title = "Players",
-        Values = VG.GetPlayers(),
+        Values = VG.PlayersTable(),
         Multi = false,
         Default = 1,
     })
