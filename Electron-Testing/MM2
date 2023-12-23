@@ -268,10 +268,7 @@ do
     Options.You:SetValue(false)
 
 
-    local Dropdown = Tabs.Main:AddDropdown("Hey2", {Title = "Players",Values = Players:GetPlayers(),Multi = false,Default = 1,})
-    Dropdown:OnChanged(function(Value)
-        Person = Value
-    end)
+  
 
     Tabs.Main:AddButton({Title = "Play Emote",Description = "Plays a selected Emote ",Callback = function()
         ReplicatedStorage.Remotes.Misc.PlayEmote:Fire(Key or "floss")
@@ -292,11 +289,6 @@ do
         print("Keybind changed:", Keybind.Value)
     end)
 
-    local Dropdown = Tabs.Main:AddDropdown("Emote", {Title = "Emotes",Values = New, Multi = false,Default = 1,})
-    Dropdown:SetValue(nil)
-    Dropdown:OnChanged(function(Value)
-        Key = Value
-    end)
 
     local Toggle = Tabs.Main:AddToggle("ESP1", {Title = "Enable ESP", Default = false})
     Toggle:OnChanged(function()
