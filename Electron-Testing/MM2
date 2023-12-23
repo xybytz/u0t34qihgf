@@ -2,12 +2,12 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/
 
 UserInputService.InputBegan:Connect(function(Input, GPE)
     if Input.KeyCode == Enum.KeyCode.LeftShift and Sp then
-        VG.IsA(Player.Character, "Humanoid").WalkSpeed = 25
+        VG.IsA(Character, "Humanoid").WalkSpeed = 25
     end
 end)
 UserInputService.InputEnded:Connect(function(Input, GPE)
     if Input.KeyCode == Enum.KeyCode.LeftShift and Sp then
-        VG.IsA(Player.Character, "Humanoid").WalkSpeed = 16
+        VG.IsA(Character, "Humanoid").WalkSpeed = 16
     end
 end)
 
@@ -18,6 +18,8 @@ for i,v in next, Emotes do
         table.insert(New, i)
     end
 end
+
+
 local GetRole = function(Role, True)
     local Target = nil
     local Table = game:GetService("ReplicatedStorage").Remotes.Extras.GetPlayerData:InvokeServer()
@@ -35,10 +37,10 @@ local KillAll = function(v)
         if VG.GetTool("Knife") then
             VG.GetTool("Knife")
         elseif VG.FFD(Player.PlayerGui, "CashBag").Visible then
-            VG.Teleport(CFrame.new(0,90000000000,0))
-            Player.Character.Knife.Stab:FireServer("Slash")
-            firetouchinterest(v.Character.HumanoidRootPart, Player.Character.Knife.Handle, 1)
-            firetouchinterest(v.Character.HumanoidRootPart, Player.Character.Knife.Handle, 0)
+            VG.Teleport(Vector3.new(0,90000000000,0))
+            Character.Knife.Stab:FireServer("Slash")
+            firetouchinterest(v.Character.HumanoidRootPart, Character.Knife.Handle, 1)
+            firetouchinterest(v.Character.HumanoidRootPart, Character.Knife.Handle, 0)
         end
     end
 end
@@ -47,9 +49,9 @@ local ShootMurderer = function(v)
     if (GetRole("Sheriff", false) == Player.Name or GetRole("Hero", false) == Player.Name) and VG.FFD(Player.PlayerGui, "CashBag").Visible then
         if GetRole("Murderer", false) == v.Name then
             VG.GetTool("Gun")
-            VG.Teleport(CFrame.new(VG.GetPos(v.Character)) * CFrame.new(0,0,5))
-            Player.Character.Gun.KnifeServer.ShootGun:InvokeServer(1, VG.GetPosition(v.Character), "AH")
-            VG.Teleport(CFrame.new(0,500000,0))
+            VG.Teleport(Character:GetModelCFrame().Position + Vector3.new(0,0,5))
+            Character.Gun.KnifeServer.ShootGun:InvokeServer(1, VG.GetPosition(v.Character), "AH")
+            VG.Teleport(Vector3.new(0,500000,0))
         end
     end
 end
@@ -60,11 +62,12 @@ local CollectCoin = function()
         local Map = VG.FFD(Workspace, "CoinContainer")
         if Map then
             for i,v in next, Map:GetChildren() do
-                if VG.FFD(Player.PlayerGui, "CashBag").Visible then
-                    if v.Name ~= "CollectedCoin" and v:FindFirstChildWhichIsA("BasePart").Transparency == 0 and Num then
-                        VG.Teleport(v.CFrame)
-                        wait(.5)
-                        VG.Teleport(CFrame.new(0,500000,0))
+                if VG.FFD(Player.PlayerGui, "CashBag") and VG.FFD(Player.PlayerGui, "CashBag").Visible then
+                    if v.Name ~= "CollectedCoin" and VG.FFD(v, "CoinType") and Num then
+                        print(VG.FFD(v, "CoinType").Value)
+                        VG.Teleport(v.Position)
+                        wait(1)
+                        VG.Teleport(Vector3.new(0,500000,0))
                         wait(2)
                     end
                 end
@@ -154,9 +157,18 @@ spawn(function()
     end
 end)
 
+spawn(function()
+    while wait() do
+        pcall(function()
+            if Num then 
+                CollectCoin()
+            end
+        end)
+    end
+end)
 
 Stepped:Connect(function()
-    if Num then CollectCoin() VG.NoClip() end
+    if Num then VG.NoClip() end
     if d2 then
         for i,v in next, Players:GetPlayers() do
             if v ~= Player then
@@ -255,7 +267,7 @@ do
     end)
     Options.asjkdhj:SetValue(false)
 
-    local Toggle = Tabs.Main:AddToggle("Rough", {Title = "Auto Grab Gun", Default = false})
+    local Toggle = Tabs.Main:AddToggle("Rough", {Title = "Auto Trap Player", Default = false})
     Toggle:OnChanged(function()
         Trap1 = Options.Rough.Value
     end)
@@ -267,12 +279,38 @@ do
     end)
     Options.You:SetValue(false)
 
+    local Dropdown = Tabs.Main:AddDropdown("Players", {
+        Title = "Players",
+        Values = VG.GetPlayers(),
+        Multi = false,
+        Default = 1,
+    })
 
-  
+    Dropdown:SetValue("DekuDimz")
+
+    Dropdown:OnChanged(function(Value)
+        Person = Value
+    end)
+
+
 
     Tabs.Main:AddButton({Title = "Play Emote",Description = "Plays a selected Emote ",Callback = function()
         ReplicatedStorage.Remotes.Misc.PlayEmote:Fire(Key or "floss")
     end})
+
+    local Dropdown = Tabs.Main:AddDropdown("Dropdown", {
+        Title = "Emotes",
+        Values = New,
+        Multi = false,
+        Default = 1,
+    })
+
+    Dropdown:SetValue("Floss")
+
+    Dropdown:OnChanged(function(Value)
+        Key = Value
+    end)
+
     local Keybind = Tabs.Main:AddKeybind("Keybind", {Title = "Emote Keybind",Mode = "Toggle",Default = "B",
         Callback = function()
             ReplicatedStorage.Remotes.Misc.PlayEmote:Fire(Key or "floss")
