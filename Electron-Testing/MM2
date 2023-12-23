@@ -155,7 +155,7 @@ spawn(function()
 end)
 
 
-RunService.Stepped:Connect(function()
+Stepped:Connect(function()
     if Num then CollectCoin() VG.NoClip() end
     if d2 then
         for i,v in next, Players:GetPlayers() do
