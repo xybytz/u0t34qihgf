@@ -11,6 +11,12 @@ GetGlobal.Kick = Player.Kick
 GetGlobal.Error = ScriptContext.Error
 GetGlobal.Idled = Player.Idled
 GetGlobal.MessageOut = LogService.MessageOut
+GetGlobal.Stepped = RunService.Stepped
+GetGlobal.RenderStepped = RunService.RenderStepped
+GetGlobal.Heartbeat = RunService.Heartbeat
+GetGlobal.PreRender = RunService.PreRender
+GetGlobal.PreSimulation = RunService.PreSimulation
+GetGlobal.PostSimulation = RunService.PostSimulation
 GetGlobal.Settings = {}
 GetGlobal.Verison = "v1"
 GetGlobal.VG = {}
@@ -20,6 +26,9 @@ GetGlobal.Helper = "Bluwu"
 GetGlobal.User = Instance.new("VirtualInputManager")
 GetGlobal.AFK = false
 GetGlobal.Character = Player.Character or Player.CharacterAdded:Wait()
+GetGlobal.Protecter = Instance.new("Model", CoreGui)
+GetGlobal.GameId = game.GameId
+Protecter.RobloxLocked = true
 
 VG.Mag = function(Pos1, Pos2)
     return (Pos1.Position - Pos2.Position).Magnitude
@@ -147,3 +156,50 @@ VG.Wait = function(Parent, Instance)
 end
 
 --print(VG.Wait(Workspace))
+
+VG.KeyPress = function(PressDown, Key, Repeated, Instance, TimesPressed)
+    if User then
+        User:SendKeyEvent(PressDown, Key, Repeated, Instance, TimesPressed)
+    end
+end
+-- VG.KeyPress(true, "E", false, game, 0)
+
+VG.GetProtecter = function()
+    return Protecter
+end
+-- print(VG.Protecter()) -- Model, Parent CoreGui
+
+VG.SetGuiParent = function(Gui)
+    if Gui then
+        Gui.RobloxLocked = true
+        Gui.Parent = VG.GetProtecter()
+    end
+end
+
+VG.NoClip = function()
+    for i,v in next, Player.Character:GetChildren() do
+        if v:IsA("BasePart") then
+            v.CanCollide = false
+            v.Velocity = Vector3.new(0,0,0)
+        end
+    end
+end
+
+--VG.NoClip()
+
+VG.GetPos = function(Instance)
+    if Instance then
+        if Instance:IsA("BasePart") then
+            return Instance.Position
+        elseif Instance:IsA("Model") then
+            return Instance:GetModelCFrame().Position
+        end
+    end
+end
+
+
+--Loops
+
+RenderStepped:Connect(function()
+    VG.GetProtecter().Name = HttpService:GenerateGUID()
+end)
