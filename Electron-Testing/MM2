@@ -60,8 +60,8 @@ local CollectCoin = function()
         local Map = VG.FFD(Workspace, "CoinContainer")
         if Map then
             for i,v in next, Map:GetChildren() do
-                if v:FindFirstChild("Coin", true) and VG.FFD(Player.PlayerGui, "CashBag").Visible then
-                    if v.Name ~= "CollectedCoin" and v.Coin.Transparency == 0 and Num then
+                if VG.FFD(Player.PlayerGui, "CashBag").Visible then
+                    if v.Name ~= "CollectedCoin" and v:FindFirstChildWhichIsA("BasePart").Transparency == 0 and Num then
                         VG.Teleport(v.CFrame)
                         wait(.5)
                         VG.Teleport(CFrame.new(0,500000,0))
@@ -175,7 +175,7 @@ Stepped:Connect(function()
         VG.Teleport(Workspace:FindFirstChild("GunDrop").Position)
     end
     if Trap1 then
-        Trap(CFrame.new(VG.GetPos(Players[hacker].Character)))
+        Trap(CFrame.new(Players[hacker].Character:GetModelCFrame()))
     end
     if TradeFor then
         Trade(Players[Person])
@@ -192,7 +192,7 @@ local Window = Fluent:CreateWindow({
     Title = "V.G Hub: Game " .. MarketplaceService:GetProductInfo(game.PlaceId).Name,
     SubTitle = "by DekuDimz",
     TabWidth = 160,
-    Size = UDim2.fromOffset(580, 460),
+    Size = UDim2.fromOffset(200, 200),
     Acrylic = false, -- The blur may be detectable, setting this to false disables blur entirely
     Theme = "Dark",
     MinimizeKey = Enum.KeyCode.Delete -- Used when theres no MinimizeKeybind
