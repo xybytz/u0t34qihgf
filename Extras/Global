@@ -197,7 +197,19 @@ VG.GetPos = function(Instance)
     end
 end
 
+-- VG.GetPos(Character) -- Character Position
 
+VG.GetPlayers = function()
+    local Ta = {}
+    for i,v in next, Players:GetPlayers() do -- why the fuck do i have to do this for dropdowns
+        if not table.find(Ta, v.Name) and v ~= Player then
+            table.find(Ta, v.Name)
+        end
+    end
+    return Ta
+end
+
+--  VG.GetPlayers() -- Table of players names
 --Loops
 
 RenderStepped:Connect(function()
