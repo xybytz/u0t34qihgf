@@ -34,8 +34,8 @@ VG.Mag = function(Pos1, Pos2)
     return (Pos1.Position - Pos2.Position).Magnitude
 end
 -- VG.Mag(Player.Character:GetModelCFrame(), Workspace.Part1) < 50 -- true
-VG.Teleport = function(Pos, Offset)
-    Player.Character:PivotTo(CFrame.new(Pos + Offset))
+VG.Teleport = function(Pos)
+    Player.Character:PivotTo(CFrame.new(Pos))
 end
 -- VG.Teleport(Vector3.new(0,0,0), nil)
 VG.GetNearestPlayerToBasePart = function(BasePart)
