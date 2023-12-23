@@ -192,7 +192,7 @@ local Window = Fluent:CreateWindow({
     Title = "V.G Hub: Game " .. MarketplaceService:GetProductInfo(game.PlaceId).Name,
     SubTitle = "by DekuDimz",
     TabWidth = 160,
-    Size = UDim2.fromOffset(200, 200),
+    Size = UDim2.fromOffset(580, 460),
     Acrylic = false, -- The blur may be detectable, setting this to false disables blur entirely
     Theme = "Dark",
     MinimizeKey = Enum.KeyCode.Delete -- Used when theres no MinimizeKeybind
@@ -268,8 +268,7 @@ do
     Options.You:SetValue(false)
 
 
-    local Dropdown = Tabs.Main:AddDropdown("Dropdown", {Title = "Dropdown",Values = Players:GetPlayers(),Multi = false,Default = 1,})
-    Dropdown:SetValue(nil)
+    local Dropdown = Tabs.Main:AddDropdown("Hey2", {Title = "Players",Values = Players:GetPlayers(),Multi = false,Default = 1,})
     Dropdown:OnChanged(function(Value)
         Person = Value
     end)
@@ -296,7 +295,7 @@ do
     local Dropdown = Tabs.Main:AddDropdown("Emote", {Title = "Emotes",Values = New, Multi = false,Default = 1,})
     Dropdown:SetValue(nil)
     Dropdown:OnChanged(function(Value)
-        Person = Value
+        Key = Value
     end)
 
     local Toggle = Tabs.Main:AddToggle("ESP1", {Title = "Enable ESP", Default = false})
