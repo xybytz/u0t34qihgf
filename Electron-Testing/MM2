@@ -44,7 +44,7 @@ local KillAll = function(v)
 end
 
 local ShootMurderer = function(v)
-    if (GetRole("Sheriff", false) == Player.Name or GetRole("Hero", false) == Player.Name) and Player.PlayerGui:FindFirstChild("CashBag").Visible then
+    if (GetRole("Sheriff", false) == Player.Name or GetRole("Hero", false) == Player.Name) and VG.FFD(Player.PlayerGui, "CashBag").Visible then
         if GetRole("Murderer", false) == v.Name then
             VG.GetTool("Gun")
             VG.Teleport(CFrame.new(VG.GetPos(v.Character)) * CFrame.new(0,0,5))
@@ -60,7 +60,7 @@ local CollectCoin = function()
         local Map = VG.FFD(Workspace, "CoinContainer")
         if Map then
             for i,v in next, Map:GetChildren() do
-                if v:FindFirstChild("Coin", true) and Player.PlayerGui:FindFirstChild("CashBag").Visible then
+                if v:FindFirstChild("Coin", true) and VG.FFD(Player.PlayerGui, "CashBag").Visible then
                     if v.Name ~= "CollectedCoin" and v.Coin.Transparency == 0 and Num then
                         VG.Teleport(v.CFrame)
                         wait(.5)
