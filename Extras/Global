@@ -229,7 +229,8 @@ end)
 
 Players.PlayerRemoving:Connect(function(v)
     if v ~= Player then 
-        table.remove(v.Name)
+        local String = table.find(AllPlayers, v.Name)
+        table.remove(AllPlayers, String)
     end
 end)
 
