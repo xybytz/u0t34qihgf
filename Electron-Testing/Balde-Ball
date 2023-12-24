@@ -40,7 +40,7 @@ GetPlayerC = function()
     local Max, Target, Players = math.huge, nil, Players
     for i,v in next, Players:GetPlayers() do
         if v ~= Player and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
-            local Mag = VG.Mag(Character:GetModelCFrame(), v.Character:GetModelCFrame())
+            local Mag = VG.Mag(Player.Character:GetModelCFrame(), v.Character:GetModelCFrame())
             if Mag <= Max then
                 Target = v
             end
@@ -67,7 +67,7 @@ Hit = function()
         M2 -= M3
         print(M / M2)
         if Hate and not Loser then
-            Player.Character.HumanoidRootPart.CFrame = CFrame.lookAt(Character.HumanoidRootPart.CFrame.Position, Vector3.new(Ball.Position.X, Player.Character.HumanoidRootPart.CFrame.Position.Y, Ball.Position.Z))
+            Player.Character.HumanoidRootPart.CFrame = CFrame.lookAt(Player.Character.HumanoidRootPart.CFrame.Position, Vector3.new(Ball.Position.X, Player.Character.HumanoidRootPart.CFrame.Position.Y, Ball.Position.Z))
         end
         if (M / M2 < 0.19 or M / M2 > 9e9 and M < 10) and not Clash then
             Player.Character.HumanoidRootPart.CFrame = CFrame.new(Ball.CFrame.Position + Vector3.new(math.random(1,5),0,math.random(1,5)))
