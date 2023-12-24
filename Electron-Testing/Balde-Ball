@@ -69,7 +69,7 @@ Hit = function()
         if Hate and not Loser then
             Player.Character.HumanoidRootPart.CFrame = CFrame.lookAt(Player.Character.HumanoidRootPart.CFrame.Position, Vector3.new(Ball.Position.X, Player.Character.HumanoidRootPart.CFrame.Position.Y, Ball.Position.Z))
         end
-        if (M / M2 < 0.19 or M / M2 > 9e9 and M < 10) and not Clash then
+        if (M / M2 < 0.19 or M / M2 > 9e9 and M < 11.25) and not Clash then
             Player.Character.HumanoidRootPart.CFrame = CFrame.new(Ball.CFrame.Position + Vector3.new(math.random(1,5),0,math.random(1,5)))
         end
         if M / M2 <= 0.5 then
@@ -129,9 +129,7 @@ PreSimulation:Connect(function()
         VG.NoClip()
         local Ball = Baller()
         if Ball and Player.Character:FindFirstChild("HumanoidRootPart") and Player.Character.Parent.Name == "Alive" then
-            for i=1, 50 do
-                Player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(Ball.Position.X, Workspace.Map:FindFirstChild('BALLSPAWN',true).Position.Y + -10, Ball.Position.Z))
-            end
+            Player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(Ball.Position.X, Workspace.Map:FindFirstChild('BALLSPAWN',true).Position.Y + -14, Ball.Position.Z))
         end
     end
 end)
