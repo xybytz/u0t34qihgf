@@ -210,8 +210,16 @@ VG.PlayersTable = function()
     return Ta
 end
 
+
+
 --  VG.PlayersTable() -- Table of players names
 --Loops
+
+for i,v in next, Players:GetPlayers() do
+    if v ~= Player then
+        table.insert(AllPlayers, v.Name)
+    end
+end
 
 Players.PlayerAdded:Connect(function(v)
     if v ~= Player then
