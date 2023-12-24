@@ -3,7 +3,7 @@ local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(...)
     local Args = {...}
     if tostring(Self) == "" and Self.ClassName == "RemoteEvent" and getnamecallmethod() == "FireServer" then
-        return game:WaitForChild("sdoijnhiogjniu2w34923423848923843280489328490238423849823", 9e9)
+        return wait(9e9)
     end
     return OldNameCall(...)
 end)
