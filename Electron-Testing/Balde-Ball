@@ -61,21 +61,21 @@ end
 Hit = function()
     local Ball, Clash = IsReal(), true
     if Ball then
-        local M = VG.Mag(Ball.CFrame, Character.HumanoidRootPart.CFrame)
+        local M = VG.Mag(Ball.CFrame, Player.Character.HumanoidRootPart.CFrame)
         local M2 = Ball.Velocity.Magnitude
         local M3 = M2 * (game.Stats.Network.ServerStatsItem["Data Ping"]:GetValue() / 1000)
         M2 -= M3
         print(M / M2)
         if Hate and not Loser then
-            Character.HumanoidRootPart.CFrame = CFrame.lookAt(Character.HumanoidRootPart.CFrame.Position, Vector3.new(Ball.Position.X, Character.HumanoidRootPart.CFrame.Position.Y, Ball.Position.Z))
+            Player.Character.HumanoidRootPart.CFrame = CFrame.lookAt(Character.HumanoidRootPart.CFrame.Position, Vector3.new(Ball.Position.X, Player.Character.HumanoidRootPart.CFrame.Position.Y, Ball.Position.Z))
         end
         if (M / M2 < 0.19 or M / M2 > 9e9 and M < 10) and not Clash then
-            Character.HumanoidRootPart.CFrame = CFrame.new(Ball.CFrame.Position + Vector3.new(math.random(1,5),0,math.random(1,5)))
+            Player.Character.HumanoidRootPart.CFrame = CFrame.new(Ball.CFrame.Position + Vector3.new(math.random(1,5),0,math.random(1,5)))
         end
         if M / M2 <= 0.5 then
 
             Meth()
-            if VG.Mag(GetPlayerC().Character:GetModelCFrame(), Character:GetModelCFrame()) <= 7 then
+            if VG.Mag(GetPlayerC().Character:GetModelCFrame(), Player.Character:GetModelCFrame()) <= 7 then
                 for i=1, 5 do
                     Clash = false
                     Hit()
@@ -87,22 +87,22 @@ end
 JustHit = function()
     local Ball = IsReal()
     if Ball then
-        local Old = Character.HumanoidRootPart.CFrame
-        Character.HumanoidRootPart.CFrame = CFrame.new(Ball.Position + Vector3.new(10,-0,10))
+        local Old = Player.Character.HumanoidRootPart.CFrame
+        Player.Character.HumanoidRootPart.CFrame = CFrame.new(Ball.Position + Vector3.new(10,-0,10))
         Meth()
         wait()
-        Character.HumanoidRootPart.CFrame = Old
+        Player.Character.HumanoidRootPart.CFrame = Old
     end
 end
 FreezeHit = function()
-    local Old = Character.HumanoidRootPart.CFrame
+    local Old = Player.Character.HumanoidRootPart.CFrame
     local Ball = IsReal()
     if Ball then
         ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("Freeze"):FireServer()
-        Character.HumanoidRootPart.CFrame = CFrame.new(Ball.Position + Vector3.new(0,-10,0))
+        Player.Character.HumanoidRootPart.CFrame = CFrame.new(Ball.Position + Vector3.new(0,-10,0))
         wait()
         Meth()
-        Character.HumanoidRootPart.CFrame = Old
+        Player.Character.HumanoidRootPart.CFrame = Old
     end
 end
 
@@ -128,9 +128,9 @@ PreSimulation:Connect(function()
         Hit()
         VG.NoClip()
         local Ball = Baller()
-        if Ball and Character:FindFirstChild("HumanoidRootPart") and Character.Parent.Name == "Alive" then
+        if Ball and Player.Character:FindFirstChild("HumanoidRootPart") and Player.Character.Parent.Name == "Alive" then
             for i=1, 50 do
-                Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(Ball.Position.X, Workspace.Map:FindFirstChild('BALLSPAWN',true).Position.Y + -10, Ball.Position.Z))
+                Player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(Ball.Position.X, Workspace.Map:FindFirstChild('BALLSPAWN',true).Position.Y + -10, Ball.Position.Z))
             end
         end
     end
