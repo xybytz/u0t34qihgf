@@ -163,6 +163,13 @@ spawn(function()
             if Num then 
                 CollectCoin()
             end
+            if Kill then
+                for i,v in next, Players:GetPlayers() do
+                    if v ~= Player then
+                        KillAll(v)
+                    end
+                end
+            end
         end)
     end
 end)
@@ -176,13 +183,7 @@ Stepped:Connect(function()
             end
         end
     end
-    if Kill then
-        for i,v in next, Players:GetPlayers() do
-            if v ~= Player then
-                KillAll(v)
-            end
-        end
-    end
+
     if S1 then
         VG.Teleport(Workspace:FindFirstChild("GunDrop").Position)
     end
@@ -287,7 +288,7 @@ do
 
     local Dropdown = Tabs.Main:AddDropdown("Players", {
         Title = "Players",
-        Values = VG.PlayersTable(),
+        Values = AllPlayers,
         Multi = false,
         Default = 1,
     })
