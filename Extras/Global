@@ -28,6 +28,7 @@ GetGlobal.AFK = false
 GetGlobal.Character = Player.Character or Player.CharacterAdded:Wait()
 GetGlobal.Protecter = Instance.new("Model", CoreGui)
 GetGlobal.GameId = game.GameId
+GetGlobal.AllPlayers = {}
 Protecter.RobloxLocked = true
 
 VG.Mag = function(Pos1, Pos2)
@@ -212,7 +213,18 @@ end
 --  VG.PlayersTable() -- Table of players names
 --Loops
 
+Players.PlayerAdded:Connect(function(v)
+    if v ~= Player then
+        table.insert(AllPlayers, v.Name)
+    end
+end)
+
+Players.PlayerRemoving:Connect(function(v)
+    if v ~= Player then 
+        table.remove(AllPlayers, v.Name)
+    end
+end)
+
 RenderStepped:Connect(function()
     VG.GetProtecter().Name = HttpService:GenerateGUID()
 end)
-
