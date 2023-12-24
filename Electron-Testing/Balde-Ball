@@ -38,8 +38,8 @@ do
         local Max, Target, Players = math.huge, nil, Players
         for i,v in next, Players:GetPlayers() do
             if v ~= Player and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
-                local VG.Mag = VG.Mag(Character:GetModelCFrame(), v.Character:GetModelCFrame())
-                if VG.Mag <= Max then
+                local Mag = VG.Mag(Character:GetModelCFrame(), v.Character:GetModelCFrame())
+                if Mag <= Max then
                     Target = v
                 end
             end
