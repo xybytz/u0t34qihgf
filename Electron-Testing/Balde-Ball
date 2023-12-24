@@ -8,100 +8,99 @@ OldNameCall = hookmetamethod(game, "__namecall", function(...)
     return OldNameCall(...)
 end)
 local Balls = VG.FFD(Workspace, "Balls")
-do
-    for i,v in next, getgc() do
-        if type(v) == "function" then
-            if debug.getinfo(v).name == "parry" then
-                Parry = v
+print(Balls)
+for i,v in next, getgc() do
+    if type(v) == "function" then
+        if debug.getinfo(v).name == "parry" then
+            Parry = v
+        end
+    end
+end
+IsReal = function()
+    local Re
+    for i,v in next, Balls:GetChildren() do
+        if v:GetAttribute("realBall") and v:GetAttribute("target") == Player.Name and not v.Anchored then
+            Re = v
+        end
+    end
+    return Re
+end
+Baller = function()
+    local Real = nil
+    for i,v in next, Balls:GetChildren() do
+        if v:GetAttribute("realBall") then
+            Real = v
+        end
+    end
+    return Real
+end
+GetPlayerC = function()
+    local Max, Target, Players = math.huge, nil, Players
+    for i,v in next, Players:GetPlayers() do
+        if v ~= Player and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
+            local Mag = VG.Mag(Character:GetModelCFrame(), v.Character:GetModelCFrame())
+            if Mag <= Max then
+                Target = v
             end
         end
     end
-    IsReal = function()
-        local Re
-        for i,v in next, Balls:GetChildren() do
-            if v:GetAttribute("realBall") and v:GetAttribute("target") == Player.Name and not v.Anchored then
-                Re = v
-            end
-        end
-        return Re
+    return Target
+end
+Meth = function()
+    if Method == "KeyPress" then
+        keypress(0x46)
+        keyrelease(0x46)
+    elseif Method == "Remote" then
+        ReplicatedStorage.Remotes.ParryButtonPress:Fire()
+    elseif Method == "Function" then
+        Parry()
     end
-    Baller = function()
-        local Real = nil
-        for i,v in next, Balls:GetChildren() do
-            if v:GetAttribute("realBall") then
-                Real = v
-            end
+end
+Hit = function()
+    local Ball, Clash = IsReal(), true
+    if Ball then
+        local M = VG.Mag(Ball.CFrame, Character.HumanoidRootPart.CFrame)
+        local M2 = Ball.Velocity.Magnitude
+        local M3 = M2 * (game.Stats.Network.ServerStatsItem["Data Ping"]:GetValue() / 1000)
+        M2 -= M3
+        print(M / M2)
+        if Hate and not Loser then
+            Character.HumanoidRootPart.CFrame = CFrame.lookAt(Character.HumanoidRootPart.CFrame.Position, Vector3.new(Ball.Position.X, Character.HumanoidRootPart.CFrame.Position.Y, Ball.Position.Z))
         end
-        return Real
-    end
-    GetPlayerC = function()
-        local Max, Target, Players = math.huge, nil, Players
-        for i,v in next, Players:GetPlayers() do
-            if v ~= Player and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
-                local Mag = VG.Mag(Character:GetModelCFrame(), v.Character:GetModelCFrame())
-                if Mag <= Max then
-                    Target = v
-                end
-            end
+        if (M / M2 < 0.19 or M / M2 > 9e9 and M < 10) and not Clash then
+            Character.HumanoidRootPart.CFrame = CFrame.new(Ball.CFrame.Position + Vector3.new(math.random(1,5),0,math.random(1,5)))
         end
-        return Target
-    end
-    Meth = function()
-        if Method == "KeyPress" then
-            keypress(0x46)
-            keyrelease(0x46)
-        elseif Method == "Remote" then
-            ReplicatedStorage.Remotes.ParryButtonPress:Fire()
-        elseif Method == "Function" then
-            Parry()
-        end
-    end
-    Hit = function()
-        local Ball, Clash = IsReal(), true
-        if Ball then
-            local M = VG.Mag(Ball.CFrame, Character.HumanoidRootPart.CFrame)
-            local M2 = Ball.Velocity.Magnitude
-            local M3 = M2 * (game.Stats.Network.ServerStatsItem["Data Ping"]:GetValue() / 1000)
-            M2 -= M3
-            print(M / M2)
-            if Hate and not Loser then
-                Character.HumanoidRootPart.CFrame = CFrame.lookAt(Character.HumanoidRootPart.CFrame.Position, Vector3.new(Ball.Position.X, Character.HumanoidRootPart.CFrame.Position.Y, Ball.Position.Z))
-            end
-            if (M / M2 < 0.19 or M / M2 > 9e9 and M < 10) and not Clash then
-                Character.HumanoidRootPart.CFrame = CFrame.new(Ball.CFrame.Position + Vector3.new(math.random(1,5),0,math.random(1,5)))
-            end
-            if M / M2 <= 0.5 then
-    
-                Meth()
-                if VG.Mag(GetPlayerC().Character:GetModelCFrame(), Character:GetModelCFrame()) <= 7 then
-                    for i=1, 5 do
-                        Clash = false
-                        Hit()
-                    end
-                end
-            end
-        end
-    end
-    JustHit = function()
-        local Ball = IsReal()
-        if Ball then
-            local Old = Character.HumanoidRootPart.CFrame
-            Character.HumanoidRootPart.CFrame = CFrame.new(Ball.Position + Vector3.new(10,-0,10))
+        if M / M2 <= 0.5 then
+
             Meth()
-            wait()
-            Character.HumanoidRootPart.CFrame = Old
+            if VG.Mag(GetPlayerC().Character:GetModelCFrame(), Character:GetModelCFrame()) <= 7 then
+                for i=1, 5 do
+                    Clash = false
+                    Hit()
+                end
+            end
         end
     end
-    FreezeHit = function()
+end
+JustHit = function()
+    local Ball = IsReal()
+    if Ball then
         local Old = Character.HumanoidRootPart.CFrame
-        local Ball = IsReal()
-        if Ball then
-            ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("Freeze"):FireServer()
-            Character.HumanoidRootPart.CFrame = CFrame.new(Ball.Position + Vector3.new(0,-10,0))
-            wait()
-            Meth()
-            Character.HumanoidRootPart.CFrame = Old
-        end
+        Character.HumanoidRootPart.CFrame = CFrame.new(Ball.Position + Vector3.new(10,-0,10))
+        Meth()
+        wait()
+        Character.HumanoidRootPart.CFrame = Old
+    end
+end
+FreezeHit = function()
+    local Old = Character.HumanoidRootPart.CFrame
+    local Ball = IsReal()
+    if Ball then
+        ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("Freeze"):FireServer()
+        Character.HumanoidRootPart.CFrame = CFrame.new(Ball.Position + Vector3.new(0,-10,0))
+        wait()
+        Meth()
+        Character.HumanoidRootPart.CFrame = Old
     end
 end
 
