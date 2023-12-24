@@ -229,7 +229,7 @@ end)
 
 Players.PlayerRemoving:Connect(function(v)
     if v ~= Player then 
-        table.remove(AllPlayers, v.Name)
+        table.remove(v.Name)
     end
 end)
 
