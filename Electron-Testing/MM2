@@ -65,7 +65,7 @@ local CollectCoin = function()
                 if VG.FFD(Player.PlayerGui, "CashBag") and VG.FFD(Player.PlayerGui, "CashBag").Visible then
                     if v.Name ~= "CollectedCoin" and VG.FFD(v, "CoinType") and Num then
                         print(VG.FFD(v, "CoinType").Value)
-                        VG.Teleport(v.Position + Vector3.new(0,1,0))
+                        VG.Teleport(v.Position + Vector3.new(0,3,0))
                         wait(1)
                         VG.Teleport(Vector3.new(0,500000,0))
                         wait(2)
