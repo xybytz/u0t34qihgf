@@ -1,4 +1,4 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Electron-Testing/Balde-Ball"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
 VG.DisableConnection(Error)
 VG.DisableConnection(Idled)
 local OldNameCall = nil
@@ -73,6 +73,7 @@ Hit = function()
             Player.Character.HumanoidRootPart.CFrame = CFrame.new(Ball.CFrame.Position + Vector3.new(math.random(1,5),0,math.random(1,5)))
         end
         if M / M2 <= 0.5 then
+
             Meth()
             if VG.Mag(GetPlayerC().Character:GetModelCFrame(), Player.Character:GetModelCFrame()) <= 7 then
                 for i=1, 5 do
