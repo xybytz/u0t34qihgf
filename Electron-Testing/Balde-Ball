@@ -1,4 +1,4 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Electron-Testing/Balde-Ball"))()
 VG.DisableConnection(Error)
 VG.DisableConnection(Idled)
 local OldNameCall = nil
@@ -73,7 +73,6 @@ Hit = function()
             Player.Character.HumanoidRootPart.CFrame = CFrame.new(Ball.CFrame.Position + Vector3.new(math.random(1,5),0,math.random(1,5)))
         end
         if M / M2 <= 0.5 then
-
             Meth()
             if VG.Mag(GetPlayerC().Character:GetModelCFrame(), Player.Character:GetModelCFrame()) <= 7 then
                 for i=1, 5 do
@@ -126,11 +125,11 @@ PreSimulation:Connect(function()
     end
     if Loser then
         local Ball = Baller()
+        JustHit()
         if Ball and Player.Character:FindFirstChild("HumanoidRootPart") and Player.Character.Parent.Name == "Alive" then
             for i=1, 50 do
                 VG.NoClip()
                 Player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(Ball.Position.X, Workspace.Map:FindFirstChild('BALLSPAWN',true).Position.Y + -10, Ball.Position.Z))
-                Hit()
             end
         end
     end
