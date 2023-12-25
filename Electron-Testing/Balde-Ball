@@ -125,11 +125,13 @@ PreSimulation:Connect(function()
         end
     end
     if Loser then
-        Hit()
-        VG.NoClip()
         local Ball = Baller()
         if Ball and Player.Character:FindFirstChild("HumanoidRootPart") and Player.Character.Parent.Name == "Alive" then
-            Player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(Ball.Position.X, Workspace.Map:FindFirstChild('BALLSPAWN',true).Position.Y + -14, Ball.Position.Z))
+            for i=1, 50 do
+                VG.NoClip()
+                Player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(Ball.Position.X, Workspace.Map:FindFirstChild('BALLSPAWN',true).Position.Y + 900, Ball.Position.Z))
+                Hit()
+            end
         end
     end
 end)
