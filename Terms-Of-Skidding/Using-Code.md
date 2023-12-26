@@ -1,1 +1,4 @@
 --Hello this script use's parts of V.G Hub's code, VG Hub is a open sourced hub that strives to allow users a great experience when exploiting skidding this is full allowed as long as this is somewhere in your script preferably near the code used format like
+
+
+--https://github.com/1201for/V.G-Hub/blob/main/Terms-Of-Skidding/Using-Code.md--
