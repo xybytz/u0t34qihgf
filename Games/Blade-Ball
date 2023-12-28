@@ -21,8 +21,6 @@ local Script = {
 }
 local SF = Script.Function
 local SV = Script.Values
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Functions"))()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Anti-Cheat"))()
 for i,v in next, getconnections(LogService.MessageOut) do
 	v:Enable()
 end
