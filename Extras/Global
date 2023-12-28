@@ -209,19 +209,22 @@ VG.PlayersTable = function()
     end
     return Ta
 end
-
-
-
 --  VG.PlayersTable() -- Table of players names
 
 VG.GetHumanoid = function()
     return Player.Character:FindFirstChildWhichIsA("Humanoid")
 end
 --VG.GetHumanoid() Grabs Humanoid of Player.Character
+
 VG.GetRoot = function()
     return Player.Character.PrimaryPart
 end
 --VG.GetRoot() Grabs RootPart of Character
+
+VG.IsA= function(Parent, Instance)
+    return Parent:FindFirstChildWhichIsA(Instance, true)
+end
+
 --Loops
 
 for i,v in next, Players:GetPlayers() do
