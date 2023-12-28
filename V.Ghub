@@ -1,11 +1,5 @@
 repeat task.wait() until game:IsLoaded()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Functions"))()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Anti-Cheat"))()
-if KeySystem then
-    setclipboard("https://mikecash.co/key/ce16d0dba7d2")
-    SendNotification("Key Link", "Copied Key Link Go To It to continue", "rbxassetid://8429081004", 60)
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Key"))()
-end
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
 local StartTime = tick()
 local A = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.G-Hub-Games-List"))()
 
