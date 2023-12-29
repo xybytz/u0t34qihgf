@@ -1,3 +1,5 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
+
 UserInputService.InputBegan:Connect(function(Input, GPE)
     if Input.KeyCode == Enum.KeyCode.LeftShift and Sp then
         VG.IsA(Player.Character, "Humanoid").WalkSpeed = 25
@@ -16,6 +18,8 @@ for i,v in next, Emotes do
         table.insert(New, i)
     end
 end
+
+
 local GetRole = function(Role, True)
     local Target = nil
     local Table = game:GetService("ReplicatedStorage").Remotes.Extras.GetPlayerData:InvokeServer()
@@ -33,19 +37,10 @@ local KillAll = function(v)
         if VG.GetTool("Knife") then
             VG.GetTool("Knife")
         elseif VG.FFD(Player.PlayerGui, "CashBag").Visible then
-            VG.ChangeCFrame(Player, CFrame.new(0,90000000000,0))
+            VG.Teleport(Vector3.new(0,90000000000,0))
             Player.Character.Knife.Stab:FireServer("Slash")
             firetouchinterest(v.Character.HumanoidRootPart, Player.Character.Knife.Handle, 1)
             firetouchinterest(v.Character.HumanoidRootPart, Player.Character.Knife.Handle, 0)
-        end
-    end
-end
-
-local Nocliper = function()
-    for i,v in next, Player.Character:GetChildren() do
-        if v:IsA("BasePart") then
-            v.CanCollide = false
-            v.Velocity = Vector3.new(0, 0, 0)
         end
     end
 end
@@ -54,9 +49,9 @@ local ShootMurderer = function(v)
     if (GetRole("Sheriff", false) == Player.Name or GetRole("Hero", false) == Player.Name) and VG.FFD(Player.PlayerGui, "CashBag").Visible then
         if GetRole("Murderer", false) == v.Name then
             VG.GetTool("Gun")
-            VG.ChangeCFrame(Player, VG.GetCFrame(v.Character) * CFrame.new(0,0,5))
+            VG.Teleport(Player.Character:GetModelCFrame().Position + Vector3.new(0,0,5))
             Player.Character.Gun.KnifeServer.ShootGun:InvokeServer(1, VG.GetPosition(v.Character), "AH")
-            VG.ChangeCFrame(Player, CFrame.new(0,500000,0))
+            VG.Teleport(Vector3.new(0,500000,0))
         end
     end
 end
@@ -67,11 +62,12 @@ local CollectCoin = function()
         local Map = VG.FFD(Workspace, "CoinContainer")
         if Map then
             for i,v in next, Map:GetChildren() do
-                if VG.FFD(v, "Coin") and VG.FFD(Player.PlayerGui, "CashBag").Visible then
-                    if v.Name ~= "CollectedCoin" and v.Coin.Transparency == 0 and Num then
-                        VG.ChangeCFrame(Player, v.CFrame)
-                        wait(.5)
-                        VG.ChangeCFrame(Player, CFrame.new(0,500000,0))
+                if VG.FFD(Player.PlayerGui, "CashBag") and VG.FFD(Player.PlayerGui, "CashBag").Visible then
+                    if v.Name ~= "CollectedCoin" and VG.FFD(v, "CoinType") and Num then
+                        print(VG.FFD(v, "CoinType").Value)
+                        VG.Teleport(v.Position + Vector3.new(0,3,0))
+                        wait(1)
+                        VG.Teleport(Vector3.new(0,500000,0))
                         wait(2)
                     end
                 end
@@ -103,7 +99,6 @@ local Rules = {
 local Help = function(v)
     local H = Instance.new("Highlight")
     H.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-    VG.Protect(H)
     H.FillColor = Color3.new(0,255,0)
     Version[v] = H
     H.Parent = v.Character
@@ -146,7 +141,7 @@ spawn(function()
         pcall(function()
             for i, v in next, Players:GetPlayers() do
                 if v ~= Player then
-                    local h = VG.IsA(v.Character, "Highlight")
+                    local h = v.Character:FindFirstChildWhichIsA("Highlight")
                     if not h and ESP then
                         Help(v)
                     end
@@ -162,282 +157,207 @@ spawn(function()
     end
 end)
 
-local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/GUI/PlayerLIB"))()
-local ThemeManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/GUI/Theme"))()
-local SaveManager = loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/GUI/Save'))()
-local Window = Library:CreateWindow({
-    Title = MarketplaceService:GetProductInfo(game.PlaceId).Name,
-    Center = true,
-    AutoShow = true,
-})
-local Tabs = {
-    Main = Window:AddTab('Main'),
-    Misc = Window:AddTab("Trap"),
-    Events = Window:AddTab("Trade"),
-    ['UI Settings'] = Window:AddTab('UI Settings'),
-}
-
-local LeftGroupBox = Tabs.Main:AddLeftGroupbox('')
-local LeftGroupBox2 = Tabs.Main:AddLeftGroupbox("")
-local RightGroupBox = Tabs.Main:AddRightGroupbox('')
-local RightGroupBox2 = Tabs.Main:AddRightGroupbox("")
-local LeftBox = Tabs.Misc:AddLeftGroupbox('')
-local RightBox = Tabs.Misc:AddRightGroupbox('')
-local LeftEventGroupBox = Tabs.Events:AddLeftGroupbox('')
-local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
-
-LeftGroupBox:AddToggle('Sprind', {Text = 'Shift Sprint', Default = false,Tooltip = '', Callback = function(A)
-    Sp = A
-end})
-Toggles.Sprind:OnChanged(function(State)
-    Sp = Toggles.Sprind.Value
-end)
-LeftGroupBox:AddButton('Blurt Roles', function()
-    if GetRole("Murderer", false) ~= Player.Name then
-        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(GetRole("Murderer", false) .. " is the Murderer","normalchat")
-    elseif GetRole("Murderer", false) == Player.Name then
-        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(tostring(Players:GetPlayers()[math.random(1, #Players:GetPlayers())]) .. " is the Murderer","normalchat")
-    end
-
-    if GetRole("Sheriff", false) ~= Player.Name then
-        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(GetRole("Sheriff", false) .. " is the Sheriff","normalchat")
-    elseif GetRole("Sheriff", false) == Player.Name then
-        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(tostring(Players:GetPlayers()[math.random(1, #Players:GetPlayers())]) .. " is the Sheriff","normalchat")
-    end
-end)
-
-LeftGroupBox:AddToggle('ShootMurderer', {Text = 'Shoot Murderer', Default = false,Tooltip = '', Callback = function(A)
-    d2 = A
-    spawn(function()
-        while wait() and d2 do
-            pcall(function()
-                for i,v in next, Players:GetPlayers() do
-                    if v ~= Player then
-                        ShootMurderer(v)
-                    end
-                end
-            end)
-        end
-    end)
-end})
-Toggles.ShootMurderer:OnChanged(function(State)
-    d2 = Toggles.ShootMurderer.Value
-end)
-
-LeftGroupBox:AddToggle('Kil', {Text = 'Murderer Kill All', Default = false,Tooltip = '', Callback = function(A)
-    Kill = A
-    spawn(function()
-        while wait() and Kill do
-            pcall(function()
+spawn(function()
+    while wait() do
+        pcall(function()
+            if Num then 
+                CollectCoin()
+            end
+            if Kill then
                 for i,v in next, Players:GetPlayers() do
                     if v ~= Player then
                         KillAll(v)
                     end
                 end
-            end)
-        end
-    end)
-end})
-Toggles.Kil:OnChanged(function(State)
-    Kill = Toggles.Kil.Value
-end)
-
-LeftGroupBox:AddToggle('wil', {Text = 'Coin Farm', Default = false,Tooltip = '', Callback = function(A)
-    Num = A
-    spawn(function()
-        while wait() and Num do
-            pcall(function()
-                CollectCoin()
-            end)
-        end
-    end)
-end})
-Toggles.wil:OnChanged(function(State)
-    Num = Toggles.wil.Value
-end)
-
-LeftGroupBox:AddToggle('sw', {Text = 'Grab Gun', Default = false,Tooltip = '', Callback = function(A)
-    s1 = A
-    spawn(function()
-        while wait() and s1 do
-            pcall(function()
-                VG.ChangeCFrame(Player, Workspace:FindFirstChild("GunDrop").CFrame)
-            end)
-        end
-    end)
-end})
-Toggles.sw:OnChanged(function(State)
-    s1 = Toggles.sw.Value
-end)
-
-LeftBox:AddToggle('Hack', {Text = 'Trap Selected Players', Default = false,Tooltip = '', Callback = function(A)
-    Hack = A
-    spawn(function()
-        while wait() and Hack do
-            pcall(function()
-                Trap(VG.GetCFrame(Players[hacker].Character))
-            end)
-        end
-    end)
-end})
-
-LeftBox:AddDropdown('MyPlayerDropdown', {SpecialType = 'Player',Text = 'Players',Tooltip = '',Callback = function(Value)
-    hacker = Value
-end})
-
-LeftEventGroupBox:AddToggle('eeeee', {Text = 'Spam Request Trade Selected Player', Default = false,Tooltip = '', Callback = function(A)
-    Hijack = A
-    spawn(function()
-        while wait() and Hijack do
-            pcall(function()
-                Trade(Players[Person])
-            end)
-        end
-    end)
-end})
-
-LeftEventGroupBox:AddToggle('efeeee', {Text = 'Force Trade Selected Player', Default = false,Tooltip = '', Callback = function(A)
-    Expl = A
-    spawn(function()
-        while wait() and Expl do
-            pcall(function()
-                ForceTrade(Players[Person])
-            end)
-        end
-    end)
-end})
-
-LeftEventGroupBox:AddDropdown('MyPlayerDropdown', {SpecialType = 'Player',Text = 'Players',Tooltip = '',Callback = function(Value)
-    Person = Value
-end})
-
-LeftGroupBox:AddButton('Play Selected Emote', function()
-    ReplicatedStorage.Remotes.Misc.PlayEmote:Fire(Key or "floss")
-end)
-
-LeftGroupBox:AddLabel('Play Selected Emote KeyBind'):AddKeyPicker('Aa', {Default = 'R',SyncToggleState = false,Mode = 'Toggle',Text = 'Emote Keybind',NoUI = true,Callback = function(Value)
-    ReplicatedStorage.Remotes.Misc.PlayEmote:Fire(Key or "floss")
-end,
-ChangedCallback = function(New)
-    print(New)
-end})
-
-LeftGroupBox:AddDropdown('MyDropdown', {Values = New,Default = 1,Multi = false,Text = 'Emote',Tooltip = 'A emotes Table',Callback = function(Value)
-    Key = Value
-end})
-
-Options.MyDropdown:OnChanged(function()
-    Key = Options.MyDropdown.Value
-end)
-
-LeftGroupBox:AddToggle('ESP1', {Text = 'Esp Toggle', Default = false,Tooltip = '', Callback = function(A)
-    ESP = A
-end})
-Toggles.ESP1:OnChanged(function(State)
-    ESP = Toggles.ESP1.Value
-end)
-
-
-
-RightGroupBox:AddToggle('SSS', {Text = 'WalkSpeed Toggle',Default = false,Tooltip = '', Callback = function(A)
-    WS = A
-    RunService.Stepped:Connect(function()
-        if WS then
-            pcall(function()
-                Player.Character:FindFirstChildWhichIsA("Humanoid").WalkSpeed = WalkSpeed or 16
-            end)
-        end
-    end)
-end})
-Toggles.SSS:OnChanged(function(State)
-    Foe = Toggles.SSS.Value
-end)
-RightGroupBox:AddInput('SSF3', {Default = 'WalkSpeed',Numeric = true,Finished = false,Text = 'WalkSpeed',Tooltip = 'Numbers Only',Placeholder = 'WalkSpeed'})
-Options.SSF3:OnChanged(function(State)
-    WalkSpeed = Options.SSF3.Value
-end)
-
-RightGroupBox:AddToggle('EEE', {Text = 'JumpPower Toggle',Default = false,Tooltip = '', Callback = function(A)
-    JP = A
-    RunService.Stepped:Connect(function()
-        if JP then
-            pcall(function()
-                local H = Player.Character:FindFirstChildWhichIsA("Humanoid")
-                if H.UseJumpPower then
-                    H.JumpPower = JumpPower or 50
-                else
-                    H.JumpHeight = JumpPower or 50
-                end
-            end)
-        end
-    end)
-end})
-Toggles.EEE:OnChanged(function(State)
-    JP = Toggles.EEE.Value
-end)
-RightGroupBox:AddInput('SSF1', {Default = 'JumpPower',Numeric = true,Finished = false,Text = 'JumpPower',Tooltip = 'Numbers Only',Placeholder = 'JumpPower'})
-
-Options.SSF1:OnChanged(function(State)
-    JumpPower = Options.SSF1.Value
-end)
-
-RightGroupBox:AddSlider('FlySpeed', {Text = 'FlySpeed',Default = 50,Min = 16,Max = 500,Rounding = 0,Compact = false,Callback = function(Value)
-    Speed = Value
-end})
-
-Options.FlySpeed:OnChanged(function()
-    Speed = Options.FlySpeed.Value
-end)
-
-RightGroupBox:AddLabel('Fly KeyBind'):AddKeyPicker('name2', {Default = 'H',SyncToggleState = false,Mode = 'Toggle',Text = 'Fly',NoUI = true,Callback = function(Value)
-    VG.Flying(Value, Speed)
-end,
-ChangedCallback = function(New)
-    print(New)
-end})
-Options.name2:SetValue({ 'H', 'Toggle' })
-
-RightGroupBox:AddButton('ServerHop', function() ServerHop() end)
-RightGroupBox:AddButton('Rejoin', function()
-    local Success, ErrorMessage = pcall(function()
-        Rejoin()
-    end)
-    if ErrorMessage and not Success then
-        warn(ErrorMessage)
-    elseif Success and not ErrorMessage then
-        print(Success)
+            end
+        end)
     end
 end)
-Library:SetWatermarkVisibility(true)
-local FrameTimer = tick()
-local FrameCounter = 0;
-local FPS = 60;
 
-local WatermarkConnection = RenderStepped:Connect(function()
-    FrameCounter =FrameCounter + 1;
-    if (tick() - FrameTimer) >= 1 then
-        FPS = FrameCounter;
-        FrameTimer = tick();
-        FrameCounter = 0;
-    end;
-    Library:SetWatermark(('V.G Hub | %s fps | %s ms | %s GameId'):format(
-        math.floor(FPS),
-        math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue()),  game.GameId
-    ));
-end);
+Stepped:Connect(function()
+    if Num then VG.NoClip() end
+    if d2 then
+        for i,v in next, Players:GetPlayers() do
+            if v ~= Player then
+                ShootMurderer(v)
+            end
+        end
+    end
 
-MenuGroup:AddButton('Unload', function() Library:Unload() end)
-MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = "RightControl", NoUI = true, Text = 'Menu keybind' })
+    if S1 then
+        VG.Teleport(Workspace:FindFirstChild("GunDrop").Position)
+    end
+    if Trap1 then
+        Trap(CFrame.new(Players[hacker].Character:GetModelCFrame().Position))
+    end
+    if TradeFor then
+        Trade(Players[Person])
+    end
+    if ForceTrades then
+        ForceTrade(Players[Person])
+    end
+end)
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
-Library.ToggleKeybind = Options.MenuKeybind
-ThemeManager:SetLibrary(Library)
-SaveManager:SetLibrary(Library)
+local Window = Fluent:CreateWindow({
+    Title = "V.G Hub: Game " .. MarketplaceService:GetProductInfo(game.PlaceId).Name,
+    SubTitle = "by DekuDimz",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = false, -- The blur may be detectable, setting this to false disables blur entirely
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.Delete -- Used when theres no MinimizeKeybind
+})
 
+--Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
+local Tabs = {
+    Main = Window:AddTab({ Title = "Main", Icon = "" }),
+    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
+}
+
+local Options = Fluent.Options
+
+do
+    Fluent:Notify({
+        Title = "V.G Hub Loaded",
+        Content = "Congrats your using V.G Hub " .. Verison,
+        SubContent = "", -- Optional
+        Duration = 10 -- Set to nil to make the notification not disappear
+    })
+
+    local Toggle = Tabs.Main:AddToggle("Sprint", {Title = "Toggle Sprint", Default = false})
+    Toggle:OnChanged(function()
+        Sp = Options.Sprint.Value
+    end)
+    Options.Sprint:SetValue(false)
+    Tabs.Main:AddButton({Title = "Blurt Roles",Description = "Says Roles of Murderer and Sheriff if you are either will pick random player to say is that role you are currently",Callback = function()
+        if GetRole("Murderer", false) ~= Player.Name then
+            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(GetRole("Murderer", false) .. " is the Murderer","normalchat")
+        elseif GetRole("Murderer", false) == Player.Name then
+            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(tostring(Players:GetPlayers()[math.random(1, #Players:GetPlayers())]) .. " is the Murderer","normalchat")
+        end
+        if GetRole("Sheriff", false) ~= Player.Name then
+            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(GetRole("Sheriff", false) .. " is the Sheriff","normalchat")
+        elseif GetRole("Sheriff", false) == Player.Name then
+            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(tostring(Players:GetPlayers()[math.random(1, #Players:GetPlayers())]) .. " is the Sheriff","normalchat")
+        end
+    end})
+    local Toggle = Tabs.Main:AddToggle("Shot", {Title = "Shoot Murderer", Default = false})
+    Toggle:OnChanged(function()
+        d2 = Options.Shot.Value
+    end)
+    Options.Shot:SetValue(false)
+
+    local Toggle = Tabs.Main:AddToggle("Shot2", {Title = "Kill All", Default = false})
+    Toggle:OnChanged(function()
+        Kill = Options.Shot2.Value
+    end)
+    Options.Shot2:SetValue(false)
+
+    local Toggle = Tabs.Main:AddToggle("Lol", {Title = "Auto Collect Coins", Default = false})
+    Toggle:OnChanged(function()
+        Num = Options.Lol.Value
+    end)
+    Options.Lol:SetValue(false)
+
+    local Toggle = Tabs.Main:AddToggle("FuckOff", {Title = "Force Trade User", Default = false})
+    Toggle:OnChanged(function()
+        ForceTrades = Options.FuckOff.Value
+    end)
+    Options.FuckOff:SetValue(false)
+
+    local Toggle = Tabs.Main:AddToggle("asjkdhj", {Title = "Auto Grab Gun", Default = false})
+    Toggle:OnChanged(function()
+        S1 = Options.asjkdhj.Value
+    end)
+    Options.asjkdhj:SetValue(false)
+
+    local Toggle = Tabs.Main:AddToggle("Rough", {Title = "Auto Trap Player", Default = false})
+    Toggle:OnChanged(function()
+        Trap1 = Options.Rough.Value
+    end)
+    Options.Rough:SetValue(false)
+   
+    local Toggle = Tabs.Main:AddToggle("You", {Title = "Auto Request Trade User", Default = false})
+    Toggle:OnChanged(function()
+        Trap1 = Options.You.Value
+    end)
+    Options.You:SetValue(false)
+
+    local Dropdown = Tabs.Main:AddDropdown("Players", {
+        Title = "Players",
+        Values = AllPlayers,
+        Multi = false,
+        Default = 1,
+    })
+
+    Dropdown:SetValue("DekuDimz")
+
+    Dropdown:OnChanged(function(Value)
+        Person = Value
+    end)
+
+
+
+    Tabs.Main:AddButton({Title = "Play Emote",Description = "Plays a selected Emote ",Callback = function()
+        ReplicatedStorage.Remotes.Misc.PlayEmote:Fire(Key or "floss")
+    end})
+
+    local Dropdown = Tabs.Main:AddDropdown("Dropdown", {
+        Title = "Emotes",
+        Values = New,
+        Multi = false,
+        Default = 1,
+    })
+
+    Dropdown:SetValue("Floss")
+
+    Dropdown:OnChanged(function(Value)
+        Key = Value
+    end)
+
+    local Keybind = Tabs.Main:AddKeybind("Keybind", {Title = "Emote Keybind",Mode = "Toggle",Default = "B",
+        Callback = function()
+            ReplicatedStorage.Remotes.Misc.PlayEmote:Fire(Key or "floss")
+        end,
+        ChangedCallback = function()
+            ReplicatedStorage.Remotes.Misc.PlayEmote:Fire(Key or "floss")
+        end
+    })
+    Keybind:OnClick(function()
+        print("Keybind clicked:", Keybind:GetState())
+    end)
+
+    Keybind:OnChanged(function()
+        print("Keybind changed:", Keybind.Value)
+    end)
+
+
+    local Toggle = Tabs.Main:AddToggle("ESP1", {Title = "Enable ESP", Default = false})
+    Toggle:OnChanged(function()
+        ESP = Options.ESP1.Value
+    end)
+    Options.ESP1:SetValue(false)
+end
+SaveManager:SetLibrary(Fluent)
+InterfaceManager:SetLibrary(Fluent)
 SaveManager:IgnoreThemeSettings()
-SaveManager:SetIgnoreIndexes({ 'MenuKeybind' })
-ThemeManager:SetFolder('V.G Hub')
-SaveManager:SetFolder("V.G Hub/" .. game.PlaceId)
-SaveManager:BuildConfigSection(Tabs['UI Settings'])
-ThemeManager:ApplyToTab(Tabs['UI Settings'])
-            
+SaveManager:SetIgnoreIndexes({})
+InterfaceManager:SetFolder("FluentScriptHub")
+SaveManager:SetFolder("FluentScriptHub/specific-game")
+
+InterfaceManager:BuildInterfaceSection(Tabs.Settings)
+SaveManager:BuildConfigSection(Tabs.Settings)
+
+
+Window:SelectTab(1)
+
+Fluent:Notify({
+    Title = "V.G Hub",
+    Content = "The script has been loaded.",
+    Duration = 8
+})
+
+SaveManager:LoadAutoloadConfig()
