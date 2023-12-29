@@ -1,53 +1,80 @@
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global'))()
+local ServiceID = "vghub"
+local PandaAuth = loadstring(game:HttpGet('https://pandadevelopment.net/servicelib?service=vghub&core=roblox&param=v2'))()
+local Random = false
 
--- MikeCash.XYZ Freemium Loader (Lua)
-local HttpService = game:GetService("HttpService")
-local SHA2 = loadstring(game:HttpGet("https://raw.githubusercontent.com/Egor-Skriptunoff/pure_lua_SHA/master/sha2.lua"))()
-local Iris = loadstring(game:HttpGet("https://raw.githubusercontent.com/x0581/Iris-Exploit-Bundle/main/bundle.lua"))().Init(game.CoreGui)
 
-local Identifier = {99,101,49,54,100,48,100,98,97,55,100,50}
-local Nonce = 0
-for i, Byte in next, Identifier do for j = 1, Byte do if j%2 == 2 then Nonce = Nonce + math.random() else Nonce = Nonce + Random.new():NextNumber() end end end
-local NonceEnd = SHA2.sha256(table.concat(Identifier,""))
-local ShaNonce = SHA2.sha256(tostring(Nonce) .. NonceEnd)
+local ScreenGui = Instance.new("ScreenGui")
+local KeySystem = Instance.new("Frame")
+local GetKey = Instance.new("TextButton")
+local TextBox = Instance.new("TextBox")
+local KeyPress = Instance.new("TextButton")
 
-local Status = "Check key"
-local CanPress = true
-local Verified = false
+ScreenGui.Parent = CoreGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-local function Verify(Key)
-  local Response = game:HttpGet(("https://mikecash.co/api/keyverify?key=%s&project=ce16d0dba7d2&nonce=%s"):format(Key, tostring(Nonce)))
-  local Decode = HttpService:JSONDecode(Response)
-  Verified = Decode.success and Decode.nonce == ShaNonce
-end
+KeySystem.Name = "KeySystem"
+KeySystem.Parent = ScreenGui
+KeySystem.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+KeySystem.BorderColor3 = Color3.fromRGB(255, 255, 255)
+KeySystem.BorderSizePixel = 0
+KeySystem.Position = UDim2.new(0.418891162, 0, 0.398996234, 0)
+KeySystem.Selectable = true
+KeySystem.Size = UDim2.new(0, 236, 0, 161)
+KeySystem.Style = Enum.FrameStyle.RobloxRound
 
-if isfile("remember_me_ce16d0dba7d2.txt") then
-  Verify(readfile("remember_me_ce16d0dba7d2.txt"))
-end
+GetKey.Name = "GetKey"
+GetKey.Parent = KeySystem
+GetKey.BackgroundColor3 = Color3.fromRGB(122, 122, 122)
+GetKey.BorderColor3 = Color3.fromRGB(0, 0, 0)
+GetKey.BorderSizePixel = 0
+GetKey.Position = UDim2.new(-0.00177570921, 0, 0.583196402, 0)
+GetKey.Size = UDim2.new(0, 94, 0, 24)
+GetKey.Style = Enum.ButtonStyle.RobloxRoundDefaultButton
+GetKey.Font = Enum.Font.GrenzeGotisch
+GetKey.Text = "Copy Key Link"
+GetKey.TextColor3 = Color3.fromRGB(0, 0, 0)
+GetKey.TextSize = 14.000
 
-Iris:Connect(function()
-  if not Verified then
-    Iris.Window({"V.G Hub - Key System", [Iris.Args.Window.NoClose] = true, [Iris.Args.Window.NoResize] = true, [Iris.Args.Window.NoScrollbar] = true, [Iris.Args.Window.NoCollapse] = true}, {size = Iris.State(Vector2.new(175, 75))}) do
-    Key = Iris.InputText({"", [Iris.Args.InputText.TextHint] = "Your key here."}, {value = Iris.State(Key)}).text.value
-  if Iris.Button({"Check key"}).clicked then
-          if CanPress then
-            task.spawn(function()
-              CanPress = false
-              Status = "Verifying key.."
-              Verify(Key)
-              Status = Verified and "Valid key!" or "Invalid key!"
-              if Verified then
-                writefile("remember_me_ce16d0dba7d2.txt", Key)
-              end
-              task.wait(2)
-              Status = "Check key"
-              CanPress = true
-            end)
-          end
-        end
-      Iris.End()
+TextBox.Parent = KeySystem
+TextBox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TextBox.BackgroundTransparency = 1.000
+TextBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextBox.BorderSizePixel = 0
+TextBox.Position = UDim2.new(0.185346439, 0, 0.421702892, 0)
+TextBox.Size = UDim2.new(0, 152, 0, 24)
+TextBox.SizeConstraint = Enum.SizeConstraint.RelativeXX
+TextBox.Font = Enum.Font.LuckiestGuy
+TextBox.Text = "KeyHere"
+TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.TextSize = 14.000
+TextBox.TextStrokeTransparency = 0.140
+TextBox.TextTransparency = 0.280
+
+KeyPress.Name = "KeyPress"
+KeyPress.Parent = KeySystem
+KeyPress.BackgroundColor3 = Color3.fromRGB(122, 122, 122)
+KeyPress.BorderColor3 = Color3.fromRGB(0, 0, 0)
+KeyPress.BorderSizePixel = 0
+KeyPress.Position = UDim2.new(0.5999192, 0, 0.595618784, 0)
+KeyPress.Size = UDim2.new(0, 94, 0, 24)
+KeyPress.Style = Enum.ButtonStyle.RobloxRoundDefaultButton
+KeyPress.Font = Enum.Font.GrenzeGotisch
+KeyPress.Text = "Submit Key"
+KeyPress.TextColor3 = Color3.fromRGB(0, 0, 0)
+KeyPress.TextSize = 14.000
+
+KeyPress.Activated:Connect(function()
+    if PandaAuth:ValidateKey(ServiceID, TextBox.Text) then
+        Random = true
+        ScreenGui:Destroy()
+        VG.SendNotification("Correct", "Thank you, have 8 hours worth of a key left enjoy the script", "", 10)
+    else
+        VG.SendNotification("Incorrect", "Thats not your key silly come on now this is hwid based you cant use someone elses key", "", 10)
     end
-  end
 end)
 
-repeat task.wait() until Verified
-warn("Verified! Now loading: V.G Hub.")
+GetKey.Activated:Connect(function()
+    setclipboard(PandaAuth:GetLink(ServiceID))
+    VG.SendNotification("Copied Key link", "Go Through it to finish it and support me", "", 10)
+end)
