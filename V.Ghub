@@ -2,6 +2,7 @@ repeat task.wait() until game:IsLoaded()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
 if KeySystem then
 loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Key'))()
+-- i don't understand why you would want to crack this if anything if your gonna crack it force the getgenv().KeySystem false and it will force load the script
 repeat wait() until not KeySystem 
 end
 local StartTime = tick()
