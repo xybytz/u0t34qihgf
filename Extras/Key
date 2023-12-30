@@ -69,6 +69,7 @@ KeyPress.Activated:Connect(function()
         Random = true
         ScreenGui:Destroy()
         VG.SendNotification("Correct", "Thank you, have 8 hours worth of a key left enjoy the script", "", 10)
+        KeySystem = false
     else
         VG.SendNotification("Incorrect", "Thats not your key silly come on now this is hwid based you cant use someone elses key", "", 10)
     end
