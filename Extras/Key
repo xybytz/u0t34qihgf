@@ -79,3 +79,4 @@ GetKey.Activated:Connect(function()
     setclipboard(PandaAuth:GetLink(ServiceID))
     VG.SendNotification("Copied Key link", "Go Through it to finish it and support me", "", 10)
 end)
+repeat wait() until KeySystem == false
