@@ -50,9 +50,9 @@ for i, v in next, Games do
     end
 end
 
-SendNotification("Warning", "RightControl or RightShift to toggle", "rbxassetid://8429081004", 5)
-SendNotification("Credits", "Toxic Mods screen thingy And Kiriot22 esp,IY for fly script inspiration,Staylin Save Settings,Felix for being sexy, E621 Anticheat bypass", "rbxassetid://8429081004", 5)
-SendNotification("Credits", "Some Credits may be missing please let me know if i missed one", "rbxassetid://8429081004", 5)
+VG.SendNotification("Warning", "RightControl or RightShift to toggle", "rbxassetid://8429081004", 5)
+VG.SendNotification("Credits", "Toxic Mods screen thingy And Kiriot22 esp,IY for fly script inspiration,Staylin Save Settings,Felix for being sexy, E621 Anticheat bypass", "rbxassetid://8429081004", 5)
+VG.SendNotification("Credits", "Some Credits may be missing please let me know if i missed one", "rbxassetid://8429081004", 5)
 local function Copy()
     setclipboard("https://discord.gg/HUBfmJUA2H")
 end
@@ -61,7 +61,7 @@ local Gang = Instance.new("BindableFunction")
 function Gang.OnInvoke(v)
     if v == "Yes" then
         Copy()
-        SendNotification("Discord", "Discord Link Copying Sucessful", "rbxassetid://8429081004", 15)
+        VG.SendNotification("Discord", "Discord Link Copying Sucessful", "rbxassetid://8429081004", 15)
     end
 end
 StarterGui:SetCore("SendNotification",{Title = "V.G Hub Discord",Text = "Copy to clipboard?",Duration = 5,Callback = Gang,Button1 = "Yes",Button2 = "No"})
@@ -74,7 +74,7 @@ local Uhhh = Instance.new("BindableFunction")
 function Uhhh.OnInvoke(v)
     if v == "Yes" then
         Copy()
-        SendNotification("YT", "Copied Link Done", "rbxassetid://8429081004", 15)
+        VG.SendNotification("YT", "Copied Link Done", "rbxassetid://8429081004", 15)
     end
 end
 StarterGui:SetCore("SendNotification",{Title = "Do you want to Subscribe To DekuDimz?",Text = "Copy Youtube Channel Link to clipboard?",Duration = 50,Callback = Uhhh,Button1 = "Yes",Button2 = "No"})
