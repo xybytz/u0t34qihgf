@@ -1,0 +1,28 @@
+getgenv().Test = true
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
+VG.DisableConnection(Error)
+VG.DisableConnection(Idled)
+local RemoteBypass = ReplicatedStorage.Network.Instancing_FireCustomFromClient
+local FishingGame = Player.PlayerGui._INSTANCES.FishingGame
+
+require(Workspace["__THINGS"]["__INSTANCE_CONTAINER"].Active.Fishing.ClientModule.FishingGame).IsFishInBar = function() return true end
+spawn(function()
+    while wait() and Test do
+        pcall(function()
+            if FishingGame then
+                local PlayerFishingRod = Player.Character:FindFirstChild("Rod", true)
+                if not PlayerFishingRod:FindFirstChild("FishingLine", true) then
+                    return RemoteBypass:FireServer("Fishing","RequestCast",Vector3.new(1139 + math.random(10), 75, -3445 + math.random(10)))
+                end
+                local At = PlayerFishingRod:FindFirstChild("FishingLine").Attachment1.Parent
+                if At then
+                    local BobberHeight = At.Position.Y
+                    if tonumber(BobberHeight) < 75 then
+                        RemoteBypass:FireServer("Fishing", "RequestReel")
+                        wait(1)
+                    end
+                end
+            end
+        end)
+    end
+end)
