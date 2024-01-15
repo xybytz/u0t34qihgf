@@ -20,8 +20,9 @@ spawn(function()
                         RemoteBypass:FireServer("Fishing", "RequestReel")
                     end
                 end
-                game:GetService("VirtualUser"):ClickButton1(Vector2.new(0,0))
+                mouse1click()
                 VG.GetHumanoid():MoveTo(Vector3.new(1113 + math.random(10), 80, -3444 + math.random(10)))
+                VG.GetHumanoid().MoveToFinished:Wait()
             end
         end)
     end
