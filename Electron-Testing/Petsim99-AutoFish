@@ -18,7 +18,6 @@ spawn(function()
                     local BobberHeight = At.Position.Y
                     if tonumber(BobberHeight) < 75 then
                         RemoteBypass:FireServer("Fishing", "RequestReel")
-                        wait(5)
                     end
                 end
                 VG.GetHumanoid():MoveTo(Vector3.new(1113 + math.random(10), 80, -3444 + math.random(10)))
