@@ -1,4 +1,4 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Electron-Testing/Petsim99-AutoFish"))()
 VG.DisableConnection(Error)
 VG.DisableConnection(Idled)
 local RemoteBypass = ReplicatedStorage.Network.Instancing_FireCustomFromClient
@@ -22,6 +22,7 @@ spawn(function()
                     end
                 end
                 VG.GetHumanoid():MoveTo(Vector3.new(1113 + math.random(10), 80, -3444 + math.random(10)))
+                game:GetService("VirtualUser"):ClickButton1(0,0)
             end
         end)
     end
