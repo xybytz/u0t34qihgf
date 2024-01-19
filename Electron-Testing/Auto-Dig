@@ -57,6 +57,9 @@ spawn(function()
             wait(1)
             User:SendMouseButtonEvent(0,0, 0, false, game, 0)
             User:SendMouseButtonEvent(0,0, 1, false, game, 0)
+            if Player.Character.HumanoidRootPart.Position.Y <= -950 then
+                VG.FireConnection(Player.PlayerGui._INSTANCES.Digsite.Return.Activated)
+            end
         end)
     end
 end)
@@ -67,8 +70,8 @@ spawn(function()
                 VG.Tween(Player.Character.HumanoidRootPart, GetChest():FindFirstChildWhichIsA("BasePart"), 50, Vector3.new(0,0,0, true))
                 ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("Digsite","DigChest", GetChest():GetAttribute('Coord'))
                 wait(3)
-            elseif GetChest() == nil and GetBlock() and wait(1) then
-                VG.Tween(Player.Character.HumanoidRootPart, GetBlock(), 50, Vector3.new(0,0,0, true))
+            elseif GetChest() == nil and GetBlock() and wait(.5) then
+                VG.Tween(Player.Character.HumanoidRootPart, GetBlock(), 250, Vector3.new(0,1,0, true))
                 for i=1, 6 do wait()
                     ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("Digsite", "DigBlock", GetBlock():GetAttribute('Coord'))
                 end
