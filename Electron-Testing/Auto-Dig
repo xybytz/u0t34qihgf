@@ -49,7 +49,17 @@ Stepped:Connect(function()
         VG.NoClip()
     end
 end)
-
+spawn(function()
+    while wait(10) do -- game force kicks you out of the mini games every 20 minutes to pervent autofarms soo we do a little trolling
+        pcall(function()
+            User:SendMouseButtonEvent(0,0, 0, true, game, 0)
+            User:SendMouseButtonEvent(0,0, 1, true, game, 0)
+            wait(1)
+            User:SendMouseButtonEvent(0,0, 0, false, game, 0)
+            User:SendMouseButtonEvent(0,0, 1, false, game, 0)
+        end)
+    end
+end)
 spawn(function()
     while FartOnMeDaddy and wait() do
         pcall(function()
