@@ -89,7 +89,7 @@ VG.Tween = function(Object1, Object2, Speed, Offset, Wait)
     if Object1 and Object2 then
         local Timing = VG.Mag(Object1, Object2) / Speed
         local TweenInfo = TweenInfo.new(Timing, Enum.EasingStyle.Linear)
-        local TweenSystem = TweenService:Create(Pos1, TweenInfo, {CFrame = CFrame.new(Object2.Position + Offset)})
+        local TweenSystem = TweenService:Create(Object1, TweenInfo, {CFrame = CFrame.new(Object2.Position + Offset)})
         TweenSystem:Play()
         if Wait then
             TweenSystem.Completed:Wait()
