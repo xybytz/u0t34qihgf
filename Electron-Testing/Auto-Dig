@@ -17,8 +17,8 @@ end
 local GetBlock = function()
     local Block = nil
     local Max = math.huge
-    for i,v in next, Workspace.__THINGS.__INSTANCE_CONTAINER.Active.Digsite.Important.ActiveBlocks:GetChildren() do
-        if v:IsA("BasePart") then
+    for i,v in next, Workspace.__THINGS.__INSTANCE_CONTAINER.Active.AdvancedDigsite.Important.ActiveBlocks:GetChildren() do
+        if v:IsA("BasePart") and v.BrickColor.Name == "Medium blue" then
             local Mag = VG.Mag(Player.Character.HumanoidRootPart, v)
             if Mag < Max then
                 Max = Mag
@@ -29,10 +29,11 @@ local GetBlock = function()
     return Block
 end
 
+
 local GetChest = function()
     local Chest = nil
     local Max = 50
-    for i,v in next, Workspace.__THINGS.__INSTANCE_CONTAINER.Active.Digsite.Important.ActiveChests:GetChildren() do
+    for i,v in next, Workspace.__THINGS.__INSTANCE_CONTAINER.Active.AdvancedDigsite.Important.ActiveChests:GetChildren() do
         if v:IsA("Model") then
             local Mag = VG.Mag(Player.Character.HumanoidRootPart, v:GetModelCFrame())
             if Mag < Max then
@@ -45,7 +46,7 @@ local GetChest = function()
 end
 
 Stepped:Connect(function()
-    if FartOnMeDaddy then
+    if Toggle then
         VG.NoClip()
     end
 end)
@@ -60,20 +61,52 @@ spawn(function()
             if Player.Character.HumanoidRootPart.Position.Y <= -950 then
                 VG.FireConnection(Player.PlayerGui._INSTANCES.Digsite.Return.Activated)
             end
+            if not GetBlock() then
+                if AdvancedDigsite then
+                    VG.Teleport(Vector3.new(0, 50000,0))
+                    wait(2)
+                    VG.Teleport(workspace.__THINGS.Instances.AdvancedDigsite.Teleports.Leave.Position)
+                    wait(5)
+                    VG.Teleport(Vector3.new(0,50000,0))
+                    wait(2)
+                    VG.Teleport(workspace.__THINGS.Instances.AdvancedDigsite.Teleports.Enter.Position)
+                elseif DigSite then
+                    VG.Teleport(Vector3.new(0, 50000,0))
+                    wait(2)
+                    VG.Teleport(workspace.__THINGS.Instances.Digsite.Teleports.Leave.Position)
+                    wait(5)
+                    VG.Teleport(Vector3.new(0,50000,0))
+                    wait(2)
+                    VG.Teleport(workspace.__THINGS.Instances.Digsite.Teleports.Enter.Position)
+                end
+            end
         end)
     end
 end)
 spawn(function()
-    while FartOnMeDaddy and wait() do
+    while Toggle and wait() do
         pcall(function()
             if GetChest() ~= nil then
-                VG.Tween(Player.Character.HumanoidRootPart, GetChest():FindFirstChildWhichIsA("BasePart"), 50, Vector3.new(0,0,0, true))
-                ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("Digsite","DigChest", GetChest():GetAttribute('Coord'))
-                wait(3)
+                if AdvancedDigsite then
+                    VG.Tween(Player.Character.HumanoidRootPart, GetChest():FindFirstChildWhichIsA("BasePart"), 50, Vector3.new(0,0,0, true))
+                    ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("AdvancedDigsite","DigChest", GetChest():GetAttribute('Coord'))
+                    wait(3)
+                elseif DigSite then
+                    VG.Tween(Player.Character.HumanoidRootPart, GetChest():FindFirstChildWhichIsA("BasePart"), 50, Vector3.new(0,0,0, true))
+                    ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("Digsite","DigChest", GetChest():GetAttribute('Coord'))
+                    wait(3)
+                end
             elseif GetChest() == nil and GetBlock() and wait(.5) then
-                VG.Tween(Player.Character.HumanoidRootPart, GetBlock(), 250, Vector3.new(0,1,0, true))
-                for i=1, 6 do wait()
-                    ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("Digsite", "DigBlock", GetBlock():GetAttribute('Coord'))
+                if AdvancedDigsite then
+                    VG.Tween(Player.Character.HumanoidRootPart, GetBlock(), 250, Vector3.new(0,5,5, true))
+                    for i=1, 6 do wait()
+                        ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("AdvancedDigsite", "DigBlock", GetBlock():GetAttribute('Coord'))
+                    end
+                elseif DigSite then
+                    VG.Tween(Player.Character.HumanoidRootPart, GetBlock(), 250, Vector3.new(0,1,0, true))
+                    for i=1, 6 do wait()
+                        ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("Digsite", "DigBlock", GetBlock():GetAttribute('Coord'))
+                    end
                 end
             end
         end)
