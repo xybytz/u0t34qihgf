@@ -1,6 +1,4 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
-VG.DisableConnection(Error)
-VG.DisableConnection(Idled)
+
 UserInputService.InputBegan:Connect(function(Input, GPE)
     if Input.KeyCode == Enum.KeyCode.LeftShift and Sp then
         VG.IsA(Player.Character, "Humanoid").WalkSpeed = 25
@@ -206,35 +204,7 @@ do
                 end
             end
         end})
-        local Toggle = Tabs.Main:AddToggle("Al", {Title = "Auto Alchemy", Default = false})
-        Toggle:OnChanged(function()
-            Alchemy = Options.Al.Value
-            spawn(function()
-                while wait() and Alchemy do
-                    pcall(function()
-                        for i, v in next, Player.Data.Resources:GetChildren()) do
-                            if v.Name == AlchemyFoods and v.Value ~= 0 then wait(5)
-                                RF("RecycleResourceRemote"):InvokeServer({[AlchemyFoods] = 1})
-                            end
-                        end
-                    end)
-                end
-            end)
-        end)
-        local Dropdown = Tabs.Main:AddDropdown("Foods", {
-            Title = "foods for Alchemy farm",
-            Values = foods,
-            Multi = false,
-            Default = 1,
-        })
-
-        Dropdown:SetValue("")
-
-        Dropdown:OnChanged(function(Value)
-            AlchemyFoods = Value
-        end)
     end
-
     Tabs.Main:AddButton({Title = "Notify",Description = "For The Auto Collect make sure your on a dragon and only have one dragon Equipped",Callback = function()
     end})
     local Toggle = Tabs.Main:AddToggle("cOLL", {Title = "Auto Collect", Default = false})
