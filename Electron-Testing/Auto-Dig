@@ -1,23 +1,10 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
 VG.DisableConnection(Error)
 VG.DisableConnection(Idled)
-
-VG.Tween = function(Object1, Object2, Speed, Offset, Wait)
-    if Object1 and Object2 then
-        local Timing = VG.Mag(Object1, Object2) / Speed
-        local TweenInfo = TweenInfo.new(Timing, Enum.EasingStyle.Linear)
-        local TweenSystem = TweenService:Create(Object1, TweenInfo, {CFrame = CFrame.new(Object2.Position + Offset)})
-        TweenSystem:Play()
-        if Wait then
-            TweenSystem.Completed:Wait()
-        end
-    end
-end
-
 local GetBlock = function()
     local Block = nil
     local Max = math.huge
-    for i,v in next, Workspace.__THINGS.__INSTANCE_CONTAINER.Active.AdvancedDigsite.Important.ActiveBlocks:GetChildren() do
+    for i,v in next, Workspace.__THINGS.__INSTANCE_CONTAINER.Active.Digsite.Important.ActiveBlocks:GetChildren() do
         if v:IsA("BasePart") then
             local Mag = VG.Mag(Player.Character.HumanoidRootPart, v)
             if Mag < Max then
@@ -33,6 +20,36 @@ end
 local GetChest = function()
     local Chest = nil
     local Max = 50
+    for i,v in next, Workspace.__THINGS.__INSTANCE_CONTAINER.Active.Digsite.Important.ActiveChests:GetChildren() do
+        if v:IsA("Model") then
+            local Mag = VG.Mag(Player.Character.HumanoidRootPart, v:GetModelCFrame())
+            if Mag < Max then
+                Max = Mag
+                Chest = v
+            end
+        end
+    end
+    return Chest
+end
+
+local GetBlock1 = function()
+    local Block = nil
+    local Max = math.huge
+    for i,v in next, Workspace.__THINGS.__INSTANCE_CONTAINER.Active.AdvancedDigsite.Important.ActiveBlocks:GetChildren() do
+        if v:IsA("BasePart") then
+            local Mag = VG.Mag(Player.Character.HumanoidRootPart, v)
+            if Mag < Max then
+                Max = Mag
+                Block = v
+            end
+        end
+    end
+    return Block
+end
+
+local GetChest1 = function()
+    local Chest = nil
+    local Max = 50
     for i,v in next, Workspace.__THINGS.__INSTANCE_CONTAINER.Active.AdvancedDigsite.Important.ActiveChests:GetChildren() do
         if v:IsA("Model") then
             local Mag = VG.Mag(Player.Character.HumanoidRootPart, v:GetModelCFrame())
@@ -45,70 +62,135 @@ local GetChest = function()
     return Chest
 end
 
-Stepped:Connect(function()
-    if Toggle then
-        VG.NoClip()
-    end
-end)
-spawn(function()
-    while wait(10) do -- game force kicks you out of the mini games every 20 minutes to pervent autofarms soo we do a little trolling
-        pcall(function()
-            User:SendMouseButtonEvent(0,0, 0, true, game, 0)
-            User:SendMouseButtonEvent(0,0, 1, true, game, 0)
-            wait(1)
-            User:SendMouseButtonEvent(0,0, 0, false, game, 0)
-            User:SendMouseButtonEvent(0,0, 1, false, game, 0)
-            if Player.Character.HumanoidRootPart.Position.Y <= -950 then
-                VG.FireConnection(Player.PlayerGui._INSTANCES.Digsite.Return.Activated)
-            end
-            if not GetBlock() then
-                if AdvancedDigsite then
-                    VG.Teleport(Vector3.new(0, 50000,0))
-                    wait(2)
-                    VG.Teleport(workspace.__THINGS.Instances.AdvancedDigsite.Teleports.Leave.Position)
-                    wait(5)
-                    VG.Teleport(Vector3.new(0,50000,0))
-                    wait(2)
-                    VG.Teleport(workspace.__THINGS.Instances.AdvancedDigsite.Teleports.Enter.Position)
-                elseif DigSite then
-                    VG.Teleport(Vector3.new(0, 50000,0))
-                    wait(2)
-                    VG.Teleport(workspace.__THINGS.Instances.Digsite.Teleports.Leave.Position)
-                    wait(5)
-                    VG.Teleport(Vector3.new(0,50000,0))
-                    wait(2)
-                    VG.Teleport(workspace.__THINGS.Instances.Digsite.Teleports.Enter.Position)
-                end
-            end
-        end)
-    end
-end)
-spawn(function()
-    while Toggle and wait() do
-        pcall(function()
-            if GetChest() ~= nil then
-                if AdvancedDigsite then
-                    VG.Tween(Player.Character.HumanoidRootPart, GetChest():FindFirstChildWhichIsA("BasePart"), 50, Vector3.new(0,0,0, true))
-                    ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("AdvancedDigsite","DigChest", GetChest():GetAttribute('Coord'))
-                    wait(3)
-                elseif DigSite then
-                    VG.Tween(Player.Character.HumanoidRootPart, GetChest():FindFirstChildWhichIsA("BasePart"), 50, Vector3.new(0,0,0, true))
-                    ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("Digsite","DigChest", GetChest():GetAttribute('Coord'))
-                    wait(3)
-                end
-            elseif GetChest() == nil and GetBlock() and wait(.5) then
-                if AdvancedDigsite then
-                    VG.Tween(Player.Character.HumanoidRootPart, GetBlock(), 250, Vector3.new(0,5,5, true))
-                    for i=1, 6 do wait()
-                        ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("AdvancedDigsite", "DigBlock", GetBlock():GetAttribute('Coord'))
-                    end
-                elseif DigSite then
-                    VG.Tween(Player.Character.HumanoidRootPart, GetBlock(), 250, Vector3.new(0,1,0, true))
-                    for i=1, 6 do wait()
-                        ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("Digsite", "DigBlock", GetBlock():GetAttribute('Coord'))
-                    end
-                end
+
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+
+local Window = Fluent:CreateWindow({
+    Title = "V.G Hub: Game " .. MarketplaceService:GetProductInfo(game.PlaceId).Name,
+    SubTitle = "by DekuDimz",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = false, -- The blur may be detectable, setting this to false disables blur entirely
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.Delete -- Used when theres no MinimizeKeybind
+})
+
+
+local Tabs = {
+    Obbys = Window:AddTab({ Title = "Obbys", Icon = "" }),
+    AutoMinigame = Window:AddTab({ Title = "AutoMinigames", Icon = "" }),
+    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
+
+}
+
+local Options = Fluent.Options
+
+do
+    Fluent:Notify({
+        Title = "V.G Hub Loaded",
+        Content = "Congrats your using V.G Hub " .. Verison,
+        SubContent = "", -- Optional
+        Duration = 10 -- Set to nil to make the notification not disappear
+    })
+    local Toggle = Tabs.AutoMinigame:AddToggle("DigSite", {Title = "Auto DigSites", Default = false})
+    Toggle:OnChanged(function()
+        Toggle = Options.DigSite.Value
+        Stepped:Connect(function()
+            if Toggle then
+                VG.NoClip()
             end
         end)
-    end
-end)
+        spawn(function()
+            while wait(10) and Toggle do -- game force kicks you out of the mini games every 20 minutes to pervent autofarms soo we do a little trolling
+                pcall(function()
+                    print(GetBlock1(), GetBlock())
+                    User:SendMouseButtonEvent(0,0, 0, true, game, 0)
+                    User:SendMouseButtonEvent(0,0, 1, true, game, 0)
+                    wait(1)
+                    User:SendMouseButtonEvent(0,0, 0, false, game, 0)
+                    User:SendMouseButtonEvent(0,0, 1, false, game, 0)
+                    if Pick == "AdvancedDigsite" and not GetBlock1() then
+                        VG.Teleport(Vector3.new(0, 50000,0))
+                        wait(2)
+                        VG.Teleport(workspace.__THINGS.Instances.AdvancedDigsite.Teleports.Leave.Position)
+                        wait(5)
+                        VG.Teleport(Vector3.new(0,50000,0))
+                        wait(2)
+                        VG.Teleport(workspace.__THINGS.Instances.AdvancedDigsite.Teleports.Enter.Position)
+                    elseif Pick == "Digsite" and not GetBlock() then
+                        VG.Teleport(Vector3.new(0, 50000,0))
+                        wait(2)
+                        VG.Teleport(workspace.__THINGS.Instances.Digsite.Teleports.Leave.Position)
+                        wait(5)
+                        VG.Teleport(Vector3.new(0,50000,0))
+                        wait(2)
+                        VG.Teleport(workspace.__THINGS.Instances.Digsite.Teleports.Enter.Position)
+                    end
+                end)
+            end
+        end)
+        spawn(function()
+            while Toggle and wait() do
+                pcall(function()
+                    if GetChest1() ~= nil then
+                        if Pick == "AdvancedDigsite" then
+                            VG.Tween(Player.Character.HumanoidRootPart, GetChest1():FindFirstChildWhichIsA("BasePart"), 50, Vector3.new(0,0,0, true))
+                            ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("AdvancedDigsite","DigChest", GetChest1():GetAttribute('Coord'))
+                            wait(3)
+                        elseif Pick == "Digsite" then
+                            VG.Tween(Player.Character.HumanoidRootPart, GetChest1():FindFirstChildWhichIsA("BasePart"), 50, Vector3.new(0,0,0, true))
+                            ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("Digsite","DigChest", GetChest():GetAttribute('Coord'))
+                            wait(3)
+                        end
+                    elseif GetChest1() == nil and GetBlock1() and wait(.5) then
+                        if Pick == "AdvancedDigsite" then
+                            VG.Tween(Player.Character.HumanoidRootPart, GetBlock1(), 250, Vector3.new(0,5,5, true))
+                            for i=1, 6 do wait()
+                                ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("AdvancedDigsite", "DigBlock", GetBlock1():GetAttribute('Coord'))
+                            end
+                        elseif Pick == "Digsite" then
+                            VG.Tween(Player.Character.HumanoidRootPart, GetBlock1(), 250, Vector3.new(0,1,0, true))
+                            for i=1, 6 do wait()
+                                ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("Digsite", "DigBlock", GetBlock():GetAttribute('Coord'))
+                            end
+                        end
+                    end
+                end)
+            end
+        end)
+    end)
+    local Dropdown = Tabs.AutoMinigame:AddDropdown("D", {
+        Title = "Digsites",
+        Values = {"Digsite", "AdvancedDigsite"},
+        Multi = false,
+        Default = 1,
+    })
+
+    Dropdown:SetValue("AdvancedDigsite")
+
+    Dropdown:OnChanged(function(Value)
+        Pick = Value
+    end)
+end
+SaveManager:SetLibrary(Fluent)
+InterfaceManager:SetLibrary(Fluent)
+SaveManager:IgnoreThemeSettings()
+SaveManager:SetIgnoreIndexes({})
+InterfaceManager:SetFolder("FluentScriptHub")
+SaveManager:SetFolder("FluentScriptHub/specific-game")
+
+InterfaceManager:BuildInterfaceSection(Tabs.Settings)
+SaveManager:BuildConfigSection(Tabs.Settings)
+
+
+Window:SelectTab(1)
+
+Fluent:Notify({
+    Title = "V.G Hub",
+    Content = "The script has been loaded.",
+    Duration = 8
+})
+
+SaveManager:LoadAutoloadConfig()
