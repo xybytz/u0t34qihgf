@@ -4,12 +4,14 @@ VG.DisableConnection(Idled)
 local GetBlock = function()
     local Block = nil
     local Max = math.huge
-    for i,v in next, Workspace.__THINGS.__INSTANCE_CONTAINER.Active.Digsite.Important.ActiveBlocks:GetChildren() do
-        if v:IsA("BasePart") then
-            local Mag = VG.Mag(Player.Character.HumanoidRootPart, v)
-            if Mag < Max then
-                Max = Mag
-                Block = v
+    if Workspace.__THINGS.__INSTANCE_CONTAINER.Active:FindFirstChild("Digsite", true) then
+        for i,v in next, Workspace.__THINGS.__INSTANCE_CONTAINER.Active.Digsite.Important.ActiveBlocks:GetChildren() do
+            if v:IsA("BasePart") then
+                local Mag = VG.Mag(Player.Character.HumanoidRootPart, v)
+                if Mag < Max then
+                    Max = Mag
+                    Block = v
+                end
             end
         end
     end
@@ -18,12 +20,14 @@ end
 local GetChest = function()
     local Chest = nil
     local Max = 50
-    for i,v in next, Workspace.__THINGS.__INSTANCE_CONTAINER.Active.Digsite.Important.ActiveChests:GetChildren() do
-        if v:IsA("Model") then
-            local Mag = VG.Mag(Player.Character.HumanoidRootPart, v:GetModelCFrame())
-            if Mag < Max then
-                Max = Mag
-                Chest = v
+    if Workspace.__THINGS.__INSTANCE_CONTAINER.Active:FindFirstChild("Digsite", true) then
+        for i,v in next, Workspace.__THINGS.__INSTANCE_CONTAINER.Active.Digsite.Important.ActiveChests:GetChildren() do
+            if v:IsA("Model") then
+                local Mag = VG.Mag(Player.Character.HumanoidRootPart, v:GetModelCFrame())
+                if Mag < Max then
+                    Max = Mag
+                    Chest = v
+                end
             end
         end
     end
@@ -33,12 +37,14 @@ end
 local GetBlock1 = function()
     local Block = nil
     local Max = math.huge
-    for i,v in next, Workspace.__THINGS.__INSTANCE_CONTAINER.Active.AdvancedDigsite.Important.ActiveBlocks:GetChildren() do
-        if v:IsA("BasePart") then
-            local Mag = VG.Mag(Player.Character.HumanoidRootPart, v)
-            if Mag < Max then
-                Max = Mag
-                Block = v
+    if Workspace.__THINGS.__INSTANCE_CONTAINER.Active:FindFirstChild("AdvancedDigsite", true) then
+        for i,v in next, Workspace.__THINGS.__INSTANCE_CONTAINER.Active.AdvancedDigsite.Important.ActiveBlocks:GetChildren() do
+            if v:IsA("BasePart") then
+                local Mag = VG.Mag(Player.Character.HumanoidRootPart, v)
+                if Mag < Max then
+                    Max = Mag
+                    Block = v
+                end
             end
         end
     end
@@ -48,12 +54,14 @@ end
 local GetChest1 = function()
     local Chest = nil
     local Max = 50
-    for i,v in next, Workspace.__THINGS.__INSTANCE_CONTAINER.Active.AdvancedDigsite.Important.ActiveChests:GetChildren() do
-        if v:IsA("Model") then
-            local Mag = VG.Mag(Player.Character.HumanoidRootPart, v:GetModelCFrame())
-            if Mag < Max then
-                Max = Mag
-                Chest = v
+    if Workspace.__THINGS.__INSTANCE_CONTAINER.Active:FindFirstChild("AdvancedDigsite", true) then
+        for i,v in next, Workspace.__THINGS.__INSTANCE_CONTAINER.Active.AdvancedDigsite.Important.ActiveChests:GetChildren() do
+            if v:IsA("Model") then
+                local Mag = VG.Mag(Player.Character.HumanoidRootPart, v:GetModelCFrame())
+                if Mag < Max then
+                    Max = Mag
+                    Chest = v
+                end
             end
         end
     end
@@ -69,7 +77,7 @@ local GetCoinInZone = function()
             if Mag <= MaxDistance then
                 MaxDistance = Mag
                 Target = v 
-            end         
+            end
         end
     end
     return Target
@@ -187,13 +195,13 @@ do
         end)
         spawn(function()
             while wait(10) and Toggle do -- game force kicks you out of the mini games every 20 minutes to pervent autofarms soo we do a little trolling
-                pcall(function()
                     print(GetBlock1(), GetBlock())
                     User:SendMouseButtonEvent(0,0, 0, true, game, 0)
                     User:SendMouseButtonEvent(0,0, 1, true, game, 0)
                     wait(1)
                     User:SendMouseButtonEvent(0,0, 0, false, game, 0)
                     User:SendMouseButtonEvent(0,0, 1, false, game, 0)
+                    VG.GetHumanoid():MoveTo(Player.Character.HumanoidRootPart.Position + Vector3.new(5,0,0))
                     if Pick == "AdvancedDigsite" and not GetBlock1() then
                         VG.Teleport(Vector3.new(0, 50000,0))
                         wait(2)
@@ -211,7 +219,7 @@ do
                         wait(2)
                         VG.Teleport(workspace.__THINGS.Instances.Digsite.Teleports.Enter.Position)
                     end
-                end)
+            
             end
         end)
         spawn(function()
@@ -219,22 +227,22 @@ do
                 pcall(function()
                     if GetChest1() ~= nil then
                         if Pick == "AdvancedDigsite" then
-                            VG.Tween(Player.Character.HumanoidRootPart, GetChest1():FindFirstChildWhichIsA("BasePart"), 50, Vector3.new(0,0,0, true))
+                            VG.Tween(Player.Character.HumanoidRootPart, GetChest1():FindFirstChildWhichIsA("BasePart"), 50, Vector3.new(0,0,0), true)
                             ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("AdvancedDigsite","DigChest", GetChest1():GetAttribute('Coord'))
                             wait(3)
                         elseif Pick == "Digsite" then
-                            VG.Tween(Player.Character.HumanoidRootPart, GetChest1():FindFirstChildWhichIsA("BasePart"), 50, Vector3.new(0,0,0, true))
+                            VG.Tween(Player.Character.HumanoidRootPart, GetChest1():FindFirstChildWhichIsA("BasePart"), 50, Vector3.new(0,0,0), true)
                             ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("Digsite","DigChest", GetChest():GetAttribute('Coord'))
                             wait(3)
                         end
                     elseif GetChest1() == nil and GetBlock1() and wait(.5) then
                         if Pick == "AdvancedDigsite" then
-                            VG.Tween(Player.Character.HumanoidRootPart, GetBlock1(), 250, Vector3.new(0,5,5, true))
+                            VG.Tween(Player.Character.HumanoidRootPart, GetBlock1(), 250, Vector3.new(math.random(5), 0, math.random(5)), true)
                             for i=1, 6 do wait()
                                 ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("AdvancedDigsite", "DigBlock", GetBlock1():GetAttribute('Coord'))
                             end
                         elseif Pick == "Digsite" then
-                            VG.Tween(Player.Character.HumanoidRootPart, GetBlock1(), 250, Vector3.new(0,1,0, true))
+                            VG.Tween(Player.Character.HumanoidRootPart, GetBlock1(), 250, Vector3.new(0,1,0), true)
                             for i=1, 6 do wait()
                                 ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("Digsite", "DigBlock", GetBlock():GetAttribute('Coord'))
                             end
