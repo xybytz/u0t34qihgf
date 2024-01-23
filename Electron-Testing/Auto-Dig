@@ -1,3 +1,7 @@
+getgenv().Toggle = true
+
+getgenv().DigSite = false
+getgenv().AdvancedDigsite = true
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
 VG.DisableConnection(Error)
 VG.DisableConnection(Idled)
@@ -18,7 +22,7 @@ local GetBlock = function()
     local Block = nil
     local Max = math.huge
     for i,v in next, Workspace.__THINGS.__INSTANCE_CONTAINER.Active.AdvancedDigsite.Important.ActiveBlocks:GetChildren() do
-        if v:IsA("BasePart") and v.BrickColor.Name == "Medium blue" then
+        if v:IsA("BasePart") then
             local Mag = VG.Mag(Player.Character.HumanoidRootPart, v)
             if Mag < Max then
                 Max = Mag
