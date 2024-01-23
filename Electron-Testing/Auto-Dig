@@ -15,8 +15,6 @@ local GetBlock = function()
     end
     return Block
 end
-
-
 local GetChest = function()
     local Chest = nil
     local Max = 50
@@ -62,6 +60,45 @@ local GetChest1 = function()
     return Chest
 end
 
+local GetCoinInZone = function()
+    local Target = nil
+    local MaxDistance = math.huge
+    for i,v in next, Workspace.__THINGS.Breakables:GetChildren() do
+        if v:IsA("Model") and (v:GetAttribute("ParentID") == PickedZone) then
+            local Mag = VG.Mag(v:GetModelCFrame(), Player.Character:GetModelCFrame())
+            if Mag <= MaxDistance then
+                MaxDistance = Mag
+                Target = v 
+            end         
+        end
+    end
+    return Target
+end
+
+local GetNearestCoin = function()
+    local Target = nil
+    local MaxDistance = math.huge
+    for i,v in next, workspace.__THINGS.Breakables:GetChildren() do
+        if v:IsA("Model") then
+            local Mag = VG.Mag(v:GetModelCFrame(), Player.Character:GetModelCFrame())
+            if Mag <= MaxDistance then
+                MaxDistance = Mag
+                Target = v 
+            end
+        end
+    end
+    return Target
+end
+
+local Zones = {}
+for i,v in next, game:GetService("ReplicatedStorage").__DIRECTORY.Zones:GetChildren() do
+    for i,v in next, v:GetChildren() do
+        if v:IsA("ModuleScript") then
+            local String = string.split(v.Name, "| ", "")[2]
+            table.insert(Zones, String)
+        end
+    end
+end
 
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
@@ -79,6 +116,7 @@ local Window = Fluent:CreateWindow({
 
 
 local Tabs = {
+    AutoFarm = Window:AddTab({ Title = "AutoFarm", Icon = "" }),
     Obbys = Window:AddTab({ Title = "Obbys", Icon = "" }),
     AutoMinigame = Window:AddTab({ Title = "AutoMinigames", Icon = "" }),
     Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
@@ -94,6 +132,51 @@ do
         SubContent = "", -- Optional
         Duration = 10 -- Set to nil to make the notification not disappear
     })
+    local Toggle = Tabs.AutoFarm:AddToggle("PetCoin", {Title = "Auto Break Nearest Coin", Default = false})
+    Toggle:OnChanged(function()
+        AutoFarm = Options.PetCoin.Value
+        spawn(function()
+            while wait() and AutoFarm do
+                pcall(function()
+                    ReplicatedStorage:WaitForChild("Network"):WaitForChild("Breakables_PlayerDealDamage"):FireServer(GetNearestCoin().Name)
+                end)
+            end
+        end)
+    end)
+
+    local Toggle = Tabs.AutoFarm:AddToggle("PetCoin1", {Title = "Auto Break In Selected Zone", Default = false})
+    Toggle:OnChanged(function()
+        AutoFarm1 = Options.PetCoin1.Value
+        spawn(function()
+            while wait(1) and AutoFarm1 do
+                pcall(function()
+                    if GetCoinInZone() == nil then
+                        ReplicatedStorage:WaitForChild("Network"):WaitForChild("Teleports_RequestTeleport"):InvokeServer(PickedZone)
+                        wait(10)
+                        for i,v in next, Workspace.Map:GetChildren() do
+                            if v.Name:find(PickedZone) then
+                                VG.Teleport(v.INTERACT.BREAK_ZONES.BREAK_ZONE.Position)
+                            end
+                        end
+                    end
+                    VG.Teleport(GetCoinInZone():GetModelCFrame().Position + Vector3.new(0,6,0))
+                    ReplicatedStorage:WaitForChild("Network"):WaitForChild("Breakables_PlayerDealDamage"):FireServer(GetCoinInZone().Name)
+                end)
+            end
+        end)
+    end)
+    local Dropdown = Tabs.AutoFarm:AddDropdown("Ds", {
+        Title = "Zones",
+        Values = Zones,
+        Multi = false,
+        Default = 1,
+    })
+
+    Dropdown:SetValue("nil")
+
+    Dropdown:OnChanged(function(Value)
+        PickedZone = Value
+    end)
     local Toggle = Tabs.AutoMinigame:AddToggle("DigSite", {Title = "Auto DigSites", Default = false})
     Toggle:OnChanged(function()
         Toggle = Options.DigSite.Value
@@ -173,6 +256,26 @@ do
     Dropdown:OnChanged(function(Value)
         Pick = Value
     end)
+
+
+    Tabs.Obbys:AddButton({Title = "Auto SpawnObby",Description = "Automaticly does the Start Obby",Callback = function()
+        if Workspace.__THINGS.Instances.SpawnObby.Teleports.Billboard.BillboardGui:GetChildren()[1].Text == "Complete for Reward!" then
+            VG.Teleport(Workspace.__THINGS.Instances.SpawnObby.Teleports.Enter.Position)
+            wait(5)
+            VG.Teleport(Workspace.__THINGS.__INSTANCE_CONTAINER.Active.SpawnObby.StartLine:GetModelCFrame().Position)
+            wait(.5)
+            VG.Teleport(Workspace.__THINGS.__INSTANCE_CONTAINER.Active.SpawnObby.Goal:GetModelCFrame().Position)
+        end
+    end})
+    Tabs.Obbys:AddButton({Title = "Auto JungleObby",Description = "Automaticly does the Jungle Obby",Callback = function()
+        if Workspace.__THINGS.Instances.JungleObby.Teleports.Billboard.BillboardGui.TextLabel.Text == "Complete for Reward!" then
+            VG.Teleport(Workspace.__THINGS.Instances.JungleObby.Teleports.Enter.Position + Vector3.new(0,5,0))
+            wait(5)
+            VG.Teleport(Workspace.__THINGS.__INSTANCE_CONTAINER.Active.JungleObby.Interactable.StartLine.Position)
+            wait(.5)
+            VG.Teleport(Workspace.__THINGS.__INSTANCE_CONTAINER.Active.JungleObby.Interactable.Goal:GetModelCFrame().Position)
+        end
+    end})
 end
 SaveManager:SetLibrary(Fluent)
 InterfaceManager:SetLibrary(Fluent)
