@@ -109,13 +109,14 @@ for i,v in next, game:GetService("ReplicatedStorage").__DIRECTORY.Zones:GetChild
 end
 
 local Eggs = {}
-
-for i,v in next, Workspace.__THINGS.Eggs.Main:GetChildren() do
-    if v:FindFirstChild("EggInfo", true) then
-        table.insert(Eggs, v:FindFirstChild("EggInfo", true).Frame.Title.Text)
+for i,v in next, getgc(true) do
+    if type(v) == "table" then
+        if rawget(v, "_id") and rawget(v, "egg") then
+            table.insert(Eggs, v._id) 
+            table.sort(Eggs)
+        end
     end
 end
-
 
 
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
@@ -194,6 +195,47 @@ do
 
     Dropdown:OnChanged(function(Value)
         PickedZone = Value
+    end)
+    local Toggle = Tabs.AutoFarm:AddToggle("AutoEgg", {Title = "Auto Egg", Default = false})
+    Toggle:OnChanged(function()
+        AutoEgg = Options.AutoEgg.Value
+        spawn(function()
+            while wait() and AutoEgg do
+
+                    if Workspace.__THINGS.Eggs.Main then
+                        for i,v in next, Workspace.__THINGS.Eggs.Main:GetChildren() do
+                            if v:IsA("Model") and v:FindFirstChild("EggInfo", true) then
+                                local Egg = v:FindFirstChild("EggInfo", true)
+                                if Egg.Frame.Title.Text == WantedEgg then
+                                    VG.Teleport(v:GetModelCFrame().Position)
+                                    wait(.5)
+                                    VG.FireConnection(game:GetService("Players").LocalPlayer.PlayerGui.Interact.Button.Activated)
+                                end
+                            end
+                        end
+                    end
+                    wait(1)
+                    if Player.PlayerGui._MISC.BuyMultiple.Enabled then
+                        VG.FireConnection(Player.PlayerGui._MISC.BuyMultiple.Frame.Contents.BuyMax.Activated)
+                        for i=1, 15 do wait(.2)
+                            game:GetService('VirtualUser'):ClickButton2(Vector2.new())
+                        end
+                    end
+   
+            end
+        end)
+    end)
+    local Dropdown = Tabs.AutoFarm:AddDropdown("D1s", {
+        Title = "Eggs",
+        Values = Eggs,
+        Multi = false,
+        Default = 1,
+    })
+
+    Dropdown:SetValue(nil)
+
+    Dropdown:OnChanged(function(Value)
+        WantedEgg = Value
     end)
     Tabs.Obbys:AddButton({Title = "Auto Grab All ShinyRelics",Description = "Grabs all relics",Callback = function()
         for i,v in next, Workspace.__THINGS.ShinyRelics:GetChildren() do
