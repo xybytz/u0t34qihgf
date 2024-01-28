@@ -1,9 +1,13 @@
+
+
+getgenv().Test = true
+getgenv().Clicked = true
+getgenv().AdvancedFishing = true
+getgenv().Fishing = false
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
 VG.DisableConnection(Error)
 VG.DisableConnection(Idled)
 
-
-local RemoteBypass = ReplicatedStorage.Network.Instancing_FireCustomFromClient
 local FishingGame = Player.PlayerGui._INSTANCES.FishingGame
 
 
@@ -29,7 +33,7 @@ spawn(function()
                     if Fishing then
                         ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("Fishing","RequestCast",Vector3.new(1139 + math.random(10), 75, -3445 + math.random(10)))
                     elseif AdvancedFishing then
-                        ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("AdvancedFishing","RequestCast",Vector3.new(1460, 61, -4442))
+                        ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("AdvancedFishing","RequestCast",Vector3.new(1460 + math.random(10), 61, -4442 + math.random(10)))
                     end
                     wait(2)
                 end
