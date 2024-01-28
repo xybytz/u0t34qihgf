@@ -1,9 +1,4 @@
 
-
-getgenv().Test = true
-getgenv().Clicked = true
-getgenv().AdvancedFishing = true
-getgenv().Fishing = false
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
 VG.DisableConnection(Error)
 VG.DisableConnection(Idled)
