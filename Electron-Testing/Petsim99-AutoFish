@@ -1,13 +1,48 @@
-
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
 VG.DisableConnection(Error)
 VG.DisableConnection(Idled)
 
-local FishingGame = Player.PlayerGui._INSTANCES.FishingGame
+local FishingGame = Player.PlayerGui._INSTANCES:WaitForChild("FishingGame")
+local Network = ReplicatedStorage:WaitForChild("Network")
 
+local GetRod = function()
+    return Player.Character:FindFirstChild("Rod", true)
+end
 
+local RequestCast = function()
+    if Fishing and not GetRod():FindFirstChild("FishingLine") and wait(5) then
+        Network:WaitForChild("Instancing_FireCustomFromClient"):FireServer("Fishing","RequestCast",Vector3.new(1139 + math.random(10), 75, -3445 + math.random(10)))
+    elseif AdvancedFishing  and not GetRod():FindFirstChild("FishingLine") and wait(5) then
+        Network:WaitForChild("Instancing_FireCustomFromClient"):FireServer("AdvancedFishing","RequestCast",Vector3.new(1460 + math.random(10), 61, -4442 + math.random(10)))
+    end
+end
+
+local RequestReel = function()
+    local Nothing = nil
+    if Fishing and GetRod():FindFirstChild("FishingLine") then
+        Nothing = GetRod().FishingLine.Attachment1.Parent
+    elseif AdvancedFishing and GetRod():FindFirstChild("FishingLine") then
+        Nothing = GetRod().FishingLine.Attachment0.Parent
+    end
+    if Nothing then
+        local Height = tonumber(Nothing.Position.Y)
+        if Fishing and Height < 75 then
+            Network:WaitForChild("Instancing_FireCustomFromClient"):FireServer("Fishing", "RequestReel")
+        elseif AdvancedFishing and Height < 70.5 then
+            Network:WaitForChild("Instancing_FireCustomFromClient"):FireServer("AdvancedFishing","RequestReel")
+        end
+    end
+end
+
+local Wait = function()
+    if Fishing and FishingGame.Enabled and wait(.2) then
+        Network:WaitForChild("Instancing_InvokeCustomFromClient"):InvokeServer("Fishing","Clicked")
+    elseif AdvancedFishing and FishingGame.Enabled and wait(.2) then
+        Network:WaitForChild("Instancing_InvokeCustomFromClient"):InvokeServer("AdvancedFishing","Clicked")
+    end
+end
 spawn(function()
-    while Clicked and wait(10) do
+    while Test and wait(30) do
         pcall(function()
             User:SendMouseButtonEvent(0,0, 0, true, game, 0)
             User:SendMouseButtonEvent(0,0, 1, true, game, 0)
@@ -23,41 +58,9 @@ spawn(function()
     while wait() and Test do
         pcall(function()
             if FishingGame then
-                local PlayerFishingRod = Player.Character:FindFirstChild("Rod", true)
-                if not PlayerFishingRod:FindFirstChild("FishingLine", true) then
-                    if Fishing then
-                        ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("Fishing","RequestCast",Vector3.new(1139 + math.random(10), 75, -3445 + math.random(10)))
-                    elseif AdvancedFishing then
-                        ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("AdvancedFishing","RequestCast",Vector3.new(1460 + math.random(10), 61, -4442 + math.random(10)))
-                    end
-                    wait(2)
-                end
-                local At
-                if AdvancedFishing then
-                    At = Player.Character:FindFirstChild("Rod", true):FindFirstChild("FishingLine", true).Attachment0.Parent
-                elseif Fishing then
-                    At = Player.Character:FindFirstChild("Rod", true):FindFirstChild("FishingLine", true).Attachment1.Parent
-                end
-                print(At)
-                if At then
-                    local BobberHeight = At.Position.Y
-                    print(tonumber(BobberHeight))
-                    if Fishing and tonumber(BobberHeight) < 75 then
-                        ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("Fishing", "RequestReel")
-                    elseif AdvancedFishing and tonumber(BobberHeight) < 70.5 then
-                        ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer("AdvancedFishing","RequestReel")
-                    end
-                end
-                if Fishing and FishingGame.Enabled and wait(.2) then
-                    ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_InvokeCustomFromClient"):InvokeServer("Fishing","Clicked")
-                elseif AdvancedFishing and FishingGame.Enabled and wait(.2) then
-                    ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_InvokeCustomFromClient"):InvokeServer("AdvancedFishing","Clicked")
-                end
-                if Fishing then
-                    VG.GetHumanoid():MoveTo(Vector3.new(1113 + math.random(10), 80, -3444 + math.random(10)))
-                elseif AdvancedFishing then
-                    VG.GetHumanoid():MoveTo(Vector3.new(1440 + math.random(10), 66, -4445 + math.random(10)))
-                end
+                RequestCast()
+                RequestReel()
+                Wait()
             end
         end)
     end
