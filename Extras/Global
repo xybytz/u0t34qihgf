@@ -1,4 +1,4 @@
-local GetGlobal = getgenv and getgenv() or shared or _G
+local GetGlobal = getgenv and getgenv()
 
 for i,v in next, game.GetChildren(game) do
     GetGlobal[v.ClassName] = v
