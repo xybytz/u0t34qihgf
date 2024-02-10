@@ -92,11 +92,12 @@ for i,v in next, getgc() do
         end
     end
 end
-
-pcall(function()
-    RF("SpinWheelRemote"):InvokeServer()
-    RE("ClaimWheelRemote"):FireServer()
-end)
+if game.PlaceId == 3475397644 then
+    pcall(function()
+        RF("SpinWheelRemote"):InvokeServer()
+        RE("ClaimWheelRemote"):FireServer()
+    end)
+end
 local GetDragons = function()
     local Target
     for i, v in next, Player.Character.Dragons:GetChildren() do
