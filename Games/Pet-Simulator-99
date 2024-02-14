@@ -110,7 +110,7 @@ local GetLegendaryBag = function()
                     end
                     wait(3)
                 elseif Lol and (Lol.Text ~= "Legendary") then
-                    VG.GetHumanoid():EquipTool(v)
+                    v.Parent = Player.Character
                     v:Destroy()
                 end
             end
