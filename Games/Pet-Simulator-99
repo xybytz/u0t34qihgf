@@ -56,7 +56,8 @@ local KillMob = function(MobName)
         if v.Name == MobName and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
             VG.Teleport(v.HumanoidRootPart.Position + Vector3.new(0, -6, 3))
             Hit(v)
-            if not Player.Character:FindFirstChildWhichIsA("Tool") then
+            local Tool = Player.Character:FindFirstChildWhichIsA("Tool")
+            if not Tool and Tool:FindFirstChild("Combat Script") then
                 GetWeapon()
             end
             if v.Humanoid.Health ~= v.Humanoid.MaxHealth then
@@ -71,7 +72,8 @@ local KillBoss = function()
         if table.find(Bosses, v.Name) and v:FindFirstChild("HumanoidRootPart") then
             if v:FindFirstChild("Humanoid") and v.Humanoid.Health ~= 0 then
                 VG.Teleport(v.HumanoidRootPart.Position + Vector3.new(0,-5,0))
-                if not Player.Character:FindFirstChild("Tool") then
+                local Tool = Player.Character:FindFirstChildWhichIsA("Tool")
+                if not Tool and Tool:FindFirstChild("Combat Script") then
                     GetWeapon()
                 end
                 Hit(v)
@@ -85,6 +87,46 @@ local GetQuest = function(Quest)
     end
 end
 
+local BuyArmor = function()
+    ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("BuyItemRemote"):FireServer("Random Armor")
+end
+
+local GetLegendaryBag = function()
+    if #Player.Backpack:GetChildren() >= 10 then     
+        BuyArmor()
+        for i,v in next, Player.Backpack:GetChildren() do
+            if v.Name == "Bag" and v:FindFirstChild("BagPart") then
+                local Lol = v:FindFirstChild("Rarity", true)
+                if Lol and (Lol.Text == "Legendary") then
+                    VG.GetHumanoid():EquipTool(v)
+                    for i = 1, 13 do
+                        for j, v in next, Player.PlayerValues:GetChildren() do
+                            if v.Name:match("ItemStorage" .. i) and v.Value == "" then wait(0.001)
+                                ReplicatedStorage.RemoteEvents.ItemStorageRemote:FireServer(v.Name)
+                            end
+                        end
+                    end
+                    wait(3)
+                elseif Lol and (Lol.Text ~= "Legendary") then
+                    VG.GetHumanoid():EquipTool(v)
+                    v:Destroy()
+                end
+            end
+        end
+    else
+        ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
+    end
+end
+
+local HookMetaMethod = clonefunc(hookmetamethod)
+local OldNameCall = nil
+OldNameCall = HookMetaMethod(game, "__namecall", function(...)
+    local Self, Args, Name = ..., {...}, getnamecallmethod
+    if (Name == "Kick" or Name == "kick") and not checkcaller() then
+        return
+    end
+    return OldNameCall(...)
+end)
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
@@ -181,6 +223,17 @@ do
             while NoGreat3 and wait() do
                 pcall(function()
                     KillBoss()
+                end)
+            end
+        end)
+    end)
+    local Toggle = Tabs.AutoMinigame:AddToggle("Hehe", {Title = "Auto Legendary Armor", Default = false})
+    Toggle:OnChanged(function()
+        NoGreat4 = Options.Hehe.Value
+        spawn(function()
+            while wait() and NoGreat4 do
+                pcall(function()
+                    GetLegendaryBag()
                 end)
             end
         end)
