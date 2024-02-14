@@ -116,7 +116,7 @@ local GetLegendaryBag = function()
             end
         end
     else
-        ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
+        ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Random Armor")
     end
 end
 
