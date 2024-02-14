@@ -57,7 +57,9 @@ local KillMob = function(MobName)
             VG.Teleport(v.HumanoidRootPart.Position + Vector3.new(0, -6, 3))
             Hit(v)
             local Tool = Player.Character:FindFirstChildWhichIsA("Tool")
-            if not Tool and Tool:FindFirstChild("Combat Script") then
+            if Tool and not Tool:FindFirstChild("Combat Script") then
+                GetWeapon()
+            elseif not Tool then
                 GetWeapon()
             end
             if v.Humanoid.Health ~= v.Humanoid.MaxHealth then
