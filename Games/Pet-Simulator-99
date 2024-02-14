@@ -7,6 +7,7 @@ VG.DisableConnection(Idled)
 local Quests = {}
 local Codes = {}
 local Mobs = {}
+local Bosses = {}
 for i,v in next, Player.Quests:GetChildren() do
     if v:IsA("BoolValue") then
         table.insert(Quests, v.Name)
@@ -23,6 +24,13 @@ for i,v in next, Workspace.Live:GetChildren() do
     if v:IsA("Model") and v:FindFirstChild("HumanoidRootPart") then
         if not table.find(Mobs, v.Name) and not v:FindFirstChild("SetNetworkOwner") then
             table.insert(Mobs, v.Name)
+        end
+    end
+end
+for i,v in next, Workspace.Live:GetChildren() do
+    if v:IsA("Model") and v:FindFirstChild("HumanoidRootPart") then
+        if not table.find(Bosses, v.Name) and v:FindFirstChild("SetNetworkOwner") then
+            table.insert(Bosses, v.Name)
         end
     end
 end
@@ -58,6 +66,19 @@ local KillMob = function(MobName)
     end
 end
 
+local KillBoss = function()
+    for i,v in next, Workspace.Live:GetChildren() do
+        if table.find(Bosses, v.Name) and v:FindFirstChild("HumanoidRootPart") then
+            if v:FindFirstChild("Humanoid") and v.Humanoid.Health ~= 0 then
+                VG.Teleport(v.HumanoidRootPart.Position + Vector3.new(0,-5,0))
+                if not Player.Character:FindFirstChild("Tool") then
+                    GetWeapon()
+                end
+                Hit(v)
+            end
+        end
+    end
+end
 local GetQuest = function(Quest)
     if not Player.PlayerGui.Menu.QuestFrame.Visible then
         ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("ChangeQuestRemote"):FireServer(ReplicatedStorage:WaitForChild("Quests"):FindFirstChild(Quest))
@@ -146,6 +167,23 @@ do
  
     Dropdown:OnChanged(function(Value)
         TheQuest = Value
+    end)
+
+    local Toggle = Tabs.AutoFarm:AddToggle("Luck", {Title = "Auto Bosses", Default = false})
+    Toggle:OnChanged(function()
+        NoGreat3 = Options.Luck.Value
+        Stepped:Connect(function()
+            if NoGreat then
+                VG.NoClip()
+            end
+        end)
+        spawn(function()
+            while NoGreat3 and wait() do
+                pcall(function()
+                    KillBoss()
+                end)
+            end
+        end)
     end)
 end
 SaveManager:SetLibrary(Fluent)
