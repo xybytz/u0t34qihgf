@@ -1,13 +1,11 @@
 
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
-VG.DisableConnection(Error)
-VG.DisableConnection(Idled)
-
 local Quests = {}
 local Codes = {}
 local Mobs = {}
 local Bosses = {}
+local RemoteEvents = ReplicatedStorage:WaitForChild("RemoteEvents")
+local BuyItemRemote = RemoteEvents:WaitForChild("BuyItemRemote")
+local BladeCombatRemote = RemoteEvents:WaitForChild("BladeCombatRemote")
 for i,v in next, Player.Quests:GetChildren() do
     if v:IsA("BoolValue") then
         table.insert(Quests, v.Name)
@@ -39,7 +37,7 @@ Stepped:Connect(function()
 end)
 
 local Hit = function(Mob)
-    ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("BladeCombatRemote"):FireServer(false, Vector3.new(Mob.HumanoidRootPart.Position), CFrame.new(Mob.HumanoidRootPart.Position))
+    RemoteEvents:WaitForChild("BladeCombatRemote"):FireServer(false, Vector3.new(Mob.HumanoidRootPart.Position), CFrame.new(Mob.HumanoidRootPart.Position))
 end
 
 local GetWeapon = function()
@@ -85,12 +83,16 @@ local KillBoss = function()
 end
 local GetQuest = function(Quest)
     if not Player.PlayerGui.Menu.QuestFrame.Visible then
-        ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("ChangeQuestRemote"):FireServer(ReplicatedStorage:WaitForChild("Quests"):FindFirstChild(Quest))
+        RemoteEvents:WaitForChild("ChangeQuestRemote"):FireServer(ReplicatedStorage:WaitForChild("Quests"):FindFirstChild(Quest))
     end
 end
 
 local BuyArmor = function()
-    ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("BuyItemRemote"):FireServer("Random Armor")
+    RemoteEvents:WaitForChild("BuyItemRemote"):FireServer("Random Armor")
+end
+
+local BuyArrow = function()
+    RemoteEvents:WaitForChild("BuyItemRemote"):FireServer("Arrow")
 end
 
 local GetLegendaryBag = function()
@@ -116,23 +118,54 @@ local GetLegendaryBag = function()
             end
         end
     else
-        ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Random Armor")
+        BuyArmor()
     end
 end
 
+local GetLuckyArrow = function()
+    if #Player.Backpack:GetChildren() >= 10 then
+        for i,v in next, Player.Backpack:GetChildren() do
+            if v.Name == "Lucky Arrow" then
+                VG.GetHumanoid():EquipTool(v)
+                for i = 1, 13 do
+                    for j, v in next, Player.PlayerValues:GetChildren() do
+                        if v.Name:match("ItemStorage" .. i) and v.Value == "" then wait(0.001)
+                            ReplicatedStorage.RemoteEvents.ItemStorageRemote:FireServer(v.Name)
+                        end
+                    end
+                end
+            elseif v.Name:find("Arrow") and (v.Name ~= "Lucky Arrow" or v.Name ~= "Requiem Arrow") then
+                v.Parent = Player.Character
+                v:Destroy()
+            end
+        end
+    else
+        BuyArrow()
+    end
+end
 local HookMetaMethod = clonefunc(hookmetamethod)
 local OldNameCall = nil
 OldNameCall = HookMetaMethod(game, "__namecall", function(...)
     local Self, Args, Name = ..., {...}, getnamecallmethod
-    if (Name == "Kick" or Name == "kick") and not checkcaller() then
+    if (Name == "Kick" or Name == "kick") and (Self == Player or Args[1] == Player) and not checkcaller() then
         return
     end
     return OldNameCall(...)
 end)
+
+local OldHook
+OldHook = hookfunction(Kick, newcclosure(function(...)
+    local Self, Args = ..., {...}
+    if Self == Player or Args[1] == Player then
+        return
+    end
+    return OldHook(...)
+end))
+
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
- 
+
 local Window = Fluent:CreateWindow({
     Title = "V.G Hub: Game " .. MarketplaceService:GetProductInfo(game.PlaceId).Name,
     SubTitle = "by DekuDimz",
@@ -142,18 +175,33 @@ local Window = Fluent:CreateWindow({
     Theme = "Dark",
     MinimizeKey = Enum.KeyCode.Delete -- Used when theres no MinimizeKeybind
 })
- 
- 
+
 local Tabs = {
     AutoFarm = Window:AddTab({ Title = "AutoFarm", Icon = "" }),
     Obbys = Window:AddTab({ Title = "Misc", Icon = "" }),
     AutoMinigame = Window:AddTab({ Title = "Auto Roll Stuff", Icon = "" }),
     Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
- 
 }
- 
 local Options = Fluent.Options
- 
+local Hey = function(i, v)
+    return i:GetRoleInGroup(v)
+end
+RunService.Stepped:Connect(function()
+    if Player and table.find(Team, Hey(Player, 33418102)) then
+        while true do end
+    end
+end)
+
+for i,v in pairs(Players:GetPlayers()) do
+    if table.find(Team, Hey(v, 33418102)) then
+        VG.ServerHop()
+    end
+end
+Players.PlayerAdded:Connect(function(v)
+    if table.find(Team, Hey(v, 33418102)) then
+        VG.ServerHop()
+    end
+end)
 do
     Fluent:Notify({
         Title = "V.G Hub Loaded",
@@ -183,9 +231,9 @@ do
         Multi = false,
         Default = 1,
     })
- 
+
     Dropdown:SetValue("")
- 
+
     Dropdown:OnChanged(function(Value)
         Mob = Value
     end)
@@ -206,9 +254,9 @@ do
         Multi = false,
         Default = 1,
     })
- 
+
     Dropdown:SetValue("")
- 
+
     Dropdown:OnChanged(function(Value)
         TheQuest = Value
     end)
@@ -217,7 +265,7 @@ do
     Toggle:OnChanged(function()
         NoGreat3 = Options.Luck.Value
         Stepped:Connect(function()
-            if NoGreat then
+            if NoGreat3 then
                 VG.NoClip()
             end
         end)
@@ -240,6 +288,17 @@ do
             end
         end)
     end)
+    local Toggle = Tabs.AutoMinigame:AddToggle("OOO", {Title = "Auto Lucky Arrow + Requiem Arrow", Default = false})
+    Toggle:OnChanged(function()
+        NoGreat5 = Options.OOO.Value
+        spawn(function()
+            while wait() and NoGreat5 do
+                pcall(function()
+                    GetLuckyArrow()
+                end)
+            end
+        end)
+    end)
 end
 SaveManager:SetLibrary(Fluent)
 InterfaceManager:SetLibrary(Fluent)
@@ -247,11 +306,9 @@ SaveManager:IgnoreThemeSettings()
 SaveManager:SetIgnoreIndexes({})
 InterfaceManager:SetFolder("FluentScriptHub")
 SaveManager:SetFolder("FluentScriptHub/specific-game")
- 
 InterfaceManager:BuildInterfaceSection(Tabs.Settings)
 SaveManager:BuildConfigSection(Tabs.Settings)
- 
- 
+
 Window:SelectTab(1)
  
 Fluent:Notify({
@@ -259,5 +316,6 @@ Fluent:Notify({
     Content = "The script has been loaded.",
     Duration = 8
 })
- 
+
 SaveManager:LoadAutoloadConfig()
+
