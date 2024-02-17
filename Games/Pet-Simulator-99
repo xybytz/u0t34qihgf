@@ -1,4 +1,9 @@
 
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
+VG.DisableConnection(Error) 
+VG.DisableConnection(Idled)
+
 local Quests = {}
 local Codes = {}
 local Mobs = {}
@@ -125,7 +130,7 @@ end
 local GetLuckyArrow = function()
     if #Player.Backpack:GetChildren() >= 10 then
         for i,v in next, Player.Backpack:GetChildren() do
-            if v.Name == "Lucky Arrow" then
+            if (v.Name == "Lucky Arrow" or v.Name == "Requiem Arrow") and v.Name:find("Arrow") then
                 VG.GetHumanoid():EquipTool(v)
                 for i = 1, 13 do
                     for j, v in next, Player.PlayerValues:GetChildren() do
@@ -161,7 +166,10 @@ OldHook = hookfunction(Kick, newcclosure(function(...)
     end
     return OldHook(...)
 end))
+
+
 local Team = {"Tester", "GH", "Admin/Developer", "Game Director"}
+
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
@@ -318,4 +326,3 @@ Fluent:Notify({
 })
 
 SaveManager:LoadAutoloadConfig()
-
