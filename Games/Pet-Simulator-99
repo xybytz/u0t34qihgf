@@ -400,9 +400,7 @@ do
         NoGreat4 = Options.Hehe.Value
         spawn(function()
             while wait() and NoGreat4 do
-                pcall(function()
                     GetLegendaryBag()
-                end)
             end
         end)
     end)
