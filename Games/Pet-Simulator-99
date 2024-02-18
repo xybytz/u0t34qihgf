@@ -156,14 +156,9 @@ local GetLegendaryBag = function()
                 local Lol = v:FindFirstChild("Rarity", true)
                 if Lol and (Lol.Text == "Legendary") then
                     v.Parent = Player.Character
-                    for i = 1, 13 do
-                        for j, v in next, Player.PlayerValues:GetChildren() do
-                            if v.Name:match("ItemStorage" .. i) and v.Value == "" then wait(0.001)
-                                ReplicatedStorage.RemoteEvents.ItemStorageRemote:FireServer(v.Name)
-                            end
-                        end
-                    end
                     wait(3)
+                    NoGreat4 = false
+                    break
                 elseif Lol and (Lol.Text ~= "Legendary") then
                     v.Parent = Player.Character
                     v:Destroy()
@@ -244,7 +239,6 @@ local RollRace = function()
 end
 
 local RollTrait = function()
-    print(WantedTrait)
     if Player.PlayerValues.Trait.Value ~= WantedTrait then
         if not Player.Character:FindFirstChild("Eyeball") or not Player.Backpack:FindFirstChild("Eyeball") then
             BuyItemRemote:FireServer("Eyeball")
