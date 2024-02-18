@@ -155,10 +155,8 @@ local GetLegendaryBag = function()
             if v.Name == "Bag" and v:FindFirstChild("BagPart") then
                 local Lol = v:FindFirstChild("Rarity", true)
                 if Lol and (Lol.Text == "Legendary") then
-                    v.Parent = Player.Character
-                    wait(3)
-                    NoGreat4 = false
-                    break
+                    VG.SendNotification("Found one!", "Check your inventory", nil, 15)
+                    break 
                 elseif Lol and (Lol.Text ~= "Legendary") then
                     v.Parent = Player.Character
                     v:Destroy()
@@ -400,7 +398,7 @@ do
         NoGreat4 = Options.Hehe.Value
         spawn(function()
             while wait() and NoGreat4 do
-                    GetLegendaryBag()
+                GetLegendaryBag()
             end
         end)
     end)
