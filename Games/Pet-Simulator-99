@@ -8,6 +8,54 @@ local Quests = {}
 local Codes = {}
 local Mobs = {}
 local Bosses = {}
+local Traits = {
+    "Legendary",
+    "Noble",
+    "Mighty",
+    "Hypersonic",
+    "Perfect",
+    "Inspiring",
+    "Powerful",
+    "Strong",
+    "Resilient",
+    "Slim",
+    "Tank",
+    "Fragile",
+    "Weak",
+    "Muscular",
+    "Sensitive",
+    "Balanced"
+}
+local Races = {
+    "Human",
+    "Kumate Tribe",
+    "Skypiean",
+    "Torino Tribe",
+    "Vermin",
+    "A Bizarre Human",
+    "Human (Hybrid)",
+    "Mink",
+    "Namekian",
+    "Celestial Dragon",
+    "Hybrid-Saiyan",
+    "Ghoul",
+    "Frieza Race",
+    "Fanalis",
+    "Uzumaki Clan",
+    "Saiyan",
+}
+local Arrows = {
+    "Lucky Arrow",
+    "Requiem Arrow",
+}
+local Classes = {
+    "Blaster",
+    "Bruiser",
+    "Infiltraitor",
+    "Scrapper",
+    "Tactician",
+    "Generalist"
+}
 local RemoteEvents = ReplicatedStorage:WaitForChild("RemoteEvents")
 local BuyItemRemote = RemoteEvents:WaitForChild("BuyItemRemote")
 local BladeCombatRemote = RemoteEvents:WaitForChild("BladeCombatRemote")
@@ -107,7 +155,7 @@ local GetLegendaryBag = function()
             if v.Name == "Bag" and v:FindFirstChild("BagPart") then
                 local Lol = v:FindFirstChild("Rarity", true)
                 if Lol and (Lol.Text == "Legendary") then
-                    VG.GetHumanoid():EquipTool(v)
+                    v.Parent = Player.Character
                     for i = 1, 13 do
                         for j, v in next, Player.PlayerValues:GetChildren() do
                             if v.Name:match("ItemStorage" .. i) and v.Value == "" then wait(0.001)
@@ -127,11 +175,44 @@ local GetLegendaryBag = function()
     end
 end
 
+local Mouse = Player:GetMouse()
+function ClosestPlayerToCurser()
+    local MaxDistance, Closest = math.huge
+    for i, v in pairs(Players.GetPlayers(Players)) do
+        if v ~= Player and v.Character then
+            local H = v.Character.FindFirstChild(v.Character, "Head")
+            if H then
+                local Pos, Vis = Workspace.CurrentCamera.WorldToScreenPoint(Workspace.CurrentCamera, H.Position)
+                if Vis then
+                    local A1, A2 = Vector2.new(Mouse.X, Mouse.Y), Vector2.new(Pos.X, Pos.Y)
+                    local Dist = (A2 - A1).Magnitude
+                    if Dist < MaxDistance and Dist <= math.huge then
+                        MaxDistance = Dist
+                        Closest = v
+                    end
+                end
+            end
+        end
+    end
+    return Closest
+end
+
+
+local OldNameCall = nil
+OldNameCall = hookmetamethod(game, "__index", function(self, v, ...)
+    if Self == Mouse and Killthem then
+        if ClosestPlayerToCurser() and ClosestPlayerToCurser().Character then
+            return ((v == "Hit" and ((ClosestPlayerToCurser().Character.Head.CFrame) or (ClosestPlayerToCurser().Character.Head.CFrame + (ClosestPlayerToCurser().Character.Head.Velocity)))) or
+            (v == "Target" and ClosestPlayerToCurser().Character.Head))
+        end
+    end
+    return OldNameCall(self, v, ...)
+end)
 local GetLuckyArrow = function()
     if #Player.Backpack:GetChildren() >= 10 then
         for i,v in next, Player.Backpack:GetChildren() do
-            if (v.Name == "Lucky Arrow" or v.Name == "Requiem Arrow") and v.Name:find("Arrow") then
-                VG.GetHumanoid():EquipTool(v)
+            if v.Name:find("Arrow") and table.find(Arrows, v.Name) then
+                v.Parent = Player.Character
                 for i = 1, 13 do
                     for j, v in next, Player.PlayerValues:GetChildren() do
                         if v.Name:match("ItemStorage" .. i) and v.Value == "" then wait(0.001)
@@ -139,13 +220,51 @@ local GetLuckyArrow = function()
                         end
                     end
                 end
-            elseif v.Name:find("Arrow") and (v.Name ~= "Lucky Arrow" or v.Name ~= "Requiem Arrow") then
+                wait(3)
+            elseif not table.find(Arrows, v.Name) and v.Name:find("Arrow") then
                 v.Parent = Player.Character
                 v:Destroy()
             end
         end
     else
         BuyArrow()
+    end
+end
+
+local RollRace = function()
+    if Player.PlayerValues.Race.Value ~= WantedRace then
+        if not Player.Character:FindFirstChild("Heart") or not Player.Backpack:FindFirstChild("Heart") then
+            BuyItemRemote:FireServer("Heart")
+        end
+        if Player.Backpack:FindFirstChild("Heart") then
+            Player.Backpack:FindFirstChild("Heart").Parent = Player.Character
+            RemoteEvents:WaitForChild("ItemRemote"):FireServer()
+        end
+    end
+end
+
+local RollTrait = function()
+    print(WantedTrait)
+    if Player.PlayerValues.Trait.Value ~= WantedTrait then
+        if not Player.Character:FindFirstChild("Eyeball") or not Player.Backpack:FindFirstChild("Eyeball") then
+            BuyItemRemote:FireServer("Eyeball")
+        end
+        if Player.Backpack:FindFirstChild("Eyeball") then
+            Player.Backpack:FindFirstChild("Eyeball").Parent = Player.Character
+            RemoteEvents:WaitForChild("ItemRemote"):FireServer()
+        end
+    end
+end
+local RollClass = function()
+    if Player.PlayerValues.Class.Value ~= WantedClass then
+        BuyItemRemote:FireServer("Brain")
+        if not Player.Character:FindFirstChild("Brain") or not Player.Backpack:FindFirstChild("Brain") then
+            BuyItemRemote:FireServer("Eyeball")
+        end
+        if Player.Backpack:FindFirstChild("Brain") then
+            Player.Backpack:FindFirstChild("Brain").Parent = Player.Character
+            RemoteEvents:WaitForChild("ItemRemote"):FireServer()
+        end
     end
 end
 local HookMetaMethod = clonefunc(hookmetamethod)
@@ -166,10 +285,7 @@ OldHook = hookfunction(Kick, newcclosure(function(...)
     end
     return OldHook(...)
 end))
-
-
 local Team = {"Tester", "GH", "Admin/Developer", "Game Director"}
-
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
@@ -186,7 +302,7 @@ local Window = Fluent:CreateWindow({
 
 local Tabs = {
     AutoFarm = Window:AddTab({ Title = "AutoFarm", Icon = "" }),
-    Obbys = Window:AddTab({ Title = "Misc", Icon = "" }),
+    Misc = Window:AddTab({ Title = "Misc", Icon = "" }),
     AutoMinigame = Window:AddTab({ Title = "Auto Roll Stuff", Icon = "" }),
     Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
 }
@@ -307,6 +423,85 @@ do
             end
         end)
     end)
+
+    local Toggle = Tabs.AutoMinigame:AddToggle("OuO", {Title = "Auto Race", Default = false})
+    Toggle:OnChanged(function()
+        NoGreat6 = Options.OuO.Value
+        spawn(function()
+            while wait(1) and NoGreat6 do
+                pcall(function()
+                    RollRace(WantedRace)
+                end)
+            end
+        end)
+    end)
+
+    local Dropdown = Tabs.AutoMinigame:AddDropdown("D2s2", {
+        Title = "Races",
+        Values = Races,
+        Multi = false,
+        Default = 1,
+    })
+
+    Dropdown:SetValue("")
+
+    Dropdown:OnChanged(function(Value)
+        WantedRace = Value
+    end)
+
+    local Toggle = Tabs.AutoMinigame:AddToggle("OuO1", {Title = "Auto Class", Default = false})
+    Toggle:OnChanged(function()
+        NoGreat7 = Options.OuO1.Value
+        spawn(function()
+            while wait(1) and NoGreat7 do
+                pcall(function()
+                    RollClass(WantedClass)
+                end)
+            end
+        end)
+    end)
+
+    local Dropdown = Tabs.AutoMinigame:AddDropdown("D2s22", {
+        Title = "Classes",
+        Values = Classes,
+        Multi = false,
+        Default = 1,
+    })
+
+    Dropdown:SetValue("")
+
+    Dropdown:OnChanged(function(Value)
+        WantedClass = Value
+    end)
+    local Toggle = Tabs.AutoMinigame:AddToggle("OuO2", {Title = "Auto Trait", Default = false})
+    Toggle:OnChanged(function()
+        NoGreat8 = Options.OuO2.Value
+        spawn(function()
+            while wait(1) and NoGreat8 do
+                pcall(function()
+                    RollTrait(WantedTrait)
+                end)
+            end
+        end)
+    end)
+
+    local Dropdown = Tabs.AutoMinigame:AddDropdown("D2s212", {
+        Title = "Traits",
+        Values = Traits,
+        Multi = false,
+        Default = 1,
+    })
+
+    Dropdown:SetValue("")
+
+    Dropdown:OnChanged(function(Value)
+        WantedTrait = Value
+    end)
+
+    local Toggle = Tabs.Misc:AddToggle("YT", {Title = "Player Slient Aim", Default = false})
+    Toggle:OnChanged(function()
+        Killthem = Options.YT.Value
+    end)
 end
 SaveManager:SetLibrary(Fluent)
 InterfaceManager:SetLibrary(Fluent)
@@ -326,3 +521,4 @@ Fluent:Notify({
 })
 
 SaveManager:LoadAutoloadConfig()
+
