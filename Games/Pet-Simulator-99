@@ -58,6 +58,7 @@ local Classes = {
 }
 local RemoteEvents = ReplicatedStorage:WaitForChild("RemoteEvents")
 local BuyItemRemote = RemoteEvents:WaitForChild("BuyItemRemote")
+
 local BladeCombatRemote = RemoteEvents:WaitForChild("BladeCombatRemote")
 for i,v in next, Player.Quests:GetChildren() do
     if v:IsA("BoolValue") then
@@ -148,59 +149,6 @@ local BuyArrow = function()
     RemoteEvents:WaitForChild("BuyItemRemote"):FireServer("Arrow")
 end
 
-local GetLegendaryBag = function()
-    if #Player.Backpack:GetChildren() >= 10 then     
-        BuyArmor()
-        for i,v in next, Player.Backpack:GetChildren() do
-            if v.Name == "Bag" and v:FindFirstChild("BagPart") then
-                local Lol = v:FindFirstChild("Rarity", true)
-                if Lol and (Lol.Text == "Legendary") then
-                    VG.SendNotification("Found one!", "Check your inventory", nil, 15)
-                    break 
-                elseif Lol and (Lol.Text ~= "Legendary") then
-                    v.Parent = Player.Character
-                    v:Destroy()
-                end
-            end
-        end
-    else
-        BuyArmor()
-    end
-end
-
-local Mouse = Player:GetMouse()
-function ClosestPlayerToCurser()
-    local MaxDistance, Closest = math.huge
-    for i, v in pairs(Players.GetPlayers(Players)) do
-        if v ~= Player and v.Character then
-            local H = v.Character.FindFirstChild(v.Character, "Head")
-            if H then
-                local Pos, Vis = Workspace.CurrentCamera.WorldToScreenPoint(Workspace.CurrentCamera, H.Position)
-                if Vis then
-                    local A1, A2 = Vector2.new(Mouse.X, Mouse.Y), Vector2.new(Pos.X, Pos.Y)
-                    local Dist = (A2 - A1).Magnitude
-                    if Dist < MaxDistance and Dist <= math.huge then
-                        MaxDistance = Dist
-                        Closest = v
-                    end
-                end
-            end
-        end
-    end
-    return Closest
-end
-
-
-local OldNameCall = nil
-OldNameCall = hookmetamethod(game, "__index", function(self, v, ...)
-    if Self == Mouse and Killthem then
-        if ClosestPlayerToCurser() and ClosestPlayerToCurser().Character then
-            return ((v == "Hit" and ((ClosestPlayerToCurser().Character.Head.CFrame) or (ClosestPlayerToCurser().Character.Head.CFrame + (ClosestPlayerToCurser().Character.Head.Velocity)))) or
-            (v == "Target" and ClosestPlayerToCurser().Character.Head))
-        end
-    end
-    return OldNameCall(self, v, ...)
-end)
 local GetLuckyArrow = function()
     if #Player.Backpack:GetChildren() >= 10 then
         for i,v in next, Player.Backpack:GetChildren() do
@@ -259,6 +207,21 @@ local RollClass = function()
         end
     end
 end
+
+local AutoQuest = function()
+    GetQuest(WantedQuest)
+end
+
+
+local Keys = {
+    "E",
+    "R",
+    "C",
+    "X",
+    "Y"
+}
+
+
 local HookMetaMethod = clonefunc(hookmetamethod)
 local OldNameCall = nil
 OldNameCall = HookMetaMethod(game, "__namecall", function(...)
@@ -277,6 +240,41 @@ OldHook = hookfunction(Kick, newcclosure(function(...)
     end
     return OldHook(...)
 end))
+
+
+local Mouse = Player:GetMouse()
+function ClosestPlayerToCurser()
+    local MaxDistance, Closest = math.huge
+    for i, v in pairs(Players.GetPlayers(Players)) do
+        if v ~= Player and v.Character then
+            local H = v.Character.FindFirstChild(v.Character, "Head")
+            if H then
+                local Pos, Vis = Workspace.CurrentCamera.WorldToScreenPoint(Workspace.CurrentCamera, H.Position)
+                if Vis then
+                    local A1, A2 = Vector2.new(Mouse.X, Mouse.Y), Vector2.new(Pos.X, Pos.Y)
+                    local Dist = (A2 - A1).Magnitude
+                    if Dist < MaxDistance and Dist <= math.huge then
+                        MaxDistance = Dist
+                        Closest = v
+                    end
+                end
+            end
+        end
+    end
+    return Closest
+end
+
+
+local OldNameCall = nil
+OldNameCall = hookmetamethod(game, "__index", function(self, v, ...)
+    if Self == Mouse and Killthem then
+        if ClosestPlayerToCurser() and ClosestPlayerToCurser().Character then
+            return ((v == "Hit" and ((ClosestPlayerToCurser().Character.Head.CFrame) or (ClosestPlayerToCurser().Character.Head.CFrame + (ClosestPlayerToCurser().Character.Head.Velocity)))) or
+            (v == "Target" and ClosestPlayerToCurser().Character.Head))
+        end
+    end
+    return OldNameCall(self, v, ...)
+end)
 local Team = {"Tester", "GH", "Admin/Developer", "Game Director"}
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
@@ -376,7 +374,20 @@ do
     Dropdown:OnChanged(function(Value)
         TheQuest = Value
     end)
-
+    local Toggle = Tabs.AutoFarm:AddToggle("Hahaes", {Title = "Auto Grab Quest", Default = false})
+    Toggle:OnChanged(function()
+        NoG = Options.Hahaes.Value
+        spawn(function()
+            while wait() and NoG do
+                pcall(function()
+                    for i,v in next, Keys do
+                        VG.KeyPress(true, "E", false, game, 0)
+                        wait(.1)
+                    end
+                end)
+            end
+        end)
+    end)
     local Toggle = Tabs.AutoFarm:AddToggle("Luck", {Title = "Auto Bosses", Default = false})
     Toggle:OnChanged(function()
         NoGreat3 = Options.Luck.Value
@@ -398,7 +409,23 @@ do
         NoGreat4 = Options.Hehe.Value
         spawn(function()
             while wait() and NoGreat4 do
-                GetLegendaryBag()
+                if #Player.Backpack:GetChildren() >= 10 then     
+                    for i,v in next, Player.Backpack:GetChildren() do
+                        if v.Name == "Bag" and v:FindFirstChild("BagPart") then
+                            local Lol = v:FindFirstChild("Rarity", true)
+                            if Lol and Lol.Text == "Legendary" then
+                                VG.SendNotification("Found one!", "Check your inventory", nil, 15)
+                                NoGreat4 = false
+                                print(NoGreat4)
+                                wait(3)
+                            elseif Lol and Lol.Text ~= "Legendary" then
+                                v.Parent = RemoteEvents
+                            end
+                        end
+                    end
+                else
+                    BuyArmor()
+                end
             end
         end)
     end)
