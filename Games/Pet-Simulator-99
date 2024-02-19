@@ -381,7 +381,7 @@ do
             while wait() and NoG do
                 pcall(function()
                     for i,v in next, Keys do
-                        VG.KeyPress(true, "E", false, game, 0)
+                        VG.KeyPress(true, v, false, game, 0)
                         wait(.1)
                     end
                 end)
