@@ -3,6 +3,34 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
 VG.DisableConnection(Error) 
 VG.DisableConnection(Idled)
+local Equiped = Instance.new("BoolValue")
+Equiped.Parent = Player.Character
+Equiped.Name = "Tool"
+Player.CharacterAdded:Connect(function()
+    wait(2)
+    local Equiped = Instance.new("BoolValue")
+    Equiped.Parent = Player.Character
+    Equiped.Name = "Tool"
+end)
+local Equiped = function(A)
+    if A:IsA("Tool") then
+        Player.Character.Tool.Value = true
+        wait(1)
+        Player.Character.Animate.Disabled = true
+        Player.Character.Animate.Disabled = false
+    end
+end
+
+Player.Character.ChildAdded:Connect(function(v)
+    if v:IsA("Tool") then
+        Equiped(v)
+    end
+end)
+Player.Character.ChildRemoved:Connect(function(v)
+    if v:IsA("Tool") then
+        Player.Character.Tool.Value = false
+    end
+end)
 
 local Quests = {}
 local Codes = {}
@@ -381,7 +409,7 @@ do
             while wait() and NoG do
                 pcall(function()
                     for i,v in next, Keys do
-                        VG.KeyPress(true, v, false, game, 0)
+                        VG.KeyPress(true, "E", false, game, 0)
                         wait(.1)
                     end
                 end)
@@ -538,4 +566,3 @@ Fluent:Notify({
 })
 
 SaveManager:LoadAutoloadConfig()
-
