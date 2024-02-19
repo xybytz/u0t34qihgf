@@ -374,7 +374,7 @@ do
     Dropdown:OnChanged(function(Value)
         TheQuest = Value
     end)
-    local Toggle = Tabs.AutoFarm:AddToggle("Hahaes", {Title = "Auto Grab Quest", Default = false})
+    local Toggle = Tabs.AutoFarm:AddToggle("Hahaes", {Title = "Auto Skills", Default = false})
     Toggle:OnChanged(function()
         NoG = Options.Hahaes.Value
         spawn(function()
