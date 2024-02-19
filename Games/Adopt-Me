@@ -32,7 +32,6 @@ local set_thread_context = set_thread_context or setthreadcontext or setidentity
 local set_thread_identity = set_thread_context
 local Remotes = {}
 local Inventorys = ReplicatedStorage.ClientDB.Inventory
-local InventoryGiftsSubDB = require(Inventorys.InventoryGiftsSubDB)
 local Count = 0
 local Stores = {
     "CoffeeShop",
