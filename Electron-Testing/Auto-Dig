@@ -410,6 +410,17 @@ do
             end
         end)
     end)
+    local Toggle = Tabs.AutoFarm:AddToggle("Toyou2", {Title = "Auto Buy Venders", Default = false})
+    Toggle:OnChanged(function()
+        vut = Options.Toyou2.Value
+        spawn(function()
+            while vut and wait() do
+                pcall(function()
+                    BuyVenders()
+                end)
+            end
+        end)
+    end)
     local Toggle = Tabs.AutoFarm:AddToggle("Gifts", {Title = "Auto Find Hidden Presents", Default = false})
     Toggle:OnChanged(function()
         Yes = Options.Gifts.Value
