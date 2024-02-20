@@ -16,8 +16,8 @@ local Client = require(ReplicatedStorage:WaitForChild("Library"))
 
 for i,v in next, getgc(true) do
     if type(v) == "function" then
-        if getfenv(v).script == getfenv(v).script == Player.PlayerScripts.Scripts.Game.Misc["Hidden Presents"] then
-            if getinfo(v).name == "GetActive" and getfenv(v).script == Player.PlayerScripts.Scripts.Game.Misc["Hidden Presents"] then
+        if getfenv(v).script == Player.PlayerScripts.Scripts.Game.Misc["Hidden Presents"] then
+            if getinfo(v).name == "GetActive" then
                 GetActive = v
             elseif getinfo(v).name == "Clicked" then
                 Clicked = v
