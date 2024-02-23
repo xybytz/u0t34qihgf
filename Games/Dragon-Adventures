@@ -1,4 +1,12 @@
 
+local Worlds = {}
+local Healing = {}
+local foods = {}
+local list = {}
+local Dragons = {}
+local ss1 = {}
+local D = {"🕹️Player", "Guest"}
+local deku = {"Food", "Magic", "Resources"}
 UserInputService.InputBegan:Connect(function(Input, GPE)
     if Input.KeyCode == Enum.KeyCode.LeftShift and Sp then
         VG.IsA(Player.Character, "Humanoid").WalkSpeed = 25
@@ -11,14 +19,12 @@ UserInputService.InputEnded:Connect(function(Input, GPE)
 end)
 
 
-local Worlds = {}
 for i, v in next, require(ReplicatedStorage.Storage.Worlds.Worlds) do
     if not table.find(Worlds, v.Name .. " " .. v.GameId) then
         table.insert(Worlds, v.Name .. " " .. v.GameId)
     end
 end
 
-local Healing = {}
 for i,v in next, ReplicatedStorage.Storage.Items.Items.Healing:GetChildren() do
     if v:IsA("ModuleScript") then
         local A = require(v)
@@ -28,7 +34,6 @@ for i,v in next, ReplicatedStorage.Storage.Items.Items.Healing:GetChildren() do
     end
 end
 
-local foods = {}
 for i, v in next, ReplicatedStorage.Storage.Items.Items.Food:GetChildren() do
     if v.ClassName == "ModuleScript" then
         g = require(v)
@@ -37,7 +42,6 @@ for i, v in next, ReplicatedStorage.Storage.Items.Items.Food:GetChildren() do
         end
     end
 end
-local list = {}
 for i, v in next, ReplicatedStorage.Storage.Items.Items.Food:GetChildren() do
     if v.ClassName == "ModuleScript" then
         f = require(v)
@@ -46,13 +50,12 @@ for i, v in next, ReplicatedStorage.Storage.Items.Items.Food:GetChildren() do
         end
     end
 end
-local Dragons = {}
+
 for i, v in next, Player.Data.Dragons:GetChildren() do
     if v:FindFirstChild("Age") then
         table.insert(Dragons, v.Value)
     end
 end
-local ss1 = {}
 for i, v in next, ReplicatedStorage.Storage.Items.Items.Eggs:GetChildren() do
           if v.ClassName == "ModuleScript" then
         f = require(v)
@@ -63,8 +66,6 @@ for i, v in next, ReplicatedStorage.Storage.Items.Items.Eggs:GetChildren() do
 end
 
 
-local D = {"🕹️Player", "Guest"}
-local deku = {"Food", "Magic", "Resources"}
 local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__newindex", function(...)
     local Self, Key = ...
@@ -92,6 +93,28 @@ for i,v in next, getgc() do
         end
     end
 end
+
+for i, v in next, Players:GetPlayers() do
+    if not table.find(D, tostring(v:GetRoleInGroup(2919215)))then
+        Kick(Player, "Mod Detected")
+        VG.ServerHop()
+    end
+end
+Players.PlayerAdded:Connect(function(v)
+    if not table.find(D, tostring(v:GetRoleInGroup(2919215))) then
+        Kick(Player, "Mod Detected")
+        VG.ServerHop()
+    end
+end)
+
+Player.PlayerGui.NodeGui.BoostFrame.ChildAdded:Connect(function(v)
+    if v:IsA("Frame") and v:FindFirstChild("ClickButton") then
+        wait(0.5)
+        VG.FireConnection(v.ClickShadowButton.MouseButton1Down)
+    end
+end)
+
+
 if game.PlaceId == 3475397644 then
     pcall(function()
         RF("SpinWheelRemote"):InvokeServer()
@@ -116,33 +139,13 @@ local GetEgg = function(A)
         if v:IsA("Model") then
             local Mag = VG.Mag(v:GetModelCFrame(), Player.Character:GetModelCFrame())
             if Mag < Max then
-                Max = Mag 
-                Target = v 
+                Max = Mag
+                Target = v
             end
         end
     end
     return Target
 end
-
-for i, v in next, Players:GetPlayers() do
-    if not table.find(D, tostring(v:GetRoleInGroup(2919215)))then
-        Kick(Player, "Mod Detected")
-        VG.ServerHop()
-    end
-end
-Players.PlayerAdded:Connect(function(v)
-    if not table.find(D, tostring(v:GetRoleInGroup(2919215))) then
-        Kick(Player, "Mod Detected")
-        VG.ServerHop()
-    end
-end)
-
-Player.PlayerGui.NodeGui.BoostFrame.ChildAdded:Connect(function(v)
-    if v:IsA("Frame") and v:FindFirstChild("ClickButton") then
-        wait(0.5)
-        VG.FireConnection(v.ClickShadowButton.MouseButton1Down) 
-    end
-end)
 
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
@@ -165,16 +168,6 @@ local Tabs = {
 }
 
 local Options = Fluent.Options
-if game.PlaceId == 3475397644 then
-    for i, v in pairs(Workspace.Interactions:GetDescendants()) do
-        if v:IsA("TextLabel") and v.Name:match("Player")  then
-            if v.Text == Player.PlayerGui.WorkspaceGui[Player.Name .. "_DisplayGui"].ContainerFrame.NameLabel.Text then
-                Player.Character.HumanoidRootPart.CFrame = v.Parent.Parent.Parent.TeleportPart.CFrame
-            end
-        end
-    end
-    
-end
 do
     Fluent:Notify({
         Title = "V.G Hub Loaded",
