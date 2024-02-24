@@ -129,8 +129,9 @@ Stepped:Connect(function()
 end)
 
 local Hit = function(Mob)
-    RemoteEvents:WaitForChild("BladeCombatRemote"):FireServer(false, Vector3.new(Mob.HumanoidRootPart.Position), CFrame.new(Mob.HumanoidRootPart.Position))
+    BladeCombatRemote:FireServer(false, Vector3.new(Mob.HumanoidRootPart.Position), CFrame.new(Mob.HumanoidRootPart.Position))
 end
+
 
 local GetWeapon = function()
     for _,v in next, Player.Backpack:GetChildren() do
@@ -142,18 +143,22 @@ end
 
 local KillMob = function(MobName)
     for _,v in next, Workspace.Live:GetChildren() do
-        if v.Name == MobName and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
-            VG.Teleport(v.HumanoidRootPart.Position + Vector3.new(0, -6, 3))
-            Hit(v)
-            local Tool = Player.Character:FindFirstChildWhichIsA("Tool")
-            if Tool and not Tool:FindFirstChild("Combat Script") then
-                GetWeapon()
-            elseif not Tool then
-                GetWeapon()
-            end
-            if v.Humanoid.Health ~= v.Humanoid.MaxHealth then
-                v.Humanoid.Health = 0
-            end
+        if v.Name == MobName and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then wait()
+            repeat wait()
+                Player.Character.HumanoidRootPart.CFrame = CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0,-7,0) * CFrame.Angles(-180, 0, 0)
+                Hit(v)
+                local Tool = Player.Character:FindFirstChildWhichIsA("Tool")
+                if Tool and not Tool:FindFirstChild("Combat Script") then
+                    GetWeapon()
+                elseif not Tool then
+                    GetWeapon()
+                end
+                if v.Humanoid.Health ~= v.Humanoid.MaxHealth then
+                    v.Humanoid.Health = 0
+                end
+            until v.Humanoid.Health == 0
+        else
+            VG.Teleport(Vector3.new(5, 100000, 5))
         end
     end
 end
@@ -509,7 +514,7 @@ do
     Toggle:OnChanged(function()
         Bread = Options.OOO0.Value
     end)
-    local Toggle = Tabs.AutoMinigame:AddToggle("OOO01", {Title = "Auto Lucky Arrow", Default = false})
+    local Toggle = Tabs.AutoMinigame:AddToggle("OOO01", {Title = "Auto Requiem Arrow", Default = false})
     Toggle:OnChanged(function()
         Bread2 = Options.OOO01.Value
     end)
