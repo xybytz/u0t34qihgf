@@ -1,91 +1,56 @@
-
-VG.DisableConnection(Error) 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
+VG.DisableConnection(Error)
 VG.DisableConnection(Idled)
-local Equiped = Instance.new("BoolValue")
-Equiped.Parent = Player.Character
-Equiped.Name = "Tool"
+local Mouse = Player:GetMouse()
+local Team = {"Tester", "GH", "Admin/Developer", "Game Director"}
+
+-- Initialization
+local Quests = {}
+local Codes = {}
+local Mobs = {}
+local Bosses = {}
+local Traits = {
+    "Legendary", "Noble", "Mighty", "Hypersonic", "Perfect", "Inspiring", "Powerful", 
+    "Strong", "Resilient", "Slim", "Tank", "Fragile", "Weak", "Muscular", "Sensitive", "Balanced"
+}
+local Races = {
+    "Human", "Kumate Tribe", "Skypiean", "Torino Tribe", "Vermin", "A Bizarre Human", 
+    "Human (Hybrid)", "Mink", "Namekian", "Celestial Dragon", "Hybrid-Saiyan", "Ghoul", 
+    "Frieza Race", "Fanalis", "Uzumaki Clan", "Saiyan","Quincy", "Soul Reaper", "Demon"
+}
+local Arrows = {"Lucky Arrow", "Requiem Arrow"}
+local Classes = {"Blaster", "Bruiser", "Infiltraitor", "Scrapper", "Tactician", "Generalist"}
+local Keys = {"E", "R", "C", "X", "Y"}
+
+-- Remote Events
+local RemoteEvents = ReplicatedStorage:WaitForChild("RemoteEvents")
+local BuyItemRemote = RemoteEvents:WaitForChild("BuyItemRemote")
+local BladeCombatRemote = RemoteEvents:WaitForChild("BladeCombatRemote")
+local InvCleaner = RemoteEvents:WaitForChild("ClearInventoryRemote")
+
+-- Wait for certain objects
+local QuesMarks = Workspace:WaitForChild("QuestMarkers")
+local Live = Workspace:WaitForChild("Live")
+-- Event Handling
 Player.CharacterAdded:Connect(function()
     wait(2)
-    local Equiped = Instance.new("BoolValue")
-    Equiped.Parent = Player.Character
-    Equiped.Name = "Tool"
+    local Equipped = Instance.new("BoolValue")
+    Equipped.Parent = Player.Character
+    Equipped.Name = "Tool"
 end)
-local Equiped = function(A)
-    if A:IsA("Tool") then
-        Player.Character.Tool.Value = true
-        wait(1)
-        Player.Character.Animate.Disabled = true
-        Player.Character.Animate.Disabled = false
-    end
-end
 
 Player.Character.ChildAdded:Connect(function(v)
     if v:IsA("Tool") then
-        Equiped(v)
+        Equipped(v)
     end
 end)
+
 Player.Character.ChildRemoved:Connect(function(v)
     if v:IsA("Tool") then
         Player.Character.Tool.Value = false
     end
 end)
 
-local Quests = {}
-local Codes = {}
-local Mobs = {}
-local Bosses = {}
-local Traits = {
-    "Legendary",
-    "Noble",
-    "Mighty",
-    "Hypersonic",
-    "Perfect",
-    "Inspiring",
-    "Powerful",
-    "Strong",
-    "Resilient",
-    "Slim",
-    "Tank",
-    "Fragile",
-    "Weak",
-    "Muscular",
-    "Sensitive",
-    "Balanced"
-}
-local Races = {
-    "Human",
-    "Kumate Tribe",
-    "Skypiean",
-    "Torino Tribe",
-    "Vermin",
-    "A Bizarre Human",
-    "Human (Hybrid)",
-    "Mink",
-    "Namekian",
-    "Celestial Dragon",
-    "Hybrid-Saiyan",
-    "Ghoul",
-    "Frieza Race",
-    "Fanalis",
-    "Uzumaki Clan",
-    "Saiyan",
-}
-local Arrows = {
-    "Lucky Arrow",
-    "Requiem Arrow",
-}
-local Classes = {
-    "Blaster",
-    "Bruiser",
-    "Infiltraitor",
-    "Scrapper",
-    "Tactician",
-    "Generalist"
-}
-local RemoteEvents = ReplicatedStorage:WaitForChild("RemoteEvents")
-local BuyItemRemote = RemoteEvents:WaitForChild("BuyItemRemote")
-
-local BladeCombatRemote = RemoteEvents:WaitForChild("BladeCombatRemote")
 for i,v in next, Player.Quests:GetChildren() do
     if v:IsA("BoolValue") then
         table.insert(Quests, v.Name)
@@ -112,170 +77,28 @@ for i,v in next, Workspace.Live:GetChildren() do
         end
     end
 end
-Stepped:Connect(function()
-    sethiddenproperty(Player, "SimulationRadius", 1000)
-end)
 
-local Hit = function(Mob)
-    RemoteEvents:WaitForChild("BladeCombatRemote"):FireServer(false, Vector3.new(Mob.HumanoidRootPart.Position), CFrame.new(Mob.HumanoidRootPart.Position))
-end
-
-local GetWeapon = function()
-    for i,v in next, Player.Backpack:GetChildren() do
-        if v:IsA("Tool") and v:FindFirstChild("Combat Script") then
-            VG.GetHumanoid():EquipTool(v)
-        end
-    end
-end
-
-
-local KillMob = function(MobName)
-    for i,v in next, Workspace.Live:GetChildren() do
-        if v.Name == MobName and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
-            VG.Teleport(v.HumanoidRootPart.Position + Vector3.new(0, -6, 3))
-            Hit(v)
-            local Tool = Player.Character:FindFirstChildWhichIsA("Tool")
-            if Tool and not Tool:FindFirstChild("Combat Script") then
-                GetWeapon()
-            elseif not Tool then
-                GetWeapon()
-            end
-            if v.Humanoid.Health ~= v.Humanoid.MaxHealth then
-                v.Humanoid.Health = 0
-            end
-        end
-    end
-end
-
-local KillBoss = function()
-    for i,v in next, Workspace.Live:GetChildren() do
-        if table.find(Bosses, v.Name) and v:FindFirstChild("HumanoidRootPart") then
-            if v:FindFirstChild("Humanoid") and v.Humanoid.Health ~= 0 then
-                VG.Teleport(v.HumanoidRootPart.Position + Vector3.new(0,-5,0))
-                local Tool = Player.Character:FindFirstChildWhichIsA("Tool")
-                if not Tool and Tool:FindFirstChild("Combat Script") then
-                    GetWeapon()
-                end
-                Hit(v)
-            end
-        end
-    end
-end
-local GetQuest = function(Quest)
-    if not Player.PlayerGui.Menu.QuestFrame.Visible then
-        RemoteEvents:WaitForChild("ChangeQuestRemote"):FireServer(ReplicatedStorage:WaitForChild("Quests"):FindFirstChild(Quest))
-    end
-end
-
-local BuyArmor = function()
-    RemoteEvents:WaitForChild("BuyItemRemote"):FireServer("Random Armor")
-end
-
-local BuyArrow = function()
-    RemoteEvents:WaitForChild("BuyItemRemote"):FireServer("Arrow")
-end
-
-local GetLuckyArrow = function()
-    if #Player.Backpack:GetChildren() >= 10 then
-        for i,v in next, Player.Backpack:GetChildren() do
-            if v.Name:find("Arrow") and table.find(Arrows, v.Name) then
-                v.Parent = Player.Character
-                for i = 1, 13 do
-                    for j, v in next, Player.PlayerValues:GetChildren() do
-                        if v.Name:match("ItemStorage" .. i) and v.Value == "" then wait(0.001)
-                            ReplicatedStorage.RemoteEvents.ItemStorageRemote:FireServer(v.Name)
-                        end
-                    end
-                end
-                wait(3)
-            elseif not table.find(Arrows, v.Name) and v.Name:find("Arrow") then
-                v.Parent = Player.Character
-                v:Destroy()
-            end
-        end
-    else
-        BuyArrow()
-    end
-end
-
-local RollRace = function()
-    if Player.PlayerValues.Race.Value ~= WantedRace then
-        if not Player.Character:FindFirstChild("Heart") or not Player.Backpack:FindFirstChild("Heart") then
-            BuyItemRemote:FireServer("Heart")
-        end
-        if Player.Backpack:FindFirstChild("Heart") then
-            Player.Backpack:FindFirstChild("Heart").Parent = Player.Character
-            RemoteEvents:WaitForChild("ItemRemote"):FireServer()
-        end
-    end
-end
-
-local RollTrait = function()
-    if Player.PlayerValues.Trait.Value ~= WantedTrait then
-        if not Player.Character:FindFirstChild("Eyeball") or not Player.Backpack:FindFirstChild("Eyeball") then
-            BuyItemRemote:FireServer("Eyeball")
-        end
-        if Player.Backpack:FindFirstChild("Eyeball") then
-            Player.Backpack:FindFirstChild("Eyeball").Parent = Player.Character
-            RemoteEvents:WaitForChild("ItemRemote"):FireServer()
-        end
-    end
-end
-local RollClass = function()
-    if Player.PlayerValues.Class.Value ~= WantedClass then
-        BuyItemRemote:FireServer("Brain")
-        if not Player.Character:FindFirstChild("Brain") or not Player.Backpack:FindFirstChild("Brain") then
-            BuyItemRemote:FireServer("Eyeball")
-        end
-        if Player.Backpack:FindFirstChild("Brain") then
-            Player.Backpack:FindFirstChild("Brain").Parent = Player.Character
-            RemoteEvents:WaitForChild("ItemRemote"):FireServer()
-        end
-    end
-end
-
-local AutoQuest = function()
-    GetQuest(WantedQuest)
-end
-
-
-local Keys = {
-    "E",
-    "R",
-    "C",
-    "X",
-    "Y"
-}
-
-
-local HookMetaMethod = clonefunc(hookmetamethod)
+-- Hooking and Metamethods
 local OldNameCall = nil
-OldNameCall = HookMetaMethod(game, "__namecall", function(...)
-    local Self, Args, Name = ..., {...}, getnamecallmethod
-    if (Name == "Kick" or Name == "kick") and (Self == Player or Args[1] == Player) and not checkcaller() then
-        return
+OldNameCall = hookmetamethod(game, "__index", function(self, v, ...)
+    if Self == Mouse and Killthem then
+        if ClosestPlayerToCurser() and ClosestPlayerToCurser().Character then
+            return ((v == "Hit" and ((ClosestPlayerToCurser().Character.Head.CFrame) or (ClosestPlayerToCurser().Character.Head.CFrame + (ClosestPlayerToCurser().Character.Head.Velocity)))) or
+            (v == "Target" and ClosestPlayerToCurser().Character.Head))
+        end
     end
-    return OldNameCall(...)
+    return OldNameCall(self, v, ...)
 end)
+local SF = {}
 
-local OldHook
-OldHook = hookfunction(Kick, newcclosure(function(...)
-    local Self, Args = ..., {...}
-    if Self == Player or Args[1] == Player then
-        return
-    end
-    return OldHook(...)
-end))
-
-
-local Mouse = Player:GetMouse()
-function ClosestPlayerToCurser()
+-- Utility function to get the closest player to the cursor
+SF.ClosestPlayerToCurser = function()
     local MaxDistance, Closest = math.huge
-    for i, v in pairs(Players.GetPlayers(Players)) do
+    for _, v in pairs(Players:GetPlayers()) do
         if v ~= Player and v.Character then
-            local H = v.Character.FindFirstChild(v.Character, "Head")
+            local H = v.Character:FindFirstChild("Head")
             if H then
-                local Pos, Vis = Workspace.CurrentCamera.WorldToScreenPoint(Workspace.CurrentCamera, H.Position)
+                local Pos, Vis = Workspace.CurrentCamera:WorldToScreenPoint(H.Position)
                 if Vis then
                     local A1, A2 = Vector2.new(Mouse.X, Mouse.Y), Vector2.new(Pos.X, Pos.Y)
                     local Dist = (A2 - A1).Magnitude
@@ -290,18 +113,241 @@ function ClosestPlayerToCurser()
     return Closest
 end
 
+-- Hit function to attack mobs
+SF.Hit = function(Mob)
+    BladeCombatRemote:FireServer(false, Vector3.new(Mob.HumanoidRootPart.Position), CFrame.new(Mob.HumanoidRootPart.Position))
+end
 
-local OldNameCall = nil
-OldNameCall = hookmetamethod(game, "__index", function(self, v, ...)
-    if Self == Mouse and Killthem then
-        if ClosestPlayerToCurser() and ClosestPlayerToCurser().Character then
-            return ((v == "Hit" and ((ClosestPlayerToCurser().Character.Head.CFrame) or (ClosestPlayerToCurser().Character.Head.CFrame + (ClosestPlayerToCurser().Character.Head.Velocity)))) or
-            (v == "Target" and ClosestPlayerToCurser().Character.Head))
+-- Function to instantly kill a mob
+SF.InstantKill = function(v)
+    if v.Humanoid.Health ~= v.Humanoid.MaxHealth then
+        v.Humanoid.Health = 0
+    end
+end
+
+-- Function to get the weapon
+SF.GetWeapon = function()
+    for _, v in ipairs(Player.Backpack:GetChildren()) do
+        if v:IsA("Tool") and v:FindFirstChild("Combat Script") then
+            VG.GetHumanoid():EquipTool(v)
         end
     end
-    return OldNameCall(self, v, ...)
+end
+
+-- Function to kill a specific mob
+SF.KillMob = function(MobName)
+    for _, v in ipairs(Workspace.Live:GetChildren()) do
+        if v.Name == MobName and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+            VG.Teleport(v.HumanoidRootPart.Position + Vector3.new(0, -6, 3))
+            SF.Hit(v)
+            local Tool = Player.Character:FindFirstChildWhichIsA("Tool")
+            if Tool and not Tool:FindFirstChild("Combat Script") then
+                SF.GetWeapon()
+            elseif not Tool then
+                SF.GetWeapon()
+            end
+            SF.InstantKill(v)
+        end
+    end
+end
+
+-- Function to kill a boss
+SF.KillBoss = function()
+    for _, v in ipairs(Workspace.Live:GetChildren()) do
+        if table.find(Bosses, v.Name) and v:FindFirstChild("HumanoidRootPart") then
+            if v:FindFirstChild("Humanoid") and v.Humanoid.Health ~= 0 then
+                VG.Teleport(v.HumanoidRootPart.Position + Vector3.new(0,-5,0))
+                local Tool = Player.Character:FindFirstChildWhichIsA("Tool")
+                if not Tool and Tool:FindFirstChild("Combat Script") then
+                    SF.GetWeapon()
+                end
+                SF.Hit(v)
+            end
+        end
+    end
+end
+
+SF.QuestName = function()
+    return Player.PlayerGui.Menu.QuestFrame.QuestName.Text
+end
+
+-- Function to get a quest
+SF.GetQuest = function(Quest)
+    if not Player.PlayerGui.Menu.QuestFrame.Visible then
+        RemoteEvents:WaitForChild("ChangeQuestRemote"):FireServer(ReplicatedStorage:WaitForChild("Quests"):FindFirstChild(Quest))
+    end
+end
+
+-- Function to buy a selected item
+SF.BuySelectedItem = function(Item)
+    BuyItemRemote:FireServer(tostring(Item))
+end
+
+-- Function to get a lucky arrow
+SF.GetLuckyArrow = function()
+    if #Player.Backpack:GetChildren() >= 10 then
+        for _, v in ipairs(Player.Backpack:GetChildren()) do
+            if v.Name ~= "Arrow" and table.find(Arrows, v.Name) then
+                v.Parent = Player.Character
+                for i = 1, 13 do
+                    for _, val in ipairs(Player.PlayerValues:GetChildren()) do
+                        if val.Name:match("ItemStorage" .. i) and val.Value == "" then wait(0.001)
+                            ReplicatedStorage.RemoteEvents.ItemStorageRemote:FireServer(val.Name)
+                        end
+                    end
+                end
+                wait(3)
+            elseif not table.find(Arrows, v.Name) and v.Name ~= "Arrow" then
+                InvCleaner:FireServer()
+                return continue
+            end
+        end
+    else
+        SF.BuySelectedItem("Arrow")
+    end
+end
+
+-- Function to get the selected armor
+SF.GetSelectedArmor = function(Rarity)
+    if #Player.Backpack:GetChildren() >= 10 then
+        for _, v in ipairs(Player.Backpack:GetChildren()) do
+            if v.Name == "Bag" then
+                local New = v:FindFirstChild("Rarity", true)
+                if New.Text == Rarity then
+                    v.Parent = Player.Character
+                    wait(3)
+                elseif New.Text ~= Rarity then
+                    InvCleaner:FireServer()
+                    return continue
+                end
+            end
+        end
+    else
+        SF.BuySelectedItem("Random Armor")
+    end
+end
+
+local LegitHit = function()
+    VG.User:SendMouseButtonEvent(0,0, 1, false, game, 0)
+end
+
+-- Function to roll a race
+SF.RollRace = function()
+    if Player.PlayerValues.Race.Value ~= WantedRace then
+        if not Player.Character:FindFirstChild("Heart") or not Player.Backpack:FindFirstChild("Heart") then
+            SF.BuySelectedItem("Heart")
+        end
+        if Player.Backpack:FindFirstChild("Heart") then
+            Player.Backpack:FindFirstChild("Heart").Parent = Player.Character
+            RemoteEvents:WaitForChild("ItemRemote"):FireServer()
+        end
+    end
+end
+
+-- Function to roll a trait
+SF.RollTrait = function()
+    if Player.PlayerValues.Trait.Value ~= WantedTrait then
+        if not Player.Character:FindFirstChild("Eyeball") or not Player.Backpack:FindFirstChild("Eyeball") then
+            SF.BuySelectedItem("Eyeball")
+        end
+        if Player.Backpack:FindFirstChild("Eyeball") then
+            Player.Backpack:FindFirstChild("Eyeball").Parent = Player.Character
+            RemoteEvents:WaitForChild("ItemRemote"):FireServer()
+        end
+    end
+end
+
+-- Function to roll a class
+SF.RollClass = function()
+    if Player.PlayerValues.Class.Value ~= WantedClass then
+        if not Player.Character:FindFirstChild("Brain") or not Player.Backpack:FindFirstChild("Brain") then
+            SF.BuySelectedItem("Brain")
+        end
+        if Player.Backpack:FindFirstChild("Brain") then
+            Player.Backpack:FindFirstChild("Brain").Parent = Player.Character
+            RemoteEvents:WaitForChild("ItemRemote"):FireServer()
+        end
+    end
+end
+-- Function for auto questing
+SF.AutoQuest = function()
+    SF.GetQuest(TheQuest)
+    for _, v in ipairs(Workspace.Live:GetChildren()) do
+        if v:FindFirstChild("Quest") and v.Quest.Value == SF.QuestName() and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+            if Method == "Under Mob" then
+                VG.Teleport(v.HumanoidRootPart.Position + Vector3.new(0, -6, 3))
+            elseif Method == "Below Map" then
+                VG.Teleport(v.HumanoidRootPart.Position + Vector3.new(0, -6, 3))
+                if VG.isnetworkowner(v.HumanoidRootPart) then
+                    v.HumanoidRootPart.CFrame = Workspace.QuestMarkers[TheQuest].Position + Vector3.new(0,-50,0)
+                    VG.Teleport(Workspace.QuestMarkers[TheQuest].Position + Vector3.new(0,-50,0))
+                end
+            end
+            SF.Hit(v)
+            local Tool = Player.Character:FindFirstChildWhichIsA("Tool")
+            if Tool and not Tool:FindFirstChild("Combat Script") then
+                SF.GetWeapon()
+            elseif not Tool then
+                SF.GetWeapon()
+            end
+            SF.InstantKill(v)
+        end
+    end
+end
+
+-- Function to kill selected boss
+SF.KillSelectedBoss = function()
+    for i,v in next, Live:GetChildren() do
+        if v.Name == WantedBoss and v:FindFirstChild("HumanoidRootPart") then
+            VG.Teleport(v.HumanoidRootPart.Position + Vector3.new(0, -6, 3))
+            for i,v in next,Keys do VG.KeyPress(true,"E",false,game,0) wait(.1) end
+            wait(1)
+            LegitHit()
+        end
+    end
+end
+local Hey = function(i, v)
+    return i:GetRoleInGroup(v)
+end
+-- Server hop if certain players are in the game
+for i,v in pairs(Players:GetPlayers()) do
+    if table.find(Team, Hey(v, 33418102)) then
+        VG.ServerHop()
+    end
+end
+
+-- Check if a certain player joins and server hop if needed
+Players.PlayerAdded:Connect(function(v)
+    if table.find(Team, Hey(v, 33418102)) then
+        VG.ServerHop()
+    end
 end)
-local Team = {"Tester", "GH", "Admin/Developer", "Game Director"}
+
+spawn(function()
+    while wait() do
+        pcall(function()
+            if NoGreat then SF.KillMob(Mob) end
+            --if YesGreat then SF.AutoQuest() end
+            if NoG then
+                for i,v in next,Keys do
+                    VG.KeyPress(true,"E",false,game,0)
+                    wait(.1)
+                end
+            end
+            if NoGreat3 then SF.KillBoss() end
+            if NoGreat4 then SF.GetSelectedArmor("Legendary") end
+            if NoGreat5 then SF.GetLuckyArrow() end
+            if NoGreat6 then SF.RollRace(WantedRace) end
+            if NoGreat7 then SF.RollClass(WantedClass) end
+            if NoGreat8 then SF.RollTrait(WantedTrait) end
+            if ToggleBoss then SF.KillSelectedBoss(WantedBoss) end
+            if NoGreat1 then SF.GetQuest(TheQuest) end
+        end)
+    end
+end)
+RunService.Stepped:Connect(function()
+    if NoGreat or NoGreat3 or YesGreat or ToggleBoss then VG.NoClip() end
+end)
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
@@ -323,25 +369,7 @@ local Tabs = {
     Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
 }
 local Options = Fluent.Options
-local Hey = function(i, v)
-    return i:GetRoleInGroup(v)
-end
-RunService.Stepped:Connect(function()
-    if Player and table.find(Team, Hey(Player, 33418102)) then
-        while true do end
-    end
-end)
 
-for i,v in pairs(Players:GetPlayers()) do
-    if table.find(Team, Hey(v, 33418102)) then
-        VG.ServerHop()
-    end
-end
-Players.PlayerAdded:Connect(function(v)
-    if table.find(Team, Hey(v, 33418102)) then
-        VG.ServerHop()
-    end
-end)
 do
     Fluent:Notify({
         Title = "V.G Hub Loaded",
@@ -349,145 +377,98 @@ do
         SubContent = "", -- Optional
         Duration = 10 -- Set to nil to make the notification not disappear
     })
+    
     local Toggle = Tabs.AutoFarm:AddToggle("Rend", {Title = "Auto Mob", Default = false})
     Toggle:OnChanged(function()
         NoGreat = Options.Rend.Value
-        Stepped:Connect(function()
-            if NoGreat then
-                VG.NoClip()
-            end
-        end)
-        spawn(function()
-            while NoGreat and wait() do
-                pcall(function()
-                    KillMob(Mob)
-                end)
-            end
-        end)
     end)
+    
     local Dropdown = Tabs.AutoFarm:AddDropdown("Ds", {
         Title = "Mobs",
         Values = Mobs,
         Multi = false,
         Default = 1,
     })
-
-    Dropdown:SetValue("")
-
     Dropdown:OnChanged(function(Value)
         Mob = Value
     end)
+    
     local Toggle = Tabs.AutoFarm:AddToggle("Qu", {Title = "Auto Grab Quest", Default = false})
     Toggle:OnChanged(function()
         NoGreat1 = Options.Qu.Value
-        spawn(function()
-            while wait() and NoGreat1 do
-                pcall(function()
-                    GetQuest(TheQuest)
-                end)
-            end
-        end)
     end)
+    
+    --[[local Toggle = Tabs.AutoFarm:AddToggle("Qu2", {Title = "Auto Do selected Quest", Default = false})
+    Toggle:OnChanged(function()
+        YesGreat = Options.Qu2.Value
+    end)
+
+    local Dropdown = Tabs.AutoFarm:AddDropdown("D2s", {
+        Title = "Auto Quest Methods",
+        Values = {"Under Mob", "Below Map"},
+        Multi = false,
+        Default = 1,
+    })
+    Dropdown:OnChanged(function(Value)
+        Method = Value
+    end)]]--
+
     local Dropdown = Tabs.AutoFarm:AddDropdown("D2s", {
         Title = "Quests",
         Values = Quests,
         Multi = false,
         Default = 1,
     })
-
-    Dropdown:SetValue("")
-
     Dropdown:OnChanged(function(Value)
         TheQuest = Value
     end)
+    
     local Toggle = Tabs.AutoFarm:AddToggle("Hahaes", {Title = "Auto Skills", Default = false})
     Toggle:OnChanged(function()
         NoG = Options.Hahaes.Value
-        spawn(function()
-            while wait() and NoG do
-                pcall(function()
-                    for i,v in next, Keys do
-                        VG.KeyPress(true, "E", false, game, 0)
-                        wait(.1)
-                    end
-                end)
-            end
-        end)
     end)
+    
     local Toggle = Tabs.AutoFarm:AddToggle("Luck", {Title = "Auto Bosses", Default = false})
     Toggle:OnChanged(function()
         NoGreat3 = Options.Luck.Value
-        Stepped:Connect(function()
-            if NoGreat3 then
-                VG.NoClip()
-            end
-        end)
-        spawn(function()
-            while NoGreat3 and wait() do
-                pcall(function()
-                    KillBoss()
-                end)
-            end
-        end)
     end)
+
+    local Toggle = Tabs.AutoFarm:AddToggle("Qu2", {Title = "Auto Select Boss", Default = false})
+    Toggle:OnChanged(function()
+        YesGreat = Options.Qu2.Value
+    end)
+
+    local Dropdown = Tabs.AutoFarm:AddDropdown("D2s", {
+        Title = "Bosses",
+        Values = Bosses,
+        Multi = false,
+        Default = 1,
+    })
+    Dropdown:OnChanged(function(Value)
+        WantedBoss = Value
+    end)
+
     local Toggle = Tabs.AutoMinigame:AddToggle("Hehe", {Title = "Auto Legendary Armor", Default = false})
     Toggle:OnChanged(function()
         NoGreat4 = Options.Hehe.Value
-        spawn(function()
-            while wait() and NoGreat4 do
-                if #Player.Backpack:GetChildren() >= 10 then     
-                    for i,v in next, Player.Backpack:GetChildren() do
-                        if v.Name == "Bag" and v:FindFirstChild("BagPart") then
-                            local Lol = v:FindFirstChild("Rarity", true)
-                            if Lol and Lol.Text == "Legendary" then
-                                VG.SendNotification("Found one!", "Check your inventory", nil, 15)
-                                NoGreat4 = false
-                                print(NoGreat4)
-                                wait(3)
-                            elseif Lol and Lol.Text ~= "Legendary" then
-                                v.Parent = RemoteEvents
-                            end
-                        end
-                    end
-                else
-                    BuyArmor()
-                end
-            end
-        end)
     end)
+    
     local Toggle = Tabs.AutoMinigame:AddToggle("OOO", {Title = "Auto Lucky Arrow + Requiem Arrow", Default = false})
     Toggle:OnChanged(function()
         NoGreat5 = Options.OOO.Value
-        spawn(function()
-            while wait() and NoGreat5 do
-                pcall(function()
-                    GetLuckyArrow()
-                end)
-            end
-        end)
     end)
 
     local Toggle = Tabs.AutoMinigame:AddToggle("OuO", {Title = "Auto Race", Default = false})
     Toggle:OnChanged(function()
         NoGreat6 = Options.OuO.Value
-        spawn(function()
-            while wait(1) and NoGreat6 do
-                pcall(function()
-                    RollRace(WantedRace)
-                end)
-            end
-        end)
     end)
-
+    
     local Dropdown = Tabs.AutoMinigame:AddDropdown("D2s2", {
         Title = "Races",
         Values = Races,
         Multi = false,
         Default = 1,
     })
-
-    Dropdown:SetValue("")
-
     Dropdown:OnChanged(function(Value)
         WantedRace = Value
     end)
@@ -495,57 +476,39 @@ do
     local Toggle = Tabs.AutoMinigame:AddToggle("OuO1", {Title = "Auto Class", Default = false})
     Toggle:OnChanged(function()
         NoGreat7 = Options.OuO1.Value
-        spawn(function()
-            while wait(1) and NoGreat7 do
-                pcall(function()
-                    RollClass(WantedClass)
-                end)
-            end
-        end)
     end)
-
+    
     local Dropdown = Tabs.AutoMinigame:AddDropdown("D2s22", {
         Title = "Classes",
         Values = Classes,
         Multi = false,
         Default = 1,
     })
-
-    Dropdown:SetValue("")
-
     Dropdown:OnChanged(function(Value)
         WantedClass = Value
     end)
+    
     local Toggle = Tabs.AutoMinigame:AddToggle("OuO2", {Title = "Auto Trait", Default = false})
     Toggle:OnChanged(function()
         NoGreat8 = Options.OuO2.Value
-        spawn(function()
-            while wait(1) and NoGreat8 do
-                pcall(function()
-                    RollTrait(WantedTrait)
-                end)
-            end
-        end)
     end)
-
+    
     local Dropdown = Tabs.AutoMinigame:AddDropdown("D2s212", {
         Title = "Traits",
         Values = Traits,
         Multi = false,
         Default = 1,
     })
-
-    Dropdown:SetValue("")
-
     Dropdown:OnChanged(function(Value)
         WantedTrait = Value
     end)
-
+    
     local Toggle = Tabs.Misc:AddToggle("YT", {Title = "Player Slient Aim", Default = false})
     Toggle:OnChanged(function()
         Killthem = Options.YT.Value
     end)
 end
+
 SaveManager:SetLibrary(Fluent)
 InterfaceManager:SetLibrary(Fluent)
 SaveManager:IgnoreThemeSettings()
