@@ -136,7 +136,7 @@ end
 local GetWeapon = function()
     for _,v in next, Player.Backpack:GetChildren() do
         if v:IsA("Tool") and v:FindFirstChild("Combat Script") then
-            VG.GetHumanoid():EquipTool(v)
+            v.Parent = Player.Character
         end
     end
 end
@@ -165,11 +165,13 @@ end
 
 local KillBoss = function()
     for _,v in next, Workspace.Live:GetChildren() do
-        if table.find(Bosses, v.Name) and v:FindFirstChild("HumanoidRootPart") then
+        if (table.find(Bosses, v.Name) and not BossFarm or v.Name == Boss and BossFarm) and v:FindFirstChild("HumanoidRootPart") then
             if v:FindFirstChild("Humanoid") and v.Humanoid.Health ~= 0 then
                 VG.Teleport(v.HumanoidRootPart.Position + Vector3.new(0,-5,0))
                 local Tool = Player.Character:FindFirstChildWhichIsA("Tool")
-                if not Tool and Tool:FindFirstChild("Combat Script") then
+                if Tool and not Tool:FindFirstChild("Combat Script") then
+                    GetWeapon()
+                elseif not Tool then
                     GetWeapon()
                 end
                 Hit(v)
@@ -227,7 +229,6 @@ local GetArrow = function(Item)
 end
 
 local RollRace = function()
-    wait(.1)
     if Player.PlayerValues.Race.Value ~= WantedRace then
         if not Player.Character:FindFirstChild("Heart") or not Player.Backpack:FindFirstChild("Heart") then
             BuyItem("Heart")
@@ -240,7 +241,6 @@ local RollRace = function()
 end
 
 local RollTrait = function()
-    wait(.1)
     if Player.PlayerValues.Trait.Value ~= WantedTrait then
         if not Player.Character:FindFirstChild("Eyeball") or not Player.Backpack:FindFirstChild("Eyeball") then
             BuyItem("Eyeball")
@@ -253,7 +253,6 @@ local RollTrait = function()
 end
 
 local RollClass = function()
-    wait(.1)
     if Player.PlayerValues.Class.Value ~= WantedClass then
         if not Player.Character:FindFirstChild("Brain") or not Player.Backpack:FindFirstChild("Brain") then
             BuyItem("Brain")
@@ -314,6 +313,23 @@ function ClosestPlayerToCurser()
 end
 
 
+local function ClosestMobToCursor()
+    local maxDistance, closest = math.huge
+    for _, mob in pairs(Workspace.Live:GetChildren()) do
+        if mob:IsA("Model") then
+            local head = mob:FindFirstChild("Head")
+            if head then
+                local position, isVisible = Workspace.CurrentCamera:WorldToScreenPoint(head.Position)
+                if isVisible then
+                    local distance = (Vector2.new(Mouse.X, Mouse.Y) - Vector2.new(position.X, position.Y)).Magnitude
+                    if distance < maxDistance then maxDistance, closest = distance, mob end
+                end
+            end
+        end
+    end
+    return closest
+end
+
 local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__index", function(self, v, ...)
     if Self == Mouse and Killthem then
@@ -324,6 +340,18 @@ OldNameCall = hookmetamethod(game, "__index", function(self, v, ...)
     end
     return OldNameCall(self, v, ...)
 end)
+
+local oldIndex
+oldIndex = hookmetamethod(game, "__index", function(self, index, ...)
+    if self == Mouse and (index == "Hit" or index == "Target") and KillMobs3 then
+        local closestMob = ClosestMobToCursor()
+        if closestMob then
+            return index == "Hit" and (closestMob.Head.CFrame or closestMob.Head.CFrame + closestMob.Head.Velocity) or index == "Target" and closestMob.Head
+        end
+    end
+    return oldIndex(self, index, ...)
+end)
+
 
 local Hey = function(i, v)
     return i:GetRoleInGroup(v)
@@ -365,7 +393,7 @@ spawn(function()
                 RollRace(WantedRace)
             end
 
-            if NoGreat3 then
+            if NoGreat3 or BossFarm then
                 KillBoss()
             end
 
@@ -406,7 +434,7 @@ RunService.Stepped:Connect(function()
         while true do end
     end
 
-    if NoGreat3 or NoGreat then
+    if NoGreat3 or NoGreat or BossFarm then
         VG.NoClip()
     end
 end)
@@ -488,6 +516,22 @@ do
     local Toggle = Tabs.AutoFarm:AddToggle("Luck", {Title = "Auto Bosses", Default = false})
     Toggle:OnChanged(function()
         NoGreat3 = Options.Luck.Value
+    end)
+    local Toggle = Tabs.AutoFarm:AddToggle("Luc2k", {Title = "Auto Selected Boss", Default = false})
+    Toggle:OnChanged(function()
+        BossFarm = Options.Luc2k.Value
+    end)
+    local Dropdown = Tabs.AutoFarm:AddDropdown("D23s", {
+        Title = "Bosses",
+        Values = Bosses,
+        Multi = false,
+        Default = 1,
+    })
+
+    Dropdown:SetValue("")
+
+    Dropdown:OnChanged(function(Value)
+        Boss = Value
     end)
     local Toggle = Tabs.AutoMinigame:AddToggle("Hehe", {Title = "Auto Legendary Armor", Default = false})
     Toggle:OnChanged(function()
@@ -578,6 +622,10 @@ do
     local Toggle = Tabs.Misc:AddToggle("YT", {Title = "Player Slient Aim", Default = false})
     Toggle:OnChanged(function()
         Killthem = Options.YT.Value
+    end)
+    local Toggle = Tabs.Misc:AddToggle("YT2", {Title = "Mob Slient Aim", Default = false})
+    Toggle:OnChanged(function()
+        Killmobs3 = Options.YT2.Value
     end)
 end
 SaveManager:SetLibrary(Fluent)
