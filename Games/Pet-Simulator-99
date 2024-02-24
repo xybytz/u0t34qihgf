@@ -227,6 +227,7 @@ local GetArrow = function(Item)
 end
 
 local RollRace = function()
+    wait(.1)
     if Player.PlayerValues.Race.Value ~= WantedRace then
         if not Player.Character:FindFirstChild("Heart") or not Player.Backpack:FindFirstChild("Heart") then
             BuyItem("Heart")
@@ -239,6 +240,7 @@ local RollRace = function()
 end
 
 local RollTrait = function()
+    wait(.1)
     if Player.PlayerValues.Trait.Value ~= WantedTrait then
         if not Player.Character:FindFirstChild("Eyeball") or not Player.Backpack:FindFirstChild("Eyeball") then
             BuyItem("Eyeball")
@@ -251,6 +253,7 @@ local RollTrait = function()
 end
 
 local RollClass = function()
+    wait(.1)
     if Player.PlayerValues.Class.Value ~= WantedClass then
         if not Player.Character:FindFirstChild("Brain") or not Player.Backpack:FindFirstChild("Brain") then
             BuyItem("Brain")
