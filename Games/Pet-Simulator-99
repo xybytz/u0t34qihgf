@@ -168,7 +168,7 @@ SF.KillBoss = function()
 end
 
 SF.QuestName = function()
-    return Player.PlayerGui.Menu.QuestFrame.QuestName.Text
+    return Player.PlayerGui.Menu.QuestFrame
 end
 
 -- Function to get a quest
@@ -199,7 +199,7 @@ SF.GetLuckyArrow = function()
                 wait(3)
             elseif not table.find(Arrows, v.Name) and v.Name ~= "Arrow" then
                 InvCleaner:FireServer()
-                return continue
+                return
             end
         end
     else
@@ -271,26 +271,28 @@ SF.RollClass = function()
 end
 -- Function for auto questing
 SF.AutoQuest = function()
-    SF.GetQuest(TheQuest)
     for _, v in ipairs(Workspace.Live:GetChildren()) do
-        if v:FindFirstChild("Quest") and v.Quest.Value == SF.QuestName() and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
-            if Method == "Under Mob" then
-                VG.Teleport(v.HumanoidRootPart.Position + Vector3.new(0, -6, 3))
-            elseif Method == "Below Map" then
-                VG.Teleport(v.HumanoidRootPart.Position + Vector3.new(0, -6, 3))
-                if VG.isnetworkowner(v.HumanoidRootPart) then
-                    v.HumanoidRootPart.CFrame = Workspace.QuestMarkers[TheQuest].Position + Vector3.new(0,-50,0)
-                    VG.Teleport(Workspace.QuestMarkers[TheQuest].Position + Vector3.new(0,-50,0))
+        if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health ~= 0 then
+            print(SF.QuestName().QuestName.Text)
+            if v:FindFirstChild("Quest") and v.Quest.Value == SF.QuestName().QuestName.Text then
+                if Method == "Under Mob" then
+                    VG.Teleport(v.HumanoidRootPart.Position + Vector3.new(0, -6, 3))
+                elseif Method == "Below Map" then
+                    VG.Teleport(v.HumanoidRootPart.Position + Vector3.new(0, -6, 3))
+                    if VG.isnetworkowner(v.HumanoidRootPart) then
+                        v.HumanoidRootPart.CFrame = Workspace.QuestMarkers[TheQuest].Position + Vector3.new(0,-50,0)
+                        VG.Teleport(Workspace.QuestMarkers[TheQuest].Position + Vector3.new(0,-50,0))
+                    end
                 end
+                SF.Hit(v)
+                local Tool = Player.Character:FindFirstChildWhichIsA("Tool")
+                if Tool and not Tool:FindFirstChild("Combat Script") then
+                    SF.GetWeapon()
+                elseif not Tool then
+                    SF.GetWeapon()
+                end
+                SF.InstantKill(v)
             end
-            SF.Hit(v)
-            local Tool = Player.Character:FindFirstChildWhichIsA("Tool")
-            if Tool and not Tool:FindFirstChild("Combat Script") then
-                SF.GetWeapon()
-            elseif not Tool then
-                SF.GetWeapon()
-            end
-            SF.InstantKill(v)
         end
     end
 end
@@ -325,7 +327,7 @@ end)
 
 spawn(function()
     while wait() do
-        pcall(function()
+
             if NoGreat then SF.KillMob(Mob) end
             --if YesGreat then SF.AutoQuest() end
             if NoG then
@@ -341,8 +343,8 @@ spawn(function()
             if NoGreat7 then SF.RollClass(WantedClass) end
             if NoGreat8 then SF.RollTrait(WantedTrait) end
             if ToggleBoss then SF.KillSelectedBoss(WantedBoss) end
-            if NoGreat1 then SF.GetQuest(TheQuest) end
-        end)
+            if NoGreat1 then SF.GetQuest() end
+
     end
 end)
 RunService.Stepped:Connect(function()
@@ -398,7 +400,7 @@ do
         NoGreat1 = Options.Qu.Value
     end)
     
-    --[[local Toggle = Tabs.AutoFarm:AddToggle("Qu2", {Title = "Auto Do selected Quest", Default = false})
+    local Toggle = Tabs.AutoFarm:AddToggle("Qu2", {Title = "Auto Do selected Quest", Default = false})
     Toggle:OnChanged(function()
         YesGreat = Options.Qu2.Value
     end)
@@ -411,7 +413,7 @@ do
     })
     Dropdown:OnChanged(function(Value)
         Method = Value
-    end)]]--
+    end)
 
     local Dropdown = Tabs.AutoFarm:AddDropdown("D2s", {
         Title = "Quests",
