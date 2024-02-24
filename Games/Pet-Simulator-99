@@ -9,6 +9,7 @@ local Quests = {}
 local Codes = {}
 local Mobs = {}
 local Bosses = {}
+local SF = {}
 local Traits = {
     "Legendary", "Noble", "Mighty", "Hypersonic", "Perfect", "Inspiring", "Powerful", 
     "Strong", "Resilient", "Slim", "Tank", "Fragile", "Weak", "Muscular", "Sensitive", "Balanced"
@@ -127,7 +128,7 @@ end
 
 -- Function to get the weapon
 SF.GetWeapon = function()
-    for _, v in ipairs(Player.Backpack:GetChildren()) do
+    for _, v in next, Player.Backpack:GetChildren() do
         if v:IsA("Tool") and v:FindFirstChild("Combat Script") then
             VG.GetHumanoid():EquipTool(v)
         end
@@ -136,7 +137,7 @@ end
 
 -- Function to kill a specific mob
 SF.KillMob = function(MobName)
-    for _, v in ipairs(Workspace.Live:GetChildren()) do
+    for _, v in next, Workspace.Live:GetChildren() do
         if v.Name == MobName and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
             VG.Teleport(v.HumanoidRootPart.Position + Vector3.new(0, -6, 3))
             SF.Hit(v)
@@ -153,7 +154,7 @@ end
 
 -- Function to kill a boss
 SF.KillBoss = function()
-    for _, v in ipairs(Workspace.Live:GetChildren()) do
+    for _, v in next, Workspace.Live:GetChildren() do
         if table.find(Bosses, v.Name) and v:FindFirstChild("HumanoidRootPart") then
             if v:FindFirstChild("Humanoid") and v.Humanoid.Health ~= 0 then
                 VG.Teleport(v.HumanoidRootPart.Position + Vector3.new(0,-5,0))
@@ -186,11 +187,11 @@ end
 -- Function to get a lucky arrow
 SF.GetLuckyArrow = function()
     if #Player.Backpack:GetChildren() >= 10 then
-        for _, v in ipairs(Player.Backpack:GetChildren()) do
+        for _, v in next, Player.Backpack:GetChildren() do
             if v.Name ~= "Arrow" and table.find(Arrows, v.Name) then
                 v.Parent = Player.Character
                 for i = 1, 13 do
-                    for _, val in ipairs(Player.PlayerValues:GetChildren()) do
+                    for _, val in next, Player.PlayerValues:GetChildren() do
                         if val.Name:match("ItemStorage" .. i) and val.Value == "" then wait(0.001)
                             ReplicatedStorage.RemoteEvents.ItemStorageRemote:FireServer(val.Name)
                         end
@@ -210,7 +211,7 @@ end
 -- Function to get the selected armor
 SF.GetSelectedArmor = function(Rarity)
     if #Player.Backpack:GetChildren() >= 10 then
-        for _, v in ipairs(Player.Backpack:GetChildren()) do
+        for _, v in next, Player.Backpack:GetChildren() do
             if v.Name == "Bag" then
                 local New = v:FindFirstChild("Rarity", true)
                 if New.Text == Rarity then
@@ -270,11 +271,10 @@ SF.RollClass = function()
     end
 end
 -- Function for auto questing
-SF.AutoQuest = function()
-    for _, v in ipairs(Workspace.Live:GetChildren()) do
-        if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health ~= 0 then
-            print(SF.QuestName().QuestName.Text)
-            if v:FindFirstChild("Quest") and v.Quest.Value == SF.QuestName().QuestName.Text then
+AutoQuest = function()
+    for _, v in next, Workspace.Live:GetChildren() do
+        if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") then
+            if v:FindFirstChild("Quest") and v.Quest.Value == TheQuest then
                 if Method == "Under Mob" then
                     VG.Teleport(v.HumanoidRootPart.Position + Vector3.new(0, -6, 3))
                 elseif Method == "Below Map" then
@@ -329,7 +329,7 @@ spawn(function()
     while wait() do
 
             if NoGreat then SF.KillMob(Mob) end
-            --if YesGreat then SF.AutoQuest() end
+            if YesGreat then AutoQuest() end
             if NoG then
                 for i,v in next,Keys do
                     VG.KeyPress(true,"E",false,game,0)
@@ -343,7 +343,7 @@ spawn(function()
             if NoGreat7 then SF.RollClass(WantedClass) end
             if NoGreat8 then SF.RollTrait(WantedTrait) end
             if ToggleBoss then SF.KillSelectedBoss(WantedBoss) end
-            if NoGreat1 then SF.GetQuest() end
+            if NoGreat1 then SF.GetQuest(TheQuest) end
 
     end
 end)
@@ -400,7 +400,7 @@ do
         NoGreat1 = Options.Qu.Value
     end)
     
-    local Toggle = Tabs.AutoFarm:AddToggle("Qu2", {Title = "Auto Do selected Quest", Default = false})
+    local Toggle = Tabs.AutoFarm:AddToggle("Qu2", {Title = "Auto selected Quest", Default = false})
     Toggle:OnChanged(function()
         YesGreat = Options.Qu2.Value
     end)
