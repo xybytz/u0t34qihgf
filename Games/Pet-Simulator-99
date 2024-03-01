@@ -281,8 +281,8 @@ local FindUchihaEyeball = function()
             else
                 print("no Sexy Eye")
             end
-            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("ClearInventoryRemote"):FireServer()
         end
+        ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("ClearInventoryRemote"):FireServer()
     else
         BuyItem("Random Specialization")
     end
