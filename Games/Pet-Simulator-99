@@ -270,6 +270,24 @@ local LegitHit = function()
     l:ClickButton1(Vector2.new(9e9,9e9))
 end
 
+
+local FindUchihaEyeball = function()
+    local B = Player.Backpack
+    if #B:GetChildren() >= 10 then
+        for i,v in next, B:GetChildren() do
+            if v.Name == "Uchiha Eyeball" then
+                v.Parent = Player.Character
+                break
+            else
+                print("no Sexy Eye")
+            end
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("ClearInventoryRemote"):FireServer()
+        end
+    else
+        BuyItem("Random Specialization")
+    end
+end
+
 local HookMetaMethod = clonefunc(hookmetamethod)
 local OldNameCall = nil
 OldNameCall = HookMetaMethod(game, "__namecall", function(...)
@@ -425,6 +443,10 @@ spawn(function()
             if Autoattack then
                 LegitHit()
             end
+
+            if FindEye then
+                FindUchihaEyeball()
+            end
         end)
     end
 end)
@@ -533,6 +555,10 @@ do
     Dropdown:OnChanged(function(Value)
         Boss = Value
     end)
+    local Toggle = Tabs.AutoMinigame:AddToggle("Ou2O", {Title = "Auto Find Uzumaki Eyeball", Default = false})
+    Toggle:OnChanged(function()
+        FindEye = Options.Ou2O.Value
+    end)
     local Toggle = Tabs.AutoMinigame:AddToggle("Hehe", {Title = "Auto Legendary Armor", Default = false})
     Toggle:OnChanged(function()
         NoGreat4 = Options.Hehe.Value
@@ -584,6 +610,7 @@ do
         WantedRace = Value
     end)
 
+    
     local Toggle = Tabs.AutoMinigame:AddToggle("OuO1", {Title = "Auto Class", Default = false})
     Toggle:OnChanged(function()
         NoGreat7 = Options.OuO1.Value
