@@ -27,8 +27,7 @@ end
 
 for i,v in next, ReplicatedStorage.Storage.Items.Items.Healing:GetChildren() do
     if v:IsA("ModuleScript") then
-        local A = require(v)
-        for i,v in next, A do
+        for i,v in next, require(v) do
             table.insert(Healing, i)
         end
     end
@@ -36,16 +35,14 @@ end
 
 for i, v in next, ReplicatedStorage.Storage.Items.Items.Food:GetChildren() do
     if v.ClassName == "ModuleScript" then
-        g = require(v)
-        for i, v in next, g do
+        for i, v in next, require(v) do
             table.insert(foods, i)
         end
     end
 end
 for i, v in next, ReplicatedStorage.Storage.Items.Items.Food:GetChildren() do
     if v.ClassName == "ModuleScript" then
-        f = require(v)
-        for i, v in next, f do
+        for i, v in next, require(v) do
             table.insert(list, i)
         end
     end
@@ -57,10 +54,9 @@ for i, v in next, Player.Data.Dragons:GetChildren() do
     end
 end
 for i, v in next, ReplicatedStorage.Storage.Items.Items.Eggs:GetChildren() do
-          if v.ClassName == "ModuleScript" then
-        f = require(v)
-        for i,v in next, f do
-        table.insert(ss1, i)
+    if v.ClassName == "ModuleScript" then
+        for i,v in next, require(v) do
+            table.insert(ss1, i)
         end
     end
 end
