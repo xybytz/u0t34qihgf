@@ -1,4 +1,4 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
+loadstring(game:HttpGet("https://pastebin.com/raw/AUBFE5Rp"))()
 VG.DisableConnection(Error)
 VG.DisableConnection(Idled)
 local Hehe = {}
@@ -461,7 +461,7 @@ do
             while wait() and Yes do
                 pcall(function()    
                     for i,v in next, workspace.__THINGS.HiddenPresents:GetChildren() do
-                        if v:IsA("BasePart") then wait(5)
+                        if v:IsA("BasePart") then wait(10)
                             Clicked(GetPresentTable(v))
                         end
                     end
@@ -472,7 +472,7 @@ do
 
     Tabs.Obbys:AddButton({Title = "Auto Grab All ShinyRelics",Description = "Grabs all relics Working",Callback = function()
         for i,v in next, Workspace.__THINGS.ShinyRelics:GetChildren() do
-            if v:IsA("BasePart") and v.Transparency == 0 then wait(5)
+            if v:IsA("BasePart") and v.Transparency == 0 then wait(10)
                 RelicClicked(getShiny(v))
             end
         end
