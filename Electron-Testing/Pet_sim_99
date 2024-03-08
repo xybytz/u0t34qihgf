@@ -111,6 +111,27 @@ local GoTo = function()
     end
 end
 
+
+local Collect = function()
+    local FuckYou = workspace.__THINGS.Orbs:GetChildren()
+    local KYS = workspace.__THINGS.Lootbags:GetChildren()
+    local MyOrbs = {}
+
+    if #FuckYou > 0 then
+        for i,v in next, FuckYou do
+            MyOrbs[i] = tonumber(v.Name)
+            v:Destroy()
+        end
+    end
+    if #KYS > 0 then
+        for i,v in next, KYS do            
+            game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Lootbags_Claim"):FireServer({v.Name})
+            v:Destroy()
+        end
+    end
+    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Orbs: Collect"):FireServer(MyOrbs)
+end
+
 local Activated = function()
     GoTo()
     RequestCast()
@@ -421,6 +442,18 @@ do
             end
         end)
     end)
+    local Toggle = Tabs.AutoFarm:AddToggle("Orbs", {Title = "Auto Collect Orbs", Default = false})
+    Toggle:OnChanged(function()
+        gg = Options.Orbs.Value
+        spawn(function()
+            while wait() and gg do
+                pcall(function()    
+                    Collect()
+                end)
+            end
+        end)
+    end)
+
     local Toggle = Tabs.AutoFarm:AddToggle("Gifts", {Title = "Auto Find Hidden Presents", Default = false})
     Toggle:OnChanged(function()
         Yes = Options.Gifts.Value
@@ -428,7 +461,7 @@ do
             while wait() and Yes do
                 pcall(function()    
                     for i,v in next, workspace.__THINGS.HiddenPresents:GetChildren() do
-                        if v:IsA("BasePart") then
+                        if v:IsA("BasePart") then wait(5)
                             Clicked(GetPresentTable(v))
                         end
                     end
@@ -439,7 +472,7 @@ do
 
     Tabs.Obbys:AddButton({Title = "Auto Grab All ShinyRelics",Description = "Grabs all relics Working",Callback = function()
         for i,v in next, Workspace.__THINGS.ShinyRelics:GetChildren() do
-            if v:IsA("BasePart") and v.Transparency == 0 then
+            if v:IsA("BasePart") and v.Transparency == 0 then wait(5)
                 RelicClicked(getShiny(v))
             end
         end
