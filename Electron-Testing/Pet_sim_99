@@ -43,6 +43,19 @@ for i,v in next, getgc(true) do
     end
 end
 
+
+local Fire = function(RemoteName, Args)
+    setthreadidentity(2)
+    Network[RemoteName]:FireServer(unpack(Args))
+    setthreadidentity(8)
+end
+
+local Invoke = function(RemoteName, Args)
+    setthreadidentity(2)
+    Network[RemoteName]:InvokeServer(unpack(Args))
+    setthreadidentity(8)
+end
+
 local CurrentActive = function()
     return Active:GetChildren()[1] -- idk how else to get a unnamed object feel free to teach me
 end
@@ -191,20 +204,6 @@ local MakeTable = function(Table)
     end
     return Temp
 end
-
-local Fire = function(RemoteName, Args)
-    setthreadidentity(2)
-    Network[RemoteName]:FireServer(unpack(Args))
-    setthreadidentity(8)
-end
-
-local Invoke = function(RemoteName, Args)
-    setthreadidentity(2)
-    Network[RemoteName]:InvokeServer(unpack(Args))
-    setthreadidentity(8)
-end
-
-
 local Doobbystuff = function(Obby)
     local New = Workspace.__THINGS.__INSTANCE_CONTAINER.Active:GetChildren()[1]
     local Model = VG.FFD(New, "StartLine")
