@@ -5,6 +5,7 @@ local Hehe = {}
 local Zones = {}
 local Flags = {}
 local Fruits = {}
+local EggTable = {}
 
 local FishingGame = Player.PlayerGui._INSTANCES:WaitForChild("FishingGame")
 local Network = ReplicatedStorage:WaitForChild("Network")
@@ -159,7 +160,11 @@ local GetBlock = function()
     end
     return Block -- I Hate this part
 end
- 
+
+local BuyEgg = function(Egg, Amount)
+    ReplicatedStorage:WaitForChild("Network"):WaitForChild("Eggs_RequestPurchase"):InvokeServer(Egg, Amount)
+end
+
 local GetChest = function()
     local Table = CurrentActive()
     local Distance = math.huge -- KYS
@@ -331,6 +336,15 @@ for i,v in next, ReplicatedStorage.__DIRECTORY.Fruits:GetChildren() do
 end
 
 
+
+for _,v in ReplicatedStorage.__DIRECTORY.Eggs["Zone Eggs"]:GetDescendants() do
+    if v:IsA("ModuleScript") then
+        local EggName = string.split(v.Name, " | ")[2]
+        table.insert(EggTable, EggName)
+    end
+end
+
+
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
@@ -406,18 +420,45 @@ do
             end
         end)
     end)
+
     local Dropdown = Tabs.AutoFarm:AddDropdown("Ds", {
         Title = "Zones",
         Values = Zones,
         Multi = false,
         Default = 1,
     })
- 
-    Dropdown:SetValue("nil")
- 
     Dropdown:OnChanged(function(Value)
         PickedZone = Value
     end)
+    local Toggle = Tabs.AutoFarm:AddToggle("Eggd", {Title = "Auto Open Egg", Default = false})
+    Toggle:OnChanged(function()
+        Heyy = Options.Eggd.Value
+        spawn(function()
+            while wait() and Heyy do
+                BuyEgg(WantedEgg, AmountEgg)
+            end
+        end)
+    end)
+    local Dropdown = Tabs.AutoFarm:AddDropdown("Ds", {
+        Title = "Eggs",
+        Values = EggTable,
+        Multi = false,
+        Default = 1,
+    })
+ 
+ 
+    Dropdown:OnChanged(function(Value)
+        WantedEgg = Value
+    end)
+    
+    local Slider = Tabs.AutoFarm:AddSlider("Slider", {Title = "Amount of eggs",Description = "Amount of eggs you want to hatch make sure its not more then the max you can hatch", Default = 2, Min = 1, Max = 99,Rounding = 2, Callback = function(Value)
+        AmountEgg = math.round(Value) 
+    end})
+
+    Slider:OnChanged(function(Value)
+        AmountEgg = math.round(Value)
+    end)
+
     local Toggle = Tabs.AutoFarm:AddToggle("Toyou", {Title = "Auto Eat Fruits", Default = false})
     Toggle:OnChanged(function()
         Frut = Options.Toyou.Value
