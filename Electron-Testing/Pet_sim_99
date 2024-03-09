@@ -1,10 +1,6 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
 VG.DisableConnection(Error)
 VG.DisableConnection(Idled)
-
-
-
-
 local Hehe = {}
 local Zones = {}
 local Flags = {}
@@ -43,37 +39,22 @@ for i,v in next, getgc(true) do
     end
 end
 
-
-local Fire = function(RemoteName, Args)
-    setthreadidentity(2)
-    Network[RemoteName]:FireServer(unpack(Args))
-    setthreadidentity(8)
-end
-
-local Invoke = function(RemoteName, Args)
-    setthreadidentity(2)
-    Network[RemoteName]:InvokeServer(unpack(Args))
-    setthreadidentity(8)
-end
-
-local CurrentActive = function()
-    return Active:GetChildren()[1] -- idk how else to get a unnamed object feel free to teach me
-end
-
 local GetPresentTable = function(Pre)
-    if not Pre then return end
-    for i,v in next, getupvalue(GetActive, 1) do
-        if v.Model == Pre then
-            return v
+    if Pre then
+        for i,v in next, getupvalue(GetActive, 1) do
+            if v.Model == Pre then
+                return v
+            end
         end
     end
 end
 
-local getShiny = function(Shiny)
-    if not Shiny then return end
-    for i,v in next, getupvalue(RequestRelics,1) do
-        if v.Model == Shiny then
-            return v
+local getShiny = function(Shin)
+    if Shin then
+        for i,v in next, getupvalue(RequestRelics,1) do
+            if v.Model == Shin then
+                return v
+            end
         end
     end
 end
@@ -84,9 +65,9 @@ end
 
 local RequestCast = function()
     if Method == "Fishing" and not GetRod():FindFirstChild("FishingLine") and wait(5) then
-        Fire("Instancing_FireCustomFromClient",{"Fishing","RequestCast",Vector3.new(1139, 75, -3445)})
+        I:FireServer("Fishing","RequestCast",Vector3.new(1139, 75, -3445))
     elseif Method == "AdvancedFishing"  and not GetRod():FindFirstChild("FishingLine") and wait(5) then
-        Fire("Instancing_FireCustomFromClient", {"AdvancedFishing","RequestCast",Vector3.new(1460, 61, -4442)})
+        I:FireServer("AdvancedFishing","RequestCast",Vector3.new(1460, 61, -4442))
     end
 end
 
@@ -100,9 +81,9 @@ local RequestReel = function()
     if Nothing then
         local Height = tonumber(Nothing.Position.Y)
         if Method == "Fishing" and Height < 75 then
-            Fire("Instancing_FireCustomFromClient", {"Fishing", "RequestReel"})
+            I:FireServer("Fishing", "RequestReel")
         elseif Method == "AdvancedFishing" and Height < 70.5 then
-            Fire("Instancing_FireCustomFromClient", {"AdvancedFishing","RequestReel"})
+            I:FireServer("AdvancedFishing","RequestReel")
         end
     end
 end
@@ -131,13 +112,7 @@ local GoTo = function()
     end
 end
 
-local Activated = function()
-    GoTo()
-    RequestCast()
-    RequestReel()
-    Walk()
-    Wait()
-end
+
 local Collect = function()
     local FuckYou = workspace.__THINGS.Orbs:GetChildren()
     local KYS = workspace.__THINGS.Lootbags:GetChildren()
@@ -151,11 +126,23 @@ local Collect = function()
     end
     if #KYS > 0 then
         for i,v in next, KYS do            
-            Fire("Lootbags_Claim", {{v.Name}})
+            game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Lootbags_Claim"):FireServer({v.Name})
             v:Destroy()
         end
     end
-    Fire("Orbs: Collect", {MyOrbs})
+    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Orbs: Collect"):FireServer(MyOrbs)
+end
+
+local Activated = function()
+    GoTo()
+    RequestCast()
+    RequestReel()
+    Walk()
+    Wait()
+end
+
+local CurrentActive = function()
+    return Active:GetChildren()[1] -- idk how else to get a unnamed object feel free to teach me
 end
 
 local GetBlock = function()
@@ -175,7 +162,7 @@ local GetBlock = function()
 end
 
 local BuyEgg = function(Egg, Amount)
-    Invoke("Eggs_RequestPurchase", {Egg, Amount})
+    ReplicatedStorage:WaitForChild("Network"):WaitForChild("Eggs_RequestPurchase"):InvokeServer(Egg, Amount)
 end
 
 local GetChest = function()
@@ -204,6 +191,20 @@ local MakeTable = function(Table)
     end
     return Temp
 end
+
+local Fire = function(RemoteName, Args)
+    setthreadidentity(2)
+    Network[RemoteName]:FireServer(unpack(Args))
+    setthreadidentity(8)
+end
+
+local Invoke = function(RemoteName, Args)
+    setthreadidentity(2)
+    Network[RemoteName]:InvokeServer(unpack(Args))
+    setthreadidentity(8)
+end
+
+
 local Doobbystuff = function(Obby)
     local New = Workspace.__THINGS.__INSTANCE_CONTAINER.Active:GetChildren()[1]
     local Model = VG.FFD(New, "StartLine")
@@ -344,117 +345,6 @@ for _,v in ReplicatedStorage.__DIRECTORY.Eggs["Zone Eggs"]:GetDescendants() do
 end
 
 
-spawn(function()
-    while wait() and AutoFarm do
-        pcall(function()
-            ReplicatedStorage:WaitForChild("Network"):WaitForChild("Breakables_PlayerDealDamage"):FireServer(GetNearestCoin().Name)
-        end)
-    end
-end)
-
-spawn(function()
-    while wait(1) and AutoFarm1 do
-        pcall(function()
-            if GetCoinInZone() == nil then
-                ReplicatedStorage:WaitForChild("Network"):WaitForChild("Teleports_RequestTeleport"):InvokeServer(PickedZone)
-                wait(10)
-                for i,v in next, Workspace.Map:GetChildren() do
-                    if v.Name:find(PickedZone) then
-                        VG.Teleport(v.INTERACT.BREAK_ZONES.BREAK_ZONE.Position)
-                        break
-                    end
-                end
-            end
-            VG.Teleport(GetCoinInZone():GetModelCFrame().Position + Vector3.new(0,6,0))
-            ReplicatedStorage:WaitForChild("Network"):WaitForChild("Breakables_PlayerDealDamage"):FireServer(GetCoinInZone().Name)
-        end)
-    end
-end)
-
-spawn(function()
-    while wait() and Heyy do
-        BuyEgg(WantedEgg, AmountEgg)
-    end
-end)
-
-spawn(function()
-    while Frut and wait() do
-        pcall(function()
-            for i,v in MakeTable(Fruits) do
-                Fire("Fruits: Consume", {v,1})
-            end
-        end)
-    end
-end)
-
-spawn(function()
-    while vut and wait() do
-        pcall(function()
-            BuyVenders()
-        end)
-    end
-end)
-
-spawn(function()
-    while wait() and gg do
-        pcall(function()    
-            Collect()
-        end)
-    end
-end)
-
-spawn(function()
-    while wait() and Yes do
-        pcall(function()    
-            for i,v in next, workspace.__THINGS.HiddenPresents:GetChildren() do
-                if v:IsA("BasePart") then wait(10)
-                    Clicked(GetPresentTable(v))
-                end
-            end
-        end)
-    end
-end)
-
-Stepped:Connect(function()
-    if Toggle then
-        VG.NoClip()
-    end
-end)
-spawn(function()
-    while Toggle and wait() do
-        pcall(function()
-            Dig()
-        end)
-    end
-end)
-
-spawn(function()
-    while wait(.2) and Digaura do
-        pcall(function()
-            DigAura()
-        end)
-    end
-end)
-
-spawn(function()
-    while wait() and Fishe do
-        pcall(function()
-            Activated()
-        end)
-    end
-end)
-spawn(function()
-    while Fishe and wait(300) do
-        pcall(function()
-            User:SendMouseButtonEvent(0,0, 0, true, game, 0)
-            User:SendMouseButtonEvent(0,0, 1, true, game, 0)
-            wait(1)
-            User:SendMouseButtonEvent(0,0, 0, false, game, 0)
-            User:SendMouseButtonEvent(0,0, 1, false, game, 0)
-        end)
-    end
-end)
-
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
@@ -499,11 +389,36 @@ do
     local Toggle = Tabs.AutoFarm:AddToggle("PetCoin", {Title = "Auto Break Nearest Coin", Default = false})
     Toggle:OnChanged(function()
         AutoFarm = Options.PetCoin.Value
+        spawn(function()
+            while wait() and AutoFarm do
+                pcall(function()
+                    ReplicatedStorage:WaitForChild("Network"):WaitForChild("Breakables_PlayerDealDamage"):FireServer(GetNearestCoin().Name)
+                end)
+            end
+        end)
     end)
  
     local Toggle = Tabs.AutoFarm:AddToggle("PetCoin1", {Title = "Auto Break In Selected Zone", Default = false})
     Toggle:OnChanged(function()
         AutoFarm1 = Options.PetCoin1.Value
+        spawn(function()
+            while wait(1) and AutoFarm1 do
+                pcall(function()
+                    if GetCoinInZone() == nil then
+                        ReplicatedStorage:WaitForChild("Network"):WaitForChild("Teleports_RequestTeleport"):InvokeServer(PickedZone)
+                        wait(10)
+                        for i,v in next, Workspace.Map:GetChildren() do
+                            if v.Name:find(PickedZone) then
+                                VG.Teleport(v.INTERACT.BREAK_ZONES.BREAK_ZONE.Position)
+                                break
+                            end
+                        end
+                    end
+                    VG.Teleport(GetCoinInZone():GetModelCFrame().Position + Vector3.new(0,6,0))
+                    ReplicatedStorage:WaitForChild("Network"):WaitForChild("Breakables_PlayerDealDamage"):FireServer(GetCoinInZone().Name)
+                end)
+            end
+        end)
     end)
 
     local Dropdown = Tabs.AutoFarm:AddDropdown("Ds", {
@@ -518,6 +433,11 @@ do
     local Toggle = Tabs.AutoFarm:AddToggle("Eggd", {Title = "Auto Open Egg", Default = false})
     Toggle:OnChanged(function()
         Heyy = Options.Eggd.Value
+        spawn(function()
+            while wait() and Heyy do
+                BuyEgg(WantedEgg, AmountEgg)
+            end
+        end)
     end)
     local Dropdown = Tabs.AutoFarm:AddDropdown("Ds", {
         Title = "Eggs",
@@ -542,19 +462,53 @@ do
     local Toggle = Tabs.AutoFarm:AddToggle("Toyou", {Title = "Auto Eat Fruits", Default = false})
     Toggle:OnChanged(function()
         Frut = Options.Toyou.Value
+        spawn(function()
+            while Frut and wait() do
+                pcall(function()
+                    for i,v in MakeTable(Fruits) do
+                        Fire("Fruits: Consume", {v,1})
+                    end
+                end)
+            end
+        end)
     end)
     local Toggle = Tabs.AutoFarm:AddToggle("Toyou2", {Title = "Auto Buy Venders", Default = false})
     Toggle:OnChanged(function()
         vut = Options.Toyou2.Value
+        spawn(function()
+            while vut and wait() do
+                pcall(function()
+                    BuyVenders()
+                end)
+            end
+        end)
     end)
     local Toggle = Tabs.AutoFarm:AddToggle("Orbs", {Title = "Auto Collect Orbs", Default = false})
     Toggle:OnChanged(function()
         gg = Options.Orbs.Value
+        spawn(function()
+            while wait() and gg do
+                pcall(function()    
+                    Collect()
+                end)
+            end
+        end)
     end)
 
     local Toggle = Tabs.AutoFarm:AddToggle("Gifts", {Title = "Auto Find Hidden Presents", Default = false})
     Toggle:OnChanged(function()
         Yes = Options.Gifts.Value
+        spawn(function()
+            while wait() and Yes do
+                pcall(function()    
+                    for i,v in next, workspace.__THINGS.HiddenPresents:GetChildren() do
+                        if v:IsA("BasePart") then wait(10)
+                            Clicked(GetPresentTable(v))
+                        end
+                    end
+                end)
+            end
+        end)
     end)
 
     Tabs.Obbys:AddButton({Title = "Auto Grab All ShinyRelics",Description = "Grabs all relics Working",Callback = function()
@@ -567,6 +521,18 @@ do
     local Toggle = Tabs.AutoMinigame:AddToggle("DigSite", {Title = "Auto DigSites", Default = false})
     Toggle:OnChanged(function()
         Toggle = Options.DigSite.Value
+        Stepped:Connect(function()
+            if Toggle then
+                VG.NoClip()
+            end
+        end)
+        spawn(function()
+            while Toggle and wait() do
+                pcall(function()
+                    Dig()
+                end)
+            end
+        end)
     end)
     local Dropdown = Tabs.AutoMinigame:AddDropdown("e234", {
         Title = "Dig Areas",
@@ -582,10 +548,35 @@ do
     local Toggle = Tabs.AutoMinigame:AddToggle("DigSiteAura", {Title = "Dig Aura", Default = false})
     Toggle:OnChanged(function()
         Digaura = Options.DigSiteAura.Value
+        spawn(function()
+            while wait(.2) and Digaura do
+                pcall(function()
+                    DigAura()
+                end)
+            end
+        end)
     end)
     local Toggle = Tabs.AutoMinigame:AddToggle("Fih", {Title = "Auto Fishing", Default = false})
     Toggle:OnChanged(function()
         Fishe = Options.Fih.Value
+        spawn(function()
+            while wait() and Fishe do
+                pcall(function()
+                    Activated()
+                end)
+            end
+        end)
+        spawn(function()
+            while Fishe and wait(300) do
+                pcall(function()
+                    User:SendMouseButtonEvent(0,0, 0, true, game, 0)
+                    User:SendMouseButtonEvent(0,0, 1, true, game, 0)
+                    wait(1)
+                    User:SendMouseButtonEvent(0,0, 0, false, game, 0)
+                    User:SendMouseButtonEvent(0,0, 1, false, game, 0)
+                end)
+            end
+        end)
     end)
 
     local Dropdown = Tabs.AutoMinigame:AddDropdown("e34", {
