@@ -19,7 +19,7 @@ local Client2 = require(ReplicatedStorage.Library:WaitForChild("Client"))
 local Gifts = ReplicatedStorage:WaitForChild("__DIRECTORY").MiscItems.Categorized.Gifts
 local VendingMachines = require(ReplicatedStorage.Library.Directory.VendingMachines)
 
-for i,v in next, getgc(true) do
+for i,v in next, getgc() do
     if type(v) == "function" then
         if getfenv(v).script == Player.PlayerScripts.Scripts.Game.Misc["Hidden Presents"] then
             if getinfo(v).name == "GetActive" then
@@ -213,9 +213,9 @@ local Invoke = function(RemoteName, Args)
 end
 
 
-local TeleportObby = function(Obby)
-    for i,v in next, workspace.__THINGS.Instances:GetChildren() do
-        if v.Name == Obby then
+local TeleportObby = function()
+    for i,v in next, Workspace.__THINGS.Instances:GetChildren() do
+        if v.Name == WantedObby then
             VG.Teleport(v.Teleports.Enter.Position)
         end
     end
@@ -431,12 +431,7 @@ do
         end)
     end)
 
-    local Dropdown = Tabs.AutoFarm:AddDropdown("Ds", {
-        Title = "Zones",
-        Values = Zones,
-        Multi = false,
-        Default = 1,
-    })
+    local Dropdown = Tabs.AutoFarm:AddDropdown("Ds", {Title = "Zones",Values = Zones,Multi = false,Default = 1})
     Dropdown:OnChanged(function(Value)
         PickedZone = Value
     end)
@@ -450,14 +445,7 @@ do
             end
         end)
     end)
-    local Dropdown = Tabs.AutoFarm:AddDropdown("Ds", {
-        Title = "Eggs",
-        Values = EggTable,
-        Multi = false,
-        Default = 1,
-    })
- 
- 
+    local Dropdown = Tabs.AutoFarm:AddDropdown("Ds", {Title = "Eggs",Values = EggTable,Multi = false,Default = 1})
     Dropdown:OnChanged(function(Value)
         WantedEgg = Value
     end)
@@ -521,7 +509,7 @@ do
             end
         end)
     end)
-
+    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     Tabs.Obbys:AddButton({Title = "Auto Grab All ShinyRelics",Description = "Grabs all relics Working",Callback = function()
         for i,v in next, Workspace.__THINGS.ShinyRelics:GetChildren() do
             if v:IsA("BasePart") and v.Transparency == 0 then wait(10)
@@ -547,17 +535,14 @@ do
         Doobbystuff()
     end})
     Tabs.Obbys:AddButton({Title = "Auto Teleport Obby",Description = "Teleports so Obby",Callback = function()
-        TeleportObby(WantedObby)
+        TeleportObby()
     end})
-    local Dropdown = Tabs.Obbys:AddDropdown("e34", {
-        Title = "Obbys",
-        Values = Instances,
-        Multi = false,
-        Default = 1,
-    })
+    local Dropdown = Tabs.Obbys:AddDropdown("idkanymore", {Title = "Obbys",Values = Instances,Multi = false,Default = 1,})
     Dropdown:OnChanged(function(Value)
         WantedObby = Value
     end)
+
+    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     local Toggle = Tabs.AutoMinigame:AddToggle("DigSite", {Title = "Auto DigSites", Default = false})
     Toggle:OnChanged(function()
         Toggle = Options.DigSite.Value
@@ -574,17 +559,12 @@ do
             end
         end)
     end)
-    local Dropdown = Tabs.AutoMinigame:AddDropdown("e234", {
-        Title = "Dig Areas",
-        Values = {"AdvancedDigsite", "Digsite"},
-        Multi = false,
-        Default = 2,
-    })
- 
+    local Dropdown = Tabs.AutoMinigame:AddDropdown("e234", {Title = "Dig Areas",Values = {"AdvancedDigsite", "Digsite"},Multi = false,Default = 2})
     Dropdown:SetValue("")
     Dropdown:OnChanged(function(Value)
         Method2 = Value
     end)
+
     local Toggle = Tabs.AutoMinigame:AddToggle("DigSiteAura", {Title = "Dig Aura", Default = false})
     Toggle:OnChanged(function()
         Digaura = Options.DigSiteAura.Value
@@ -619,17 +599,11 @@ do
         end)
     end)
 
-    local Dropdown = Tabs.AutoMinigame:AddDropdown("e34", {
-        Title = "Fishing Areas",
-        Values = {"AdvancedFishing", "Fishing"},
-        Multi = false,
-        Default = 1,
-    })
- 
-    Dropdown:SetValue("")
+    local Dropdown = Tabs.AutoMinigame:AddDropdown("e34", {Title = "Fishing Areas",Values = {"AdvancedFishing", "Fishing"},Multi = false,Default = 1,})
     Dropdown:OnChanged(function(Value)
         Method = Value
     end)
+    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 end
 SaveManager:SetLibrary(Fluent)
 InterfaceManager:SetLibrary(Fluent)
