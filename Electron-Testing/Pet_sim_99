@@ -6,6 +6,7 @@ local Zones = {}
 local Flags = {}
 local Fruits = {}
 local EggTable = {}
+local Instances = {}
 
 local FishingGame = Player.PlayerGui._INSTANCES:WaitForChild("FishingGame")
 local Network = ReplicatedStorage:WaitForChild("Network")
@@ -212,6 +213,13 @@ local Invoke = function(RemoteName, Args)
 end
 
 
+local TeleportObby = function(Obby)
+    for i,v in next, workspace.__THINGS.Instances:GetChildren() do
+        if v.Name == Obby then
+            VG.Teleport(v.Teleports.Enter)
+        end
+    end
+end
 local Doobbystuff = function(Obby)
     local New = Workspace.__THINGS.__INSTANCE_CONTAINER.Active:GetChildren()[1]
     local Model = VG.FFD(New, "StartLine")
@@ -342,16 +350,18 @@ for i,v in next, ReplicatedStorage.__DIRECTORY.Fruits:GetChildren() do
 	table.insert(Fruits, Name)
 end
 
-
-
-for _,v in ReplicatedStorage.__DIRECTORY.Eggs["Zone Eggs"]:GetDescendants() do
+for i,v in ReplicatedStorage.__DIRECTORY.Eggs["Zone Eggs"]:GetDescendants() do
     if v:IsA("ModuleScript") then
         local EggName = string.split(v.Name, " | ")[2]
         table.insert(EggTable, EggName)
     end
 end
 
-
+for i,v in next, workspace.__THINGS.Instances:GetChildren() do
+    if not table.find(Instances, v.Name) then
+        table.insert(Instances, v.Name)
+    end
+end
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
@@ -396,13 +406,6 @@ do
     local Toggle = Tabs.AutoFarm:AddToggle("PetCoin", {Title = "Auto Break Nearest Coin", Default = false})
     Toggle:OnChanged(function()
         AutoFarm = Options.PetCoin.Value
-        spawn(function()
-            while wait() and AutoFarm do
-                pcall(function()
-                    ReplicatedStorage:WaitForChild("Network"):WaitForChild("Breakables_PlayerDealDamage"):FireServer(GetNearestCoin().Name)
-                end)
-            end
-        end)
     end)
  
     local Toggle = Tabs.AutoFarm:AddToggle("PetCoin1", {Title = "Auto Break In Selected Zone", Default = false})
@@ -495,7 +498,7 @@ do
         gg = Options.Orbs.Value
         spawn(function()
             while wait() and gg do
-                pcall(function()    
+                pcall(function()
                     Collect()
                 end)
             end
@@ -529,6 +532,31 @@ do
     Tabs.Obbys:AddButton({Title = "Open All Gifts",Description = "Opens All Gifts in Inventory",Callback = function()
         OpenAllGifts()
     end})
+    local Toggle = Tabs.Obbys:AddToggle("HateNig", {Title = "Auto Open All Gifts", Default = false})
+    Toggle:OnChanged(function()
+        ToHateYou = Options.HateNig.Value
+        Stepped:Connect(function()
+            if ToHateYou then
+                OpenAllGifts()
+            end
+        end)
+    end)
+
+    Tabs.Obbys:AddButton({Title = "Auto Selected Obby",Description = "Automaticly does obby must be in obby to work",Callback = function()
+        Doobbystuff()
+    end})
+    Tabs.Obbys:AddButton({Title = "Auto Teleport Obby",Description = "Teleports so Obby",Callback = function()
+        TeleportObby(WantedObby)
+    end})
+    local Dropdown = Tabs.Obbys:AddDropdown("e34", {
+        Title = "Obbys",
+        Values = Instances,
+        Multi = false,
+        Default = 1,
+    })
+    Dropdown:OnChanged(function(Value)
+        WantedObby = Value
+    end)
     local Toggle = Tabs.AutoMinigame:AddToggle("DigSite", {Title = "Auto DigSites", Default = false})
     Toggle:OnChanged(function()
         Toggle = Options.DigSite.Value
@@ -601,12 +629,6 @@ do
     Dropdown:OnChanged(function(Value)
         Method = Value
     end)
-    Tabs.Obbys:AddButton({Title = "Auto Selected Obby",Description = "Automaticly does obby must be in obby to work",Callback = function()
-        Doobbystuff()
-    end})
-    Tabs.Obbys:AddButton({Title = "Auto Teleport Obby",Description = "Teleports so Obby",Callback = function()
-        TeleportObby()
-    end})
 end
 SaveManager:SetLibrary(Fluent)
 InterfaceManager:SetLibrary(Fluent)
