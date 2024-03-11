@@ -513,8 +513,9 @@ do
             while wait() and Yes do
                 pcall(function()    
                     for i,v in next, workspace.__THINGS.HiddenPresents:GetChildren() do
-                        if v:IsA("BasePart") then wait(10)
-                            Clicked(GetPresentTable(v))
+                        if v:IsA("BasePart") then 
+				Clicked(GetPresentTable(v))
+wait(10)
                         end
                     end
                 end)
@@ -524,7 +525,7 @@ do
 
     Tabs.Obbys:AddButton({Title = "Auto Grab All ShinyRelics",Description = "Grabs all relics Working",Callback = function()
         for i,v in next, Workspace.__THINGS.ShinyRelics:GetChildren() do
-            if v:IsA("BasePart") and v.Transparency == 0 then wait(10)
+            if v:IsA("BasePart") and v.Transparency == 0 then
                 RelicClicked(getShiny(v))
             end
         end
