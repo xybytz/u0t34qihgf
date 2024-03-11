@@ -216,7 +216,7 @@ end
 local TeleportObby = function(Obby)
     for i,v in next, workspace.__THINGS.Instances:GetChildren() do
         if v.Name == Obby then
-            VG.Teleport(v.Teleports.Enter)
+            VG.Teleport(v.Teleports.Enter.Position)
         end
     end
 end
@@ -513,9 +513,8 @@ do
             while wait() and Yes do
                 pcall(function()    
                     for i,v in next, workspace.__THINGS.HiddenPresents:GetChildren() do
-                        if v:IsA("BasePart") then 
-				Clicked(GetPresentTable(v))
-wait(10)
+                        if v:IsA("BasePart") then wait(10)
+                            Clicked(GetPresentTable(v))
                         end
                     end
                 end)
@@ -525,7 +524,7 @@ wait(10)
 
     Tabs.Obbys:AddButton({Title = "Auto Grab All ShinyRelics",Description = "Grabs all relics Working",Callback = function()
         for i,v in next, Workspace.__THINGS.ShinyRelics:GetChildren() do
-            if v:IsA("BasePart") and v.Transparency == 0 then
+            if v:IsA("BasePart") and v.Transparency == 0 then wait(10)
                 RelicClicked(getShiny(v))
             end
         end
