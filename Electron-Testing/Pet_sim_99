@@ -464,7 +464,7 @@ do
         spawn(function()
             while Frut and wait() do
                 pcall(function()
-                    for i,v in MakeTable(Fruits) do
+                    for i,v in MakeTable(Fruits) do wait(1)
                         Fire("Fruits: Consume", {v,1})
                     end
                 end)
@@ -512,7 +512,7 @@ do
     ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     Tabs.Obbys:AddButton({Title = "Auto Grab All ShinyRelics",Description = "Grabs all relics Working",Callback = function()
         for i,v in next, Workspace.__THINGS.ShinyRelics:GetChildren() do
-            if v:IsA("BasePart") and v.Transparency == 0 then wait(10)
+            if v:IsA("BasePart") and v.Transparency == 0 then
                 RelicClicked(getShiny(v))
             end
         end
