@@ -7,18 +7,36 @@ local Flags = {}
 local Fruits = {}
 local EggTable = {}
 local Instances = {}
+local Flags = {}
+local RemoteEvents = {}
 
-local FishingGame = Player.PlayerGui._INSTANCES:WaitForChild("FishingGame")
-local Network = ReplicatedStorage:WaitForChild("Network")
-local Things = Workspace:WaitForChild("__THINGS")
-local Active = Things.__INSTANCE_CONTAINER:WaitForChild("Active")
-local I = Network:WaitForChild("Instancing_FireCustomFromClient")
-local I2 = Network:WaitForChild("Instancing_InvokeCustomFromClient")
 local Client = require(ReplicatedStorage:WaitForChild("Library"))
 local Client2 = require(ReplicatedStorage.Library:WaitForChild("Client"))
 local Gifts = ReplicatedStorage:WaitForChild("__DIRECTORY").MiscItems.Categorized.Gifts
 local VendingMachines = require(ReplicatedStorage.Library.Directory.VendingMachines)
+-----
+local Network = ReplicatedStorage:WaitForChild("Network")
+local FishingGame = Player.PlayerGui._INSTANCES:WaitForChild("FishingGame")
+local Things = Workspace:WaitForChild("__THINGS")
+local Active = Things.__INSTANCE_CONTAINER:WaitForChild("Active")
+-----
+local RE = function(RemoteName)
+    if Network:FindFirstChild(RemoteName) then
+        return Network[RemoteName]
+    else
+        error("Failed to load remote " .. RemoteName .. " Please Contact Deku with this error message")
+    end
+end
 
+local RF = function(RemoteName)
+    if Network:FindFirstChild(RemoteName) then
+        return Network[RemoteName]
+    else
+        error("Failed to load Remotfunction " .. RemoteName .. " Please Contact Deku with this error")
+    end
+end
+
+local I2 = RF("Instancing_InvokeCustomFromClient")
 for i,v in next, getgc() do
     if type(v) == "function" then
         if getfenv(v).script == Player.PlayerScripts.Scripts.Game.Misc["Hidden Presents"] then
@@ -62,24 +80,22 @@ local OpenAllGifts = function()
     local Table = Client2.Save.GetSaves()[Player].Inventory.Misc
     for _,v in next, Table do
         if Gifts:FindFirstChild(v.id) then
-            ReplicatedStorage.Network.GiftBag_Open:InvokeServer(v.id)
+            RF("GiftBag_Open"):InvokeServer(v.id)
         end
     end
 end
+--------------- Fishing
 
 local GetRod = function()
     return Player.Character:FindFirstChild("Rod", true)
 end
 
-local RequestCast = function()
+local Activated = function()
     if Method == "Fishing" and not GetRod():FindFirstChild("FishingLine") and wait(5) then
-        I:FireServer("Fishing","RequestCast",Vector3.new(1139, 75, -3445))
+        RE("Instancing_FireCustomFromClient"):FireServer("Fishing","RequestCast",Vector3.new(1139, 75, -3445))
     elseif Method == "AdvancedFishing"  and not GetRod():FindFirstChild("FishingLine") and wait(5) then
-        I:FireServer("AdvancedFishing","RequestCast",Vector3.new(1460, 61, -4442))
+        RE("Instancing_FireCustomFromClient"):FireServer("AdvancedFishing","RequestCast",Vector3.new(1460, 61, -4442))
     end
-end
-
-local RequestReel = function()
     local Nothing = nil
     if Method == "Fishing" and GetRod():FindFirstChild("FishingLine") then
         Nothing = GetRod().FishingLine.Attachment1.Parent
@@ -89,38 +105,28 @@ local RequestReel = function()
     if Nothing then
         local Height = tonumber(Nothing.Position.Y)
         if Method == "Fishing" and Height < 75 then
-            I:FireServer("Fishing", "RequestReel")
+            RE("Instancing_FireCustomFromClient"):FireServer("Fishing", "RequestReel")
         elseif Method == "AdvancedFishing" and Height < 70.5 then
-            I:FireServer("AdvancedFishing","RequestReel")
+            RE("Instancing_FireCustomFromClient"):FireServer("AdvancedFishing","RequestReel")
         end
     end
-end
-
-local Wait = function()
     if Method == "Fishing" and FishingGame.Enabled and wait(.2) then
-        I2:InvokeServer("Fishing","Clicked")
+        RF("Instancing_InvokeCustomFromClient"):InvokeServer("Fishing","Clicked")
     elseif Method == "AdvancedFishing" and FishingGame.Enabled and wait(.2) then
-        I2:InvokeServer("AdvancedFishing","Clicked")
+        RF("Instancing_InvokeCustomFromClient"):InvokeServer("AdvancedFishing","Clicked")
     end
-end
-
-local Walk = function()
     if Method == "Fishing" then
         VG.GetHumanoid():MoveTo(Vector3.new(1113 + math.random(10), 80, -3444 + math.random(10)))
     elseif Method == "AdvancedFishing" then
         VG.GetHumanoid():MoveTo(Vector3.new(1440 + math.random(10), 66, -4445 + math.random(10)))
     end
-end
-
-local GoTo = function()
     if Method == "Fishing" and not Active:FindFirstChild("Fishing") then
         VG.Teleport(Things.Instances.Fishing.Teleports.Enter.Position)
     elseif Method == "AdvancedFishing" and not Active:FindFirstChild("AdvancedFishing") then
         VG.Teleport(Things.Instances.AdvancedFishing.Teleports.Enter.Position)
     end
 end
-
-
+----- Collecting Stuff
 local Collect = function()
     local FuckYou = workspace.__THINGS.Orbs:GetChildren()
     local KYS = workspace.__THINGS.Lootbags:GetChildren()
@@ -134,23 +140,32 @@ local Collect = function()
     end
     if #KYS > 0 then
         for i,v in next, KYS do            
-            game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Lootbags_Claim"):FireServer({v.Name})
+            RE("Lootbags_Claim"):FireServer({v.Name})
             v:Destroy()
         end
     end
-    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Orbs: Collect"):FireServer(MyOrbs)
+    RE("Orbs: Collect"):FireServer(MyOrbs)
 end
 
-local Activated = function()
-    GoTo()
-    RequestCast()
-    RequestReel()
-    Walk()
-    Wait()
+local BuyEgg = function(Egg, Amount)
+    RF("Eggs_RequestPurchase"):InvokeServer(Egg, Amount)
 end
+
+local MakeTable = function(Table)
+    local Temp = {}
+    local IDs = {}
+    for i,v in next, Client.Items.All.Globals.All() do
+        if table.find(Table, v._data.id) then
+            table.insert(Temp, v._uid)
+        end
+    end
+    return Temp
+end
+
+--- Digsite Stuff
 
 local CurrentActive = function()
-    return Active:GetChildren()[1] -- idk how else to get a unnamed object feel free to teach me
+    return Active:GetChildren()[1]
 end
 
 local GetBlock = function()
@@ -169,10 +184,6 @@ local GetBlock = function()
     return Block -- I Hate this part
 end
 
-local BuyEgg = function(Egg, Amount)
-    ReplicatedStorage:WaitForChild("Network"):WaitForChild("Eggs_RequestPurchase"):InvokeServer(Egg, Amount)
-end
-
 local GetChest = function()
     local Table = CurrentActive()
     local Distance = math.huge -- KYS
@@ -189,29 +200,49 @@ local GetChest = function()
     return Chest
 end
 
-local MakeTable = function(Table)
-    local Temp = {}
-    local IDs = {}
-    for i,v in next, Client.Items.All.Globals.All() do
-        if table.find(Table, v._data.id) then
-            table.insert(Temp, v._uid)
+local Dig = function()
+    if Method2 == "Digsite" and not Active:FindFirstChild("Digsite") then
+        VG.Teleport(Things.Instances.Digsite.Teleports.Enter.Position)
+    elseif Method2 == "AdvancedDigsite" and not Active:FindFirstChild("AdvancedDigsite") then
+        VG.Teleport(Things.Instances.AdvancedDigsite.Teleports.Enter.Position)
+    end
+    if (GetBlock() == nil or GetChest() == nil) then
+        print("no Blocks")
+        if Method2 == "Digsite" and not Active:FindFirstChild("Digsite") then
+            VG.Teleport(Workspace.__THINGS.Instances["Digsite"].Teleports.Leave.Position)
+            wait(5)
+            VG.Teleport(Workspace.__THINGS.Instances["Digsite"].Teleports.Enter.Position)
+        end
+        if Method2 == "AdvancedDigsite" and not Active:FindFirstChild("AdvancedDigsite") then
+            VG.Teleport(Workspace.__THINGS.Instances["AdvancedDigsite"].Teleports.Leave.Position)
+            wait(5)
+            VG.Teleport(Workspace.__THINGS.Instances["AdvancedDigsite"].Teleports.Enter.Position)
         end
     end
-    return Temp
+    if CurrentActive() and CurrentActive().Name == "Digsite" then
+        if Player.Character.HumanoidRootPart.Position.Y <= -1991 then
+            VG.FireConnection(Player.PlayerGui._INSTANCES.Digsite.Return.Activated)
+        end
+    end
+    if GetChest() then
+        VG.Tween(Player.Character.HumanoidRootPart, GetChest():FindFirstChildWhichIsA("BasePart"), 50, Vector3.new(0,0,2), true)
+        RE("Instancing_FireCustomFromClient"):FireServer(CurrentActive().Name, "DigChest", GetChest():GetAttribute('Coord'))
+        wait(2)
+    else
+        VG.Tween(Player.Character.HumanoidRootPart, GetBlock(), 50, Vector3.new(0,0,1), true)
+        RE("Instancing_FireCustomFromClient"):FireServer(CurrentActive().Name, "DigBlock", GetBlock():GetAttribute('Coord'))
+        wait(.3)
+    end
+end
+local DigAura = function() -- just Dig() without tweening
+    if GetChest() then
+        RE("Instancing_FireCustomFromClient"):FireServer(CurrentActive().Name, "DigChest", GetChest():GetAttribute('Coord'))
+    else
+        RE("Instancing_FireCustomFromClient"):FireServer(CurrentActive().Name, "DigBlock", GetBlock():GetAttribute('Coord'))
+    end
 end
 
-local Fire = function(RemoteName, Args)
-    setthreadidentity(2)
-    Network[RemoteName]:FireServer(unpack(Args))
-    setthreadidentity(8)
-end
-
-local Invoke = function(RemoteName, Args)
-    setthreadidentity(2)
-    Network[RemoteName]:InvokeServer(unpack(Args))
-    setthreadidentity(8)
-end
-
+---- Obby Stuff
 
 local TeleportObby = function()
     for i,v in next, Workspace.__THINGS.Instances:GetChildren() do
@@ -237,101 +268,7 @@ local Doobbystuff = function(Obby)
     end
 end
 
-local BuyVenders = function()
-    local OldPos = Player.Character.HumanoidRootPart.CFrame
-	for i,v in VendingMachines do
-		local Skid = VG.FFD(Workspace.Map, i)
-        if Skid and v.Stock and not Skid.VendingMachine.Screen.SurfaceGui.SoldOut.Visible then
-            Player.Character.HumanoidRootPart.CFrame = Skid.Pad.CFrame * CFrame.new(0,0,10)
-            wait(.5)
-            for i2=1, v.Stock do
-                Invoke("VendingMachines_Purchase", {i, 1})
-            end
-		end
-	end
-    Player.Character.HumanoidRootPart.CFrame = OldPos
-end
-
-function GoTo2()
-    if Method2 == "Digsite" and not Active:FindFirstChild("Digsite") then
-        VG.Teleport(Things.Instances.Digsite.Teleports.Enter.Position)
-    elseif Method2 == "AdvancedDigsite" and not Active:FindFirstChild("AdvancedDigsite") then
-        VG.Teleport(Things.Instances.AdvancedDigsite.Teleports.Enter.Position)
-    end
-end
-
-local Refrsh = function()
-    if Method2 == "Digsite" and not Active:FindFirstChild("Digsite") then
-        VG.Teleport(Workspace.__THINGS.Instances["Digsite"].Teleports.Leave.Position)
-        wait(5)
-        VG.Teleport(Workspace.__THINGS.Instances["Digsite"].Teleports.Enter.Position)
-    end
-    if Method2 == "AdvancedDigsite" and not Active:FindFirstChild("AdvancedDigsite") then
-        VG.Teleport(Workspace.__THINGS.Instances["AdvancedDigsite"].Teleports.Leave.Position)
-        wait(5)
-        VG.Teleport(Workspace.__THINGS.Instances["AdvancedDigsite"].Teleports.Enter.Position)
-    end
-end
-
-local Dig = function()
-    GoTo2()
-    if (GetBlock() == nil or GetChest() == nil) then
-        print("no Blocks")
-        Refrsh()
-    end
-    if CurrentActive() and CurrentActive().Name == "Digsite" then
-        if Player.Character.HumanoidRootPart.Position.Y <= -1991 then
-            VG.FireConnection(Player.PlayerGui._INSTANCES.Digsite.Return.Activated)
-        end
-    end
-    if GetChest() then
-        VG.Tween(Player.Character.HumanoidRootPart, GetChest():FindFirstChildWhichIsA("BasePart"), 50, Vector3.new(0,0,2), true)
-        ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer(CurrentActive().Name, "DigChest", GetChest():GetAttribute('Coord'))
-        wait(2)
-    else
-        VG.Tween(Player.Character.HumanoidRootPart, GetBlock(), 50, Vector3.new(0,0,1), true)
-        ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer(CurrentActive().Name, "DigBlock", GetBlock():GetAttribute('Coord'))
-        wait(.3)
-    end
-end
-local DigAura = function() -- just Dig() without tweening
-    if GetChest() then
-        ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer(CurrentActive().Name, "DigChest", GetChest():GetAttribute('Coord'))
-    else
-        ReplicatedStorage:WaitForChild("Network"):WaitForChild("Instancing_FireCustomFromClient"):FireServer(CurrentActive().Name, "DigBlock", GetBlock():GetAttribute('Coord'))
-    end
-end
-
-local GetCoinInZone = function()
-    local Target = nil
-    local MaxDistance = math.huge
-    for i,v in next, Workspace.__THINGS.Breakables:GetChildren() do
-        if v:IsA("Model") and (v:GetAttribute("ParentID") == PickedZone) then
-            local Mag = VG.Mag(v:GetModelCFrame(), Player.Character:GetModelCFrame())
-            if Mag <= MaxDistance then
-                MaxDistance = Mag
-                Target = v 
-            end
-        end
-    end
-    return Target
-end
-
-local GetNearestCoin = function()
-    local Target = nil
-    local MaxDistance = math.huge
-    for i,v in next, workspace.__THINGS.Breakables:GetChildren() do
-        if v:IsA("Model") then
-            local Mag = VG.Mag(v:GetModelCFrame(), Player.Character:GetModelCFrame())
-            if Mag <= MaxDistance then
-                MaxDistance = Mag
-                Target = v 
-            end
-        end
-    end
-    return Target
-end
- 
+---- Table insert shit
 for i,v in next, ReplicatedStorage.__DIRECTORY.Zones:GetChildren() do
     for i,v in next, v:GetChildren() do
         if v:IsA("ModuleScript") then
@@ -362,6 +299,12 @@ for i,v in next, workspace.__THINGS.Instances:GetChildren() do
         table.insert(Instances, v.Name)
     end
 end
+
+for i,v in next, ReplicatedStorage.__DIRECTORY.ZoneFlags:GetChildren() do
+	local NewName = string.gsub(v.Name, "ZoneFlags | ", "")
+	table.insert(Flags, NewName)
+end
+
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
@@ -406,31 +349,14 @@ do
     local Toggle = Tabs.AutoFarm:AddToggle("PetCoin", {Title = "Auto Break Nearest Coin", Default = false})
     Toggle:OnChanged(function()
         AutoFarm = Options.PetCoin.Value
-    end)
- 
-    local Toggle = Tabs.AutoFarm:AddToggle("PetCoin1", {Title = "Auto Break In Selected Zone", Default = false})
-    Toggle:OnChanged(function()
-        AutoFarm1 = Options.PetCoin1.Value
         spawn(function()
-            while wait(1) and AutoFarm1 do
+            while wait() and AutoFarm do
                 pcall(function()
-                    if GetCoinInZone() == nil then
-                        ReplicatedStorage:WaitForChild("Network"):WaitForChild("Teleports_RequestTeleport"):InvokeServer(PickedZone)
-                        wait(10)
-                        for i,v in next, Workspace.Map:GetChildren() do
-                            if v.Name:find(PickedZone) then
-                                VG.Teleport(v.INTERACT.BREAK_ZONES.BREAK_ZONE.Position)
-                                break
-                            end
-                        end
-                    end
-                    VG.Teleport(GetCoinInZone():GetModelCFrame().Position + Vector3.new(0,6,0))
-                    ReplicatedStorage:WaitForChild("Network"):WaitForChild("Breakables_PlayerDealDamage"):FireServer(GetCoinInZone().Name)
+                    CoinFarm()
                 end)
             end
         end)
     end)
-
     local Dropdown = Tabs.AutoFarm:AddDropdown("Ds", {Title = "Zones",Values = Zones,Multi = false,Default = 1})
     Dropdown:OnChanged(function(Value)
         PickedZone = Value
@@ -465,11 +391,16 @@ do
             while Frut and wait() do
                 pcall(function()
                     for i,v in MakeTable(Fruits) do wait(1)
-                        Fire("Fruits: Consume", {v,1})
+                        RE("Fruits: Consume"):FireServer(v,1)
                     end
                 end)
             end
         end)
+    end)
+    
+    local Dropdown = Tabs.AutoMinigame:AddDropdown("e34", {Title = "Fishing Areas",Values = {"AdvancedFishing", "Fishing"},Multi = false,Default = 1,})
+    Dropdown:OnChanged(function(Value)
+        Method = Value
     end)
     local Toggle = Tabs.AutoFarm:AddToggle("Toyou2", {Title = "Auto Buy Venders", Default = false})
     Toggle:OnChanged(function()
