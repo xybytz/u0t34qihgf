@@ -14,6 +14,9 @@ local Active = Things.__INSTANCE_CONTAINER:WaitForChild("Active")
 local I = Network:WaitForChild("Instancing_FireCustomFromClient")
 local I2 = Network:WaitForChild("Instancing_InvokeCustomFromClient")
 local Client = require(ReplicatedStorage:WaitForChild("Library"))
+local Client2 = require(ReplicatedStorage.Library:WaitForChild("Client"))
+local Gifts = ReplicatedStorage:WaitForChild("__DIRECTORY").MiscItems.Categorized.Gifts
+local VendingMachines = require(ReplicatedStorage.Library.Directory.VendingMachines)
 
 for i,v in next, getgc(true) do
     if type(v) == "function" then
@@ -30,11 +33,6 @@ for i,v in next, getgc(true) do
             elseif getinfo(v).name == "RelicClicked" then
                 RelicClicked = v
             end
-        end
-    end
-    if type(v) == "table" then
-        if rawget(v, "FruitVendingMachine1") then
-            VendingMachines = v
         end
     end
 end
@@ -55,6 +53,15 @@ local getShiny = function(Shin)
             if v.Model == Shin then
                 return v
             end
+        end
+    end
+end
+
+local OpenAllGifts = function()
+    local Table = Client2.Save.GetSaves()[Player].Inventory.Misc
+    for _,v in next, Table do
+        if Gifts:FindFirstChild(v.id) then
+            ReplicatedStorage.Network.GiftBag_Open:InvokeServer(v.id)
         end
     end
 end
@@ -518,6 +525,10 @@ do
             end
         end
     end})
+
+    Tabs.Obbys:AddButton({Title = "Open All Gifts",Description = "Opens All Gifts in Inventory",Callback = function()
+        OpenAllGifts()
+    end})
     local Toggle = Tabs.AutoMinigame:AddToggle("DigSite", {Title = "Auto DigSites", Default = false})
     Toggle:OnChanged(function()
         Toggle = Options.DigSite.Value
@@ -592,6 +603,9 @@ do
     end)
     Tabs.Obbys:AddButton({Title = "Auto Selected Obby",Description = "Automaticly does obby must be in obby to work",Callback = function()
         Doobbystuff()
+    end})
+    Tabs.Obbys:AddButton({Title = "Auto Teleport Obby",Description = "Teleports so Obby",Callback = function()
+        TeleportObby()
     end})
 end
 SaveManager:SetLibrary(Fluent)
