@@ -418,6 +418,18 @@ do
             end
         end)
     end)
+
+    local Toggle = Tabs.AutoFarm:AddToggle("Toyo224u", {Title = "Auto DiamondWheel", Default = false})
+    Toggle:OnChanged(function()
+        Fag2 = Options.Toyo224u.Value
+        spawn(function()
+            while wait() and Fag2 do
+                pcall(function()
+                    RF("Spinny Wheel: Request Spin"):InvokeServer("DiamondWheel")
+                end)
+            end
+        end)
+    end)
     local Dropdown = Tabs.AutoFarm:AddDropdown("Ds", {Title = "Flags",Values = Flags,Multi = false,Default = 1})
     Dropdown:OnChanged(function(Value)
         WantedFlag = Value
