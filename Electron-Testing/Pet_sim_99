@@ -311,7 +311,7 @@ for i,v in next, workspace.__THINGS.Instances:GetChildren() do
 end
 
 for i,v in next, ReplicatedStorage.__DIRECTORY.ZoneFlags:GetChildren() do
-	local NewName = string.gsub(v.Name, "ZoneFlags | ", "")
+	local NewName = v.Name:gsub("ZoneFlags | ", "")
 	table.insert(Flags, NewName)
 end
 
