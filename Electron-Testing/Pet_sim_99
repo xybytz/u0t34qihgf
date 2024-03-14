@@ -84,6 +84,16 @@ local OpenAllGifts = function()
         end
     end
 end
+
+local GetFlags = function()
+	local LMAO = Client.Save.GetSaves()[Player].Inventory.Misc
+	for i,v in next, LMAO do
+		if table.find(Flags, v.id) then
+			RF("Flags: Consume"):InvokeServer(WantedFlag, i)
+            break
+		end
+	end
+end
 --------------- Fishing
 
 local GetRod = function()
@@ -397,7 +407,21 @@ do
             end
         end)
     end)
-    
+    local Toggle = Tabs.AutoFarm:AddToggle("Toyo24u", {Title = "Auto Place Flags", Default = false})
+    Toggle:OnChanged(function()
+        Fag = Options.Toyo24u.Value
+        spawn(function()
+            while wait() and Fag do
+                pcall(function()
+                    GetFlags()
+                end)
+            end
+        end)
+    end)
+    local Dropdown = Tabs.AutoFarm:AddDropdown("Ds", {Title = "Flags",Values = Flags,Multi = false,Default = 1})
+    Dropdown:OnChanged(function(Value)
+        WantedFlag = Value
+    end)
     local Dropdown = Tabs.AutoMinigame:AddDropdown("e34", {Title = "Fishing Areas",Values = {"AdvancedFishing", "Fishing"},Multi = false,Default = 1,})
     Dropdown:OnChanged(function(Value)
         Method = Value
