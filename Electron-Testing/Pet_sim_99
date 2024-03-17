@@ -1,4 +1,4 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Electron-Testing/Pet_sim_99"))()
 VG.DisableConnection(Error)
 VG.DisableConnection(Idled)
 local Hehe = {}
@@ -101,6 +101,11 @@ local GetRod = function()
 end
 
 local Activated = function()
+    if Method == "Fishing" and not Active:FindFirstChild("Fishing") then
+        VG.Teleport(Things.Instances.Fishing.Teleports.Enter.Position)
+    elseif Method == "AdvancedFishing" and not Active:FindFirstChild("AdvancedFishing") then
+        VG.Teleport(Things.Instances.AdvancedFishing.Teleports.Enter.Position)
+    end
     if Method == "Fishing" and not GetRod():FindFirstChild("FishingLine") and wait(5) then
         RE("Instancing_FireCustomFromClient"):FireServer("Fishing","RequestCast",Vector3.new(1139, 75, -3445))
     elseif Method == "AdvancedFishing"  and not GetRod():FindFirstChild("FishingLine") and wait(5) then
@@ -129,11 +134,6 @@ local Activated = function()
         VG.GetHumanoid():MoveTo(Vector3.new(1113 + math.random(10), 80, -3444 + math.random(10)))
     elseif Method == "AdvancedFishing" then
         VG.GetHumanoid():MoveTo(Vector3.new(1440 + math.random(10), 66, -4445 + math.random(10)))
-    end
-    if Method == "Fishing" and not Active:FindFirstChild("Fishing") then
-        VG.Teleport(Things.Instances.Fishing.Teleports.Enter.Position)
-    elseif Method == "AdvancedFishing" and not Active:FindFirstChild("AdvancedFishing") then
-        VG.Teleport(Things.Instances.AdvancedFishing.Teleports.Enter.Position)
     end
 end
 ----- Collecting Stuff
