@@ -1,3 +1,4 @@
+
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
 VG.DisableConnection(Error)
 VG.DisableConnection(Idled)
@@ -106,22 +107,33 @@ local Activated = function()
     elseif Method == "AdvancedFishing" and not Active:FindFirstChild("AdvancedFishing") then
         VG.Teleport(Things.Instances.AdvancedFishing.Teleports.Enter.Position)
     end
-    if Method == "Fishing" and not GetRod():FindFirstChild("FishingLine") and wait(5) then
-        RE("Instancing_FireCustomFromClient"):FireServer("Fishing","RequestCast",Vector3.new(1139, 75, -3445))
-    elseif Method == "AdvancedFishing"  and not GetRod():FindFirstChild("FishingLine") and wait(5) then
-        RE("Instancing_FireCustomFromClient"):FireServer("AdvancedFishing","RequestCast",Vector3.new(1460, 61, -4442))
+    if Method == "Fishing" and not GetRod():FindFirstChild("FishingLine", true) and wait(5) then
+        if not Active.Fishing.Interactable:FindFirstChild("DeepPool") then
+            RE("Instancing_FireCustomFromClient"):FireServer("Fishing","RequestCast",Vector3.new(1139, 75, -3445))
+        else
+            RE("Instancing_FireCustomFromClient"):FireServer("Fishing","RequestCast",Workspace.__THINGS.__INSTANCE_CONTAINER.Active.Fishing.Interactable.DeepPool.Position)
+        end
+    elseif Method == "AdvancedFishing"  and not GetRod():FindFirstChild("FishingLine", true) and wait(5) then
+        if not Active.AdvancedFishing.Interactable:FindFirstChild("DeepPool") then
+            RE("Instancing_FireCustomFromClient"):FireServer("AdvancedFishing","RequestCast",Vector3.new(1460, 61, -4442))
+        else
+			local HEHEHE = Workspace.__THINGS.__INSTANCE_CONTAINER.Active.AdvancedFishing.Interactable.DeepPool
+			print(HEHEHE.Position)
+            RE("Instancing_FireCustomFromClient"):FireServer("AdvancedFishing","RequestCast", HEHEHE.Position)
+        end
     end
     local Nothing = nil
-    if Method == "Fishing" and GetRod():FindFirstChild("FishingLine") then
+    if Method == "Fishing" and GetRod():FindFirstChild("FishingLine", true) then
         Nothing = GetRod().FishingLine.Attachment1.Parent
-    elseif Method == "AdvancedFishing" and GetRod():FindFirstChild("FishingLine") then
+    elseif Method == "AdvancedFishing" and GetRod():FindFirstChild("FishingLine", true) then
         Nothing = GetRod().FishingLine.Attachment0.Parent
     end
     if Nothing then
         local Height = tonumber(Nothing.Position.Y)
+        print(Height)
         if Method == "Fishing" and Height < 75 then
             RE("Instancing_FireCustomFromClient"):FireServer("Fishing", "RequestReel")
-        elseif Method == "AdvancedFishing" and Height < 70.5 then
+        elseif Method == "AdvancedFishing" and Height < 70.9 then
             RE("Instancing_FireCustomFromClient"):FireServer("AdvancedFishing","RequestReel")
         end
     end
@@ -132,9 +144,10 @@ local Activated = function()
     end
     if Method == "Fishing" then
         VG.GetHumanoid():MoveTo(Vector3.new(1113 + math.random(10), 80, -3444 + math.random(10)))
+        VG.GetHumanoid().MoveToFinished:Wait()
     elseif Method == "AdvancedFishing" then
-        VG.GetHumanoid():MoveTo(Vector3.new(1440 + math.random(10), 66, -4445 + math.random(10)))
-    end
+        VG.GetHumanoid():MoveTo(Vector3.new(1440 + math.random(10), 66, -4445 + math.random(10)));VG.GetHumanoid().MoveToFinished:Wait()
+	end
 end
 ----- Collecting Stuff
 local Collect = function()
