@@ -288,7 +288,7 @@ local FindUchihaEyeball = function()
     end
 end
 
-local HookMetaMethod = clonefunc(hookmetamethod)
+local HookMetaMethod = clonefunction(hookmetamethod)
 local OldNameCall = nil
 OldNameCall = HookMetaMethod(game, "__namecall", function(...)
     local Self, Args, Name = ..., {...}, getnamecallmethod
