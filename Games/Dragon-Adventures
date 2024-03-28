@@ -91,13 +91,13 @@ for i,v in next, getgc() do
 end
 
 for i, v in next, Players:GetPlayers() do
-    if not table.find(D, tostring(v:GetRoleInGroup(2919215)))then
+    if not table.find(D, v:GetRoleInGroup(2919215))then
         Kick(Player, "Mod Detected")
         VG.ServerHop()
     end
 end
 Players.PlayerAdded:Connect(function(v)
-    if not table.find(D, tostring(v:GetRoleInGroup(2919215))) then
+    if not table.find(D, v:GetRoleInGroup(2919215)) then
         Kick(Player, "Mod Detected")
         VG.ServerHop()
     end
@@ -111,37 +111,9 @@ Player.PlayerGui.NodeGui.BoostFrame.ChildAdded:Connect(function(v)
 end)
 
 
-if game.PlaceId == 3475397644 then
-    pcall(function()
-        RF("SpinWheelRemote"):InvokeServer()
-        RE("ClaimWheelRemote"):FireServer()
-    end)
-end
-local GetDragons = function()
-    local Target
-    for i, v in next, Player.Character.Dragons:GetChildren() do
-        if v:IsA("Model") and v:FindFirstChild("HumanoidRootPart") then
-            Target = v
-        end
-    end
-    return Target
-end
 
 
-local GetEgg = function(A)
-    local Target = nil
-    local Max = math.huge 
-    for i,v in next, Workspace.Interactions.Nodes.Harvest.Eggs.ActiveNodes:GetChildren() do
-        if v:IsA("Model") then
-            local Mag = VG.Mag(v:GetModelCFrame(), Player.Character:GetModelCFrame())
-            if Mag < Max then
-                Max = Mag
-                Target = v
-            end
-        end
-    end
-    return Target
-end
+
 
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
