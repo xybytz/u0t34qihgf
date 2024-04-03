@@ -1,5 +1,9 @@
 
 VG.DisableConnection(Player.Idled)
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
+VG.DisableConnection(Error)
+VG.DisableConnection(Idled)
 repeat wait() until Player.PlayerGui:FindFirstChild("PlayButton",true)
 RunService.Stepped:Connect(function()
     pcall(function()
@@ -102,10 +106,20 @@ local Tasks = {
     "school",
     "pool_party",
     "salon",
-    "pizza_party"
+    "pizza_party",
+    "beach_party"
 }
 
-
+for i,v in next, getgc(true) do
+    if type(v) == "table" then
+        if rawget(v, "bored") and rawget(v, "pizza_party") and rawget(v, "sick") and rawget(v, "dirty") then
+            for i,v in next, v do
+                print(i,v)
+            end
+            break
+        end
+    end
+end
 local Eggs = {
     "cracked_egg",
     "regular_pet_egg",
@@ -441,6 +455,7 @@ local a = {
         spawn(function()
             while wait(3) and c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments and PetFarm do
                 if c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments then
+                    print(Player, Bed(), 'UseBlock', {['cframe'] = Player.Character.HumanoidRootPart.CFrame}, C)
                     ReplicatedStorage:FindFirstChild('HousingAPI/ActivateFurniture',true):InvokeServer(Player, Bed(), 'UseBlock', {['cframe'] = Player.Character.HumanoidRootPart.CFrame}, C)
                 end
             end
@@ -450,6 +465,7 @@ local a = {
     ['dirty'] = function(c)
         spawn(function()
             while c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments and wait(3) do
+                print(Player, Bed(), 'UseBlock', {['cframe'] = Player.Character.HumanoidRootPart.CFrame}, C)
                 ReplicatedStorage:FindFirstChild("HousingAPI/ActivateFurniture",true):InvokeServer(Player, Showers(), 'UseBlock', {['cframe'] = Player.Character.HumanoidRootPart.CFrame}, C)
             end
         end)
@@ -490,9 +506,10 @@ local a = {
             return
         end
         wait(2)
+        print(Tea)
         ReplicatedStorage:FindFirstChild("PetObjectAPI/CreatePetObject",true):InvokeServer("__Enum_PetObjectCreatorType_2", {["unique_id"] = Tea})
         ReplicatedStorage:FindFirstChild("PetAPI/ConsumeFoodItem",true):FireServer(Tea)
-        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments    
+        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
     ["sick"] = function(c)
         repeat wait(0) ReplicatedStorage:FindFirstChild("MonitorAPI/HealWithDoctor",true):FireServer() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
@@ -513,9 +530,9 @@ local a = {
         GoToStore("Salon")
         repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
-    ["pool_party"] = function(c)
+    ["beach_party"] = function(c)
         GoToMainMap()
-        Player.Character.HumanoidRootPart.CFrame = CFrame.new(Workspace.StaticMap.Pool.PoolOrigin.Position + Vector3.new(0, 5, 0))
+        Player.Character.HumanoidRootPart.CFrame = CFrame.new(Workspace.StaticMap.Beach.BeachPartyAilmentTarget.Position + Vector3.new(0, 5, 0))
         repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
     ["camping"] = function(c)
