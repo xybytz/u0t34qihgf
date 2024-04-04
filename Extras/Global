@@ -415,9 +415,7 @@ VG.SynScriptDump = function()
     local saveName = string.format("Scripts for %s (%d) [%d].rbxlx", string.gsub(gameName, "  ", " "), game.PlaceId, os.time())
     writefile(saveName, table.concat(final, "\n"))
     progressText.Text = string.format("Scripts have been saved to file %q, took %d seconds for %d scripts", saveName, tick() - startTime, totalScriptCount)
-    wait(5)
-    credits.Remove()
-    progressText.Remove()
+
 end
 
 --Loops
