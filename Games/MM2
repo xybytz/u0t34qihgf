@@ -57,18 +57,16 @@ end
 
 local CollectCoin = function()
     if GetRole("Innocent", true) == Player.Name then
-        local TargetCoin
         local Map = VG.FFD(Workspace, "CoinContainer")
         if Map then
-            for i,v in next, Map:GetChildren() do
-                if VG.FFD(Player.PlayerGui, "CashBag") and VG.FFD(Player.PlayerGui, "CashBag").Visible then
-                    if v.Name ~= "CollectedCoin" and VG.FFD(v, "CoinType") and Num then
-                        print(VG.FFD(v, "CoinType").Value)
-                        Player.Character.HumanoidRootPart.CFrame = CFrame.new(v.Position) * CFrame.new(0,-3,0) * CFrame.Angles(90,0,0)
-                        firetouchinterest(Player.Character.HumanoidRootPart, v, 0)
-                        wait(1)
+            if VG.FFD(Player.PlayerGui, "CashBag") and VG.FFD(Player.PlayerGui, "CashBag").Visible then
+                for i, v in next, Map:GetChildren() do
+                    if v.Name == "Coin_Server" then
+                        VG.Teleport(v.Position)
+                        wait(.2)
                         VG.Teleport(Vector3.new(0,500000,0))
-                        wait(2)
+                        wait(3)
+
                     end
                 end
             end
