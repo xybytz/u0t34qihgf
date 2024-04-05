@@ -54,19 +54,17 @@ local ShootMurderer = function(v)
         end
     end
 end
-
 local CollectCoin = function()
     if GetRole("Innocent", true) == Player.Name then
         local Map = VG.FFD(Workspace, "CoinContainer")
         if Map then
-            if VG.FFD(Player.PlayerGui, "CashBag") and VG.FFD(Player.PlayerGui, "CashBag").Visible then
+            if VG.FFD(Player.PlayerGui, "CoinBags") and VG.FFD(Player.PlayerGui, "CoinBags").Visible then
                 for i, v in next, Map:GetChildren() do
                     if v.Name == "Coin_Server" then
                         VG.Teleport(v.Position)
-                        wait(.2)
+                        wait(1)
                         VG.Teleport(Vector3.new(0,500000,0))
                         wait(3)
-
                     end
                 end
             end
