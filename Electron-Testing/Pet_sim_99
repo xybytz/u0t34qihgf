@@ -94,6 +94,11 @@ local GetFlags = function()
 end
 --------------- Fishing
 local Activated = function()
+    if Method == "Fishing" and not Active:FindFirstChild("Fishing") then
+        VG.Teleport(Things.Instances.Fishing.Teleports.Enter.Position)
+    elseif Method == "AdvancedFishing" and not Active:FindFirstChild("AdvancedFishing") then
+        VG.Teleport(Things.Instances.AdvancedFishing.Teleports.Enter.Position)
+    end
     if Method == "AdvancedFishing" then
         if require(ReplicatedStorage.Library.Client.MasteryCmds).GetLevel("Fishing") < 30 then
             RF("Instancing_InvokeCustomFromClient"):InvokeServer(CurrentActive().Name, "RequestCast",Vector3.new(1466.473388671875, 61.62495040893555, -4454.935546875))
@@ -114,11 +119,6 @@ local Activated = function()
         end
         RE("Instancing_FireCustomFromClient"):FireServer("Fishing","RequestReel")
         RF("Instancing_InvokeCustomFromClient"):InvokeServer("Fishing","Clicked")
-    end
-    if Method == "Fishing" and not Active:FindFirstChild("Fishing") then
-        VG.Teleport(Things.Instances.Fishing.Teleports.Enter.Position)
-    elseif Method == "AdvancedFishing" and not Active:FindFirstChild("AdvancedFishing") then
-        VG.Teleport(Things.Instances.AdvancedFishing.Teleports.Enter.Position)
     end
 end
 
@@ -604,9 +604,9 @@ do
         Fishe = Options.Fih.Value
         spawn(function()
             while wait() and Fishe do
-               
+                pcall(function()
                     Activated()
-              
+                end)
             end
         end)
         spawn(function()
