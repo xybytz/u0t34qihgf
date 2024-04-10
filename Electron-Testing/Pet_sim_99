@@ -2,6 +2,8 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
 VG.DisableConnection(Error)
 VG.DisableConnection(Idled)
+
+repeat wait() until game:IsLoaded()
 local Hehe = {}
 local Zones = {}
 local Flags = {}
@@ -9,12 +11,10 @@ local Fruits = {}
 local EggTable = {}
 local Instances = {}
 local Flags = {}
-local RemoteEvents = {}
+local VendingMachines = {}
 
-local Client = require(ReplicatedStorage:WaitForChild("Library"))
-local Client2 = require(ReplicatedStorage.Library:WaitForChild("Client"))
+local Client = require(ReplicatedStorage.Library:WaitForChild("Client"))
 local Gifts = ReplicatedStorage:WaitForChild("__DIRECTORY").MiscItems.Categorized.Gifts
-local VendingMachines = require(ReplicatedStorage.Library.Directory.VendingMachines)
 -----
 local Network = ReplicatedStorage:WaitForChild("Network")
 local FishingGame = Player.PlayerGui._INSTANCES:WaitForChild("FishingGame")
@@ -36,26 +36,12 @@ local RF = function(RemoteName)
         error("Failed to load Remotfunction " .. RemoteName .. " Please Contact Deku with this error")
     end
 end
-
-local I2 = RF("Instancing_InvokeCustomFromClient")
-for i,v in next, getgc() do
-    if type(v) == "function" then
-        if getfenv(v).script == Player.PlayerScripts.Scripts.Game.Misc["Hidden Presents"] then
-            if getinfo(v).name == "GetActive" then
-                GetActive = v
-            elseif getinfo(v).name == "Clicked" then
-                Clicked = v
-            end
-        end
-        if getfenv(v).script == Player.PlayerScripts.Scripts.Game.Misc["Shiny Relics"] then
-            if getinfo(v).name == "RequestRelics" then
-                RequestRelics = v
-            elseif getinfo(v).name == "RelicClicked" then
-                RelicClicked = v
-            end
-        end
-    end
-end
+local HiddenPresents = getsenv(Player.PlayerScripts.Scripts.Game.Misc["Hidden Presents"])
+local GetActive = HiddenPresents.GetActive
+local Clicked = HiddenPresents.Clicked
+local ShinyRelics = getsenv(Player.PlayerScripts.Scripts.Game.Misc["Shiny Relics"])
+local RequestRelics = ShinyRelics.RequestRelics
+local RelicClicked = ShinyRelics.RelicClicked
 
 local GetPresentTable = function(Pre)
     if Pre then
@@ -67,6 +53,17 @@ local GetPresentTable = function(Pre)
     end
 end
 
+local CurrentActive = function()
+    return Active:GetChildren()[1]
+end
+
+local GetMap = function()
+    for i,v in next, Workspace:GetChildren() do
+        if v.Name:find("Map") and v:IsA("Folder") then
+            return v.Name
+        end
+    end
+end
 local getShiny = function(Shin)
     if Shin then
         for i,v in next, getupvalue(RequestRelics,1) do
@@ -78,7 +75,7 @@ local getShiny = function(Shin)
 end
 
 local OpenAllGifts = function()
-    local Table = Client2.Save.GetSaves()[Player].Inventory.Misc
+    local Table = Client.Save.GetSaves()[Player].Inventory.Misc
     for _,v in next, Table do
         if Gifts:FindFirstChild(v.id) then
             RF("GiftBag_Open"):InvokeServer(v.id)
@@ -96,60 +93,86 @@ local GetFlags = function()
 	end
 end
 --------------- Fishing
-
-local GetRod = function()
-    return Player.Character:FindFirstChild("Rod", true)
-end
-
 local Activated = function()
+    if Method == "AdvancedFishing" then
+        if require(ReplicatedStorage.Library.Client.MasteryCmds).GetLevel("Fishing") < 30 then
+            RF("Instancing_InvokeCustomFromClient"):InvokeServer(CurrentActive().Name, "RequestCast",Vector3.new(1466.473388671875, 61.62495040893555, -4454.935546875))
+        elseif require(ReplicatedStorage.Library.Client.MasteryCmds).GetLevel("Fishing") >= 30 and CurrentActive().Interactable:FindFirstChild("DeepPool") then
+            RF("Instancing_InvokeCustomFromClient"):InvokeServer("AdvancedFishing","RequestCast", CurrentActive().Interactable.DeepPool.Position)
+        else
+            RF("Instancing_InvokeCustomFromClient"):InvokeServer(CurrentActive().Name, "RequestCast",Vector3.new(1466.473388671875, 61.62495040893555, -4454.935546875))
+        end
+        RE("Instancing_FireCustomFromClient"):FireServer("AdvancedFishing","RequestReel")
+        RF("Instancing_InvokeCustomFromClient"):InvokeServer("AdvancedFishing","Clicked")
+    elseif Method == "Fishing" then
+        if require(game.ReplicatedStorage.Library.Client.MasteryCmds).GetLevel("Fishing") < 30 then
+            RF("Instancing_InvokeCustomFromClient"):InvokeServer("Fishing","RequestCast",Vector3.new(1139, 75, -3445))
+        elseif require(ReplicatedStorage.Library.Client.MasteryCmds).GetLevel("Fishing") >= 30 and CurrentActive().Interactable:FindFirstChild("DeepPool") then
+            RF("Instancing_InvokeCustomFromClient"):InvokeServer("Fishing","RequestCast", CurrentActive().Interactable.DeepPool.Position)
+        else
+            RF("Instancing_InvokeCustomFromClient"):InvokeServer("Fishing","RequestCast",Vector3.new(1139, 75, -3445))
+        end
+        RE("Instancing_FireCustomFromClient"):FireServer("Fishing","RequestReel")
+        RF("Instancing_InvokeCustomFromClient"):InvokeServer("Fishing","Clicked")
+    end
     if Method == "Fishing" and not Active:FindFirstChild("Fishing") then
         VG.Teleport(Things.Instances.Fishing.Teleports.Enter.Position)
     elseif Method == "AdvancedFishing" and not Active:FindFirstChild("AdvancedFishing") then
         VG.Teleport(Things.Instances.AdvancedFishing.Teleports.Enter.Position)
     end
-    if Method == "Fishing" and not GetRod():FindFirstChild("FishingLine", true) and wait(5) then
-        if not Active.Fishing.Interactable:FindFirstChild("DeepPool") then
-            RE("Instancing_FireCustomFromClient"):FireServer("Fishing","RequestCast",Vector3.new(1139, 75, -3445))
-        else
-            RE("Instancing_FireCustomFromClient"):FireServer("Fishing","RequestCast",Workspace.__THINGS.__INSTANCE_CONTAINER.Active.Fishing.Interactable.DeepPool.Position)
-        end
-    elseif Method == "AdvancedFishing"  and not GetRod():FindFirstChild("FishingLine", true) and wait(5) then
-        if not Active.AdvancedFishing.Interactable:FindFirstChild("DeepPool") then
-            RE("Instancing_FireCustomFromClient"):FireServer("AdvancedFishing","RequestCast",Vector3.new(1460, 61, -4442))
-        else
-			local HEHEHE = Workspace.__THINGS.__INSTANCE_CONTAINER.Active.AdvancedFishing.Interactable.DeepPool
-			print(HEHEHE.Position)
-            RE("Instancing_FireCustomFromClient"):FireServer("AdvancedFishing","RequestCast", HEHEHE.Position)
-        end
-    end
-    local Nothing = nil
-    if Method == "Fishing" and GetRod():FindFirstChild("FishingLine", true) then
-        Nothing = GetRod().FishingLine.Attachment1.Parent
-    elseif Method == "AdvancedFishing" and GetRod():FindFirstChild("FishingLine", true) then
-        Nothing = GetRod().FishingLine.Attachment0.Parent
-    end
-    if Nothing then
-        local Height = tonumber(Nothing.Position.Y)
-        print(Height)
-        if Method == "Fishing" and Height < 75 then
-            RE("Instancing_FireCustomFromClient"):FireServer("Fishing", "RequestReel")
-        elseif Method == "AdvancedFishing" and Height < 70.9 then
-            RE("Instancing_FireCustomFromClient"):FireServer("AdvancedFishing","RequestReel")
-        end
-    end
-    if Method == "Fishing" and FishingGame.Enabled and wait(.2) then
-        RF("Instancing_InvokeCustomFromClient"):InvokeServer("Fishing","Clicked")
-    elseif Method == "AdvancedFishing" and FishingGame.Enabled and wait(.2) then
-        RF("Instancing_InvokeCustomFromClient"):InvokeServer("AdvancedFishing","Clicked")
-    end
-    if Method == "Fishing" then
-        VG.GetHumanoid():MoveTo(Vector3.new(1113 + math.random(10), 80, -3444 + math.random(10)))
-        VG.GetHumanoid().MoveToFinished:Wait()
-    elseif Method == "AdvancedFishing" then
-        VG.GetHumanoid():MoveTo(Vector3.new(1440 + math.random(10), 66, -4445 + math.random(10)));VG.GetHumanoid().MoveToFinished:Wait()
-	end
 end
+
 ----- Collecting Stuff
+local Venders = function()
+    local OldPos = Player.Character:GetModelCFrame()
+    for i,v in next, VendingMachines do
+        local Real = VG.FFD(Workspace[GetMap()], v)
+        print(v, Real)
+        if Real and Real:FindFirstChild("VendingMachine") and not Real.VendingMachine.Screen.SurfaceGui.SoldOut.Visible then
+            VG.Teleport(Real:GetModelCFrame().Position)
+            repeat wait() RE("VendingMachines_Purchase"):InvokeServer(v, 1) until Real.VendingMachine.Screen.SurfaceGui.SoldOut.Visible
+        end
+    end
+    Player.Character:SetPrimaryPartCFrame(OldPos)
+end
+
+local FindDiamonds = function()
+    local Table = nil
+    for i,v in next, workspace.__THINGS.Breakables:GetChildren() do
+        if v and v:GetAttribute("BreakableID") and string.find(v:GetAttribute("BreakableID"), "Diamond") then
+            Table = v
+        end
+    end
+    return Table
+end
+
+
+local TargetFarm = function()
+    local MyPets = Client.PlayerPet.GetAll()
+    local MaxMag = math.huge
+
+    if not Target or not Target.Parent  then
+        for _,v in Things.Breakables:GetChildren() do
+            local Hitbox  = v:FindFirstChild("Hitbox", true)
+
+            if Hitbox and v:GetAttribute("BreakablesID") then
+                local Mag = VG.Mag(Player.Character.HumanoidRootPart, Hitbox)
+
+                if  Mag <= MaxMag then
+                    MaxMag = Mag
+                    Target = v
+                end
+            end
+        end
+    end
+    if Target then
+        RE("Breakables_PlayerDealDamage"):FireServer(tostring(Target.Name))
+        for _,v in MyPets do
+            Client.PlayerPet.SetTarget(v, Target)
+        end
+    end
+end
+
 local Collect = function()
     local FuckYou = workspace.__THINGS.Orbs:GetChildren()
     local KYS = workspace.__THINGS.Lootbags:GetChildren()
@@ -186,11 +209,6 @@ local MakeTable = function(Table)
 end
 
 --- Digsite Stuff
-
-local CurrentActive = function()
-    return Active:GetChildren()[1]
-end
-
 local GetBlock = function()
     local IHateMakingNamesFortables = CurrentActive()
     local Distance = math.huge
@@ -248,13 +266,11 @@ local Dig = function()
         end
     end
     if GetChest() then
-        VG.Tween(Player.Character.HumanoidRootPart, GetChest():FindFirstChildWhichIsA("BasePart"), 50, Vector3.new(0,0,2), true)
+        VG.Teleport(GetChest():FindFirstChildWhichIsA("BasePart").Position)
         RE("Instancing_FireCustomFromClient"):FireServer(CurrentActive().Name, "DigChest", GetChest():GetAttribute('Coord'))
-        wait(2)
     else
-        VG.Tween(Player.Character.HumanoidRootPart, GetBlock(), 50, Vector3.new(0,0,1), true)
+        VG.Teleport(GetBlock().Position)
         RE("Instancing_FireCustomFromClient"):FireServer(CurrentActive().Name, "DigBlock", GetBlock():GetAttribute('Coord'))
-        wait(.3)
     end
 end
 local DigAura = function() -- just Dig() without tweening
@@ -300,7 +316,13 @@ for i,v in next, ReplicatedStorage.__DIRECTORY.Zones:GetChildren() do
         end
     end
 end
- 
+
+
+for i,v in next, ReplicatedStorage.__DIRECTORY.VendingMachines:GetChildren() do
+    local String = string.split(v.Name, " | ")[2]
+    table.insert(VendingMachines, String)
+end
+
 for i,v in next, ReplicatedStorage.Assets.Instancing:GetChildren() do
     table.insert(Hehe, v.Name)
 end
@@ -317,17 +339,16 @@ for i,v in ReplicatedStorage.__DIRECTORY.Eggs["Zone Eggs"]:GetDescendants() do
     end
 end
 
+for i,v in next, ReplicatedStorage.__DIRECTORY.ZoneFlags:GetChildren() do
+	local NewName = string.split(v.Name, "ZoneFlag | ")[2]
+	table.insert(Flags, NewName)
+end
+
 for i,v in next, workspace.__THINGS.Instances:GetChildren() do
     if not table.find(Instances, v.Name) then
         table.insert(Instances, v.Name)
     end
 end
-
-for i,v in next, ReplicatedStorage.__DIRECTORY.ZoneFlags:GetChildren() do
-	local NewName = v.Name:gsub("ZoneFlags | ", "")
-	table.insert(Flags, NewName)
-end
-
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
@@ -375,11 +396,28 @@ do
         spawn(function()
             while wait() and AutoFarm do
                 pcall(function()
-                    CoinFarm()
+                    TargetFarm()
                 end)
             end
         end)
     end)
+    local Toggle = Tabs.AutoFarm:AddToggle("Lols", {Title = "Auto Ultimate", Default = false})
+    Toggle:OnChanged(function()
+        UltimateButtons = Options.Lols.Value
+        spawn(function()
+            while wait() and UltimateButtons do
+                pcall(function()         
+                    local Equipped = Client.UltimateCmds.GetEquippedItem()
+
+                    local IsCharged = Client.UltimateCmds.IsCharged(Equipped._data.id)
+                    if IsCharged then
+                        Client.UltimateCmds.Activate(Equipped._data.id)
+                    end
+                end)
+            end
+        end)
+    end)
+
     local Dropdown = Tabs.AutoFarm:AddDropdown("Ds", {Title = "Zones",Values = Zones,Multi = false,Default = 1})
     Dropdown:OnChanged(function(Value)
         PickedZone = Value
@@ -457,7 +495,7 @@ do
         spawn(function()
             while vut and wait() do
                 pcall(function()
-                    BuyVenders()
+                    Venders()
                 end)
             end
         end)
@@ -480,11 +518,16 @@ do
         spawn(function()
             while wait() and Yes do
                 pcall(function()    
+                    local OldPos = Player.Character:GetModelCFrame()
                     for i,v in next, workspace.__THINGS.HiddenPresents:GetChildren() do
-                        if v:IsA("BasePart") then wait(10)
+                        if v:IsA("BasePart") and v.Transparency == 0 then
+                            Player.Character:SetPrimaryPartCFrame(v.CFrame)
                             Clicked(GetPresentTable(v))
+                            break
                         end
                     end
+                    Player.Character:SetPrimaryPartCFrame(OldPos)
+                    wait(10)
                 end)
             end
         end)
@@ -561,9 +604,9 @@ do
         Fishe = Options.Fih.Value
         spawn(function()
             while wait() and Fishe do
-                pcall(function()
+               
                     Activated()
-                end)
+              
             end
         end)
         spawn(function()
