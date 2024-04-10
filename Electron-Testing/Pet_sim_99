@@ -96,8 +96,11 @@ end
 local Activated = function()
     if Method == "Fishing" and not Active:FindFirstChild("Fishing") then
         VG.Teleport(Things.Instances.Fishing.Teleports.Enter.Position)
+        wait(5)
     elseif Method == "AdvancedFishing" and not Active:FindFirstChild("AdvancedFishing") then
         VG.Teleport(Things.Instances.AdvancedFishing.Teleports.Enter.Position)
+        wait(5)
+        VG.GetHumanoid():MoveTo(1448, 67, -4445)
     end
     if Method == "AdvancedFishing" then
         if require(ReplicatedStorage.Library.Client.MasteryCmds).GetLevel("Fishing") < 30 then
