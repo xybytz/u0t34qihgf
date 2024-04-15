@@ -170,6 +170,18 @@ VG.GetProtecter = function()
 end
 -- print(VG.Protecter()) -- Model, Parent CoreGui
 
+VG.Protect = protect_gui or function(Gui)
+    if type(Gui) == "userdata then
+        if sethiddenproperty then
+            sethiddenproperty(Gui, "RobloxLocked", true)
+        else
+            Gui.RobloxLocked = true
+        end
+    end
+end
+
+--VG.Protect(ScreenGui)
+
 VG.SetGuiParent = function(Gui)
     if Gui then
         Gui.RobloxLocked = true
