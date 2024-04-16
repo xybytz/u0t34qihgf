@@ -1,4 +1,4 @@
-getgenv().Games = {
+Games = {
     [4777817887] = "https://raw.githubusercontent.com/1201for/V.G-Hub/main/Games/Blade-Ball",
     [3317771874] = "https://raw.githubusercontent.com/1201for/V.G-Hub/main/Games/Pet-Simulator_99",
     [111958650] = "https://raw.githubusercontent.com/1201for/V.G-Hub/main/Games/Arsenal",
@@ -152,3 +152,4 @@ getgenv().Games = {
     [5576431970] = "https://raw.githubusercontent.com/1201for/V.G-Hub/main/Games/Pet-Simulator-99",
 }
 
+return Games
