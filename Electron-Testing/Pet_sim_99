@@ -9,6 +9,7 @@ local EggTable = {}
 local Instances = {}
 local Flags = {}
 local VendingMachines = {}
+local Library  = require(ReplicatedStorage:WaitForChild("Library"))
 local Client = require(ReplicatedStorage.Library:WaitForChild("Client"))
 
 local HiddenPresents = getsenv(Player.PlayerScripts.Scripts.Game.Misc["Hidden Presents"])
@@ -83,7 +84,7 @@ local GetFruits = function()
     end
 end
 local OpenAllGifts = function()
-    for _,v in next, Client.Items.All.Globals.All() do
+    for _,v in next, Library.Items.All.Globals.All() do
         if Gifts:FindFirstChild(v.id) then
             RF("GiftBag_Open"):InvokeServer(v.id)
         end
