@@ -11,6 +11,7 @@ local Flags = {}
 local VendingMachines = {}
 local Library  = require(ReplicatedStorage:WaitForChild("Library"))
 local Client = require(ReplicatedStorage.Library:WaitForChild("Client"))
+local Gifts = ReplicatedStorage:WaitForChild("__DIRECTORY").MiscItems.Categorized.Gifts
 
 local HiddenPresents = getsenv(Player.PlayerScripts.Scripts.Game.Misc["Hidden Presents"])
 local ShinyRelics = getsenv(Player.PlayerScripts.Scripts.Game.Misc["Shiny Relics"])
@@ -85,8 +86,8 @@ local GetFruits = function()
 end
 local OpenAllGifts = function()
     for _,v in next, Library.Items.All.Globals.All() do
-        if Gifts:FindFirstChild(v.id) then
-            RF("GiftBag_Open"):InvokeServer(v.id)
+        if Gifts:FindFirstChild(v._data.id) then
+            RF("GiftBag_Open"):InvokeServer(v._data.id)
         end
     end
 end
@@ -147,7 +148,6 @@ local Venders = function()
     local OldPos = Player.Character:GetModelCFrame()
     for i,v in next, VendingMachines do
         local Real = VG.FFD(Workspace[GetMap()], v)
-        print(v, Real)
         if Real and Real:FindFirstChild("VendingMachine") and not Real.VendingMachine.Screen.SurfaceGui.SoldOut.Visible then
             VG.Teleport(Real:GetModelCFrame().Position)
             repeat wait() RE("VendingMachines_Purchase"):InvokeServer(v, 1) until Real.VendingMachine.Screen.SurfaceGui.SoldOut.Visible
@@ -269,7 +269,6 @@ local Dig = function()
         VG.Teleport(Things.Instances.AdvancedDigsite.Teleports.Enter.Position)
     end
     if (GetBlock() == nil or GetChest() == nil) then
-        print("no Blocks")
         if Method2 == "Digsite" and not Active:FindFirstChild("Digsite") then
             VG.Teleport(Workspace.__THINGS.Instances["Digsite"].Teleports.Leave.Position)
             wait(5)
