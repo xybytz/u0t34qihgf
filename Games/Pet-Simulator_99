@@ -1,23 +1,32 @@
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
 VG.DisableConnection(Error)
 VG.DisableConnection(Idled)
-
-repeat wait() until game:IsLoaded()
 local Hehe = {}
 local Zones = {}
-local Flags = {}
 local Fruits = {}
 local EggTable = {}
 local Instances = {}
 local Flags = {}
 local VendingMachines = {}
-
 local Client = require(ReplicatedStorage.Library:WaitForChild("Client"))
-local Gifts = ReplicatedStorage:WaitForChild("__DIRECTORY").MiscItems.Categorized.Gifts
+
+local HiddenPresents = getsenv(Player.PlayerScripts.Scripts.Game.Misc["Hidden Presents"])
+local ShinyRelics = getsenv(Player.PlayerScripts.Scripts.Game.Misc["Shiny Relics"])
+local Hatching = getsenv(Player.PlayerScripts.Scripts.Game:WaitForChild("Egg Opening Frontend"))
+
+local CalculateSpeedMultiplier = Client.PlayerPet.CalculateSpeedMultiplier
+local HatchingAnimation = Hatching.PlayEggAnimation
+local RequestRelics = ShinyRelics.RequestRelics
+local RelicClicked = ShinyRelics.RelicClicked
+local GetActive = HiddenPresents.GetActive
+local Clicked = HiddenPresents.Clicked
 -----
 local Network = ReplicatedStorage:WaitForChild("Network")
-local FishingGame = Player.PlayerGui._INSTANCES:WaitForChild("FishingGame")
 local Things = Workspace:WaitForChild("__THINGS")
 local Active = Things.__INSTANCE_CONTAINER:WaitForChild("Active")
+local Gifts = ReplicatedStorage:WaitForChild("__DIRECTORY").MiscItems.Categorized.Gifts
+
 -----
 local RE = function(RemoteName)
     if Network:FindFirstChild(RemoteName) then
@@ -34,12 +43,6 @@ local RF = function(RemoteName)
         error("Failed to load Remotfunction " .. RemoteName .. " Please Contact Deku with this error")
     end
 end
-local HiddenPresents = getsenv(Player.PlayerScripts.Scripts.Game.Misc["Hidden Presents"])
-local GetActive = HiddenPresents.GetActive
-local Clicked = HiddenPresents.Clicked
-local ShinyRelics = getsenv(Player.PlayerScripts.Scripts.Game.Misc["Shiny Relics"])
-local RequestRelics = ShinyRelics.RequestRelics
-local RelicClicked = ShinyRelics.RelicClicked
 
 local GetPresentTable = function(Pre)
     if Pre then
@@ -72,9 +75,15 @@ local getShiny = function(Shin)
     end
 end
 
+local GetFruits = function()
+    local LMAO = Client.Save.GetSaves()[Player].Inventory.Fruit
+    for i,v in next, LMAO do
+        RE("Fruits: Consume"):FireServer(i,1)
+        break
+    end
+end
 local OpenAllGifts = function()
-    local Table = Client.Save.GetSaves()[Player].Inventory.Misc
-    for _,v in next, Table do
+    for _,v in next, Client.Items.All.Globals.All() do
         if Gifts:FindFirstChild(v.id) then
             RF("GiftBag_Open"):InvokeServer(v.id)
         end
@@ -89,6 +98,15 @@ local GetFlags = function()
             break
 		end
 	end
+end
+
+local Click = function()
+    setthreadidentity(2)
+    User:SendMouseButtonEvent(0,0, 0, true, game, 0)
+    User:SendMouseButtonEvent(0,0, 1, true, game, 0)
+    User:SendMouseButtonEvent(0,0, 0, false, game, 0)
+    User:SendMouseButtonEvent(0,0, 1, false, game, 0)
+    setthreadidentity(8)
 end
 --------------- Fishing
 local Activated = function()
@@ -137,40 +155,22 @@ local Venders = function()
     Player.Character:SetPrimaryPartCFrame(OldPos)
 end
 
-local FindDiamonds = function()
-    local Table = nil
-    for i,v in next, workspace.__THINGS.Breakables:GetChildren() do
-        if v and v:GetAttribute("BreakableID") and string.find(v:GetAttribute("BreakableID"), "Diamond") then
-            Table = v
-        end
-    end
-    return Table
-end
-
-
 local TargetFarm = function()
     local MyPets = Client.PlayerPet.GetAll()
     local MaxMag = math.huge
-
-    if not Target or not Target.Parent  then
-        for _,v in Things.Breakables:GetChildren() do
-            local Hitbox  = v:FindFirstChild("Hitbox", true)
-
-            if Hitbox and v:GetAttribute("BreakablesID") then
-                local Mag = VG.Mag(Player.Character.HumanoidRootPart, Hitbox)
-
-                if  Mag <= MaxMag then
-                    MaxMag = Mag
-                    Target = v
-                end
+    local Target = nil
+    for _,v in Things.Breakables:GetChildren() do
+        local Hitbox  = v:FindFirstChild("Hitbox", true)
+        if Hitbox then
+            local Mag = VG.Mag(Player.Character.HumanoidRootPart, Hitbox)
+            if  Mag <= MaxMag then
+                MaxMag = Mag
+                Target = v
             end
         end
     end
     if Target then
         RE("Breakables_PlayerDealDamage"):FireServer(tostring(Target.Name))
-        for _,v in MyPets do
-            Client.PlayerPet.SetTarget(v, Target)
-        end
     end
 end
 
@@ -194,19 +194,38 @@ local Collect = function()
     RE("Orbs: Collect"):FireServer(MyOrbs)
 end
 
-local BuyEgg = function(Egg, Amount)
-    RF("Eggs_RequestPurchase"):InvokeServer(Egg, Amount)
+local GetLastEgg = function()
+    return require(ReplicatedStorage.Library.Client.EggCmds).GetHighestEggNumberAvailable()
 end
-
-local MakeTable = function(Table)
-    local Temp = {}
-    local IDs = {}
-    for i,v in next, Client.Items.All.Globals.All() do
-        if table.find(Table, v._data.id) then
-            table.insert(Temp, v._uid)
+local GetMaxEggsAbleToOpen = function()
+    return require(ReplicatedStorage.Library.Client.EggCmds).GetMaxHatch()
+end
+local GetLastEggName = function()
+    for i, v in next, ReplicatedStorage.__DIRECTORY.Eggs["Zone Eggs"]:GetChildren() do
+        for i, v in next, v:GetChildren() do
+            for i, v in next, v:GetChildren() do
+                if v:IsA("ModuleScript") then
+                    local String = string.split(v.Name, " | ")[1]
+                    if GetLastEgg() == tonumber(String) then
+                        return string.split(v.Name, " | ")[2]
+                    end
+                end
+            end
         end
     end
-    return Temp
+end
+local BuyLastEgg = function()
+    for i, v in next, Workspace.__THINGS.Eggs:FindFirstChildWhichIsA("Model"):GetChildren() do
+        local String = string.split(v.Name, " -")[1]
+        if GetLastEgg() == tonumber(String) then
+            VG.Teleport(v:GetModelCFrame().Position)
+            RF("Eggs_RequestPurchase"):InvokeServer(GetLastEggName(), tonumber(GetMaxEggsAbleToOpen()))
+        end
+    end
+end
+
+local BuyEgg = function(Egg, Amount)
+    RF("Eggs_RequestPurchase"):InvokeServer(Egg, GetMaxEggsAbleToOpen())
 end
 
 --- Digsite Stuff
@@ -318,7 +337,6 @@ for i,v in next, ReplicatedStorage.__DIRECTORY.Zones:GetChildren() do
     end
 end
 
-
 for i,v in next, ReplicatedStorage.__DIRECTORY.VendingMachines:GetChildren() do
     local String = string.split(v.Name, " | ")[2]
     table.insert(VendingMachines, String)
@@ -329,7 +347,7 @@ for i,v in next, ReplicatedStorage.Assets.Instancing:GetChildren() do
 end
 
 for i,v in next, ReplicatedStorage.__DIRECTORY.Fruits:GetChildren() do
-	local Name = v.Name:gsub("Fruit | ", "")
+	local Name = string.split(v.Name, " | ")[2]
 	table.insert(Fruits, Name)
 end
 
@@ -350,6 +368,32 @@ for i,v in next, workspace.__THINGS.Instances:GetChildren() do
         table.insert(Instances, v.Name)
     end
 end
+
+local OldNameCall = nil
+OldNameCall = hookmetamethod(game, "__namecall", function(...)
+   local Self, Args = ..., {...}
+   if Self.Name == "Is Real Player" and getnamecallmethod() == "InvokeServer" then
+      return
+   end
+   return OldNameCall(...)
+end)
+
+
+Client.PlayerPet.CalculateSpeedMultiplier = function(...)
+	if PetSpeed then
+		return 9e9
+	else
+		return CalculateSpeedMultiplier(...)
+	end
+end
+Hatching.PlayEggAnimation = function(...)
+    if NoHatch then
+        return
+    else
+        return HatchingAnimation(...)
+    end
+end
+
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
@@ -418,32 +462,39 @@ do
             end
         end)
     end)
-
-    local Dropdown = Tabs.AutoFarm:AddDropdown("Ds", {Title = "Zones",Values = Zones,Multi = false,Default = 1})
-    Dropdown:OnChanged(function(Value)
-        PickedZone = Value
+    local Toggle = Tabs.AutoFarm:AddToggle("f93", {Title = "Infinite Pet Speed", Default = false})
+    Toggle:OnChanged(function()
+        PetSpeed = Options.f93.Value
+    end)
+    local Toggle = Tabs.AutoFarm:AddToggle("f933", {Title = "Skip Egg HatchingAnimation", Default = false})
+    Toggle:OnChanged(function()
+        NoHatch = Options.f933.Value
+    end)
+    local Toggle = Tabs.AutoFarm:AddToggle("Egg2d", {Title = "Auto Open Last Egg", Default = false})
+    Toggle:OnChanged(function()
+        Hey3y = Options.Egg2d.Value
+        spawn(function()
+            while wait() and Hey3y do
+                pcall(function()
+                    BuyLastEgg()
+                end)
+            end
+        end)
     end)
     local Toggle = Tabs.AutoFarm:AddToggle("Eggd", {Title = "Auto Open Egg", Default = false})
     Toggle:OnChanged(function()
         Heyy = Options.Eggd.Value
         spawn(function()
             while wait() and Heyy do
-                BuyEgg(WantedEgg, AmountEgg)
-                game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9,9e9))
+                pcall(function()
+                    BuyEgg(WantedEgg, nil)
+                end)
             end
         end)
     end)
     local Dropdown = Tabs.AutoFarm:AddDropdown("Ds", {Title = "Eggs",Values = EggTable,Multi = false,Default = 1})
     Dropdown:OnChanged(function(Value)
         WantedEgg = Value
-    end)
-    
-    local Slider = Tabs.AutoFarm:AddSlider("Slider", {Title = "Amount of eggs",Description = "Amount of eggs you want to hatch make sure its not more then the max you can hatch", Default = 2, Min = 1, Max = 99,Rounding = 2, Callback = function(Value)
-        AmountEgg = math.round(Value) 
-    end})
-
-    Slider:OnChanged(function(Value)
-        AmountEgg = math.round(Value)
     end)
 
     local Toggle = Tabs.AutoFarm:AddToggle("Toyou", {Title = "Auto Eat Fruits", Default = false})
@@ -452,9 +503,7 @@ do
         spawn(function()
             while Frut and wait() do
                 pcall(function()
-                    for i,v in MakeTable(Fruits) do wait(1)
-                        RE("Fruits: Consume"):FireServer(v,1)
-                    end
+                    GetFruits()
                 end)
             end
         end)
@@ -523,6 +572,7 @@ do
                     for i,v in next, workspace.__THINGS.HiddenPresents:GetChildren() do
                         if v:IsA("BasePart") and v.Transparency == 0 then
                             Player.Character:SetPrimaryPartCFrame(v.CFrame)
+                            wait(.1)
                             Clicked(GetPresentTable(v))
                             break
                         end
