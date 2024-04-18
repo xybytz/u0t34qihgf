@@ -169,8 +169,8 @@ local AutoFarmZones = function()
             RF("Teleports_RequestTeleport"):InvokeServer(Owned)
         end
         if Zone then
-            if Owned == "SHOP" or Owned == "Shop" then
-                VG.Teleport(Zone.BREAK_ZONES:GetChildren()[2].Position + Vector3.new(0,1,0))
+            if Zone:FindFirstChild("BREAKABLE_SPAWNS") then
+                VG.Teleport(Zone.BREAK_ZONES.BREAKABLE_SPAWNS.Main.Position + Vector3.new(0,1,0))
             else
                 VG.Teleport(Zone.BREAK_ZONES:GetChildren()[1].Position + Vector3.new(0,1,0))
             end
@@ -179,7 +179,7 @@ local AutoFarmZones = function()
         RF("Zones_RequestPurchase"):InvokeServer(NotOwned)
     end
 end
-
+workspace.Map2["100 | Tech Spawn"].INTERACT.BREAKABLE_SPAWNS
 local TargetFarm = function()
     local MyPets = Client.PlayerPet.GetAll()
     local MaxMag = math.huge
