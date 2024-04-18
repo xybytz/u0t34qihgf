@@ -169,7 +169,11 @@ local AutoFarmZones = function()
             RF("Teleports_RequestTeleport"):InvokeServer(Owned)
         end
         if Zone then
-            VG.Teleport(Zone.BREAK_ZONES:GetChildren()[1].Position + Vector3.new(0,1,0))
+            if Owned == "SHOP" or Owned == "Shop" then
+                VG.Teleport(Zone.BREAK_ZONES:GetChildren()[2].Position + Vector3.new(0,1,0))
+            else
+                VG.Teleport(Zone.BREAK_ZONES:GetChildren()[1].Position + Vector3.new(0,1,0))
+            end
         end
         local NotOwned = ZoneCMDS.GetNextZone()
         RF("Zones_RequestPurchase"):InvokeServer(NotOwned)
