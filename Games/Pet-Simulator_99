@@ -179,7 +179,7 @@ local AutoFarmZones = function()
         RF("Zones_RequestPurchase"):InvokeServer(NotOwned)
     end
 end
-workspace.Map2["100 | Tech Spawn"].INTERACT.BREAKABLE_SPAWNS
+
 local TargetFarm = function()
     local MyPets = Client.PlayerPet.GetAll()
     local MaxMag = math.huge
