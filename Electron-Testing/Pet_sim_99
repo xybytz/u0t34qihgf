@@ -169,7 +169,7 @@ local AutoFarmZones = function()
             RF("Teleports_RequestTeleport"):InvokeServer(Owned)
         end
         if Zone then
-            VG.Teleport(Zone.BREAK_ZONES.BREAK_ZONE.Position + Vector3.new(0,1,0))
+            VG.Teleport(Zone.BREAK_ZONES:GetChildren()[1].Position + Vector3.new(0,1,0))
         end
         local NotOwned = ZoneCMDS.GetNextZone()
         RF("Zones_RequestPurchase"):InvokeServer(NotOwned)
@@ -444,7 +444,7 @@ spawn(function()
             if vut then
                 Venders()
             end
-            if Orbs or YesLol then
+            if gg or YesLol then
                 Collect()
             end
             if ToHateYou then
