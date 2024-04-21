@@ -1,0 +1,120 @@
+
+
+local JobTable = {}
+for i,v in next, Workspace.Jobs:GetChildren() do
+    if v:IsA("Folder") then
+        for i,v in next, v.StartPoints:GetChildren() do
+            if not table.find(JobTable, v.Name) then
+                table.insert(JobTable, v.Name)
+            end
+        end
+    end
+end
+local GetCar = function()
+    local Car = nil
+    for i,v in next, Workspace.Cars:GetChildren() do
+        if v:IsA("Model") then
+            if v:FindFirstChild("CurrentDriver") and v.CurrentDriver.Value == Player then
+                Car = v
+            end
+        end
+    end
+    return Car
+end
+
+local doJob = function()
+    local JobParent = nil
+    for i,v in next, Workspace.Jobs:GetChildren() do
+        if v:FindFirstChild(Job, true) then
+            JobParent = v
+        end
+    end
+    print(JobParent)
+    GetCar():SetPrimaryPartCFrame(JobParent.StartPoints[Job]:GetAttributes().LocationCFrame)
+    game:GetService("ReplicatedStorage"):WaitForChild("Systems"):WaitForChild("Jobs"):WaitForChild("StartJob"):InvokeServer(JobParent,JobParent.StartPoints[Job])
+    wait(8)
+    GetCar():SetPrimaryPartCFrame(workspace.CompletionRegion.Primary.CFrame * CFrame.new(0,1,0))
+    wait(3)
+    game:GetService("ReplicatedStorage"):WaitForChild("Systems"):WaitForChild("Jobs"):WaitForChild("CompleteJob"):InvokeServer()
+    VG.FireConnection(Player.PlayerGui.JobComplete.Window.Content.Buttons.ClaimButton.MouseButton1Click)
+    VG.FireConnection(Player.PlayerGui.JobComplete.Window.Content.Buttons.CloseButton.MouseButton1Click)
+end
+
+spawn(function()
+    while wait() do
+        pcall(function()
+            if JOBY then
+                doJob(Job)
+            end
+        end)
+    end
+end)
+
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+ 
+local Window = Fluent:CreateWindow({
+    Title = "V.G Hub: Game " .. MarketplaceService:GetProductInfo(game.PlaceId).Name,
+    SubTitle = "by DekuDimz",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = false, -- The blur may be detectable, setting this to false disables blur entirely
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.Delete -- Used when theres no MinimizeKeybind
+})
+ 
+ 
+local Tabs = {
+    AutoFarm = Window:AddTab({ Title = "AutoFarm", Icon = "" }),
+    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
+}
+ 
+local Options = Fluent.Options
+ 
+do
+    Fluent:Notify({
+        Title = "V.G Hub Loaded",
+        Content = "Congrats your using V.G Hub " .. Verison,
+        SubContent = "", -- Optional
+        Duration = 10 -- Set to nil to make the notification not disappear
+    })
+    local Toggle = Tabs.AutoFarm:AddToggle("Rend", {Title = "Disable 3D Rendering", Default = false})
+    Toggle:OnChanged(function()
+        Norender = Options.Rend.Value
+        if Norender then
+            RunService:Set3dRenderingEnabled(false)
+        else
+            RunService:Set3dRenderingEnabled(true)
+        end
+    end)
+    local Toggle = Tabs.AutoFarm:AddToggle("YesLol", {Title = "Automatic Selected Job", Default = false})
+    Toggle:OnChanged(function()
+        JOBY = Options.YesLol.Value
+    end)
+    local Dropdown = Tabs.AutoFarm:AddDropdown("idkanymore", {Title = "Jobs",Values = JobTable ,Multi = false,Default = 1,})
+    Dropdown:OnChanged(function(Value)
+        Job = Value
+    end)
+end
+
+SaveManager:SetLibrary(Fluent)
+InterfaceManager:SetLibrary(Fluent)
+SaveManager:IgnoreThemeSettings()
+SaveManager:SetIgnoreIndexes({})
+InterfaceManager:SetFolder("FluentScriptHub")
+SaveManager:SetFolder("FluentScriptHub/specific-game")
+ 
+InterfaceManager:BuildInterfaceSection(Tabs.Settings)
+SaveManager:BuildConfigSection(Tabs.Settings)
+ 
+ 
+Window:SelectTab(1)
+ 
+Fluent:Notify({
+    Title = "V.G Hub",
+    Content = "The script has been loaded.",
+    Duration = 8
+})
+ 
+SaveManager:LoadAutoloadConfig()
