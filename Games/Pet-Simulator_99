@@ -158,7 +158,9 @@ end
 
 local Rebirth = function()
     local yes = require(game:GetService("ReplicatedStorage").Library.Client.RebirthCmds)
-    RF("Rebirth_Request"):InvokeServer(tostring(yes.GetNextRebirth().RebirthNumber))
+    if yes.GetNextRebirth() and yes.GetNextRebirth().RebirthNumber then
+        RF("Rebirth_Request"):InvokeServer(tostring(yes.GetNextRebirth().RebirthNumber))
+    end
 end
 
 local AutoFarmZones = function()
@@ -169,9 +171,12 @@ local AutoFarmZones = function()
             RF("Teleports_RequestTeleport"):InvokeServer(Owned)
         end
         if Zone then
-            if Zone:FindFirstChild("BREAKABLE_SPAWNS") then
+            if Zone:FindFirstChild("Buy Signs") then
                 VG.Teleport(Zone.BREAKABLE_SPAWNS.Main.Position + Vector3.new(0,1,0))
-            elseif not Zone:FindFirstChild("BREAKABLE_SPAWNS") then
+            elseif Zone:FindFirstChild("BREAKABLE_SPAWNS") and Zone.BREAKABLE_SPAWNS:FindFirstChild("Boss") then
+                VG.Teleport(Zone.BREAKABLE_SPAWNS.Main.Position + Vector3.new(0,1,0))
+            
+            else
                 VG.Teleport(Zone.BREAK_ZONES.BREAK_ZONE.Position + Vector3.new(0,1,0))
             end
         end
@@ -181,7 +186,6 @@ local AutoFarmZones = function()
 end
 
 local TargetFarm = function()
-    local MyPets = Client.PlayerPet.GetAll()
     local MaxMag = math.huge
     local Target = nil
     for _,v in Things.Breakables:GetChildren() do
@@ -203,6 +207,7 @@ local Collect = function()
     local FuckYou = workspace.__THINGS.Orbs:GetChildren()
     local KYS = workspace.__THINGS.Lootbags:GetChildren()
     local MyOrbs = {}
+    local MyBags = {}
 
     if #FuckYou > 0 then
         for i,v in next, FuckYou do
@@ -212,11 +217,12 @@ local Collect = function()
     end
     if #KYS > 0 then
         for i,v in next, KYS do            
-            RE("Lootbags_Claim"):FireServer({v.Name})
+            MyBags[v.Name] = v.Name
             v:Destroy()
         end
     end
     RE("Orbs: Collect"):FireServer(MyOrbs)
+    RE("Lootbags_Claim"):FireServer(MyBags)
 end
 
 local GetLastEgg = function()
@@ -240,13 +246,18 @@ local GetLastEggName = function()
     end
 end
 local BuyLastEgg = function()
+    local OldCFrame = Player.Character.HumanoidRootPart.CFrame
     for i, v in next, Workspace.__THINGS.Eggs:FindFirstChildWhichIsA("Model"):GetChildren() do
         local String = string.split(v.Name, " -")[1]
         if GetLastEgg() == tonumber(String) then
             VG.Teleport(v:GetModelCFrame().Position)
+            wait(.1)
             RF("Eggs_RequestPurchase"):InvokeServer(GetLastEggName(), tonumber(GetMaxEggsAbleToOpen()))
+            break
         end
     end
+    Player.Character:SetPrimaryPartCFrame(OldCFrame)
+    wait(3)
 end
 
 local BuyEgg = function(Egg, Amount)
@@ -431,7 +442,7 @@ spawn(function()
                 end
             end
             if Hey3y then
-                BuyLastEgg()
+                spawn(BuyLastEgg)
             end
             if Heyy then
                 BuyEgg(WantedEgg, GetMaxEggsAbleToOpen())
@@ -454,11 +465,11 @@ spawn(function()
             if ToHateYou then
                 OpenAllGifts()
             end
-            if Rebi or YesLol then
-                Rebirth()
-            end
             if YesLol then
                 AutoFarmZones()
+            end
+            if Rebi or YesLol then
+                Rebirth()
             end
             if ClaimRank then
                 ClaimRanks()
@@ -466,6 +477,7 @@ spawn(function()
         end)
     end
 end)
+
 spawn(function()
     while wait() do
         pcall(function()
@@ -613,7 +625,7 @@ do
     end)
     local Toggle = Tabs.Obbys:AddToggle("Ranked", {Title = "Auto Claim Ranks Rewards", Default = false})
     Toggle:OnChanged(function()
-        ClaimRank = Options.Ranked.Value
+        g = Options.Ranked.Value
     end)
     Tabs.Obbys:AddButton({Title = "Auto Selected Obby",Description = "Automaticly does obby must be in obby to work",Callback = function()
         Doobbystuff()
