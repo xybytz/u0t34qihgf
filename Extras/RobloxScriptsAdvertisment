@@ -1,7 +1,5 @@
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
-VG.DisableConnection(Error)
-VG.DisableConnection(Idled)
 local ScreenGui = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
 local ImageButton = Instance.new("ImageButton")
