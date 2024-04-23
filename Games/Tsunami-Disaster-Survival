@@ -1,0 +1,121 @@
+
+local GodMode = function()
+    for _,v in next, Player.Character:GetDescendants() do
+        if v:IsA("BasePart") then
+            sethiddenproperty(v, "CanTouch", false)
+        end
+    end
+end
+
+local Win = function()
+    VG.Teleport(Workspace.SpawnLocation.Position + Vector3.new(0,2,0))
+end
+
+RenderStepped:Connect(function()
+    if God then
+        GodMode()
+    end
+    if Winner then
+        Win()
+    end
+    if NoClip then
+        for i,v in next, Player.Character:GetChildren() do
+            if v:IsA("BasePart") and v.CanCollide then
+                v.CanCollide = false
+            end
+        end
+    end
+end)
+local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/GamingScripter/V.G-Hub/main/Karrot-Esp"))()
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+ 
+local Window = Fluent:CreateWindow({
+    Title = "V.G Hub: Game " .. MarketplaceService:GetProductInfo(game.PlaceId).Name,
+    SubTitle = "by DekuDimz",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = false, -- The blur may be detectable, setting this to false disables blur entirely
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.Delete -- Used when theres no MinimizeKeybind
+})
+ 
+ 
+local Tabs = {
+    Main = Window:AddTab({ Title = "Features", Icon = "" }),
+    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
+ 
+}
+ 
+local Options = Fluent.Options
+ 
+do
+    Fluent:Notify({
+        Title = "V.G Hub Loaded",
+        Content = "Congrats your using V.G Hub " .. Verison,
+        SubContent = "", -- Optional
+        Duration = 10 -- Set to nil to make the notification not disappear
+    })
+    local Toggle = Tabs.Main:AddToggle("Rend", {Title = "Disable 3D Rendering", Default = false})
+    Toggle:OnChanged(function()
+        Norender = Options.Rend.Value
+        if Norender then
+            RunService:Set3dRenderingEnabled(false)
+        else
+            RunService:Set3dRenderingEnabled(true)
+        end
+    end)
+    local Toggle = Tabs.Main:AddToggle("NoClip", {Title = "NoClip", Default = false})
+    Toggle:OnChanged(function()
+        NoClip = Options.NoClip.Value
+    end)
+    local Toggle = Tabs.Main:AddToggle("Winner", {Title = "Auto Win", Default = false})
+    Toggle:OnChanged(function()
+        Winner = Options.Winner.Value
+    end)
+    local Toggle = Tabs.Main:AddToggle("God", {Title = "Semi GodMode dosen't work with Trees", Default = false})
+    Toggle:OnChanged(function()
+        God = Options.God.Value
+    end)
+    --[[
+    local Toggle = Tabs.Main:AddToggle("PlayerESP", {Title = "Player ESP", Default = false})
+    Toggle:OnChanged(function()
+        ESP:Toggle(Options.PlayerESP.Value)
+        ESP.Tracers = true
+        ESP.Names = true
+        ESP.Boxes = true
+    end)
+    local Toggle = Tabs.Main:AddToggle("Tracers", {Title = "Player Tracers", Default = true})
+    Toggle:OnChanged(function()
+        ESP.Tracers = Options.Tracers.Value
+    end)
+    local Toggle = Tabs.Main:AddToggle("Names", {Title = "Player Names", Default = true})
+    Toggle:OnChanged(function()
+        ESP.Names = Options.Names.Value
+    end)
+    local Toggle = Tabs.Main:AddToggle("Boxes", {Title = "Player Boxes", Default = true})
+    Toggle:OnChanged(function()
+        ESP.Boxes = Options.Boxes.Value
+    end)]]--
+end
+SaveManager:SetLibrary(Fluent)
+InterfaceManager:SetLibrary(Fluent)
+SaveManager:IgnoreThemeSettings()
+SaveManager:SetIgnoreIndexes({})
+InterfaceManager:SetFolder("FluentScriptHub")
+SaveManager:SetFolder("FluentScriptHub/specific-game")
+ 
+InterfaceManager:BuildInterfaceSection(Tabs.Settings)
+SaveManager:BuildConfigSection(Tabs.Settings)
+ 
+ 
+Window:SelectTab(1)
+ 
+Fluent:Notify({
+    Title = "V.G Hub",
+    Content = "The script has been loaded.",
+    Duration = 8
+})
+ 
+SaveManager:LoadAutoloadConfig()
