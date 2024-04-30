@@ -224,7 +224,6 @@ local Collect = function()
     RE("Orbs: Collect"):FireServer(MyOrbs)
     RE("Lootbags_Claim"):FireServer(MyBags)
 end
-
 local GetLastEgg = function()
     return require(ReplicatedStorage.Library.Client.EggCmds).GetHighestEggNumberAvailable()
 end
@@ -245,9 +244,19 @@ local GetLastEggName = function()
         end
     end
 end
+
+
 local BuyLastEgg = function()
+    local String = require(game:GetService("ReplicatedStorage").Library.Util.WorldsUtil).GetWorld()._id
+    local String2 = string.gsub(String, " ", "")
     local OldCFrame = Player.Character.HumanoidRootPart.CFrame
-    for i, v in next, Workspace.__THINGS.Eggs:FindFirstChildWhichIsA("Model"):GetChildren() do
+    local Lol = Workspace.__THINGS.Eggs:FindFirstChild(String2)
+    if Lol then
+        Lol = Workspace.__THINGS.Eggs[String2]:GetChildren() 
+    else
+        Lol = Workspace.__THINGS.Eggs.Main:GetChildren()
+    end
+    for i, v in next, Lol do
         local String = string.split(v.Name, " -")[1]
         if GetLastEgg() == tonumber(String) then
             VG.Teleport(v:GetModelCFrame().Position)
@@ -257,7 +266,6 @@ local BuyLastEgg = function()
         end
     end
     Player.Character:SetPrimaryPartCFrame(OldCFrame)
-    wait(3)
 end
 
 local BuyEgg = function(Egg, Amount)
@@ -430,7 +438,7 @@ Hatching.PlayEggAnimation = function(...)
 end
 spawn(function()
     while wait(.1) do
-        pcall(function()
+
             if AutoFarm or YesLol then
                 TargetFarm()
             end
@@ -474,7 +482,7 @@ spawn(function()
             if ClaimRank then
                 ClaimRanks()
             end
-        end)
+  
     end
 end)
 
