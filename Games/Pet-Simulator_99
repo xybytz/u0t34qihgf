@@ -356,7 +356,7 @@ local Doobbystuff = function(Obby)
             VG.Teleport(VG.FFD(New, "StartLine").Position + Vector3.new(-5,5,0))
         end
     end
-    wait(2)
+    wait(5)
     if Model2 then
         VG.Teleport(VG.FFD(New, "Goal").Pad.Position)
     end
@@ -442,7 +442,7 @@ spawn(function()
                 end
             end
             if Hey3y then
-                spawn(BuyLastEgg)
+                BuyLastEgg()
             end
             if Heyy then
                 BuyEgg(WantedEgg, GetMaxEggsAbleToOpen())
