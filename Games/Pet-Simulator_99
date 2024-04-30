@@ -438,7 +438,7 @@ Hatching.PlayEggAnimation = function(...)
 end
 spawn(function()
     while wait(.1) do
-
+        pcall(function()
             if AutoFarm or YesLol then
                 TargetFarm()
             end
@@ -482,7 +482,7 @@ spawn(function()
             if ClaimRank then
                 ClaimRanks()
             end
-  
+        end)
     end
 end)
 
