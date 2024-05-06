@@ -1,1 +1,482 @@
 
+
+local Worlds = {}
+local Healing = {}
+local foods = {}
+local list = {}
+local Dragons = {}
+local ss1 = {}
+local D = {
+    "🕹️Player",
+    "Guest"
+}
+local deku = {"Food", "Magic", "Resources"}
+UserInputService.InputBegan:Connect(function(Input, GPE)
+    if Input.KeyCode == Enum.KeyCode.LeftShift and Sp then
+        VG.IsA(Player.Character, "Humanoid").WalkSpeed = 25
+    end
+end)
+UserInputService.InputEnded:Connect(function(Input, GPE)
+    if Input.KeyCode == Enum.KeyCode.LeftShift and Sp then
+        VG.IsA(Player.Character, "Humanoid").WalkSpeed = 16
+    end
+end)
+----------------------------------------------------------------------------------------------------------------
+local RF, RE
+for i,v in next, getgc() do
+    if type(v) == "function" and islclosure(v) then
+        if debug.getinfo(v).name == "GetRemoteFunction" then
+            RF = v 
+        elseif debug.getinfo(v).name == "GetRemoteEvent" then
+            RE = v
+        end
+    end
+end
+for i, v in next, require(ReplicatedStorage.Storage.Worlds.Worlds) do
+    if not table.find(Worlds, v.Name .. " " .. v.GameId) then
+        table.insert(Worlds, v.Name .. " " .. v.GameId)
+    end
+end
+
+for i,v in next, ReplicatedStorage.Storage.Items.Items.Healing:GetChildren() do
+    if v:IsA("ModuleScript") then
+        for i,v in next, require(v) do
+            table.insert(Healing, i)
+        end
+    end
+end
+
+for i, v in next, ReplicatedStorage.Storage.Items.Items.Food:GetChildren() do
+    if v:IsA("ModuleScript") then
+        for i, _ in next, require(v) do
+            table.insert(foods, i)
+        end
+    end
+end
+for i, v in next, ReplicatedStorage.Storage.Items.Items.Food:GetChildren() do
+    if v:IsA("ModuleScript") then
+        for i, v in next, require(v) do
+            table.insert(list, i)
+        end
+    end
+end
+
+for i, v in next, Player.Data.Dragons:GetChildren() do
+    if v:FindFirstChild("Age") then
+        table.insert(Dragons, v.Value)
+    end
+end
+for i, v in next, ReplicatedStorage.Storage.Items.Items.Eggs:GetChildren() do
+    if v:IsA("ModuleScript") then
+        for i,v in next, require(v) do
+            table.insert(ss1, i)
+        end
+    end
+end
+
+----------------------------------------------------------------------------------------------------------------
+
+Player.PlayerGui.NodeGui.BoostFrame.ChildAdded:Connect(function(v)
+    if v:IsA("Frame") and v:FindFirstChild("ClickButton") then
+        wait(0.5)
+        VG.FireConnection(v.ClickShadowButton.MouseButton1Down)
+    end
+end)
+
+local AntiTeleport = function(Part)
+    VG.Tween(VG.GetHumanoid().SeatPart.Parent.PrimaryPart, Part.CFrame, 500, Vector3.new(0,5,0), true)
+end
+
+local BlackList = function(Node)
+    local Table = {}
+    for i,v in next, Workspace.Interactions.Nodes[Node]:GetChildren() do
+        if v:IsA("Model") and v:FindFirstChild("Attachment", true) and v:FindFirstChild("Attachment", true).WorldCFrame.Y <= 29 then
+            table.insert(Table, v)
+        end
+    end
+    return Table
+end
+
+local GetEgg = function()
+    local Target, MaxDistance = nil, math.huge
+    local T = Workspace.Terrain
+    for _,v in next, Workspace.Interactions.Nodes.Eggs.ActiveNodes:GetChildren() do
+        if v:IsA("Model") and v:FindFirstChild("EggModel") then
+            local Mag = VG.Mag(v.EggModel:GetModelCFrame(), Player.Character.HumanoidRootPart)
+            if Mag < MaxDistance and Mag < TMag then
+                MaxDistance = Mag
+                Target = v
+            end
+        end
+    end
+    return Target
+end
+----------------------------------------------------------------------------------------------------------------
+local ModifiedDragonStats = function(Stat, Value)
+    for i,v in next, Player.Character.Dragons:GetChildren() do
+        if v:IsA("Model") and v:FindFirstChild("Data") then
+            local NewStat = v.Data:FindFirstChild(Stat, true)
+            NewStat.Value = Value
+        end
+    end
+end
+
+local CollectDrops = function()
+    for _,v in next, Workspace.Camera:GetChildren() do
+        if v:FindFirstChild("Handle") then 
+            v:MoveTo(Player.Character.HumanoidRootPart.Position)
+        end
+    end
+end
+---------------------------------------------------------------------------------------------------------------------------------------------
+local GetMob = function()
+    local Target, MaxDistance = nil, math.huge
+    for _,v in next, Workspace.Interactions.Nodes.Mobs.ActiveMobs.Global:GetChildren() do
+        if v:IsA("BasePart") and VG.GetHumanoid().SeatPart then
+            local Mag = VG.Mag(v, Player.Character.HumanoidRootPart)
+            if Mag < MaxDistance and Mag < TMag then
+                MaxDistance = Mag
+                Target = v
+            end
+        end
+    end
+    return Target
+end
+
+
+local GetNode = function(Node)
+    local Target, MaxDistance = nil, math.huge
+    local T = Workspace.Terrain
+    for _,v in next, Workspace.Interactions.Nodes[Node]:GetChildren() do
+        if v:IsA("Model") and VG.GetHumanoid().SeatPart and v:FindFirstChild("BillboardPart") and v.BillboardPart:FindFirstChild("Health") and v.BillboardPart.Health.Value ~= 0 then
+            local Mag = VG.Mag(v:GetModelCFrame(), Player.Character.HumanoidRootPart)
+            if Mag < MaxDistance  and v:FindFirstChild("Attachment", true).WorldCFrame.Y > 29 then
+                MaxDistance = Mag
+                Target = v
+            end
+        end
+    end
+    return Target
+end
+
+
+local GetEgg = function()
+    local Target, MaxDistance = nil, math.huge
+    local T = Workspace.Terrain
+    for _,v in next, Workspace.Interactions.Nodes.Eggs.ActiveNodes:GetChildren() do
+        if v:IsA("Model") and v:FindFirstChild("EggModel") then
+            local Mag = VG.Mag(v.EggModel:GetModelCFrame(), Player.Character.HumanoidRootPart)
+            if Mag < MaxDistance then
+                MaxDistance = Mag
+                Target = v
+            end
+        end
+    end
+    return Target
+end
+
+local CollectNode = function()
+    local Tar = GetNode(CollectionItem)
+    CollectDrops()
+    if Tar then
+        if Tar:FindFirstChild("BillboardPart") then
+            AntiTeleport(Tar.BillboardPart)
+            VG.FireConnection(Player.PlayerGui.HUDGui.BottomFrame.CurrentDragonFrame.DragonControlsFrame.Other.Bite.MouseButton1Down)
+        end
+    end
+end
+
+local CollectEgg = function()
+    local Tar = GetEgg()
+    if Tar then
+        AntiTeleport(Tar.EggModel:FindFirstChildWhichIsA("BasePart"))
+        VG.KeyPress(true, "E", false, game)
+        if require(game:GetService("ReplicatedStorage")._replicationFolder.WorldService).GetWorldName() ~= "Prehistoric" then
+            Tar.EggModel.CurrentBoosts.Value = 9
+            Tar.EggModel.Harvested.Value = true
+        end
+        repeat wait() until Tar.EggModel.Harvested.Value
+    end
+    CollectDrops()
+end
+
+local KillMob = function()
+    CollectDrops()
+    AntiTeleport(GetMob())
+    if require(game:GetService("ReplicatedStorage")._replicationFolder.WorldService).GetWorldName() ~= "Prehistoric" then
+        VG.GetHumanoid().SeatPart.Parent.Data.CombatStats.BiteCooldown.Value = 0.1
+    end
+    VG.FireConnection(Player.PlayerGui.HUDGui.BottomFrame.CurrentDragonFrame.DragonControlsFrame.Other.Bite.MouseButton1Down)
+end
+---------------------------------------------------------------------------------------------------------------------------------------------
+spawn(function()
+    while wait() do
+      
+            if DeadDragon then
+                ModifiedDragonStats("Dead", false)
+            end
+            if FlySpeed then
+                ModifiedDragonStats("FlySpeed", 500)
+            end
+            if WalkSpeed then
+                ModifiedDragonStats("WalkSpeed", 500)
+            end
+            if OPDRAGON then
+                ModifiedDragonStats("DashCooldown", 0.1)
+                ModifiedDragonStats("FlyDashCooldown", 0.1)
+                ModifiedDragonStats("TurnSpeed", 5)
+                ModifiedDragonStats("FlySpeed", 300)
+                ModifiedDragonStats("WalkSpeed", 500)
+                ModifiedDragonStats("Dead", false)
+                ModifiedDragonStats("FlyTurnSpeed", 2)
+                ModifiedDragonStats("Dash3TimeUseCooldown", 0.1)
+                ModifiedDragonStats("BiteCooldown", 0.1)
+            end
+            if CollectEgging then
+                CollectEgg()
+            end
+            if AutoCollect then
+                CollectNode()
+            end
+            if AutoMob then
+                KillMob()
+            end
+      
+    end
+end)
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+ 
+local Window = Fluent:CreateWindow({
+    Title = "V.G Hub: Game " .. MarketplaceService:GetProductInfo(game.PlaceId).Name,
+    SubTitle = "by DekuDimz",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = false, -- The blur may be detectable, setting this to false disables blur entirely
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.Delete -- Used when theres no MinimizeKeybind
+})
+
+--Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
+local Tabs = {
+    Main = Window:AddTab({ Title = "Main", Icon = "" }),
+    AutoFarm = Window:AddTab({ Title = "AutoFarm", Icon = "" }),
+    Misc = Window:AddTab({ Title = "Misc", Icon = "" }),
+    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
+}
+
+local Options = Fluent.Options
+do
+    Fluent:Notify({
+        Title = "V.G Hub Loaded",
+        Content = "Congrats your using V.G Hub " .. Verison,
+        SubContent = "", -- Optional
+        Duration = 10 -- Set to nil to make the notification not disappear
+    })
+    local Toggle = Tabs.Main:AddToggle("Sprint", {Title = "Toggle Sprint", Default = false})
+    Toggle:OnChanged(function()
+        Sp = Options.Sprint.Value
+    end)
+    local Toggle = Tabs.Main:AddToggle("c3", {Title = "OP FlySpeed Dragons", Default = false})
+    Toggle:OnChanged(function()
+        FlySpeed = Options.c3.Value
+    end)
+    local Toggle = Tabs.Main:AddToggle("c1", {Title = "OP Dragons", Default = false})
+    Toggle:OnChanged(function()
+        OPDRAGON = Options.c1.Value
+    end)
+    local Toggle = Tabs.Main:AddToggle("c2", {Title = "OP WalkSpeed Dragons", Default = false})
+    Toggle:OnChanged(function()
+        WalkSpeed = Options.c2.Value
+    end)
+    local Toggle = Tabs.AutoFarm:AddToggle("Cole", {Title = "Dragon GodMode", Default = false})
+    Toggle:OnChanged(function()
+        DeadDragon = Options.Cole.Value
+    end)
+    if game.PlaceId == 3475397644 then
+        Tabs.Main:AddButton({Title = "Teleport to base",Description = "teleports player to base",Callback = function()
+            for i, v in next, Workspace.Interactions:GetDescendants() do
+                if v:IsA("TextLabel") and v.Name:match("Player")  then
+                    if  v.Text == Player.PlayerGui.WorkspaceGui[Player.Name .. "_DisplayGui"].ContainerFrame.NameLabel.Text then
+                        firetouchinterest(Player.Character.HumanoidRootPart, v.Parent.Parent.Parent.TeleportPart, 0)
+                    end
+                end
+            end
+        end})
+        Tabs.Main:AddButton({Title = "Sell All Foods",Description = "Sells all foods in intertory for coins",Callback = function()
+            for _, v in next, Player.Data.Resources:GetChildren() do
+                if table.find(foods,v.Name) and v.Value ~= 0 then wait(0.5)
+                    RE("SellItemRemote"):FireServer({["Amount"] = v.Value, ["ItemName"] = v.Name})
+                end
+            end
+        end})
+    end
+    Tabs.Main:AddButton({Title = "Go To World",Description = "Teleports to Selected world",Callback = function()
+        for i,v in next, Poop do
+            if string.find(Type,v.GameId) then
+                RF("WorldTeleportRemote"):InvokeServer(v.GameId,{})
+            end
+        end
+    end})
+     
+    local Dropdown = Tabs.Main:AddDropdown("ggg", {Title = "Worlds",Values = Worlds,Multi = false,Default = 1})
+    Dropdown:OnChanged(function(Value)
+        Type = Value
+    end)
+    Tabs.AutoFarm:AddButton({Title = "Notify",Description = "For The Auto Collect or AutoMob make sure your on a dragon and only have one dragon Equipped",Callback = function()end})
+    local Toggle = Tabs.AutoFarm:AddToggle("cOLL", {Title = "Auto Collect", Default = false})
+    Toggle:OnChanged(function()
+        AutoCollect = Options.cOLL.Value
+    end)
+    local Toggle = Tabs.AutoFarm:AddToggle("Cola", {Title = "Auto Mob", Default = false})
+    Toggle:OnChanged(function()
+        AutoMob = Options.Cola.Value
+    end)
+
+    local Dropdown = Tabs.AutoFarm:AddDropdown("Nodes", {Title = "Nodes to pick for AutoCollect",Values = deku,Multi = false,Default = 1,})
+
+    Dropdown:OnChanged(function(Value)
+        CollectionItem = Value
+    end)
+
+    local Toggle = Tabs.AutoFarm:AddToggle("Egg", {Title = "Auto Egg", Default = false})
+    Toggle:OnChanged(function()
+        CollectEgging = Options.Egg.Value
+    end)
+    local Toggle = Tabs.AutoFarm:AddToggle("Fish", {Title = "Auto Fish", Default = false})
+    Toggle:OnChanged(function()
+        Test = Options.Fish.Value
+        spawn(function()
+            while wait() and Test do
+                pcall(function()
+                    if Player.PlayerGui.FishingGui.ContainerFrame.Visible then
+                        local Fish = require(ReplicatedStorage["_replicationFolder"].FishingClient)
+                        local StartCasting = Fish.StartCasting
+                        local No = Player.PlayerGui.FishingGui.ContainerFrame.ReelingFrame.SpinRingFrame.SpinSmallSegment
+                        local Yes = Player.PlayerGui.FishingGui.ContainerFrame.ReelingFrame.SpinReelLabel
+                        local Bad = Player.PlayerGui.FishingGui.ContainerFrame.ReelingFrame.SpinRingFrame.SpinLargeSegment
+                        local Click = Fish.Click
+                        StartCasting(Fish, StartCasting)
+                        if Fish.Snagged then
+                            Fish.ReelSignal:Fire()
+                            if Yes.AbsoluteRotation >= Bad.AbsoluteRotation and No.AbsoluteRotation <= Bad.AbsoluteRotation then
+                                Click(Fish, Fish.Click)
+                            end
+                        end
+                    end
+                end)
+            end
+        end)
+    end)
+    Tabs.Misc:AddButton({Title = "Equip Dragon",Description = "Equips Selected Dragon",Callback = function()
+        for i,v in next, Player.Data.Dragons:GetDescendants() do
+            if  v.ClassName == 'StringValue' and  v.Value == DragonW and v:FindFirstChild("Stats") then 
+                RF("EquipDragonRemote"):InvokeServer(v.Name)
+                break
+            end
+        end
+    end})
+
+    Tabs.Misc:AddButton({Title = "Uneqip Dragon",Description = "Unequips The Selected Dragon",Callback = function()
+        for i, v in next, Player.Character.Dragons:GetDescendants() do
+            if v.ClassName == 'StringValue' and  v.Value == DragonW and v:FindFirstChild("Stats")  then
+                RF("UnequipDragonRemote"):InvokeServer(v.Name)
+            end
+        end
+    end})
+
+    local Dropdown = Tabs.Misc:AddDropdown("ggg", {Title = "Dragons",Values = Dragons,Multi = false, Default = 1,})
+    Dropdown:OnChanged(function(Value)
+        DragonW = Value
+    end)
+
+    Tabs.Misc:AddButton({Title = "Unequip All Dragons",Description = "Unequip All Dragons",Callback = function()
+        for i, v in next, Player.Character.Dragons:GetDescendants() do
+            if v:IsA("Model") and v:FindFirstChild("ID") then
+                RF("UnequipDragonRemote"):InvokeServer(v.Name)
+            end
+        end
+    end})
+    local Toggle = Tabs.Misc:AddToggle("Not", {Title = "Auto Feed Dragons", Default = false})
+    Toggle:OnChanged(function()
+        AutoFeed = Options.Not.Value
+        spawn(function()
+            while AutoFeed do wait()
+                if AutoFeed then
+                    pcall(function()
+                        for i, v in next, Player.Character.Dragons:GetChildren() do
+                            if v.ClassName == "Model" and v:FindFirstChild("ID") then wait(5)
+                                RF("FeedDragonRemote"):InvokeServer(v.Name, {["Amount"] = 1, ["ItemName"] = Num})
+                            end
+                        end
+                    end)
+                end
+            end
+        end)
+    end)
+    local Dropdown = Tabs.Misc:AddDropdown("ggg", {Title = "Foods To Feed Dragons",Values = list,Multi = false,Default = 1,})
+
+    Dropdown:OnChanged(function(Value)
+        num = Value
+    end)
+    local Toggle = Tabs.Misc:AddToggle("Ffd", {Title = "Auto Grow", Default = false})
+    Toggle:OnChanged(function()
+        AutoGrow = Options.Ffd.Value
+        spawn(function()
+            while AutoGrow do wait()
+                if AutoGrow then
+                    pcall(function()
+                        for i, v in pairs(Player.Character.Dragons:GetDescendants()) do
+                            if v.ClassName == "Model" and v:FindFirstChild("ID") then wait(5)
+                                RF("GrowDragonRemote"):InvokeServer(tostring(v.Name))
+                            end
+                        end
+                    end)
+                end
+            end
+        end)
+    end)
+    local Toggle = Tabs.Misc:AddToggle("ffff", {Title = "Auto Heal Dragons", Default = false})
+    Toggle:OnChanged(function()
+        AutoHeal = Options.ffff.Value
+        spawn(function()
+            while AutoHeal do wait(0.1)
+                if AutoHeal then
+                    pcall(function()
+                        for i, v in pairs(Player.Character.Dragons:GetChildren()) do
+                            if v.ClassName == "Model" and v:FindFirstChild("ID") then wait(1)
+                                RF("HealDragonRemote"):InvokeServer(tostring(v.Name),HealingItem)
+                            end
+                        end
+                    end)
+                end
+            end
+        end)
+    end)
+    local Dropdown = Tabs.Misc:AddDropdown("ggg", {Title = "Healings To Feed Dragons",Values = Healing,Multi = false,Default = 1,})
+    Dropdown:OnChanged(function(Value)
+        HealingItem = Value
+    end)
+end
+
+SaveManager:SetLibrary(Fluent)
+InterfaceManager:SetLibrary(Fluent)
+SaveManager:IgnoreThemeSettings()
+SaveManager:SetIgnoreIndexes({})
+InterfaceManager:SetFolder("FluentScriptHub")
+SaveManager:SetFolder("FluentScriptHub/specific-game")
+
+InterfaceManager:BuildInterfaceSection(Tabs.Settings)
+SaveManager:BuildConfigSection(Tabs.Settings)
+
+
+Window:SelectTab(1)
+
+Fluent:Notify({
+    Title = "V.G Hub",
+    Content = "The script has been loaded.",
+    Duration = 8
+})
+
+SaveManager:LoadAutoloadConfig()
