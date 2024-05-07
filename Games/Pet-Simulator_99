@@ -9,6 +9,8 @@ local EggTable = {}
 local Instances = {}
 local Flags = {}
 local VendingMachines = {}
+
+
 local Library  = require(ReplicatedStorage:WaitForChild("Library"))
 local Client = require(ReplicatedStorage.Library:WaitForChild("Client"))
 local ZonesUtil = require(game:GetService("ReplicatedStorage").Library.Util.ZonesUtil)
@@ -79,11 +81,10 @@ local getShiny = function(Shin)
 end
 
 local GetFruits = function()
-    local LMAO = Client.Save.GetSaves()[Player].Inventory.Fruit
-    for i,v in next, LMAO do
-        RE("Fruits: Consume"):FireServer(i,1)
-    end
+    error("Disabled")
 end
+
+
 local OpenAllGifts = function()
     for _,v in next, Library.Items.All.Globals.All() do
         if Gifts:FindFirstChild(v._data.id) then
@@ -109,7 +110,6 @@ local ClaimRanks = function()
         end
     end
 end
-
 --------------- Fishing
 local Activated = function()
     if Method == "Fishing" and not Active:FindFirstChild("Fishing") then
@@ -245,7 +245,6 @@ local GetLastEggName = function()
     end
 end
 
-
 local BuyLastEgg = function()
     local String = require(game:GetService("ReplicatedStorage").Library.Util.WorldsUtil).GetWorld()._id
     local String2 = string.gsub(String, " ", "")
@@ -270,6 +269,29 @@ end
 
 local BuyEgg = function(Egg, Amount)
     RF("Eggs_RequestPurchase"):InvokeServer(Egg, GetMaxEggsAbleToOpen())
+end
+---------------BackRooms
+
+local GetCustomEggByName = function(String)
+    local Egg = nil
+    for i,v in next, getupvalue(require(game:GetService("ReplicatedStorage").Library.Client.CustomEggsCmds).All, 1) do
+        if v._id == String then
+            Egg = v._model
+        end
+    end
+    return Egg
+end
+
+local HatchBestBackRoomsEgg = function()
+    VG.Teleport(GetCustomEggByName("Backrooms Night Terror Egg 75x"):GetModelCFrame().Position)
+    for i,v in next, workspace.__THINGS.__INSTANCE_CONTAINER.Active.Backrooms.GeneratedBackrooms:GetChildren() do
+        if v:IsA("Model") and v.Name == "EggRoom" and v:GetAttributes().EggMultiplier and v:GetAttributes().LockedRoom == true then
+            RE("Instancing_FireCustomFromClient"):FireServer("Backrooms","AbstractRoom_FireServer",v:GetAttributes().RoomUID, "UnlockDoors")
+        end
+    end
+    RF("CustomEggs_Hatch"):InvokeServer(tostring(GetCustomEggByName("Backrooms Night Terror Egg 75x")), tonumber(GetMaxEggsAbleToOpen()))
+    TargetFarm()
+    Collect()
 end
 
 --- Digsite Stuff
@@ -482,9 +504,13 @@ spawn(function()
             if ClaimRank then
                 ClaimRanks()
             end
+            if BackRooms then
+                HatchBestBackRoomsEgg()
+            end
         end)
     end
 end)
+
 
 spawn(function()
     while wait() do
@@ -550,6 +576,11 @@ do
     local Toggle = Tabs.AutoFarm:AddToggle("YesLol", {Title = "Automatic Farm Zones", Default = false})
     Toggle:OnChanged(function()
         YesLol = Options.YesLol.Value
+    end)
+
+    local Toggle = Tabs.AutoFarm:AddToggle("Back", {Title = "Hatch Best Backrooms egg", Default = false})
+    Toggle:OnChanged(function()
+        BackRooms = Options.Back.Value
     end)
     local Toggle = Tabs.AutoFarm:AddToggle("PetCoin", {Title = "Auto Break Nearest Coin", Default = false})
     Toggle:OnChanged(function()
