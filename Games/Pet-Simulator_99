@@ -16,7 +16,7 @@ local Instances = {}
 local Flags = {}
 local VendingMachines = {}
 wait(3)
-getgenv().Time = 0
+
 local Library  = require(ReplicatedStorage:WaitForChild("Library"))
 local Client = require(ReplicatedStorage.Library:WaitForChild("Client"))
 local ZonesUtil = require(game:GetService("ReplicatedStorage").Library.Util.ZonesUtil)
@@ -293,6 +293,7 @@ local GetCustomEggByName = function(Toggle, String)
     return Egg
 end
 
+
 local HatchBestBackRoomsEgg = function()
     local eggModel = GetCustomEggByName(true, "Backrooms Night Terror Egg 75x")
     local IsHatchable = GetCustomEggByName(false, "Backrooms Night Terror Egg 75x")
@@ -310,6 +311,9 @@ local HatchBestBackRoomsEgg = function()
             end
         end
         if IsHatchable then
+            Time = Time + 1
+            wait(1)
+            print(Time)
             RF("CustomEggs_Hatch"):InvokeServer(eggModel.Name, tonumber(GetMaxEggsAbleToOpen()))
         elseif Time == 3600 then
             VG.Rejoin()
@@ -530,9 +534,6 @@ spawn(function()
                 ClaimRanks()
             end
             if BackRooms then
-                wait(1)
-                Time = Time + 1
-                print(Time)
                 HatchBestBackRoomsEgg()
             end
         end)
