@@ -1,5 +1,6 @@
 
 repeat wait() until ReplicatedStorage:WaitForChild("Library")
+
 VG.DisableConnection(Idled)
 VG.DisableConnection(Error)
 VG.DisableConnection(MessageOut)
@@ -10,6 +11,7 @@ local EggTable = {}
 local Instances = {}
 local Flags = {}
 local VendingMachines = {}
+local Time = 0
 wait(3)
 
 local Library  = require(ReplicatedStorage:WaitForChild("Library"))
@@ -290,6 +292,7 @@ end
 
 
 local HatchBestBackRoomsEgg = function()
+
     local eggModel = GetCustomEggByName(true, "Backrooms Night Terror Egg 75x")
     local IsHatchable = GetCustomEggByName(false, "Backrooms Night Terror Egg 75x")
     local Baack = workspace.__THINGS.Instances.Backrooms.Teleports
@@ -306,9 +309,6 @@ local HatchBestBackRoomsEgg = function()
             end
         end
         if IsHatchable then
-            Time = Time + 1
-            wait(1)
-            print(Time)
             RF("CustomEggs_Hatch"):InvokeServer(eggModel.Name, tonumber(GetMaxEggsAbleToOpen()))
         elseif Time == 3600 then
             VG.Rejoin()
@@ -317,6 +317,8 @@ local HatchBestBackRoomsEgg = function()
         Collect()
     end
 end
+
+HatchBestBackRoomsEgg()
 
 --- Digsite Stuff
 local GetBlock = function()
@@ -533,6 +535,15 @@ spawn(function()
                 HatchBestBackRoomsEgg()
             end
         end)
+    end
+end)
+spawn(function ()
+    while wait() do
+        if BackRooms then
+            Time = Time + 1
+            wait(1)
+            print(Time)
+        end
     end
 end)
 
