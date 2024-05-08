@@ -1,5 +1,5 @@
 
-repeat wait() until ReplicatedStorage:WaitForChild("Library") and wait(5)
+repeat wait() until ReplicatedStorage:WaitForChild("Library")
 VG.DisableConnection(UserInputService.WindowFocused)
 VG.DisableConnection(UserInputService.WindowFocusReleased)
 VG.DisableConnection(UserInputService.InputBegan)
@@ -15,7 +15,7 @@ local EggTable = {}
 local Instances = {}
 local Flags = {}
 local VendingMachines = {}
-
+repeat wait() until require(ReplicatedStorage.Library:WaitForChild("Client")).Loaded
 getgenv().Time = 0
 local Library  = require(ReplicatedStorage:WaitForChild("Library"))
 local Client = require(ReplicatedStorage.Library:WaitForChild("Client"))
