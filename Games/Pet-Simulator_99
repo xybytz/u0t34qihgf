@@ -1,9 +1,9 @@
-
 VG.DisableConnection(UserInputService.WindowFocused)
 VG.DisableConnection(UserInputService.WindowFocusReleased)
 VG.DisableConnection(Idled)
 VG.DisableConnection(Error)
 VG.DisableConnection(MessageOut)
+
 local Hehe = {}
 local Zones = {}
 local Fruits = {}
@@ -201,14 +201,13 @@ local TargetFarm = function()
         end
     end
     if Target then
-        local CurrentPets = ClientCmds.PlayerPet.GetAll()
+        local CurrentPets = Client.PlayerPet.GetAll()
         for _,v in CurrentPets do
-            ClientCmds.PlayerPet.SetTarget(v, Target)
+            Client.PlayerPet.SetTarget(v, Target)
         end
         RE("Breakables_PlayerDealDamage"):FireServer(tostring(Target.Name))
     end
 end
-
 local Collect = function()
     local FuckYou = workspace.__THINGS.Orbs:GetChildren()
     local KYS = workspace.__THINGS.Lootbags:GetChildren()
@@ -795,3 +794,5 @@ Fluent:Notify({
 })
  
 SaveManager:LoadAutoloadConfig()
+
+queue_on_teleport[[loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub'))()]]
