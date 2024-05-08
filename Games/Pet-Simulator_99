@@ -1,10 +1,5 @@
 
 repeat wait() until ReplicatedStorage:WaitForChild("Library")
-VG.DisableConnection(UserInputService.WindowFocused)
-VG.DisableConnection(UserInputService.WindowFocusReleased)
-VG.DisableConnection(UserInputService.InputBegan)
-VG.DisableConnection(UserInputService.InputEnded)
-VG.DisableConnection(UserInputService.InputChanged)
 VG.DisableConnection(Idled)
 VG.DisableConnection(Error)
 VG.DisableConnection(MessageOut)
@@ -490,6 +485,7 @@ end
 spawn(function()
     while wait(.1) do
         pcall(function()
+            game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Enabled = false
             if AutoFarm or YesLol then
                 TargetFarm()
             end
