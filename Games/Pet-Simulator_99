@@ -15,7 +15,7 @@ local EggTable = {}
 local Instances = {}
 local Flags = {}
 local VendingMachines = {}
-repeat wait() until require(ReplicatedStorage.Library:WaitForChild("Client")).Loaded
+wait(3)
 getgenv().Time = 0
 local Library  = require(ReplicatedStorage:WaitForChild("Library"))
 local Client = require(ReplicatedStorage.Library:WaitForChild("Client"))
