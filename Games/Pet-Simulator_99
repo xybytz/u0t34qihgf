@@ -291,11 +291,7 @@ local GetCustomEggByName = function(Toggle, String)
     return Egg
 end
 
-for i,v in next, workspace.__THINGS.__INSTANCE_CONTAINER.Active.Backrooms.GeneratedBackrooms:GetChildren() do
-    if v:IsA("Model") and v.Name == "EggRoom" and v:GetAttributes().EggMultiplier == 75 and v:GetAttributes().LockedRoom == true then
-        RE("Instancing_FireCustomFromClient"):FireServer("Backrooms","AbstractRoom_FireServer",v:GetAttributes().RoomUID, "UnlockDoors")
-    end
-end
+
 local HatchBestBackRoomsEgg = function()
 
     local eggModel = GetCustomEggByName(true, "Backrooms Night Terror Egg 75x")
