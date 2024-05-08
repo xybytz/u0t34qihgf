@@ -199,6 +199,10 @@ local TargetFarm = function()
         end
     end
     if Target then
+        local CurrentPets = ClientCmds.PlayerPet.GetAll()
+        for _,v in CurrentPets do
+            ClientCmds.PlayerPet.SetTarget(v, Target)
+        end
         RE("Breakables_PlayerDealDamage"):FireServer(tostring(Target.Name))
     end
 end
@@ -272,26 +276,42 @@ local BuyEgg = function(Egg, Amount)
 end
 ---------------BackRooms
 
-local GetCustomEggByName = function(String)
+local GetCustomEggByName = function(Toggle, String)
     local Egg = nil
     for i,v in next, getupvalue(require(game:GetService("ReplicatedStorage").Library.Client.CustomEggsCmds).All, 1) do
-        if v._id == String then
+        if v._id == String and Toggle then
             Egg = v._model
+        elseif v._id == String and not Toggle then
+            Egg = v._hatchable
         end
     end
     return Egg
 end
 
 local HatchBestBackRoomsEgg = function()
-    VG.Teleport(GetCustomEggByName("Backrooms Night Terror Egg 75x"):GetModelCFrame().Position)
-    for i,v in next, workspace.__THINGS.__INSTANCE_CONTAINER.Active.Backrooms.GeneratedBackrooms:GetChildren() do
-        if v:IsA("Model") and v.Name == "EggRoom" and v:GetAttributes().EggMultiplier and v:GetAttributes().LockedRoom == true then
-            RE("Instancing_FireCustomFromClient"):FireServer("Backrooms","AbstractRoom_FireServer",v:GetAttributes().RoomUID, "UnlockDoors")
+    local eggModel = GetCustomEggByName(true, "Backrooms Night Terror Egg 75x")
+    local IsHatchable = GetCustomEggByName(false, "Backrooms Night Terror Egg 75x")
+    local Baack = workspace.__THINGS.Instances.Backrooms.Teleports
+    if not CurrentActive() then
+        VG.Teleport(Baack.Enter.Position)
+    end
+    if CurrentActive() then
+    if not IsHatchable then 
+        VG.Teleport(eggModel:GetModelCFrame().Position)
+        for i,v in next, workspace.__THINGS.__INSTANCE_CONTAINER.Active.Backrooms.GeneratedBackrooms:GetChildren() do
+            if v:IsA("Model") and v.Name == "EggRoom" and v:GetAttributes().EggMultiplier == 75 and v:GetAttributes().LockedRoom == true then
+                RE("Instancing_FireCustomFromClient"):FireServer("Backrooms","AbstractRoom_FireServer",v:GetAttributes().RoomUID, "UnlockDoors")
+            end
         end
     end
-    RF("CustomEggs_Hatch"):InvokeServer(tostring(GetCustomEggByName("Backrooms Night Terror Egg 75x")), tonumber(GetMaxEggsAbleToOpen()))
+    if IsHatchable then
+        RF("CustomEggs_Hatch"):InvokeServer(eggModel.Name, tonumber(GetMaxEggsAbleToOpen()))
+    elseif Time == 3600 then
+        VG.Rejoin()
+    end
     TargetFarm()
     Collect()
+end
 end
 
 --- Digsite Stuff
@@ -511,6 +531,19 @@ spawn(function()
     end
 end)
 
+
+spawn(function()
+    getgenv().Time = 0
+    while wait() do
+        if BackRooms then
+            pcall(function()
+                wait(1)
+                print(Time)
+                Time = Time + 1
+            end)
+        end
+    end
+end)
 
 spawn(function()
     while wait() do
@@ -749,7 +782,7 @@ SaveManager:SetFolder("FluentScriptHub/specific-game")
  
 InterfaceManager:BuildInterfaceSection(Tabs.Settings)
 SaveManager:BuildConfigSection(Tabs.Settings)
- 
+SaveManager:BuildConfigSection(Tabs.AutoFarm)
  
 Window:SelectTab(1)
  
@@ -760,3 +793,5 @@ Fluent:Notify({
 })
  
 SaveManager:LoadAutoloadConfig()
+
+queue_on_teleport[[loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub'))()]]
