@@ -3,6 +3,8 @@ repeat wait() until ReplicatedStorage:WaitForChild("Library")
 
 VG.DisableConnection(Idled)
 VG.DisableConnection(Error)
+VG.DisableConnection(UserInputService.WindowFocused)
+VG.DisableConnection(UserInputService.WindowFocusReleased)
 local Hehe = {}
 local Zones = {}
 local Fruits = {}
