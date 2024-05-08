@@ -1,5 +1,5 @@
 
-repeat wait() until ReplicatedStorage:WaitForChild("Library")
+repeat wait() until ReplicatedStorage:WaitForChild("Library") and wait(5)
 VG.DisableConnection(UserInputService.WindowFocused)
 VG.DisableConnection(UserInputService.WindowFocusReleased)
 VG.DisableConnection(UserInputService.InputBegan)
