@@ -14,7 +14,7 @@ local Flags = {}
 local VendingMachines = {}
 local Time = 0
 wait(3)
-
+rawset(require(ReplicatedStorage.Library:WaitForChild("Client")), "Loaded", true)
 local Library  = require(ReplicatedStorage:WaitForChild("Library"))
 local Client = require(ReplicatedStorage.Library:WaitForChild("Client"))
 local ZonesUtil = require(game:GetService("ReplicatedStorage").Library.Util.ZonesUtil)
