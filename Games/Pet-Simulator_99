@@ -2,6 +2,9 @@
 repeat wait() until ReplicatedStorage:WaitForChild("Library")
 VG.DisableConnection(UserInputService.WindowFocused)
 VG.DisableConnection(UserInputService.WindowFocusReleased)
+VG.DisableConnection(UserInputService.InputBegan)
+VG.DisableConnection(UserInputService.InputEnded)
+VG.DisableConnection(UserInputService.InputChanged)
 VG.DisableConnection(Idled)
 VG.DisableConnection(Error)
 VG.DisableConnection(MessageOut)
@@ -13,7 +16,7 @@ local Instances = {}
 local Flags = {}
 local VendingMachines = {}
 
-
+getgenv().Time = 0
 local Library  = require(ReplicatedStorage:WaitForChild("Library"))
 local Client = require(ReplicatedStorage.Library:WaitForChild("Client"))
 local ZonesUtil = require(game:GetService("ReplicatedStorage").Library.Util.ZonesUtil)
@@ -298,22 +301,22 @@ local HatchBestBackRoomsEgg = function()
         VG.Teleport(Baack.Enter.Position)
     end
     if CurrentActive() then
-    if not IsHatchable then 
-        VG.Teleport(eggModel:GetModelCFrame().Position)
-        for i,v in next, workspace.__THINGS.__INSTANCE_CONTAINER.Active.Backrooms.GeneratedBackrooms:GetChildren() do
-            if v:IsA("Model") and v.Name == "EggRoom" and v:GetAttributes().EggMultiplier == 75 and v:GetAttributes().LockedRoom == true then
-                RE("Instancing_FireCustomFromClient"):FireServer("Backrooms","AbstractRoom_FireServer",v:GetAttributes().RoomUID, "UnlockDoors")
+        if not IsHatchable then 
+            VG.Teleport(eggModel:GetModelCFrame().Position)
+            for i,v in next, workspace.__THINGS.__INSTANCE_CONTAINER.Active.Backrooms.GeneratedBackrooms:GetChildren() do
+                if v:IsA("Model") and v.Name == "EggRoom" and v:GetAttributes().EggMultiplier == 75 and v:GetAttributes().LockedRoom == true then
+                    RE("Instancing_FireCustomFromClient"):FireServer("Backrooms","AbstractRoom_FireServer",v:GetAttributes().RoomUID, "UnlockDoors")
+                end
             end
         end
+        if IsHatchable then
+            RF("CustomEggs_Hatch"):InvokeServer(eggModel.Name, tonumber(GetMaxEggsAbleToOpen()))
+        elseif Time == 3600 then
+            VG.Rejoin()
+        end
+        TargetFarm()
+        Collect()
     end
-    if IsHatchable then
-        RF("CustomEggs_Hatch"):InvokeServer(eggModel.Name, tonumber(GetMaxEggsAbleToOpen()))
-    elseif Time == 3600 then
-        VG.Rejoin()
-    end
-    TargetFarm()
-    Collect()
-end
 end
 
 --- Digsite Stuff
@@ -527,23 +530,12 @@ spawn(function()
                 ClaimRanks()
             end
             if BackRooms then
+                wait(1)
+                Time = Time + 1
+                print(Time)
                 HatchBestBackRoomsEgg()
             end
         end)
-    end
-end)
-
-
-spawn(function()
-    getgenv().Time = 0
-    while wait() do
-        if BackRooms then
-            pcall(function()
-                wait(1)
-                print(Time)
-                Time = Time + 1
-            end)
-        end
     end
 end)
 
