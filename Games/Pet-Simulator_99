@@ -291,7 +291,11 @@ local GetCustomEggByName = function(Toggle, String)
     return Egg
 end
 
-
+for i,v in next, workspace.__THINGS.__INSTANCE_CONTAINER.Active.Backrooms.GeneratedBackrooms:GetChildren() do
+    if v:IsA("Model") and v.Name == "EggRoom" and v:GetAttributes().EggMultiplier == 75 and v:GetAttributes().LockedRoom == true then
+        RE("Instancing_FireCustomFromClient"):FireServer("Backrooms","AbstractRoom_FireServer",v:GetAttributes().RoomUID, "UnlockDoors")
+    end
+end
 local HatchBestBackRoomsEgg = function()
 
     local eggModel = GetCustomEggByName(true, "Backrooms Night Terror Egg 75x")
@@ -299,10 +303,10 @@ local HatchBestBackRoomsEgg = function()
     local Baack = workspace.__THINGS.Instances.Backrooms.Teleports
     if not CurrentActive() then
         VG.Teleport(Baack.Enter.Position)
+        wait(10)
     end
     if CurrentActive() then
         if not IsHatchable then 
-            VG.Teleport(eggModel:GetModelCFrame().Position)
             for i,v in next, workspace.__THINGS.__INSTANCE_CONTAINER.Active.Backrooms.GeneratedBackrooms:GetChildren() do
                 if v:IsA("Model") and v.Name == "EggRoom" and v:GetAttributes().EggMultiplier == 75 and v:GetAttributes().LockedRoom == true then
                     RE("Instancing_FireCustomFromClient"):FireServer("Backrooms","AbstractRoom_FireServer",v:GetAttributes().RoomUID, "UnlockDoors")
@@ -318,8 +322,6 @@ local HatchBestBackRoomsEgg = function()
         Collect()
     end
 end
-
-HatchBestBackRoomsEgg()
 
 --- Digsite Stuff
 local GetBlock = function()
