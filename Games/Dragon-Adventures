@@ -151,7 +151,7 @@ local GetNode = function(Node)
     for _,v in next, Workspace.Interactions.Nodes[Node]:GetChildren() do
         if v:IsA("Model") and VG.GetHumanoid().SeatPart and v:FindFirstChild("BillboardPart") and v.BillboardPart:FindFirstChild("Health") and v.BillboardPart.Health.Value ~= 0 then
             local Mag = VG.Mag(v:GetModelCFrame(), Player.Character.HumanoidRootPart)
-            if Mag < MaxDistance  and v:FindFirstChild("Attachment", true).WorldCFrame.Y > 450 and v:FindFirstChild("Attachment").WorldCFrame.Y < 1000 then
+            if Mag < MaxDistance  and v:FindFirstChild("Attachment", true).WorldCFrame.Y > 450 and v:FindFirstChild("Attachment", true).WorldCFrame.Y < 1000 then
                 MaxDistance = Mag
                 Target = v
             end
