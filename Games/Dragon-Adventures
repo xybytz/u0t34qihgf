@@ -87,6 +87,7 @@ local AntiTeleport = function(Part)
     VG.Tween(VG.GetHumanoid().SeatPart.Parent.PrimaryPart, Part.CFrame, 500, Vector3.new(0,5,0), true)
 end
 
+
 local BlackList = function(Node)
     local Table = {}
     for i,v in next, Workspace.Interactions.Nodes[Node]:GetChildren() do
@@ -150,7 +151,7 @@ local GetNode = function(Node)
     for _,v in next, Workspace.Interactions.Nodes[Node]:GetChildren() do
         if v:IsA("Model") and VG.GetHumanoid().SeatPart and v:FindFirstChild("BillboardPart") and v.BillboardPart:FindFirstChild("Health") and v.BillboardPart.Health.Value ~= 0 then
             local Mag = VG.Mag(v:GetModelCFrame(), Player.Character.HumanoidRootPart)
-            if Mag < MaxDistance  and v:FindFirstChild("Attachment", true).WorldCFrame.Y > 29 then
+            if Mag < MaxDistance  and v:FindFirstChild("Attachment", true).WorldCFrame.Y > 450 and v:FindFirstChild("Attachment").WorldCFrame.Y < 1000 then
                 MaxDistance = Mag
                 Target = v
             end
@@ -211,7 +212,7 @@ end
 ---------------------------------------------------------------------------------------------------------------------------------------------
 spawn(function()
     while wait() do
-      
+        pcall(function()
             if DeadDragon then
                 ModifiedDragonStats("Dead", false)
             end
@@ -241,7 +242,7 @@ spawn(function()
             if AutoMob then
                 KillMob()
             end
-      
+        end)
     end
 end)
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
@@ -344,7 +345,7 @@ do
     local Toggle = Tabs.AutoFarm:AddToggle("Egg", {Title = "Auto Egg", Default = false})
     Toggle:OnChanged(function()
         CollectEgging = Options.Egg.Value
-    end)]]--
+    end)]]
     local Toggle = Tabs.AutoFarm:AddToggle("Fish", {Title = "Auto Fish", Default = false})
     Toggle:OnChanged(function()
         Test = Options.Fish.Value
