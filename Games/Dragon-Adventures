@@ -325,7 +325,7 @@ do
     Dropdown:OnChanged(function(Value)
         Type = Value
     end)
-    --[[
+
     Tabs.AutoFarm:AddButton({Title = "Notify",Description = "For The Auto Collect or AutoMob make sure your on a dragon and only have one dragon Equipped",Callback = function()end})
     local Toggle = Tabs.AutoFarm:AddToggle("cOLL", {Title = "Auto Collect", Default = false})
     Toggle:OnChanged(function()
@@ -345,7 +345,7 @@ do
     local Toggle = Tabs.AutoFarm:AddToggle("Egg", {Title = "Auto Egg", Default = false})
     Toggle:OnChanged(function()
         CollectEgging = Options.Egg.Value
-    end)]]
+    end)
     local Toggle = Tabs.AutoFarm:AddToggle("Fish", {Title = "Auto Fish", Default = false})
     Toggle:OnChanged(function()
         Test = Options.Fish.Value
