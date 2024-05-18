@@ -293,31 +293,6 @@ end
 
 
 local HatchBestBackRoomsEgg = function()
-
-    local eggModel = GetCustomEggByName(true, "Backrooms Night Terror Egg 75x")
-    local IsHatchable = GetCustomEggByName(false, "Backrooms Night Terror Egg 75x")
-    local Baack = workspace.__THINGS.Instances.Backrooms.Teleports
-    if not CurrentActive() then
-        VG.Teleport(Baack.Enter.Position)
-        wait(10)
-    end
-    if CurrentActive() then
-        if not IsHatchable then
-            VG.Teleport(eggModel:GetModelCFrame().Position)
-            for i,v in next, workspace.__THINGS.__INSTANCE_CONTAINER.Active.Backrooms.GeneratedBackrooms:GetChildren() do
-                if v:IsA("Model") and v.Name == "EggRoom" and v:GetAttributes().EggMultiplier == 75 and v:GetAttributes().LockedRoom == true then
-                    RE("Instancing_FireCustomFromClient"):FireServer("Backrooms","AbstractRoom_FireServer",v:GetAttributes().RoomUID, "UnlockDoors")
-                end
-            end
-        end
-        if IsHatchable then
-            RF("CustomEggs_Hatch"):InvokeServer(eggModel.Name, tonumber(GetMaxEggsAbleToOpen()))
-        elseif Time == 3600 then
-            VG.Rejoin()
-        end
-        TargetFarm()
-        Collect()
-    end
 end
 
 --- Digsite Stuff
@@ -531,9 +506,6 @@ spawn(function()
             if ClaimRank then
                 ClaimRanks()
             end
-            if BackRooms then
-                HatchBestBackRoomsEgg()
-            end
         end)
     end
 end)
@@ -611,11 +583,6 @@ do
     local Toggle = Tabs.AutoFarm:AddToggle("YesLol", {Title = "Automatic Farm Zones", Default = false})
     Toggle:OnChanged(function()
         YesLol = Options.YesLol.Value
-    end)
-
-    local Toggle = Tabs.AutoFarm:AddToggle("Back", {Title = "Hatch Best Backrooms egg", Default = false})
-    Toggle:OnChanged(function()
-        BackRooms = Options.Back.Value
     end)
     local Toggle = Tabs.AutoFarm:AddToggle("PetCoin", {Title = "Auto Break Nearest Coin", Default = false})
     Toggle:OnChanged(function()
