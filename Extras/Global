@@ -401,7 +401,7 @@ VG.WalkSpeed = function(Speed)
 end
 
 VG.SemiBypassedWalkSpeed = function(Speed)
-    VG.DisableConnection(CF.GetHumanoid().Changed)
+    VG.DisableConnection(VG.GetHumanoid().Changed)
     sethiddenproperty(VG.GetHumanoid(), "WalkSpeed", Speed)
 end
 
@@ -417,7 +417,7 @@ VG.BypassedWalkSpeed = function(Speed)
 end
 
 VG.SuperBypassedWalkSpeed = function(Speed)
-    VG.DisableConnection(VG.GetHumanoid())
+    VG.DisableConnection(VG.GetHumanoid().Changed)
     local OldNameCall = nil
     OldNameCall = hookmetamethod(game, "__index", function(A, B, C)
         if A and B == "WalkSpeed" then
