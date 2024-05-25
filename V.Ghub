@@ -10,9 +10,6 @@ end
 local StartTime = tick()
 local A = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.G-Hub-Games-List"))()
 
-local BlurEffect = Instance.new("BlurEffect")
-BlurEffect.Parent = Lighting
-BlurEffect.Size = 0
 local ScreenGui = Instance.new("ScreenGui")
 if syn and syn.protect_gui then
 	syn.protect_gui(ScreenGui)
@@ -34,16 +31,9 @@ ImageLabel.Image = "rbxassetid://8429081004"
 ImageLabel.ImageTransparency = 1
 
 for Index = 1, 50, 2 do
-	BlurEffect.Size = Index
-	ImageLabel.ImageTransparency = ImageLabel.ImageTransparency - 0.1
-	wait()
+ImageLabel.ImageTransparency = ImageLabel.ImageTransparency - 0.1
+wait()
 end
-
-wait(.1)
-ImageLabel:TweenPosition(UDim2.new(0.5, 342 / 1, 0.5, 263 / 2, Enum.EasingDirection.Out, Enum.EasingStyle.Quint, 0.5))
-wait(.1)
-
-BlurEffect:Destroy()
 ScreenGui:Destroy()
 
 
