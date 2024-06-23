@@ -143,22 +143,18 @@ end
 
 local KillMob = function(MobName)
     for _,v in next, Workspace.Live:GetChildren() do
-        if v.Name == MobName and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then wait()
-            repeat wait()
-                Player.Character.HumanoidRootPart.CFrame = CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0,-7,0) * CFrame.Angles(-180, 0, 0)
-                Hit(v)
-                local Tool = Player.Character:FindFirstChildWhichIsA("Tool")
-                if Tool and not Tool:FindFirstChild("Combat Script") then
-                    GetWeapon()
-                elseif not Tool then
-                    GetWeapon()
-                end
-                if v.Humanoid.Health ~= v.Humanoid.MaxHealth then
-                    v.Humanoid.Health = 0
-                end
-            until v.Humanoid.Health == 0
-        else
-            VG.Teleport(Vector3.new(5, 100000, 5))
+        if v.Name == MobName and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+            Player.Character.HumanoidRootPart.CFrame = CFrame.new(v.HumanoidRootPart.Position) * CFrame.new(0,-7,0) * CFrame.Angles(-180, 0, 0)
+            Hit(v)
+            local Tool = Player.Character:FindFirstChildWhichIsA("Tool")
+            if Tool and not Tool:FindFirstChild("Combat Script") then
+                GetWeapon()
+            elseif not Tool then
+                GetWeapon()
+            end
+            if v.Humanoid.Health ~= v.Humanoid.MaxHealth then
+                v.Humanoid.Health = 0
+            end
         end
     end
 end
