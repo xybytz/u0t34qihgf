@@ -229,6 +229,7 @@ local RollRace = function()
         if not Player.Character:FindFirstChild("Heart") or not Player.Backpack:FindFirstChild("Heart") then
             BuyItem("Heart")
         end
+        wait(1)
         if Player.Backpack:FindFirstChild("Heart") then
             Player.Backpack:FindFirstChild("Heart").Parent = Player.Character
             RemoteEvents:WaitForChild("ItemRemote"):FireServer()
