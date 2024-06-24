@@ -394,7 +394,30 @@ spawn(function()
                     wait(0.1)
                 end
             end
-
+            if NoY then
+                VG.KeyPress(true, "Y", false, game, 0)
+            end
+            if NoX then
+                VG.KeyPress(true, "X", false, game, 0)
+            end
+            if NoE then
+                VG.KeyPress(true, "E", false, game, 0)
+            end
+            if NoR then
+                VG.KeyPress(true, "R", false, game, 0)
+            end
+            if NoT then
+                VG.KeyPress(true, "T", false, game, 0)
+            end
+            if NoB then
+                VG.KeyPress(true, "B", false, game, 0)
+            end
+            if NoC then
+                VG.KeyPress(true, "C", false, game, 0)
+            end
+            if NoZ then
+                VG.KeyPress(true, "Z", false, game, 0)
+            end
             if NoGreat4 then
                 GetRarity("Armor", "Legendary")
             end
@@ -481,6 +504,7 @@ local Window = Fluent:CreateWindow({
 local Tabs = {
     AutoFarm = Window:AddTab({ Title = "AutoFarm", Icon = "" }),
     Misc = Window:AddTab({ Title = "Misc", Icon = "" }),
+    KeyBinds = Window:AddTab({ Title = "KeyBinds", Icon = "" }),
     AutoMinigame = Window:AddTab({ Title = "Auto Roll Stuff", Icon = "" }),
     Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
 }
@@ -492,15 +516,46 @@ do
         SubContent = "", -- Optional
         Duration = 10 -- Set to nil to make the notification not disappear
     })
+    local Toggle = Tabs.KeyBinds:AddToggle("Hahaes", {Title = "Auto Skills", Default = false})
+    Toggle:OnChanged(function()
+        NoG = Options.Hahaes.Value
+    end)
+    local Toggle = Tabs.KeyBinds:AddToggle("NoY", {Title = "Press Y", Default = false})
+    Toggle:OnChanged(function()
+        NoY = Options.NoY.Value
+    end)
+    local Toggle = Tabs.KeyBinds:AddToggle("NoX", {Title = "Press X", Default = false})
+    Toggle:OnChanged(function()
+        NoX = Options.NoX.Value
+    end)
+    local Toggle = Tabs.KeyBinds:AddToggle("NoR", {Title = "Press R", Default = false})
+    Toggle:OnChanged(function()
+        NoR = Options.NoR.Value
+    end)
+    local Toggle = Tabs.KeyBinds:AddToggle("NoE", {Title = "Press E", Default = false})
+    Toggle:OnChanged(function()
+        NoE = Options.NoE.Value
+    end)
+    local Toggle = Tabs.KeyBinds:AddToggle("NoB", {Title = "Press B", Default = false})
+    Toggle:OnChanged(function()
+        NoB = Options.NoB.Value
+    end)
+    local Toggle = Tabs.KeyBinds:AddToggle("NoT", {Title = "Press T", Default = false})
+    Toggle:OnChanged(function()
+        NoT = Options.NoT.Value
+    end)
+    local Toggle = Tabs.KeyBinds:AddToggle("NoC", {Title = "Press C", Default = false})
+    Toggle:OnChanged(function()
+        NoC = Options.NoC.Value
+    end)
+    local Toggle = Tabs.KeyBinds:AddToggle("NoZ", {Title = "Press Z", Default = false})
+    Toggle:OnChanged(function()
+        NoZ = Options.NoZ.Value
+    end)
     local Toggle = Tabs.AutoFarm:AddToggle("ATTACK", {Title = "Auto Attack", Default = false})
     Toggle:OnChanged(function()
         Autoattack = Options.ATTACK.Value
     end)
-    local Toggle = Tabs.AutoFarm:AddToggle("Hahaes", {Title = "Auto Skills", Default = false})
-    Toggle:OnChanged(function()
-        NoG = Options.Hahaes.Value
-    end)
-
     local Toggle = Tabs.AutoFarm:AddToggle("Doing", {Title = "Always Equip Tool", Default = false})
     Toggle:OnChanged(function()
         EquipTools = Options.Doing.Value
