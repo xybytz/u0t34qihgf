@@ -165,6 +165,16 @@ local KillMob = function(MobName, HitMethod)
     end
 end
 
+local Chests = function()
+    for i,v in next, workspace.SpawnLocations:GetChildren() do
+        if v:IsA("BasePart") and v:FindFirstChild("TreasureChest") then
+            firetouchinterest(Player.Character.HumanoidRootPart, v.TreasureChest, 0)
+            firetouchinterest(Player.Character.HumanoidRootPart, v.TreasureChest, 1)
+        end
+    end
+end
+
+
 local KillBoss = function()
     for _,v in next, Workspace.Live:GetChildren() do
         if (table.find(Bosses, v.Name) and not BossFarm or v.Name == Boss and BossFarm) and v:FindFirstChild("HumanoidRootPart") then
@@ -473,6 +483,10 @@ spawn(function()
             if FindEye then
                 FindUchihaEyeball()
             end
+
+            if DoChest then
+                Chests()
+            end
         end)
     end
 end)
@@ -559,6 +573,11 @@ do
     local Toggle = Tabs.AutoFarm:AddToggle("Doing", {Title = "Always Equip Tool", Default = false})
     Toggle:OnChanged(function()
         EquipTools = Options.Doing.Value
+    end)
+    
+    local Toggle = Tabs.AutoFarm:AddToggle("GGD", {Title = "Auto Chest", Default = false})
+    Toggle:OnChanged(function()
+        DoChest = Options.GGD.Value
     end)
 
     local Toggle = Tabs.AutoFarm:AddToggle("Rend", {Title = "Auto Mob", Default = false})
