@@ -1,10 +1,9 @@
-
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
 repeat wait() until ReplicatedStorage:WaitForChild("Library")
 
 VG.DisableConnection(Idled)
 VG.DisableConnection(Error)
-VG.DisableConnection(UserInputService.WindowFocused)
-VG.DisableConnection(UserInputService.WindowFocusReleased)
+
 local Hehe = {}
 local Zones = {}
 local Fruits = {}
@@ -13,7 +12,6 @@ local Instances = {}
 local Flags = {}
 local VendingMachines = {}
 local Time = 0
-wait(3)
 
 local Library  = require(ReplicatedStorage:WaitForChild("Library"))
 local Client = require(ReplicatedStorage.Library:WaitForChild("Client"))
@@ -101,7 +99,7 @@ local GetFlags = function()
 	local LMAO = Client.Save.GetSaves()[Player].Inventory.Misc
 	for i,v in next, LMAO do
 		if table.find(Flags, v.id) then
-			RF("Flags: Consume"):InvokeServer(WantedFlag, i)
+			RF("FlexibleFlags_Consume"):InvokeServer(WantedFlag, i)
             break
 		end
 	end
@@ -203,10 +201,6 @@ local TargetFarm = function()
         end
     end
     if Target then
-        local CurrentPets = Client.PlayerPet.GetAll()
-        for _,v in CurrentPets do
-            Client.PlayerPet.SetTarget(v, Target)
-        end
         RE("Breakables_PlayerDealDamage"):FireServer(tostring(Target.Name))
     end
 end
@@ -265,13 +259,17 @@ local BuyLastEgg = function()
     for i, v in next, Lol do
         local String = string.split(v.Name, " -")[1]
         if GetLastEgg() == tonumber(String) then
-            VG.Teleport(v:GetModelCFrame().Position)
+            if TeleportToEgg then
+                VG.Teleport(v:GetModelCFrame().Position)
+            end
             wait(.1)
             RF("Eggs_RequestPurchase"):InvokeServer(GetLastEggName(), tonumber(GetMaxEggsAbleToOpen()))
             break
         end
     end
-    Player.Character:SetPrimaryPartCFrame(OldCFrame)
+    if TeleportToEgg then
+        Player.Character:SetPrimaryPartCFrame(OldCFrame)
+    end
 end
 
 local BuyEgg = function(Egg, Amount)
@@ -506,6 +504,16 @@ spawn(function()
             if ClaimRank then
                 ClaimRanks()
             end
+            if SqueakyToy then
+                RF("SqueakyToy_Consume"):InvokeServer()
+            end
+            if ToyBall then
+                RF("ToyBall_Consume"):InvokeServer()
+            end
+            if ToyBone then
+                RF("ToyBone_Consume"):InvokeServer()
+            end
+
         end)
     end
 end)
@@ -556,7 +564,8 @@ local Window = Fluent:CreateWindow({
  
 local Tabs = {
     AutoFarm = Window:AddTab({ Title = "AutoFarm", Icon = "" }),
-    Obbys = Window:AddTab({ Title = "Obbys etc", Icon = "" }),
+    Comsumeables = Window:AddTab({ Title = "Comsumeables", Icon = "" }),
+    Misc = Window:AddTab({ Title = "Misc etc", Icon = "" }),
     AutoMinigame = Window:AddTab({ Title = "AutoMinigames", Icon = "" }),
     Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
  
@@ -613,26 +622,9 @@ do
         WantedEgg = Value
     end)
 
-    local Toggle = Tabs.AutoFarm:AddToggle("Toyou", {Title = "Auto Eat Fruits", Default = false})
-    Toggle:OnChanged(function()
-        Frut = Options.Toyou.Value
-    end)
-    local Toggle = Tabs.AutoFarm:AddToggle("Toyo24u", {Title = "Auto Place Flags", Default = false})
-    Toggle:OnChanged(function()
-        Fag = Options.Toyo24u.Value
-    end)
-
     local Toggle = Tabs.AutoFarm:AddToggle("Toyo224u", {Title = "Auto DiamondWheel", Default = false})
     Toggle:OnChanged(function()
         Fag2 = Options.Toyo224u.Value
-    end)
-    local Dropdown = Tabs.AutoFarm:AddDropdown("Ds", {Title = "Flags",Values = Flags,Multi = false,Default = 1})
-    Dropdown:OnChanged(function(Value)
-        WantedFlag = Value
-    end)
-    local Dropdown = Tabs.AutoMinigame:AddDropdown("e34", {Title = "Fishing Areas",Values = {"AdvancedFishing", "Fishing"},Multi = false,Default = 1,})
-    Dropdown:OnChanged(function(Value)
-        Method = Value
     end)
     local Toggle = Tabs.AutoFarm:AddToggle("Toyou2", {Title = "Auto Buy Venders", Default = false})
     Toggle:OnChanged(function()
@@ -648,8 +640,43 @@ do
         Yes = Options.Gifts.Value
     end)
 
+
+
+    local Toggle = Tabs.Comsumeables:AddToggle("Toyou", {Title = "Auto Eat Fruits", Default = false})
+    Toggle:OnChanged(function()
+        Frut = Options.Toyou.Value
+    end)
+    local Toggle = Tabs.Comsumeables:AddToggle("Toyo24u", {Title = "Auto Place Flags", Default = false})
+    Toggle:OnChanged(function()
+        Fag = Options.Toyo24u.Value
+    end)
+
+    local Dropdown = Tabs.Comsumeables:AddDropdown("Ds", {Title = "Flags",Values = Flags,Multi = false,Default = 1})
+    Dropdown:OnChanged(function(Value)
+        WantedFlag = Value
+    end)
+    local Toggle = Tabs.Comsumeables:AddToggle("kjfhdijkfhsd", {Title = "Auto Use ToyBalls", Default = false})
+    Toggle:OnChanged(function()
+        ToyBall = Options.kjfhdijkfhsd.Value
+    end)
+    local Toggle = Tabs.Comsumeables:AddToggle("kjfhdajhdjshdijkfhsd", {Title = "Auto Use SqueakyToys", Default = false})
+    Toggle:OnChanged(function()
+        SqueakyToy = Options.kjfhdajhdjshdijkfhsd.Value
+    end)
+
+    local Toggle = Tabs.Comsumeables:AddToggle("kjfhdajhdhjbgdjkifhkfgjkfdhgkjdjshdijkfhsd", {Title = "Auto Use ToyBones", Default = false})
+    Toggle:OnChanged(function()
+        ToyBone = Options.kjfhdajhdhjbgdjkifhkfgjkfdhgkjdjshdijkfhsd.Value
+    end)
+    Tabs.Comsumeables:AddButton({Title = "Open All Gifts",Description = "Opens All Gifts in Inventory",Callback = function()
+        OpenAllGifts()
+    end})
+    local Toggle = Tabs.Comsumeables:AddToggle("HateNig", {Title = "Auto Open All Gifts", Default = false})
+    Toggle:OnChanged(function()
+        ToHateYou = Options.HateNig.Value
+    end)
     ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    Tabs.Obbys:AddButton({Title = "Auto Grab All ShinyRelics",Description = "Grabs all relics Working",Callback = function()
+    Tabs.Misc:AddButton({Title = "Auto Grab All ShinyRelics",Description = "Grabs all relics Working",Callback = function()
         for i,v in next, Workspace.__THINGS.ShinyRelics:GetChildren() do
             if v:IsA("BasePart") and v.Transparency == 0 then
                 RelicClicked(getShiny(v))
@@ -657,24 +684,17 @@ do
         end
     end})
 
-    Tabs.Obbys:AddButton({Title = "Open All Gifts",Description = "Opens All Gifts in Inventory",Callback = function()
-        OpenAllGifts()
-    end})
-    local Toggle = Tabs.Obbys:AddToggle("HateNig", {Title = "Auto Open All Gifts", Default = false})
-    Toggle:OnChanged(function()
-        ToHateYou = Options.HateNig.Value
-    end)
-    local Toggle = Tabs.Obbys:AddToggle("Ranked", {Title = "Auto Claim Ranks Rewards", Default = false})
+    local Toggle = Tabs.Misc:AddToggle("Ranked", {Title = "Auto Claim Ranks Rewards", Default = false})
     Toggle:OnChanged(function()
         g = Options.Ranked.Value
     end)
-    Tabs.Obbys:AddButton({Title = "Auto Selected Obby",Description = "Automaticly does obby must be in obby to work",Callback = function()
+    Tabs.Misc:AddButton({Title = "Auto Selected Obby",Description = "Automaticly does obby must be in obby to work",Callback = function()
         Doobbystuff()
     end})
-    Tabs.Obbys:AddButton({Title = "Auto Teleport Obby",Description = "Teleports so Obby",Callback = function()
+    Tabs.Misc:AddButton({Title = "Auto Teleport Obby",Description = "Teleports so Obby",Callback = function()
         TeleportObby()
     end})
-    local Dropdown = Tabs.Obbys:AddDropdown("idkanymore", {Title = "Obbys",Values = Instances,Multi = false,Default = 1,})
+    local Dropdown = Tabs.Misc:AddDropdown("idkanymore", {Title = "Obbys",Values = Instances,Multi = false,Default = 1,})
     Dropdown:OnChanged(function(Value)
         WantedObby = Value
     end)
@@ -762,4 +782,3 @@ Fluent:Notify({
 })
  
 SaveManager:LoadAutoloadConfig()
-
