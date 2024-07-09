@@ -1,8 +1,9 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
-repeat wait() until ReplicatedStorage:WaitForChild("Library")
 
 VG.DisableConnection(Idled)
 VG.DisableConnection(Error)
+VG.DisableConnection(UserInputService.WindowFocused)
+VG.DisableConnection(UserInputService.WindowFocusReleased)
 
 local Hehe = {}
 local Zones = {}
@@ -61,6 +62,16 @@ local GetPresentTable = function(Pre)
     end
 end
 
+local DayCare = function()
+    local Pets = {}
+    if Client.DaycareCmds.GetUsedSlots() ~= Client.DaycareCmds.GetMaxSlots() then
+        for i,v in next, Client.PlayerPet.GetAll() do
+            Pets[v] = v.item._uid
+            RF("Daycare: Enroll"):InvokeServer({[v.item._uid] = 1})
+        end
+    end
+    Client.DaycareCmds.Claim(Pets)
+end
 local CurrentActive = function()
     return Active:GetChildren()[1]
 end
@@ -201,14 +212,13 @@ local TargetFarm = function()
         end
     end
     if Target then
+
         RE("Breakables_PlayerDealDamage"):FireServer(tostring(Target.Name))
     end
 end
 local Collect = function()
     local FuckYou = workspace.__THINGS.Orbs:GetChildren()
-    local KYS = workspace.__THINGS.Lootbags:GetChildren()
     local MyOrbs = {}
-    local MyBags = {}
 
     if #FuckYou > 0 then
         for i,v in next, FuckYou do
@@ -216,14 +226,7 @@ local Collect = function()
             v:Destroy()
         end
     end
-    if #KYS > 0 then
-        for i,v in next, KYS do            
-            MyBags[v.Name] = v.Name
-            v:Destroy()
-        end
-    end
     RE("Orbs: Collect"):FireServer(MyOrbs)
-    RE("Lootbags_Claim"):FireServer(MyBags)
 end
 local GetLastEgg = function()
     return require(ReplicatedStorage.Library.Client.EggCmds).GetHighestEggNumberAvailable()
@@ -456,7 +459,8 @@ Hatching.PlayEggAnimation = function(...)
     else
         return HatchingAnimation(...)
     end
-end
+end 
+
 spawn(function()
     while wait(.1) do
         pcall(function()
@@ -489,9 +493,6 @@ spawn(function()
             if vut then
                 Venders()
             end
-            if gg or YesLol then
-                Collect()
-            end
             if ToHateYou then
                 OpenAllGifts()
             end
@@ -504,6 +505,9 @@ spawn(function()
             if ClaimRank then
                 ClaimRanks()
             end
+            if gg or YesLol then
+                Collect()
+            end
             if SqueakyToy then
                 RF("SqueakyToy_Consume"):InvokeServer()
             end
@@ -513,7 +517,9 @@ spawn(function()
             if ToyBone then
                 RF("ToyBone_Consume"):InvokeServer()
             end
-
+            if DayCareyes then
+                DayCare()
+            end
         end)
     end
 end)
@@ -589,10 +595,6 @@ do
             RunService:Set3dRenderingEnabled(true)
         end
     end)
-    local Toggle = Tabs.AutoFarm:AddToggle("YesLol", {Title = "Automatic Farm Zones", Default = false})
-    Toggle:OnChanged(function()
-        YesLol = Options.YesLol.Value
-    end)
     local Toggle = Tabs.AutoFarm:AddToggle("PetCoin", {Title = "Auto Break Nearest Coin", Default = false})
     Toggle:OnChanged(function()
         AutoFarm = Options.PetCoin.Value
@@ -601,6 +603,11 @@ do
     Toggle:OnChanged(function()
         UltimateButtons = Options.Lols.Value
     end)
+    local Toggle = Tabs.AutoFarm:AddToggle("DayCareyes", {Title = "Auto DayCare", Default = false})
+    Toggle:OnChanged(function()
+        DayCareyes = Options.DayCareyes.Value
+    end)
+    
     local Toggle = Tabs.AutoFarm:AddToggle("f93", {Title = "Infinite Pet Speed", Default = false})
     Toggle:OnChanged(function()
         PetSpeed = Options.f93.Value
