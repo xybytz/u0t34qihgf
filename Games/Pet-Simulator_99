@@ -85,15 +85,23 @@ spawn(function()
     end
 end)
 
+
+local Upgrade = function()
+    for i=1, 99 do wait()
+        RF("EquipSlotsMachine_RequestPurchase"):InvokeServer(i)
+    end
+end
+
+
 local DayCare = function()
     local Pets = {}
     if Client.DaycareCmds.GetUsedSlots() ~= Client.DaycareCmds.GetMaxSlots() then
         for i,v in next, Client.PlayerPet.GetAll() do
             Pets[v] = v.item._uid
             RF("Daycare: Enroll"):InvokeServer({[v.item._uid] = 1})
+            Client.DaycareCmds.Claim(v.item._uid)
         end
     end
-    Client.DaycareCmds.Claim(Pets)
 end
 local CurrentActive = function()
     return Active:GetChildren()[1]
@@ -209,6 +217,37 @@ local Rebirth = function()
     end
 end
 
+
+local TargetFarm = function()
+    local MaxMag = math.huge
+    local Target = nil
+    for _,v in Things.Breakables:GetChildren() do
+        local Hitbox  = v:FindFirstChild("Hitbox", true)
+        if Hitbox then
+            local Mag = VG.Mag(Player.Character.HumanoidRootPart, Hitbox)
+            if  Mag <= MaxMag then
+                MaxMag = Mag
+                Target = v
+            end
+        end
+    end
+    if Target then
+        RE("Breakables_PlayerDealDamage"):FireServer(tostring(Target.Name))
+    end
+end
+local Collect = function()
+    local FuckYou = workspace.__THINGS.Orbs:GetChildren()
+    local MyOrbs = {}
+
+    if #FuckYou > 0 then
+        for i,v in next, FuckYou do
+            MyOrbs[i] = tonumber(v.Name)
+            v:Destroy()
+        end
+    end
+    RE("Orbs: Collect"):FireServer(MyOrbs)
+end
+
 local AutoFarmZones = function()
     local Owned = ZoneCMDS.GetMaxOwnedZone()
     if Owned then
@@ -229,37 +268,11 @@ local AutoFarmZones = function()
         local NotOwned = ZoneCMDS.GetNextZone()
         RF("Zones_RequestPurchase"):InvokeServer(NotOwned)
     end
-end
-
-local TargetFarm = function()
-    local MaxMag = math.huge
-    local Target = nil
-    for _,v in Things.Breakables:GetChildren() do
-        local Hitbox  = v:FindFirstChild("Hitbox", true)
-        if Hitbox then
-            local Mag = VG.Mag(Player.Character.HumanoidRootPart, Hitbox)
-            if  Mag <= MaxMag then
-                MaxMag = Mag
-                Target = v
-            end
-        end
-    end
-    if Target then
-
-        RE("Breakables_PlayerDealDamage"):FireServer(tostring(Target.Name))
-    end
-end
-local Collect = function()
-    local FuckYou = workspace.__THINGS.Orbs:GetChildren()
-    local MyOrbs = {}
-
-    if #FuckYou > 0 then
-        for i,v in next, FuckYou do
-            MyOrbs[i] = tonumber(v.Name)
-            v:Destroy()
-        end
-    end
-    RE("Orbs: Collect"):FireServer(MyOrbs)
+    TargetFarm()
+    Collect()
+    Rebirth()
+    Upgrade()
+    ALL = YesLol
 end
 local GetLastEgg = function()
     return require(ReplicatedStorage.Library.Client.EggCmds).GetHighestEggNumberAvailable()
@@ -498,7 +511,7 @@ spawn(function()
     while wait(.1) do
         pcall(function()
             game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Enabled = false
-            if AutoFarm or YesLol then
+            if AutoFarm then
                 TargetFarm()
             end
             if UltimateButtons then
@@ -532,7 +545,7 @@ spawn(function()
             if YesLol then
                 AutoFarmZones()
             end
-            if Rebi or YesLol then
+            if Rebi then
                 Rebirth()
             end
             if ClaimRank then
@@ -631,6 +644,11 @@ do
             RunService:Set3dRenderingEnabled(true)
         end
     end)
+    local Toggle = Tabs.AutoFarm:AddToggle("lkjhnfdjkgnjdfkgbjkdfngjkndfkg", {Title = "Automaticly go through game", Default = false})
+    Toggle:OnChanged(function()
+        YesLol = Options.lkjhnfdjkgnjdfkgbjkdfngjkndfkg.Value
+    end)
+
     local Toggle = Tabs.AutoFarm:AddToggle("PetCoin", {Title = "Auto Break Nearest Coin", Default = false})
     Toggle:OnChanged(function()
         AutoFarm = Options.PetCoin.Value
