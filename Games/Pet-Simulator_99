@@ -94,7 +94,11 @@ local getShiny = function(Shin)
 end
 
 local GetFruits = function()
-    error("Disabled")
+    for i,v in next, Client.Save.GetSaves()[Player].Inventory.Fruit do
+        if require(game:GetService("ReplicatedStorage").Library.Client.FruitCmds).GetMaxConsume(i) ~= 0 then
+            require(game:GetService("ReplicatedStorage").Library.Client.FruitCmds).Consume(i, 1)
+        end
+    end
 end
 
 
