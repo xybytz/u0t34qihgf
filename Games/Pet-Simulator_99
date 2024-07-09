@@ -16,6 +16,7 @@ local Time = 0
 
 local Library  = require(ReplicatedStorage:WaitForChild("Library"))
 local Client = require(ReplicatedStorage.Library:WaitForChild("Client"))
+
 local ZonesUtil = require(game:GetService("ReplicatedStorage").Library.Util.ZonesUtil)
 
 local HiddenPresents = getsenv(Player.PlayerScripts.Scripts.Game.Misc["Hidden Presents"])
@@ -62,6 +63,28 @@ local GetPresentTable = function(Pre)
     end
 end
 
+
+local Run = function()
+    for i,v in next, Client.Save.GetSaves()[Player].Inventory.Misc do
+        if v.id == "Comet" and (COMET or ALL) then
+            RF("Comet_Spawn"):InvokeServer(i)
+        elseif v.id == "Mini Lucky Block" and (LUCKYBLOCK or ALL) then
+            RF("MiniLuckyBlock_Consume"):InvokeServer(i)
+        elseif v.id == "Mini Pinata" and (PINATA or ALL) then
+            RF("MiniPinata_Consume"):InvokeServer(i)
+        elseif v.id == "Party Box" and (PARTY or ALL) then
+            RF("PartyBox_Consume"):InvokeServer(i)
+        end
+    end
+end
+spawn(function()
+    while wait(1) do
+        pcall(function()
+            Run()
+        end)
+    end
+end)
+
 local DayCare = function()
     local Pets = {}
     if Client.DaycareCmds.GetUsedSlots() ~= Client.DaycareCmds.GetMaxSlots() then
@@ -98,6 +121,12 @@ local GetFruits = function()
         if require(game:GetService("ReplicatedStorage").Library.Client.FruitCmds).GetMaxConsume(i) ~= 0 then
             require(game:GetService("ReplicatedStorage").Library.Client.FruitCmds).Consume(i, 1)
         end
+    end
+end
+
+local GetPotions = function()
+    for i,v in next, Client.Save.GetSaves()[Player].Inventory.Potion do wait()
+        require(game:GetService("ReplicatedStorage").Library.Client.PotionCmds).Consume(i)
     end
 end
 
@@ -521,6 +550,9 @@ spawn(function()
             if ToyBone then
                 RF("ToyBone_Consume"):InvokeServer()
             end
+            if Potionwant then
+                GetPotions()
+            end
             if DayCareyes then
                 DayCare()
             end
@@ -650,9 +682,6 @@ do
     Toggle:OnChanged(function()
         Yes = Options.Gifts.Value
     end)
-
-
-
     local Toggle = Tabs.Comsumeables:AddToggle("Toyou", {Title = "Auto Eat Fruits", Default = false})
     Toggle:OnChanged(function()
         Frut = Options.Toyou.Value
@@ -665,6 +694,31 @@ do
     local Dropdown = Tabs.Comsumeables:AddDropdown("Ds", {Title = "Flags",Values = Flags,Multi = false,Default = 1})
     Dropdown:OnChanged(function(Value)
         WantedFlag = Value
+    end)
+    local Toggle = Tabs.Comsumeables:AddToggle("Potionwant", {Title = "Auto Use All Potions", Default = false})
+    Toggle:OnChanged(function()
+        Potionwant = Options.Potionwant.Value
+    end)
+    local Toggle = Tabs.Comsumeables:AddToggle("PARTY", {Title = "Auto Party Box", Default = false})
+    Toggle:OnChanged(function()
+        PARTY = Options.PARTY.Value
+    end)
+    local Toggle = Tabs.Comsumeables:AddToggle("PINATA", {Title = "Auto Pinata", Default = false})
+    Toggle:OnChanged(function()
+        PINATA = Options.PINATA.Value
+    end)
+    local Toggle = Tabs.Comsumeables:AddToggle("COMET", {Title = "Auto Comet", Default = false})
+    Toggle:OnChanged(function()
+        COMET = Options.COMET.Value
+    end)
+    local Toggle = Tabs.Comsumeables:AddToggle("LUCKYBLOCK", {Title = "Auto Lucky Block", Default = false})
+    Toggle:OnChanged(function()
+        LUCKYBLOCK = Options.LUCKYBLOCK.Value
+    end)
+
+    local Toggle = Tabs.Comsumeables:AddToggle("ALL", {Title = "Auto Quick Items", Default = false})
+    Toggle:OnChanged(function()
+        ALL = Options.ALL.Value
     end)
     local Toggle = Tabs.Comsumeables:AddToggle("kjfhdijkfhsd", {Title = "Auto Use ToyBalls", Default = false})
     Toggle:OnChanged(function()
