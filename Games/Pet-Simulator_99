@@ -19,23 +19,44 @@ local Client = require(ReplicatedStorage.Library:WaitForChild("Client"))
 
 local ZonesUtil = require(game:GetService("ReplicatedStorage").Library.Util.ZonesUtil)
 
-local HiddenPresents = getsenv(Player.PlayerScripts.Scripts.Game.Misc["Hidden Presents"])
 local ShinyRelics = getsenv(Player.PlayerScripts.Scripts.Game.Misc["Shiny Relics"])
 local Hatching = getsenv(Player.PlayerScripts.Scripts.Game:WaitForChild("Egg Opening Frontend"))
 
 local ZoneCMDS = Client.ZoneCmds
-local CalculateSpeedMultiplier = Client.PlayerPet.CalculateSpeedMultiplier
-local HatchingAnimation = Hatching.PlayEggAnimation
-local RequestRelics = ShinyRelics.RequestRelics
-local RelicClicked = ShinyRelics.RelicClicked
-local GetActive = HiddenPresents.GetActive
-local Clicked = HiddenPresents.Clicked
 -----
 local Network = ReplicatedStorage:WaitForChild("Network")
 local Things = Workspace:WaitForChild("__THINGS")
 local Active = Things.__INSTANCE_CONTAINER:WaitForChild("Active")
 local Gifts = ReplicatedStorage:WaitForChild("__DIRECTORY").MiscItems.Categorized.Gifts
-
+local CalculateSpeedMultiplier = Client.PlayerPet.CalculateSpeedMultiplier
+local HatchingAnimation = Hatching.PlayEggAnimation
+local F = {}
+for i,v in next, getgc(true) do
+    if type(v) == "function" then
+        local Info = getinfo(v).name
+        if Info == "GetNearestBreakable" then
+            F[Info] = v
+        elseif Info == "CalculateSpeedMultiplier" then
+            F[Info] = v
+        elseif Info == "PlayEggAnimation" then
+            F[Info] = v
+        elseif Info == "RequestRelics" then
+            F[Info] = v
+        elseif Info == "RelicClicked"then
+            F[Info] = v
+        elseif Info == "GetTitle" then
+            F[Info] = v
+        elseif getfenv(v).script == game:GetService("ReplicatedStorage").Library.Client.TabController then
+            if Info == "OpenTab" then
+                F[Info] = v
+            elseif Info == "CloseTab" then
+                F[Info] = v
+            end
+        elseif Info == "Setup" and getfenv(v).script == game:GetService("ReplicatedStorage").Library.Client.CustomEggsCmds then
+            F[Info] = v
+        end
+    end
+end
 -----
 local RE = function(RemoteName)
     if Network:FindFirstChild(RemoteName) then
@@ -52,17 +73,6 @@ local RF = function(RemoteName)
         error("Failed to load Remotfunction " .. RemoteName .. " Please Contact Deku with this error")
     end
 end
-
-local GetPresentTable = function(Pre)
-    if Pre then
-        for i,v in next, getupvalue(GetActive, 1) do
-            if v.Model == Pre then
-                return v
-            end
-        end
-    end
-end
-
 
 local Run = function()
     for i,v in next, Client.Save.GetSaves()[Player].Inventory.Misc do
@@ -94,7 +104,7 @@ local Run = function()
 
         RF("Instancing_PlayerEnterInstance"):InvokeServer("TreehouseMerchant")
 
-        require(game:GetService("ReplicatedStorage").Library.Client.TabController).OpenTab("TreehouseMerchant")
+        F.OpenTab("TreehouseMerchant")
         local Huges = {"rbxassetid://16410740491","rbxassetid://16410740693"}
         for i,v in next, getupvalue(getsenv(Player.PlayerScripts.Scripts.Game.Machines["Treehouse Merchant"]).UpdateMerchant, 5) do
             if table.find(Huges, v.Icon.Image) then
@@ -105,7 +115,7 @@ local Run = function()
             end
         end
 
-        require(game:GetService("ReplicatedStorage").Library.Client.TabController).CloseTab("TreehouseMerchant")
+        F.CloseTab("TreehouseMerchant")
 
         FE("Instancing_PlayerLeaveInstance"):FireServer("TreehouseMerchant")
     end
@@ -140,7 +150,7 @@ local GetMap = function()
 end
 local getShiny = function(Shin)
     if Shin then
-        for i,v in next, getupvalue(RequestRelics,1) do
+        for i,v in next, getupvalue(F.RequestRelics,1) do
             if v.Model == Shin then
                 return v
             end
@@ -188,6 +198,7 @@ local ClaimRanks = function()
         end
     end
 end
+
 --------------- Fishing
 local Activated = function()
     if Method == "Fishing" and not Active:FindFirstChild("Fishing") then
@@ -243,20 +254,10 @@ end
 
 
 local TargetFarm = function()
-    local MaxMag = math.huge
-    local Target = nil
-    for _,v in Things.Breakables:GetChildren() do
-        local Hitbox  = v:FindFirstChild("Hitbox", true)
-        if Hitbox then
-            local Mag = VG.Mag(Player.Character.HumanoidRootPart, Hitbox)
-            if  Mag <= MaxMag then
-                MaxMag = Mag
-                Target = v
-            end
-        end
-    end
+    local Target = F.GetNearestBreakable()
     if Target then
-        RE("Breakables_PlayerDealDamage"):FireServer(tostring(Target.Name))
+        RE("Breakables_PlayerDealDamage"):FireServer(Target.Name)
+        game:GetService("ReplicatedStorage").Library.Signal.AutoClicker_Click:Fire(Target.Name)
     end
 end
 local Collect = function()
@@ -347,6 +348,21 @@ end
 
 local BuyEgg = function(Egg, Amount)
     RF("Eggs_RequestPurchase"):InvokeServer(Egg, GetMaxEggsAbleToOpen())
+end
+
+
+local CustomEggs = function(WantedEgg, True)
+    local HEHE = {}
+    for i,v in next, getupvalue(F.Setup, 1) do
+        if not True then
+            if v._id == WantedEgg then
+                RF("CustomEggs_Hatch"):InvokeServer(i, tonumber(GetMaxEggsAbleToOpen()))
+            end
+        elseif True then
+            HEHE[v._id] = v._id
+        end
+    end
+    return HEHE
 end
 ---------------BackRooms
 
@@ -517,11 +533,11 @@ end)
 
 
 Client.PlayerPet.CalculateSpeedMultiplier = function(...)
-	if PetSpeed then
-		return 9e9
-	else
-		return CalculateSpeedMultiplier(...)
-	end
+    if PetSpeed then
+        return 9e9
+    else
+        return CalculateSpeedMultiplier(...)
+    end
 end
 Hatching.PlayEggAnimation = function(...)
     if NoHatch then
@@ -530,6 +546,7 @@ Hatching.PlayEggAnimation = function(...)
         return HatchingAnimation(...)
     end
 end 
+
 
 spawn(function()
     while wait(.1) do
@@ -592,6 +609,9 @@ spawn(function()
             end
             if DayCareyes then
                 DayCare()
+            end
+            if Custom then
+                CustomEggs(WantedCustomEgg, false)
             end
         end)
     end
@@ -717,6 +737,16 @@ do
         WantedEgg = Value
     end)
 
+    local Toggle = Tabs.AutoFarm:AddToggle("Edsjfbhjkdshbfggd", {Title = "Auto Open Custom Egg", Default = false})
+    Toggle:OnChanged(function()
+        Custom = Options.Edsjfbhjkdshbfggd.Value
+    end)
+    local New = CustomEggs(nil, true)
+    local Dropdown = Tabs.AutoFarm:AddDropdown("Ds", {Title = "Custom Eggs",Values = New,Multi = false,Default = 1})
+    Dropdown:OnChanged(function(Value)
+        WantedCustomEgg = Value
+    end)
+
     local Toggle = Tabs.AutoFarm:AddToggle("Toyo224u", {Title = "Auto DiamondWheel", Default = false})
     Toggle:OnChanged(function()
         Fag2 = Options.Toyo224u.Value
@@ -796,7 +826,7 @@ do
     Tabs.Misc:AddButton({Title = "Auto Grab All ShinyRelics",Description = "Grabs all relics Working",Callback = function()
         for i,v in next, Workspace.__THINGS.ShinyRelics:GetChildren() do
             if v:IsA("BasePart") and v.Transparency == 0 then
-                RelicClicked(getShiny(v))
+                F.RelicClicked(getShiny(v))
             end
         end
     end})
