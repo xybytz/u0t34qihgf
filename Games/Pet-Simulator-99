@@ -1,4 +1,5 @@
 
+ 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
 VG.DisableConnection(Error)
 VG.DisableConnection(Idled)
@@ -98,8 +99,8 @@ local Team = {"Tester", "GH", "Admin/Developer", "Game Director"}
 local RemoteEvents = ReplicatedStorage:WaitForChild("RemoteEvents")
 local BuyItemRemote = RemoteEvents:WaitForChild("BuyItemRemote")
 local BladeCombatRemote = RemoteEvents:WaitForChild("BladeCombatRemote")
-for _,v in next, Player.Quests:GetChildren() do
-    if v:IsA("BoolValue") then
+for _,v in next, ReplicatedStorage.Quests:GetChildren() do
+    if v:IsA("StringValue") then
         table.insert(Quests, v.Name)
     end
 end
@@ -193,7 +194,7 @@ local KillBoss = function()
 end
 
 local GetQuest = function(Quest)
-    if not Player.PlayerGui.Menu.QuestFrame.Visible then
+    if not Player.PlayerGui.Menu.Main.QuestFrame.Visible then
         RemoteEvents:WaitForChild("ChangeQuestRemote"):FireServer(ReplicatedStorage:WaitForChild("Quests"):FindFirstChild(Quest))
     end
 end
@@ -389,7 +390,7 @@ local Hey = function(i, v)
 end
 spawn(function()
     while wait() do
-        pcall(function()
+
             if NoGreat then
                 KillMob(Mob, Methoder)
             end
@@ -487,7 +488,7 @@ spawn(function()
             if DoChest then
                 Chests()
             end
-        end)
+        
     end
 end)
 
