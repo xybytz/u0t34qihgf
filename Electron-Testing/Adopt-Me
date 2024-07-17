@@ -19,22 +19,7 @@ RunService.Stepped:Connect(function()
         end
     end)
 end)
-
-local Table = {6152116144, 185655149}
 local Set = setfpscap
-local getupvalue = getupvalue or debug.getupvalue
-local getconstant = getconstant or debug.getconstant
-local getconstants = getconstants or debug.getconstants
-local getgc = getgc or get_gc_objects or debug.getgc
-local getreg = getreg or getregistry or debug.getregistry
-local get_thread_context = get_thread_context or getthreadcontext or getidentity or syn.get_thread_identity
-local get_thread_identity = get_thread_context
-local set_thread_context = set_thread_context or setthreadcontext or setidentity or syn.set_thread_identity
-local set_thread_identity = set_thread_context
-local Remotes = {}
-local Inventorys = ReplicatedStorage.ClientDB.Inventory
-local InventoryGiftsSubDB = require(Inventorys.InventoryGiftsSubDB)
-
 local Stores = {
     "CoffeeShop",
     "Supermarket",
@@ -164,10 +149,10 @@ for i, v in pairs(getgc()) do
 end
 
 local SetLocation = function(A, B, C)
-    local O = get_thread_identity()
-    set_thread_identity(2)
+    local O = getthreadidentity()
+    setthreadidentity(2)
     Location(A, B, C)
-    set_thread_identity(7)
+    setthreadidentity(7)
 end
 local Home = function()
     if Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA("Model") then
@@ -601,7 +586,7 @@ do
     Dropdown:OnChanged(function(Value)
         Key = PetsShow[Value]
     end)
-    local Toggle = Tabs.Main:AddToggle("New", {Title = "Auto Neon", Default = false})
+    local Toggle = Tabs.Main:AddToggle("New", {Title = "AutoFarm Pet", Default = false})
     Toggle:OnChanged(function()
         PetFarm = Options.New.Value
         RunService.RenderStepped:connect(function()
@@ -975,7 +960,7 @@ do
                 end 
             end 
         end 
-    end)
+    end})
     Tabs.Main:AddButton({Title = "Go To Store",Description = "Goes to selected store",Callback = function()
         spawn(function()
             pcall(function()
@@ -983,7 +968,7 @@ do
                 Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors:FindFirstChildWhichIsA('Model').Doors.MainDoor.WorkingParts.TouchToEnter.CFrame:ToWorldSpace(CFrame.new(0, 0, -6))
             end)
         end)
-    end)
+    end})
     local Dropdown = Tabs.Main:AddDropdown("s", {
         Title = "Stores",
         Values = Stores,
@@ -1001,14 +986,14 @@ do
             GoToHome()
             Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
         end)
-    end)
+    end})
     Tabs.Main:AddButton({Title = "Go To MainMap",Description = "Goes to MainMap",Callback = function()
         spawn(function()
             GoToMainMap()
             Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors:FindFirstChildWhichIsA("Model"):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6))
             Player.Character.HumanoidRootPart.CFrame = CFrame.new(-247.35408, 17.3820152, -1518.88879) 
         end)
-    end)
+    end})
 
 end
 SaveManager:SetLibrary(Fluent)
