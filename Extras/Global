@@ -429,36 +429,45 @@ VG.SuperBypassedWalkSpeed = function(Speed)
 end
 
 
+VG.JumpPowerHeight = function()
+    if VG.GetHumanoid().JumpHeight then
+        return "JumpHeight"
+    else
+        return "JumpPower"
+    end
+end
 VG.JumpPower = function(Height)
     VG.GetHumanoid().JumpPower = Height
 end
 
 VG.SemiBypassedJumpPower = function(Height)
     VG.DisableConnection(VG.GetHumanoid().Changed)
-    sethiddenproperty(VG.GetHumanoid(), "JumpPower", Height)
+    sethiddenproperty(VG.GetHumanoid(), VG.JumpPowerHeight(), Height)
 end
 
 VG.BypassedJumpPower = function(Height)
+    local I = VG.JumpPowerHeight()
     local OldNameCall = nil
     OldNameCall = hookmetamethod(game, "__index", function(A, B, C)
-        if A and B == "JumpPower" then
+        if A and B == I then
             return Height
         end
         return OldNameCall(A, B, C)
     end)
-    VG.GetHumanoid().JumpPower = Height
+    VG.GetHumanoid()[VG.JumpPowerHeight()] = Height
 end
 
 VG.SuperBypassedJumpPower = function(Height)
     VG.DisableConnection(VG.GetHumanoid().Changed)
+    local I = VG.JumpPowerHeight()
     local OldNameCall = nil
     OldNameCall = hookmetamethod(game, "__index", function(A, B, C)
-        if A and B == "JumpPower" then
+        if A and B == I then
             return Height
         end
         return OldNameCall(A, B, C)
     end)
-    sethiddenproperty(VG.GetHumanoid(), "JumpPower", Height)
+    sethiddenproperty(VG.GetHumanoid(), VG.JumpPowerHeight(), Height)
 end
 
 VG.Adonis = function()
