@@ -428,6 +428,39 @@ VG.SuperBypassedWalkSpeed = function(Speed)
     sethiddenproperty(VG.GetHumanoid(), "WalkSpeed", Speed)
 end
 
+
+VG.JumpPower = function(Height)
+    VG.GetHumanoid().JumpPower = Height
+end
+
+VG.SemiBypassedJumpPower = function(Height)
+    VG.DisableConnection(VG.GetHumanoid().Changed)
+    sethiddenproperty(VG.GetHumanoid(), "JumpPower", Height)
+end
+
+VG.BypassedJumpPower = function(Height)
+    local OldNameCall = nil
+    OldNameCall = hookmetamethod(game, "__index", function(A, B, C)
+        if A and B == "JumpPower" then
+            return Height
+        end
+        return OldNameCall(A, B, C)
+    end)
+    VG.GetHumanoid().JumpPower = Height
+end
+
+VG.SuperBypassedJumpPower = function(Height)
+    VG.DisableConnection(VG.GetHumanoid().Changed)
+    local OldNameCall = nil
+    OldNameCall = hookmetamethod(game, "__index", function(A, B, C)
+        if A and B == "JumpPower" then
+            return Height
+        end
+        return OldNameCall(A, B, C)
+    end)
+    sethiddenproperty(VG.GetHumanoid(), "JumpPower", Height)
+end
+
 VG.Adonis = function()
     for i,v in next, getgc(true) do
         if type(v) == "table" then
