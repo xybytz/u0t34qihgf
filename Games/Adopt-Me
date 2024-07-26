@@ -436,14 +436,20 @@ end
 pcall(function()
     ReplicatedStorage.API:FindFirstChild("DailyLoginAPI/ClaimDailyReward"):InvokeServer()
 end)
-
+local GetCurrentPetOut = function()
+    return require(game:GetService("ReplicatedStorage").ClientModules.Game.PetEntities.PetEntityManager).get_local_owned_pet_entity().base.pet_model
+end
 local a = {
     ["sleepy"] = function(c)
+        if not Bed() then
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("HousingAPI/BuyFurnitures"):InvokeServer({["kind"] = "basiccrib", ["properties"] = {["cframe"] = CFrame.new()}})
+        end
+
         spawn(function()
             while wait(3) and c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments and PetFarm do
                 if c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments then
-                    print(Player, Bed(), 'UseBlock', {['cframe'] = Player.Character.HumanoidRootPart.CFrame}, C)
-                    ReplicatedStorage:FindFirstChild('HousingAPI/ActivateFurniture',true):InvokeServer(Player, Bed(), 'UseBlock', {['cframe'] = Player.Character.HumanoidRootPart.CFrame}, C)
+                    print(Player, Bed(), 'UseBlock', {['cframe'] = Player.Character.HumanoidRootPart.CFrame}, GetCurrentPetOut().Parent)
+                    ReplicatedStorage:FindFirstChild('HousingAPI/ActivateFurniture',true):InvokeServer(Player, Bed(), 'UseBlock', {['cframe'] = Player.Character.HumanoidRootPart.CFrame}, GetCurrentPetOut().Parent)
                     if not Bed() then
                         GoToMainMap()
                         GoToHome()
@@ -456,8 +462,8 @@ local a = {
     ['dirty'] = function(c)
         spawn(function()
             while c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments and wait(3) do
-                print(Player, Bed(), 'UseBlock', {['cframe'] = Player.Character.HumanoidRootPart.CFrame}, C)
-                ReplicatedStorage:FindFirstChild("HousingAPI/ActivateFurniture",true):InvokeServer(Player, Showers(), 'UseBlock', {['cframe'] = Player.Character.HumanoidRootPart.CFrame}, C)
+                print(Player, Bed(), 'UseBlock', {['cframe'] = Player.Character.HumanoidRootPart.CFrame}, GetCurrentPetOut().Parent)
+                ReplicatedStorage:FindFirstChild("HousingAPI/ActivateFurniture",true):InvokeServer(Player, Showers(), 'UseBlock', {['cframe'] = Player.Character.HumanoidRootPart.CFrame}, GetCurrentPetOut().Parent)
                 if not Showers() then
                     GoToMainMap()
                     GoToHome()
@@ -670,18 +676,10 @@ do
                 end)
             end
         end)
-        spawn(function()
-            while wait(20) and PetFarm and Refresh do
-                pcall(function()
-                    ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
-                    Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
-                end)
-            end
-        end)
         if Key ~= nil then
             PetID = Key.unique
             ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
-            Pet, C = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
+            ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
         end
         spawn(function()
             while wait() and PetFarm do
@@ -693,14 +691,11 @@ do
                             a[Name](Ailment)
                         end
                     end
-                    if Pet and C then
-                        if C.Parent ~= Workspace.Pets then
+                    if GetCurrentPetOut() and GetCurrentPetOut().Parent then
+                        if GetCurrentPetOut().Parent.Parent ~= Workspace.Pets then
                             ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
-                            Pet, C = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
+                            ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
                         end
-                    else
-                        ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
-                        Pet, C = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
                     end
                 end)
             end
@@ -1089,3 +1084,4 @@ Fluent:Notify({
 })
 
 SaveManager:LoadAutoloadConfig()
+
