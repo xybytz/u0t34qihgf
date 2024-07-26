@@ -31,6 +31,9 @@ GetGlobal.Character = Player.Character or Player.CharacterAdded:Wait()
 GetGlobal.Protecter = Instance.new("Model", CoreGui)
 GetGlobal.GameId = game.GameId
 GetGlobal.AllPlayers = {}
+GetGlobal.print = print
+GetGlobal.warn = warn
+GetGlobal.error = error
 Protecter.RobloxLocked = true
 
 VG.Mag = function(Pos1, Pos2)
@@ -513,6 +516,26 @@ VG.RigCheck = function()
     return VG.GetHumanoid().RigType
 end
 
+VG.FireTouch = function(BasePart)
+    firetouchinterest(VG.GetRoot(), BasePart, 0)
+    firetouchinterest(VG.GetRoot(), BasePart, 1)
+end
+
+VG.GetModelCFrame = function(Model)
+    return Model:GetModelCFrame()
+end
+
+VG.GetCFrame = function(BasePart)
+    return BasePart.CFrame
+end
+
+VG.WayPoints = function(RootPart ,Position, Table)
+    local S = Table or {}
+    local path = PathfindingService:CreatePath(S)
+    path:ComputeAsync(RootPart.Position, Position)
+    local WayPoints = path:GetWaypoints()
+    return WayPoints
+end
 
 --Loops
 
