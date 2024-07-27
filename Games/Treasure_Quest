@@ -1,4 +1,4 @@
-getgenv().Toggle = true
+
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
 
@@ -6,11 +6,11 @@ VG.DisableConnection(Idled)
 VG.DisableConnection(Error)
 local CombatController = require(Player.PlayerScripts.Shared.Client.CombatController)
 local Remotes = ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Remotes")
-
+print(Remotes)
 
 local F = {}
 
-F:GetMob = function()
+F.GetMob = function()
     local MaxDistance, Target, Min = math.huge, nil, 100
     for i,v in next, Workspace:GetChildren() do
         local Arrow = VG.FFD(v, "Arrow")
@@ -24,12 +24,12 @@ F:GetMob = function()
             
             local Mobs = EvilHumanoid.Parent.Parent:GetChildren()
             for i,v in next, Mobs do
-                if not VG.FFC(v, "EvilHumnoid") return end
+                if not VG.FFC(v, "EvilHumnoid") then return end
                 if v:IsA("Model") and v.EvilHumanoid.Health ~= 0 then
                     local Mag = VG.Mag(VG.GetRoot(), v.PrimaryPart)
-                    if Mag <= Huge then
+                    if Mag <= MaxDistance then
                         Target = v
-                        Huge = Mag
+                        MaxDistance = Mag
                     end
                 end
             end
@@ -70,7 +70,7 @@ F.Attack = function()
     CombatController.BasicAttack(CombatController, Vector3.new(0,0,0))
 end
 
-F.PathFind(Position)
+F.PathFind = function(Position)
     local WayPoints = VG.WayPoints(VG.GetRoot(), Position, {})
     for i,v in next, WayPoints do
         VG.Tween(VG.GetRoot(), CFrame.new(v.Postion), 50, Vector3.new(0, 5, 0), true)
