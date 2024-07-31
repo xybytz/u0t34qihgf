@@ -282,12 +282,11 @@ local AutoFarmZones = function()
         end
         if Zone then
             if Zone:FindFirstChild("Buy Signs") then
-                VG.Teleport(Zone.BREAKABLE_SPAWNS.Main.Position + Vector3.new(0,1,0))
+                VG.GetHumanoid():MoveTo(Zone.BREAKABLE_SPAWNS.Main.Position + Vector3.new(0,1,0))
             elseif Zone:FindFirstChild("BREAKABLE_SPAWNS") and Zone.BREAKABLE_SPAWNS:FindFirstChild("Boss") then
-                VG.Teleport(Zone.BREAKABLE_SPAWNS.Main.Position + Vector3.new(0,1,0))
-            
+                VG.GetHumanoid():MoveTo(Zone.BREAKABLE_SPAWNS.Main.Position + Vector3.new(0,1,0))
             else
-                VG.Teleport(Zone.BREAK_ZONES.BREAK_ZONE.Position + Vector3.new(0,1,0))
+                VG.GetHumanoid():MoveTo(Zone.BREAK_ZONES.BREAK_ZONE.Position + Vector3.new(0,1,0))
             end
         end
         local NotOwned = ZoneCMDS.GetNextZone()
