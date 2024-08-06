@@ -441,7 +441,6 @@ local GetCurrentPetOut = function()
         return v
     end
 end
-
 local a = {
     ["sleepy"] = function(c)
         if not Bed() then
@@ -474,24 +473,25 @@ local a = {
             end
         end)
         repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
-        end,
+    end,
     ["hungry"] = function(c)
         ReplicatedStorage:FindFirstChild("ShopAPI/BuyItem",true):InvokeServer('food', 'apple', {})
         local Foods = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
-        local Pizza
-        for i,v in pairs(Foods) do
+        local apple
+        for i, v in pairs(Foods) do
             if v.id == 'apple' then
-                Pizza = v.unique
+                apple = v.unique
                 break
             end
         end
-        if not Pizza then
+        if not apple then
             return
         end
         wait(2)
-        print(Pizza, GetCurrentPetOut().unique_id)
-        ReplicatedStorage:FindFirstChild("PetObjectAPI/CreatePetObject",true):InvokeServer("__Enum_PetObjectCreatorType_2",{["unique_id"] = Pizza,["possible_grabber_pet_unique"] = nil,["pet_unique"] = GetCurrentPetOut().unique_id,["grab_immediately"] = true})
-        ReplicatedStorage:FindFirstChild("PetAPI/ConsumeFoodItem",true):FireServer(Pizza)
+        local Pet = string.split(GetCurrentPetOut().unique_id, "-")[1]
+        ReplicatedStorage:FindFirstChild("PetObjectAPI/CreatePetObject",true):InvokeServer("__Enum_PetObjectCreatorType_2",{["unique_id"] = apple,["possible_grabber_pet_unique"] = Pet,["pet_unique"] = Pet,["grab_immediately"] = false})
+        ReplicatedStorage:FindFirstChild("PetAPI/ConsumeFoodItem",true):FireServer(apple, Pet)
+
         repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
 
@@ -509,9 +509,9 @@ local a = {
             return
         end
         wait(2)
-        print(Tea)
-        ReplicatedStorage:FindFirstChild("PetObjectAPI/CreatePetObject",true):InvokeServer("__Enum_PetObjectCreatorType_2",{["unique_id"] = Tea,["possible_grabber_pet_unique"] = GetCurrentPetOut().unique_id,["pet_unique"] = GetCurrentPetOut().unique_id,["grab_immediately"] = false})
-        ReplicatedStorage:FindFirstChild("PetAPI/ConsumeFoodItem",true):FireServer(Tea)
+        local Pet = string.split(GetCurrentPetOut().unique_id, "-")[1]
+        ReplicatedStorage:FindFirstChild("PetObjectAPI/CreatePetObject",true):InvokeServer("__Enum_PetObjectCreatorType_2",{["unique_id"] = Tea,["possible_grabber_pet_unique"] = Pet,["pet_unique"] = Pet,["grab_immediately"] = false})
+        ReplicatedStorage:FindFirstChild("PetAPI/ConsumeFoodItem",true):FireServer(Tea, Pet)
         repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
     ["sick"] = function(c)
