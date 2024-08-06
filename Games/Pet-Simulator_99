@@ -15,8 +15,11 @@ local VendingMachines = {}
 local Time = 0
 
 local Library  = require(ReplicatedStorage:WaitForChild("Library"))
-local Client = require(ReplicatedStorage.Library:WaitForChild("Client"))
-
+local Client2 = ReplicatedStorage.Library:WaitForChild("Client")
+local Client = {}
+for i,v in next, Client2:GetChildren() do
+    Client[v.Name] = require(v)
+end
 local ZonesUtil = require(game:GetService("ReplicatedStorage").Library.Util.ZonesUtil)
 
 local ShinyRelics = getsenv(Player.PlayerScripts.Scripts.Game.Misc["Shiny Relics"])
