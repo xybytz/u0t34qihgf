@@ -1,4 +1,4 @@
-
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global"))()
 VG.DisableConnection(Error)
 VG.DisableConnection(Idled)
 repeat wait() until Player.PlayerGui:FindFirstChild("PlayButton",true)
@@ -437,8 +437,11 @@ pcall(function()
     ReplicatedStorage.API:FindFirstChild("DailyLoginAPI/ClaimDailyReward"):InvokeServer()
 end)
 local GetCurrentPetOut = function()
-    return require(game:GetService("ReplicatedStorage").ClientModules.Game.PetEntities.PetEntityManager).get_local_owned_pet_entity().base.pet_model
+    for i,v in next, require(game:GetService("ReplicatedStorage").ClientModules.Game.PetEntities.PetEntityManager).get_local_owned_pet_entities() do
+        return v
+    end
 end
+
 local a = {
     ["sleepy"] = function(c)
         if not Bed() then
@@ -448,8 +451,8 @@ local a = {
         spawn(function()
             while wait(3) and c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments and PetFarm do
                 if c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments then
-                    print(Player, Bed(), 'UseBlock', {['cframe'] = Player.Character.HumanoidRootPart.CFrame}, GetCurrentPetOut().Parent)
-                    ReplicatedStorage:FindFirstChild('HousingAPI/ActivateFurniture',true):InvokeServer(Player, Bed(), 'UseBlock', {['cframe'] = Player.Character.HumanoidRootPart.CFrame}, GetCurrentPetOut().Parent)
+                    print(Player, Bed(), 'UseBlock', {['cframe'] = Player.Character.HumanoidRootPart.CFrame}, GetCurrentPetOut().base.pet_model.Parent)
+                    ReplicatedStorage:FindFirstChild('HousingAPI/ActivateFurniture',true):InvokeServer(Player, Bed(), 'UseBlock', {['cframe'] = Player.Character.HumanoidRootPart.CFrame}, GetCurrentPetOut().base.pet_model.Parent)
                     if not Bed() then
                         GoToMainMap()
                         GoToHome()
@@ -462,8 +465,8 @@ local a = {
     ['dirty'] = function(c)
         spawn(function()
             while c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments and wait(3) do
-                print(Player, Bed(), 'UseBlock', {['cframe'] = Player.Character.HumanoidRootPart.CFrame}, GetCurrentPetOut().Parent)
-                ReplicatedStorage:FindFirstChild("HousingAPI/ActivateFurniture",true):InvokeServer(Player, Showers(), 'UseBlock', {['cframe'] = Player.Character.HumanoidRootPart.CFrame}, GetCurrentPetOut().Parent)
+                print(Player, Bed(), 'UseBlock', {['cframe'] = Player.Character.HumanoidRootPart.CFrame}, GetCurrentPetOut().base.pet_model.Parent)
+                ReplicatedStorage:FindFirstChild("HousingAPI/ActivateFurniture",true):InvokeServer(Player, Showers(), 'UseBlock', {['cframe'] = Player.Character.HumanoidRootPart.CFrame}, GetCurrentPetOut().base.pet_model.Parent)
                 if not Showers() then
                     GoToMainMap()
                     GoToHome()
@@ -473,14 +476,11 @@ local a = {
         repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
         end,
     ["hungry"] = function(c)
-        ReplicatedStorage:FindFirstChild("ShopAPI/BuyItem",true):InvokeServer('food', 'pizza', {})
-        ReplicatedStorage:FindFirstChild("ToolAPI/BakeItem",true):InvokeServer()
-        while Player.Character:FindFirstChild('PizzaTool') do wait() end
-        while not Player.Character:FindFirstChild('PizzaTool') do wait() end
+        ReplicatedStorage:FindFirstChild("ShopAPI/BuyItem",true):InvokeServer('food', 'apple', {})
         local Foods = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
         local Pizza
         for i,v in pairs(Foods) do
-            if v.id == 'pizza' then
+            if v.id == 'apple' then
                 Pizza = v.unique
                 break
             end
@@ -489,10 +489,12 @@ local a = {
             return
         end
         wait(2)
-        ReplicatedStorage:FindFirstChild("PetObjectAPI/CreatePetObject",true):InvokeServer("__Enum_PetObjectCreatorType_2", {["unique_id"] = Pizza})
+        print(Pizza, GetCurrentPetOut().unique_id)
+        ReplicatedStorage:FindFirstChild("PetObjectAPI/CreatePetObject",true):InvokeServer("__Enum_PetObjectCreatorType_2",{["unique_id"] = Pizza,["possible_grabber_pet_unique"] = nil,["pet_unique"] = GetCurrentPetOut().unique_id,["grab_immediately"] = true})
         ReplicatedStorage:FindFirstChild("PetAPI/ConsumeFoodItem",true):FireServer(Pizza)
         repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
+
     ["thirsty"] = function(c)
         ReplicatedStorage:FindFirstChild("ShopAPI/BuyItem",true):InvokeServer('food', 'tea', {})
         local Foods = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
@@ -508,7 +510,7 @@ local a = {
         end
         wait(2)
         print(Tea)
-        ReplicatedStorage:FindFirstChild("PetObjectAPI/CreatePetObject",true):InvokeServer("__Enum_PetObjectCreatorType_2", {["unique_id"] = Tea})
+        ReplicatedStorage:FindFirstChild("PetObjectAPI/CreatePetObject",true):InvokeServer("__Enum_PetObjectCreatorType_2",{["unique_id"] = Tea,["possible_grabber_pet_unique"] = GetCurrentPetOut().unique_id,["pet_unique"] = GetCurrentPetOut().unique_id,["grab_immediately"] = false})
         ReplicatedStorage:FindFirstChild("PetAPI/ConsumeFoodItem",true):FireServer(Tea)
         repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
@@ -683,7 +685,7 @@ do
         end
         spawn(function()
             while wait() and PetFarm do
-                pcall(function()
+          
                     local Ailment = Player.PlayerGui.AilmentsMonitorApp.Ailments:FindFirstChildWhichIsA("Frame")
                     if Ailment then
                         local Name = Ailment.Name
@@ -700,7 +702,7 @@ do
                         ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
                         ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
                     end
-                end)
+          
             end
         end)
     end)
