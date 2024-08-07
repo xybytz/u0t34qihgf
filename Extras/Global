@@ -501,13 +501,11 @@ VG.AntiAdonis = function()
                 end
             end
         end
-        setthreadidentity(2)
         for _,v in next, NewInstances do
             hookfunction(v, coroutine.yield())
             hookfunction(v, VG.DoNothing())
             ScriptContext.SetTimeout(0)
         end
-        setthreadidentity(8)
     end
     return {{{{{{}}}}}}
 end
