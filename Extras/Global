@@ -491,7 +491,7 @@ VG.AntiAdonis = function()
         for _,v in next, getgc(true) do
             if type(v) == "table" then
                 local Raw, Raw2, Raw3 = rawget(v, "Detected"), rawget(v, "Kill"), rawget(v, "Disconnect")
-                if Raw and Raw2 and Raw3 and typeof(Raw) == "function" and getfenv(Raw).script then
+                if Raw and typeof(Raw) == "function" and getfenv(Raw).script then
                     for _,v in next, v do
                         if type(v) == "function" then
                             print(v)
@@ -511,7 +511,6 @@ VG.AntiAdonis = function()
     end
     return {{{{{{}}}}}}
 end
- 
 VG.RigCheck = function()
     return VG.GetHumanoid().RigType
 end
