@@ -534,6 +534,10 @@ VG.WayPoints = function(RootPart ,Position, Table)
     return WayPoints
 end
 
+VG.IY = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
+end
+
 --Loops
 
 for i,v in next, Players:GetPlayers() do
