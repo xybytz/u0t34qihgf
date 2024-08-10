@@ -1,4 +1,5 @@
 
+
 UserInputService.InputBegan:Connect(function(Input, GPE)
     if Input.KeyCode == Enum.KeyCode.LeftShift and Sp then
         VG.IsA(Player.Character, "Humanoid").WalkSpeed = 25
@@ -10,7 +11,13 @@ UserInputService.InputEnded:Connect(function(Input, GPE)
     end
 end)
 
-local Emotes = getrenv()._G.Database.Emotes
+for i,v in next, getgc(true) do
+    if type(v) == "table" then
+        if rawget(v, "Emotes") then
+            Emotes = v.Emotes
+        end
+    end
+end
 local New = {}
 for i,v in next, Emotes do
     if not table.find(New, i) and not rawget(v, "Type") then
