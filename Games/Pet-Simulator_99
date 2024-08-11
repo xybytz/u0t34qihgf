@@ -96,6 +96,8 @@ local GoToEvent = function()
     local Woah = VG.FFD(Active, "RngInstance")
     if not Woah then
         VG.Teleport(Things.Instances.RngInstance.Teleports.Enter.Position)
+        wait(10)
+        VG.Teleport(Vector3.new(4064, 2566, -5417))
     end
     if Woah and not EventToggle then
         VG.Teleport(Things.Instances.RngInstance.Teleports.Leave.Position)
