@@ -92,7 +92,15 @@ end
 local Roll = function()
     VG.FireFunction(Player.PlayerGui._MISC.RngUI.Button.Roll.Activated)
 end
-
+local GoToEvent = function()
+    local Woah = VG.FFD(Active, "RngInstance")
+    if not Woah then
+        VG.Teleport(Things.Instances.RngInstance.Teleports.Enter.Position)
+    end
+    if Woah and not EventToggle then
+        VG.Teleport(Things.Instances.RngInstance.Teleports.Leave.Position)
+    end
+end
 
 local LuckyDiceMerchant = function()
     for i=1, 6 do
@@ -104,8 +112,19 @@ local Combined = function(Dice)
     RF("LuckyDice_Craft"):InvokeServer(Dice, 1)
 end
 
+local CombinedAll = function()
+    for _, v in next, Dice do
+        RF("LuckyDice_Craft"):InvokeServer(v, 1)
+    end
+end
+
+local Upgrades1All = function()
+    for _,v in next, Upgrades do
+        RF("Rng_PurchaseUpgrade"):InvokeServer("First", v)
+    end
+end
 local Upgrades1 = function(NeededUPGRADE)
-    RF("Rng_PurchaseUpgrade"):InvokeServer("First",NeededUPGRADE)
+    RF("Rng_PurchaseUpgrade"):InvokeServer("First", NeededUPGRADE)
 end
 
 local Run = function()
@@ -580,6 +599,15 @@ spawn(function()
     while wait(.1) do
         pcall(function()
             game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Enabled = false
+            if CombineAll then
+                CombinedAll()
+            end
+            if UpgradeAll then
+                Upgrades1All()
+            end
+            if EventToggle then
+                GoToEvent()
+            end
             if Rolled then
                 Roll()
             end
@@ -722,6 +750,12 @@ do
         Duration = 10 -- Set to nil to make the notification not disappear
     })
     ------------------------------------------------------------------------------------------------- Event
+    
+    local Toggle = Tabs.Event:AddToggle("lfhkshjfhkhsdfjkhujhjahjuhahahahahaha", {Title = "Auto GoTo Event", Default = false})
+    Toggle:OnChanged(function()
+        EventToggle = Options.lfhkshjfhkhsdfjkhujhjahjuhahahahahaha.Value
+    end)
+
     local Toggle = Tabs.Event:AddToggle("djshfiujsoidjfhnijsen", {Title = "Auto Roll", Default = false})
     Toggle:OnChanged(function()
         Rolled = Options.djshfiujsoidjfhnijsen.Value
@@ -749,9 +783,18 @@ do
     Dropdown:OnChanged(function(Value)
         SelectedUpgrade = Value
     end)
+
     local Toggle = Tabs.Event:AddToggle("dsfkhlkjshbfjghbjhsdbfjknsjdfhjkhkjhjas", {Title = "No RNG Roll Animation", Default = false})
     Toggle:OnChanged(function()
         NoHatch = Options.dsfkhlkjshbfjghbjhsdbfjknsjdfhjkhkjhjas.Value
+    end)
+    local Toggle = Tabs.Event:AddToggle("kjjdhfshfajhdsfhnkjksdf", {Title = "Combine All Dice", Default = false})
+    Toggle:OnChanged(function()
+        CombineAll = Options.kjjdhfshfajhdsfhnkjksdf.Value
+    end)
+    local Toggle = Tabs.Event:AddToggle("kjjdhfshfajhdsfhnkjksdf", {Title = "Auto Buy  All Upgrades", Default = false})
+    Toggle:OnChanged(function()
+        UpgradeAll = Options.kjjdhfshfajhdsfhnkjksdf.Value
     end)
     ------------------------------------------------------------------------------------------------- Others
 
