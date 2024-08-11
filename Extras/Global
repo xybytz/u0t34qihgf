@@ -537,7 +537,16 @@ end
 VG.IY = function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
 end
+--- Infinite Yeild for developing like dex and respy 
 
+VG.FireFunction = function(Signal)
+    if getconnections then
+        for _, v in next, getconnections(Signal) do
+            v.Function()
+        end
+    end
+end
+--- VG.FireFunction(Idled) yes
 --Loops
 
 for i,v in next, Players:GetPlayers() do
