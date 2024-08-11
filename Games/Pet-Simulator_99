@@ -12,8 +12,17 @@ local EggTable = {}
 local Instances = {}
 local Flags = {}
 local VendingMachines = {}
-local Time = 0
-
+local Dice = {
+    "Lucky Dice II",
+    "Mega Lucky Dice",
+    "Mega Lucky Dice II",
+}
+local Upgrades = {
+    "RNGEggLuck",
+    "RNGHatchSpeed",
+    "RNGBonusLuck",
+    "RNGHugeLuck"
+}
 local Library  = require(ReplicatedStorage:WaitForChild("Library"))
 local Client2 = ReplicatedStorage.Library:WaitForChild("Client")
 local Client = {}
@@ -21,9 +30,11 @@ for i,v in next, Client2:GetChildren() do
     Client[v.Name] = require(v)
 end
 local ZonesUtil = require(game:GetService("ReplicatedStorage").Library.Util.ZonesUtil)
+local RNGHatching = require(game:GetService("ReplicatedStorage").Library.Client.RngEggFrontend)
 
 local ShinyRelics = getsenv(Player.PlayerScripts.Scripts.Game.Misc["Shiny Relics"])
 local Hatching = getsenv(Player.PlayerScripts.Scripts.Game:WaitForChild("Egg Opening Frontend"))
+
 
 local ZoneCMDS = Client.ZoneCmds
 -----
@@ -33,6 +44,7 @@ local Active = Things.__INSTANCE_CONTAINER:WaitForChild("Active")
 local Gifts = ReplicatedStorage:WaitForChild("__DIRECTORY").MiscItems.Categorized.Gifts
 local CalculateSpeedMultiplier = Client.PlayerPet.CalculateSpeedMultiplier
 local HatchingAnimation = Hatching.PlayEggAnimation
+local PlayAnimation = RNGHatching.PlayAnimation
 local F = {}
 for i,v in next, getgc(true) do
     if type(v) == "function" then
@@ -75,6 +87,25 @@ local RF = function(RemoteName)
     else
         error("Failed to load Remotfunction " .. RemoteName .. " Please Contact Deku with this error")
     end
+end
+
+local Roll = function()
+    VG.FireFunction(Player.PlayerGui._MISC.RngUI.Button.Roll.Activated)
+end
+
+
+local LuckyDiceMerchant = function()
+    for i=1, 6 do
+        RF("Merchant_RequestPurchase"):InvokeServer("LuckyDiceMerchant", i)
+    end
+end
+
+local Combined = function(Dice)
+    RF("LuckyDice_Craft"):InvokeServer(Dice, 1)
+end
+
+local Upgrades1 = function(NeededUPGRADE)
+    RF("Rng_PurchaseUpgrade"):InvokeServer("First",NeededUPGRADE)
 end
 
 local Run = function()
@@ -380,10 +411,6 @@ local GetCustomEggByName = function(Toggle, String)
     return Egg
 end
 
-
-local HatchBestBackRoomsEgg = function()
-end
-
 --- Digsite Stuff
 local GetBlock = function()
     local IHateMakingNamesFortables = CurrentActive()
@@ -541,19 +568,30 @@ Client.PlayerPet.CalculateSpeedMultiplier = function(...)
         return CalculateSpeedMultiplier(...)
     end
 end
-Hatching.PlayEggAnimation = function(...)
+RNGHatching.PlayAnimation = function(...)
     if NoHatch then
         return
     else
-        return HatchingAnimation(...)
+        return PlayAnimation(...)
     end
-end 
-
+end
 
 spawn(function()
     while wait(.1) do
         pcall(function()
             game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Enabled = false
+            if Rolled then
+                Roll()
+            end
+            if Combine then
+                Combined(SelectedDice)
+            end
+            if Buydice then
+                LuckyDiceMerchant()
+            end
+            if UpgradeStuff then
+                Upgrades1(SelectedUpgrade)
+            end
             if AutoFarm then
                 TargetFarm()
             end
@@ -618,15 +656,6 @@ spawn(function()
         end)
     end
 end)
-spawn(function ()
-    while wait() do
-        if BackRooms then
-            Time = Time + 1
-            wait(1)
-            print(Time)
-        end
-    end
-end)
 
 spawn(function()
     while wait(1) do
@@ -675,6 +704,7 @@ local Window = Fluent:CreateWindow({
 local Tabs = {
     AutoFarm = Window:AddTab({ Title = "AutoFarm", Icon = "" }),
     Comsumeables = Window:AddTab({ Title = "Comsumeables", Icon = "" }),
+    Event = Window:AddTab({ Title = "Event", Icon = "" }),
     Keys = Window:AddTab({ Title = "+Keys", Icon = "" }),
     Misc = Window:AddTab({ Title = "Misc etc", Icon = "" }),
     AutoMinigame = Window:AddTab({ Title = "AutoMinigames", Icon = "" }),
@@ -691,6 +721,40 @@ do
         SubContent = "", -- Optional
         Duration = 10 -- Set to nil to make the notification not disappear
     })
+    ------------------------------------------------------------------------------------------------- Event
+    local Toggle = Tabs.Event:AddToggle("djshfiujsoidjfhnijsen", {Title = "Auto Roll", Default = false})
+    Toggle:OnChanged(function()
+        Rolled = Options.djshfiujsoidjfhnijsen.Value
+    end)
+
+    local Toggle = Tabs.Event:AddToggle("dfokjsodhnfgjsdbngkjbnnvv", {Title = "Auto Combine", Default = false})
+    Toggle:OnChanged(function()
+        Combine = Options.dfokjsodhnfgjsdbngkjbnnvv.Value
+    end)
+    local Dropdown = Tabs.Event:AddDropdown("sdkfbhkjhejkrhkje", {Title = "Dices",Values = Dice,Multi = false,Default = 1})
+    Dropdown:OnChanged(function(Value)
+        SelectedDice = Value
+    end)
+
+    local Toggle = Tabs.Event:AddToggle("asdbujyhbeubbhwsbdhjbhjcb", {Title = "Auto Buy Dice", Default = false})
+    Toggle:OnChanged(function()
+        Buydice = Options.asdbujyhbeubbhwsbdhjbhjcb.Value
+    end)
+
+    local Toggle = Tabs.Event:AddToggle("djsfjibsenjkwnbqkjenkjdnnnanananan", {Title = "Auto Buy Upgrade", Default = false})
+    Toggle:OnChanged(function()
+        UpgradeStuff = Options.djsfjibsenjkwnbqkjenkjdnnnanananan.Value
+    end)
+    local Dropdown = Tabs.Event:AddDropdown("disfhuiyeowunbfiunikjbnsdxfjkbjkbad", {Title = "Upgrades",Values = Upgrades,Multi = false,Default = 1})
+    Dropdown:OnChanged(function(Value)
+        SelectedUpgrade = Value
+    end)
+    local Toggle = Tabs.Event:AddToggle("dsfkhlkjshbfjghbjhsdbfjknsjdfhjkhkjhjas", {Title = "No RNG Roll Animation", Default = false})
+    Toggle:OnChanged(function()
+        NoHatch = Options.dsfkhlkjshbfjghbjhsdbfjknsjdfhjkhkjhjas.Value
+    end)
+    ------------------------------------------------------------------------------------------------- Others
+
     local Toggle = Tabs.AutoFarm:AddToggle("Rend", {Title = "Disable 3D Rendering", Default = false})
     Toggle:OnChanged(function()
         Norender = Options.Rend.Value
