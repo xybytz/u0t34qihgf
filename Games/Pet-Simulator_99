@@ -601,7 +601,13 @@ RNGHatching.PlayAnimation = function(...)
         return PlayAnimation(...)
     end
 end
-
+Hatching.PlayEggAnimation = function(...)
+    if NoHatch2 then
+        return
+    else
+        return HatchingAnimation(...)
+    end
+end
 spawn(function()
     while wait(.1) do
         pcall(function()
@@ -845,7 +851,7 @@ do
     end)
     local Toggle = Tabs.AutoFarm:AddToggle("f933", {Title = "Skip Egg HatchingAnimation", Default = false})
     Toggle:OnChanged(function()
-        NoHatch = Options.f933.Value
+        NoHatch2 = Options.f933.Value
     end)
     local Toggle = Tabs.AutoFarm:AddToggle("Egg2d", {Title = "Auto Open Last Egg", Default = false})
     Toggle:OnChanged(function()
