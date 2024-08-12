@@ -111,6 +111,10 @@ local LuckyDiceMerchant = function()
     end
 end
 
+local MegaDice = function()
+    RF("LuckyDice_ConsumeMega"):InvokeServer("Mega Lucky Dice II", 1)
+end
+
 local Combined = function(Dice)
     RF("LuckyDice_Craft"):InvokeServer(Dice, 1)
 end
@@ -602,6 +606,9 @@ spawn(function()
     while wait(.1) do
         pcall(function()
             game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Enabled = false
+            if MegaUse then
+                MegaDice()
+            end
             if CombineAll then
                 CombinedAll()
             end
@@ -757,6 +764,10 @@ do
     local Toggle = Tabs.Event:AddToggle("lfhkshjfhkhsdfjkhujhjahjuhahahahahaha", {Title = "Auto GoTo Event", Default = false})
     Toggle:OnChanged(function()
         EventToggle = Options.lfhkshjfhkhsdfjkhujhjahjuhahahahahaha.Value
+    end)
+    local Toggle = Tabs.Event:AddToggle("sdgfhgbjabdhbhasbfuiyheuihiuhiduf", {Title = "Auto Comsume Mega II Dice", Default = false})
+    Toggle:OnChanged(function()
+        MegaUse = Options.sdgfhgbjabdhbhasbfuiyheuihiuhiduf.Value
     end)
 
     local Toggle = Tabs.Event:AddToggle("djshfiujsoidjfhnijsen", {Title = "Auto Roll", Default = false})
