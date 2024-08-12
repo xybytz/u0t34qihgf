@@ -166,7 +166,8 @@ for i,v in next, getgc() do
         end
     end
 end
-
+print("Load Check point 1 took ".. tick() - Tick ..  " Seconds to load")
+Tick = tick()
 local SetLocation = function(A, B, C)
     local O = get_thread_identity()
     set_thread_identity(2)
@@ -305,15 +306,6 @@ local Bed = function(Name)
         end
     end
 end
-local Cash = function()
-    for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
-        if v:FindFirstChildWhichIsA("Model") and (table.find(RetardedBullShit, v:FindFirstChildWhichIsA("Model").Name)) then
-            local String = string.split(v.Name,"/f")[2]
-            print(String)
-            return "f".. String
-        end
-    end
-end
 
 local Showers = function(Name)
     GoToHome()
@@ -326,17 +318,9 @@ local Showers = function(Name)
         end
     end
 end
-
-local NoCliper = function()
-    for i,v in next, Player.Character:GetChildren() do
-        if v:IsA("BasePart") then
-            v.CanCollide = false
-            v.Velocity = Vector3.new(0,0,0)
-        end
-    end
-    return Player.Character
-end
 Load2()
+print("Load Check point 2 took ".. tick() - Tick ..  " Seconds to load")
+Tick = tick()
 local Remotes = {}
 local PP = {}
 local Table = {
@@ -640,10 +624,11 @@ RunService.RenderStepped:Connect(function()
             GetCurrentPetOut().base.pet_model.Parent.HumanoidRootPart.CFrame = Player.Character.HumanoidRootPart.CFrame
         end
         Workspace["P"].CFrame = Player.Character.HumanoidRootPart.CFrame * CFrame.new(Vector3.new(0,-5,0))
-        NoCliper()
+        VG.NoClip()
     end
 end)
-
+print("Load Check point 3 took ".. tick() - Tick ..  " Seconds to load")
+Tick = tick()
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
@@ -849,7 +834,8 @@ SaveManager:SetFolder("FluentScriptHub/specific-game")
 InterfaceManager:BuildInterfaceSection(Tabs.Settings)
 SaveManager:BuildConfigSection(Tabs.Settings)
 
-
+InterfaceManager:BuildInterfaceSection(Tabs.Main)
+SaveManager:BuildConfigSection(Tabs.Main)
 Window:SelectTab(1)
 
 Fluent:Notify({
@@ -859,4 +845,4 @@ Fluent:Notify({
 })
 
 SaveManager:LoadAutoloadConfig()
-print(tick() - Tick)
+print("Load Check GUI took ".. tick() - Tick ..  " Seconds to load")
