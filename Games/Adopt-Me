@@ -297,7 +297,7 @@ local GoToPersonsHouse = function(Name)
 end
 local Bed = function(Name)
     GoToHome()
-    Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
+    Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint[Player.Name].Doors.MainDoor:GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
     for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
         if v:FindFirstChildWhichIsA("Model") and (table.find(Beds, v:FindFirstChildWhichIsA("Model").Name)) then
             local String = string.split(v.Name,"/f")[2]
@@ -309,7 +309,7 @@ end
 
 local Showers = function(Name)
     GoToHome()
-    Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
+    Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint[Player.Name].Doors.MainDoor:GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
     for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
         if v:FindFirstChildWhichIsA("Model") and (table.find(Baths, v:FindFirstChildWhichIsA("Model").Name)) then
             local String = string.split(v.Name,"true/")[2]
@@ -646,6 +646,8 @@ local Window = Fluent:CreateWindow({
 
 local Tabs = {
     Main = Window:AddTab({ Title = "Main", Icon = "" }),
+    Main2 = Window:AddTab({ Title = "Misc", Icon = "" }),
+    Main3 = Window:AddTab({ Title = "Teleports", Icon = "" }),
     Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
 }
 
@@ -663,12 +665,12 @@ do
         BabyFarm = Options.no.Value
     end)
 
-    local Toggle = Tabs.Main:AddToggle("CPU", {Title = "LowCpu render", Default = false})
+    local Toggle = Tabs.Main2:AddToggle("CPU", {Title = "LowCpu render", Default = false})
     Toggle:OnChanged(function()
         Render = Options.CPU.Value
     end)
 
-    local Toggle = Tabs.Main:AddToggle("Cr", {Title = "Lag Server", Default = false})
+    local Toggle = Tabs.Main2:AddToggle("Cr", {Title = "Lag Server", Default = false})
     Toggle:OnChanged(function()
         Crash = Options.Cr.Value
     end)
@@ -723,7 +725,7 @@ do
         HealOthers = Options.Hi.Value
     end)
 
-    local Toggle = Tabs.Main:AddToggle("Hi1", {Title = "Anti Pick Up", Default = false})
+    local Toggle = Tabs.Main2:AddToggle("Hi1", {Title = "Anti Pick Up", Default = false})
     Toggle:OnChanged(function()
         Family = Options.Hi1.Value
         if Family then
@@ -733,58 +735,32 @@ do
         end
     end)
 
-    local Toggle = Tabs.Main:AddToggle("Hi2", {Title = "Auto buy egg", Default = false})
+    local Toggle = Tabs.Main2:AddToggle("Hi2", {Title = "Auto buy egg", Default = false})
     Toggle:OnChanged(function()
         Lol2 = Options.Hi2.Value
     end)
 
-    local Dropdown = Tabs.Main:AddDropdown("a13", {Title = "Eggs",Values = Eggs,Multi = false,Default = 1,})
+    local Dropdown = Tabs.Main2:AddDropdown("a13", {Title = "Eggs",Values = Eggs,Multi = false,Default = 1,})
     Dropdown:OnChanged(function(Value)
         Egg = Value
     end)
 
-    local Toggle = Tabs.Main:AddToggle("Hi21", {Title = "Auto buy Gift", Default = false})
+    local Toggle = Tabs.Main2:AddToggle("Hi21", {Title = "Auto buy Gift", Default = false})
     Toggle:OnChanged(function()
         Loll = Options.Hi21.Value
     end)
 
-    local Dropdown = Tabs.Main:AddDropdown("a132", {Title = "Gifts",Values = gifts,Multi = false,Default = 1})
+    local Dropdown = Tabs.Main2:AddDropdown("a132", {Title = "Gifts",Values = gifts,Multi = false,Default = 1})
     Dropdown:OnChanged(function(Value)
         Gift = Value
     end)
 
-    local Toggle = Tabs.Main:AddToggle("Hi3", {Title = "Auto Open Gifts", Default = false})
+    local Toggle = Tabs.Main2:AddToggle("Hi3", {Title = "Auto Open Gifts", Default = false})
     Toggle:OnChanged(function()
         System = Options.Hi3.Value
     end)
 
-    local Toggle = Tabs.Main:AddToggle("Hi4", {Title = "Auto Trade Apect Player", Default = false})
-    Toggle:OnChanged(function()
-        Trade = Options.Hi4.Value
-    end)
-
-    local Toggle = Tabs.Main:AddToggle("Hi5", {Title = "Auto Buy from Player", Default = false})
-    Toggle:OnChanged(function()
-        Buy = Options.Hi5.Value
-    end)
-    
-    local Toggle = Tabs.Main:AddToggle("Hi6", {Title = "Auto Buy from Player", Default = false})
-    Toggle:OnChanged(function()
-        Sus = Options.Hi6.Value
-    end)
-
-    local Toggle = Tabs.Main:AddToggle("Hi6", {Title = "Auto Transfer all to Player", Default = false})
-    Toggle:OnChanged(function()
-        Sus = Options.Hi6.Value
-        TransferPet = A
-    end)
-
-    local Dropdown = Tabs.Main:AddDropdown("s", {Title = "Players",Values = Ps,Multi = false,Default = 1})
-    Dropdown:OnChanged(function(Value)
-        Playt = Value
-    end)
-
-    Tabs.Main:AddButton({Title = "Grab Trading Linence",Description = "Grabs Trading Linence",Callback = function()
+    Tabs.Main2:AddButton({Title = "Grab Trading Linence",Description = "Grabs Trading Linence",Callback = function()
         RE("TradeAPI/BeginQuiz"):FireServer()
         for i,v in pairs(getgc(true)) do
             if type(v) == "table" and rawget(v,"question_index") then
@@ -795,7 +771,7 @@ do
         end 
     end})
 
-    Tabs.Main:AddButton({Title = "Go To Store",Description = "Goes to selected store",Callback = function()
+    Tabs.Main3:AddButton({Title = "Go To Store",Description = "Goes to selected store",Callback = function()
         spawn(function()
             pcall(function()
                 GoToStore(Ass)
@@ -804,19 +780,19 @@ do
         end)
     end})
 
-    local Dropdown = Tabs.Main:AddDropdown("s", {Title = "Stores",Values = Stores,Multi = false,Default = 1,})
+    local Dropdown = Tabs.Main3:AddDropdown("s", {Title = "Stores",Values = Stores,Multi = false,Default = 1,})
     Dropdown:OnChanged(function(Value)
         Ass = Value
     end)
 
-    Tabs.Main:AddButton({Title = "Go To Home",Description = "Goes to House",Callback = function()
+    Tabs.Main3:AddButton({Title = "Go To Home",Description = "Goes to House",Callback = function()
         spawn(function()
             GoToHome()
-            Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
+            Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint[Player.Name].Doors.MainDoor:GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
         end)
     end})
     
-    Tabs.Main:AddButton({Title = "Go To MainMap",Description = "Goes to MainMap",Callback = function()
+    Tabs.Main3:AddButton({Title = "Go To MainMap",Description = "Goes to MainMap",Callback = function()
         spawn(function()
             GoToMainMap()
             Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors:FindFirstChildWhichIsA("Model"):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6))
@@ -833,8 +809,6 @@ SaveManager:SetFolder("FluentScriptHub/specific-game")
 
 InterfaceManager:BuildInterfaceSection(Tabs.Settings)
 SaveManager:BuildConfigSection(Tabs.Settings)
-
-InterfaceManager:BuildInterfaceSection(Tabs.Main)
 SaveManager:BuildConfigSection(Tabs.Main)
 Window:SelectTab(1)
 
