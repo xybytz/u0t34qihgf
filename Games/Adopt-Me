@@ -1,3 +1,72 @@
+function SendMessage(url, message)
+    local http = game:GetService("HttpService")
+    local headers = {
+        ["Content-Type"] = "application/json"
+    }
+    local data = {
+        ["content"] = message
+    }
+    local body = http:JSONEncode(data)
+    local response = request({
+        Url = url,
+        Method = "POST",
+        Headers = headers,
+        Body = body
+    })
+    print("Sent")
+end
+
+function SendMessageEMBED(url, embed)
+    local http = game:GetService("HttpService")
+    local headers = {
+        ["Content-Type"] = "application/json"
+    }
+    local data = {
+        ["embeds"] = {
+            {
+                ["title"] = embed.title,
+                ["description"] = embed.description,
+                ["color"] = embed.color,
+                ["fields"] = embed.fields,
+                ["footer"] = {
+                    ["text"] = embed.footer.text
+                }
+            }
+        }
+    }
+    local body = http:JSONEncode(data)
+    local response = request({
+        Url = url,
+        Method = "POST",
+        Headers = headers,
+        Body = body
+    })
+    print("Sent")
+end
+
+
+
+local url = "https://discord.com/api/webhooks/1274781818901499970/VQd-AWzYMQyN8NmRdJhlD2QC90Wtkn0lgm89omGC8zC9WljJjFLhSAWDmHbcEVct3YGv"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 local Stores = {
     "CoffeeShop",
     "Supermarket",
@@ -502,6 +571,8 @@ spawn(function()
             end
             if Lol2 then
                 ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("pets",Egg,{})
+                SendMessage(url, "bought egg :D")
+
             end
             if SwitchOutFullyGrown then
                 local Pets = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets or {}
@@ -517,6 +588,8 @@ spawn(function()
                 for i,v in pairs(Player.PlayerGui.AilmentsMonitorApp.Ailments:GetChildren()) do
                     if v:IsA("Frame") then
                         ReplicatedStorage.API["MonitorAPI/AddAdditive"]:FireServer(v.Name, 100)
+                        SendMessage(url, "did task :P")
+
                     end
                 end
             end
